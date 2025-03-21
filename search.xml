@@ -31,6 +31,24 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2025/03/17/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>黑马程序员 | Git详细教程笔记 | 使用命令 | 从安装到入土</title>
     <url>/2025/03/19/%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98%20%20Git%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%E7%AC%94%E8%AE%B0%20%20%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%20%20%E4%BB%8E%E5%AE%89%E8%A3%85%E5%88%B0%E5%85%A5%E5%9C%9F/</url>
     <content><![CDATA[<h1 id="黑马程序员-Git详细教程笔记-使用命令-从安装到入土"><a href="#黑马程序员-Git详细教程笔记-使用命令-从安装到入土" class="headerlink" title="黑马程序员 | Git详细教程笔记 | 使用命令 | 从安装到入土"></a>黑马程序员 | Git详细教程笔记 | 使用命令 | 从安装到入土</h1><p><a href="https://www.bilibili.com/video/BV1MU4y1Y7h5?spm_id_from=333.788.videopod.episodes&vd_source=7831c5b97cfc5c745eb48ff04f6515e7">黑马程序员Git全套教程，完整的git项目管理工具教程，一套精通git_哔哩哔哩_bilibili</a></p>
@@ -181,13 +199,13 @@
 <h4 id="2-Gitee设置账户共公钥"><a href="#2-Gitee设置账户共公钥" class="headerlink" title="2.Gitee设置账户共公钥"></a>2.Gitee设置账户共公钥</h4><p>​            获取公钥</p>
 <p>​                输入命令：cat ~&#x2F;.ssh&#x2F;id_rsa.pub</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/2eb60352e431289230e4d22241ce7ee5.png" alt="img"></p>
-<h4 id="3-验证是否配置成功"><a href="#3-验证是否配置成功" class="headerlink" title="3.验证是否配置成功"></a>3.验证是否配置成功</h4><p>​         输入命令：ssh -T <a href="mailto:&#x67;&#x69;&#x74;&#64;&#x67;&#x69;&#x74;&#101;&#x65;&#46;&#99;&#x6f;&#x6d;">git@gitee.com</a></p>
+<h4 id="3-验证是否配置成功"><a href="#3-验证是否配置成功" class="headerlink" title="3.验证是否配置成功"></a>3.验证是否配置成功</h4><p>​         输入命令：ssh -T <a href="mailto:&#103;&#x69;&#116;&#x40;&#103;&#105;&#x74;&#101;&#101;&#46;&#x63;&#111;&#109;">git@gitee.com</a></p>
 <h3 id="5-操作远程仓库"><a href="#5-操作远程仓库" class="headerlink" title="5.操作远程仓库"></a>5.操作远程仓库</h3><h4 id="1-添加远程仓库"><a href="#1-添加远程仓库" class="headerlink" title="1. 添加远程仓库"></a>1. 添加远程仓库</h4><p>​            此操作是先初始化本地库，然后与已创建的远程库进行对接。</p>
 <p>​                命令： git remote add &lt;远端名称&gt;&lt;仓库路径&gt;，</p>
 <p>​                远程名称，默认是origin，取决于远端服务器设置</p>
 <p>​                仓库路径，从远端服务器获取此URL</p>
 <blockquote>
-<p>例如: git remote add origin <a href="mailto:&#103;&#x69;&#x74;&#x40;&#x67;&#x69;&#x74;&#x65;&#101;&#46;&#99;&#111;&#109;">git@gitee.com</a>:czbk_zhang_meng&#x2F;git_test.git</p>
+<p>例如: git remote add origin <a href="mailto:&#x67;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#101;&#x65;&#x2e;&#x63;&#111;&#x6d;">git@gitee.com</a>:czbk_zhang_meng&#x2F;git_test.git</p>
 </blockquote>
 <p>​     <strong>仓库路径获取示例如下：</strong></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e7c0119b3248bb96bc4a759cf3d2719c.png" alt="img"></p>
@@ -243,24 +261,6 @@
 <blockquote>
 <p>远程分支也是分支，所以合并时冲突的解决方式也和解决本地分支冲突相同相同。</p>
 </blockquote>
-]]></content>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2025/03/17/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
   </entry>
 </search>
