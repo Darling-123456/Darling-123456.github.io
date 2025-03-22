@@ -1,0 +1,270 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>施磊C++ | 进阶学习笔记 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="施磊C++高级进阶课程 | 学习笔记 | 博客汇总以下是CSDN链接 施磊C++ | 进阶学习笔记 | 1.对象的应用优化、右值引用的优化-CSDN博客 施磊C++ | 进阶学习笔记 | 2.智能指针-CSDN博客 施磊C++ | 进阶学习笔记 | 3.绑定器和函数对象、lambda表达式-CSDN博客 施磊C++ | 进阶学习笔记 | 4.c++11内容汇总、多线程应用实践-CSDN博客 施磊C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="施磊C++ | 进阶学习笔记">
+<meta property="og:url" content="https://darling-123456.github.io/2024/10/16/C++/%E6%96%BD%E7%A3%8AC++%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6%E8%AF%BE%E7%A8%8B%20%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20%20%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="施磊C++高级进阶课程 | 学习笔记 | 博客汇总以下是CSDN链接 施磊C++ | 进阶学习笔记 | 1.对象的应用优化、右值引用的优化-CSDN博客 施磊C++ | 进阶学习笔记 | 2.智能指针-CSDN博客 施磊C++ | 进阶学习笔记 | 3.绑定器和函数对象、lambda表达式-CSDN博客 施磊C++ | 进阶学习笔记 | 4.c++11内容汇总、多线程应用实践-CSDN博客 施磊C">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/38.jpg">
+<meta property="article:published_time" content="2024-10-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-22T14:52:31.096Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/38.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "施磊C++ | 进阶学习笔记",
+  "url": "https://darling-123456.github.io/2024/10/16/C++/%E6%96%BD%E7%A3%8AC++%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6%E8%AF%BE%E7%A8%8B%20%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20%20%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/",
+  "image": "https://darling-123456.github.io/img/38.jpg",
+  "datePublished": "2024-10-15T16:00:00.000Z",
+  "dateModified": "2025-03-22T14:52:31.096Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/10/16/C++/%E6%96%BD%E7%A3%8AC++%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6%E8%AF%BE%E7%A8%8B%20%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20%20%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '施磊C++ | 进阶学习笔记',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/38.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">施磊C++ | 进阶学习笔记</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">施磊C++ | 进阶学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-10-15T16:00:00.000Z" title="发表于 2024-10-16 00:00:00">2024-10-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T14:52:31.096Z" title="更新于 2025-03-22 22:52:31">2025-03-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84C-%E3%81%AE%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF/">从零开始的C++の学习之路</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">152</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="施磊C-高级进阶课程-学习笔记-博客汇总"><a href="#施磊C-高级进阶课程-学习笔记-博客汇总" class="headerlink" title="施磊C++高级进阶课程 | 学习笔记 | 博客汇总"></a>施磊C++高级进阶课程 | 学习笔记 | 博客汇总</h1><p>以下是CSDN链接</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_74795952/article/details/142902671">施磊C++ | 进阶学习笔记 | 1.对象的应用优化、右值引用的优化-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_74795952/article/details/142902727">施磊C++ | 进阶学习笔记 | 2.智能指针-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_74795952/article/details/142902748">施磊C++ | 进阶学习笔记 | 3.绑定器和函数对象、lambda表达式-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_74795952/article/details/142904733">施磊C++ | 进阶学习笔记 | 4.c++11内容汇总、多线程应用实践-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_74795952/article/details/142959676">施磊C++ | 进阶学习笔记 | 5.设计模式-CSDN博客</a></p>
+<p>剩余有关面试的等到明年投简历前学习</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/10/16/C++/%E6%96%BD%E7%A3%8AC++%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6%E8%AF%BE%E7%A8%8B%20%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20%20%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/">https://darling-123456.github.io/2024/10/16/C++/施磊C++高级进阶课程  学习笔记  博客汇总/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C++</a><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div><div class="post-share"><div class="social-share" data-image="/img/38.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/10/14/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%E7%AB%A0%E8%8A%82%E6%80%BB%E7%BB%93/" title="代码随想录回溯算法章节小总结"><img class="cover" src="/img/22.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">代码随想录回溯算法章节小总结</div></div><div class="info-2"><div class="info-item-1">回溯算法章节小总结1.树层去重1.可以对原数组排序的40. 组合总和 II - 力扣（LeetCode） 通过排序+相邻元素相同+used数组来进行去重 123456789101112131415161718192021void backtracking(vector&lt;int&gt;&amp; candidates, int target, int sum, int startIndex, vector&lt;bool&gt;&amp; used) &#123;      if (sum == target) &#123;          result.push_back(path);          return;      &#125;      for (int i = startIndex; i &lt; candidates.size() &amp;&amp; sum + candidates[i] &lt;= target; i++) &#123;          // used[i - 1] == true，说明同一树枝candidates[i -...</div></div></div></a><a class="pagination-related" href="/2024/10/16/C++/%E6%96%BD%E7%A3%8AC++%20%20%E8%BF%9B%E9%98%B6%20%20%E7%AC%94%E8%AE%B0/" title="施磊C++ | 进阶学习笔记"><img class="cover" src="/img/37.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">施磊C++ | 进阶学习笔记</div></div><div class="info-2"><div class="info-item-1">施磊C++ | 进阶学习笔记一、对象的应用优化、右值引用的优化1.1 构造，拷贝，赋值，析构中的优化1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253#include&lt;iostream&gt;using namespace std;class test&#123;public:	test(int a = 10) :ma(a) &#123; cout &lt;&lt; &quot;test(int)&quot; &lt;&lt; endl; &#125;	~test() &#123; cout &lt;&lt; &quot;~test&quot; &lt;&lt; endl; &#125;	test(const test&amp; t) :ma(t.ma) &#123; cout &lt;&lt; &quot;test(const &amp;)&quot; &lt;&lt; endl; &#125;	test&amp;...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/10/20/C++/%E4%BE%AF%E6%8D%B7%20C++%20STL%E6%A0%87%E5%87%86%E5%BA%93%E5%92%8C%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" title="侯捷 C++ STL标准库和泛型编程 | 学习笔记"><img class="cover" src="/img/34.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-20</div><div class="info-item-2">侯捷 C++ STL标准库和泛型编程 | 学习笔记</div></div><div class="info-2"><div class="info-item-1">侯捷 C++ STL标准库和泛型编程 | 学习笔记1 STL概述STL —— Standard Template Library，标准模板库 C++ Standard LIbrary，C++标准库中包含STL（即STL+一些小东西） 1.1 头文件名称 C++标准库的 header files 不带 .h，例如：#include&lt;vector&gt; 新式 C header files 不带 .h，例如：#include&lt;cstdio&gt; 老式 C header files 带 .h 仍然可用，例如：#include&lt;stdio.h&gt;   新式 header 内的组件封装于 namespace std 老式 header 内的组件不封装于 namespace std  1.2...</div></div></div></a><a class="pagination-related" href="/2024/10/24/C++/%E4%BE%AF%E6%8D%B7%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="侯捷内存管理学习笔记 | C++"><img class="cover" src="/img/36.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-24</div><div class="info-item-2">侯捷内存管理学习笔记 | C++</div></div><div class="info-2"><div class="info-item-1">侯捷内存管理学习笔记第一章节 primitives零.new和delete概述C++中的new和delete是用于动态内存分配和释放的操作符，它们的底层机制和工作原理相对复杂，但也可以简单清晰地解释。 new的底层机制和工作原理 内存分配： 当使用new操作符时，它首先会调用底层的内存分配函数（如operator new），这个函数通常是对malloc的封装。malloc会从堆中分配足够的内存空间。 如果内存分配失败，operator...</div></div></div></a><a class="pagination-related" href="/2024/10/16/C++/%E6%96%BD%E7%A3%8AC++%20%20%E8%BF%9B%E9%98%B6%20%20%E7%AC%94%E8%AE%B0/" title="施磊C++ | 进阶学习笔记"><img class="cover" src="/img/37.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-16</div><div class="info-item-2">施磊C++ | 进阶学习笔记</div></div><div class="info-2"><div class="info-item-1">施磊C++ | 进阶学习笔记一、对象的应用优化、右值引用的优化1.1 构造，拷贝，赋值，析构中的优化1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253#include&lt;iostream&gt;using namespace std;class test&#123;public:	test(int a = 10) :ma(a) &#123; cout &lt;&lt; &quot;test(int)&quot; &lt;&lt; endl; &#125;	~test() &#123; cout &lt;&lt; &quot;~test&quot; &lt;&lt; endl; &#125;	test(const test&amp; t) :ma(t.ma) &#123; cout &lt;&lt; &quot;test(const &amp;)&quot; &lt;&lt; endl; &#125;	test&amp;...</div></div></div></a><a class="pagination-related" href="/2024/10/10/C++/%E4%BE%AF%E6%8D%B7%20%20C++11%20%E6%96%B0%E7%89%B9%E6%80%A7%20%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="侯捷 C++11 新特性 学习笔记"><img class="cover" src="/img/35.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-10</div><div class="info-item-2">侯捷 C++11 新特性 学习笔记</div></div><div class="info-2"><div class="info-item-1">C++11 新特性 学习笔记1.Variadic TemplatesC++11支持函数模板的默认模板参数在 C++98&#x2F;03 标准中，类模板可以有默认的模板参数，如下： 12345template &lt;typename T, typename U = int, U N = 0&gt;struct Foo&#123;    // ...&#125;;  但是却不支持函数的默认模板参数： 12345template &lt;typename T = int&gt;  // error in C++98/03: default template argumentsvoid func()&#123;    // ...&#125;  现在这一限制在 C++11 中被解除了。上面的 func 函数在 C++11 中可以直接使用，代码如下： 12345int main(void)&#123;    func();   //T = int    return 0;&#125;  此时模板参数 T 的类型就为默认值...</div></div></div></a><a class="pagination-related" href="/2023/07/22/C++/%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98C++%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E7%B2%BE%E7%BE%8E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="黑马程序员C++核心编程学习笔记"><img class="cover" src="/img/32.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-22</div><div class="info-item-2">黑马程序员C++核心编程学习笔记</div></div><div class="info-2"><div class="info-item-1">黑马程序员C++核心编程学习笔记一、内存1.1 内存四区C++程序在执行时，将内存大致分为4个区域：代码区，全局区，栈区，堆区  代码区：存放函数体的的二进制代码，操作系统管理。  🔵特点：①共享 ：对于频繁被执行的程序，只需要在内存中有一份代码即可。    ②只读：目的是防止程序意外地修改了它的指令。  全局区：存放全局变量、静态变量和常量（除了const修饰的局部变量）。程序结束时由操作系统释放。   1234567891011121314151617181920212223//全局变量int g_a = 10;const int c_g_a = 10;int main()&#123;	int l_a = 10;	//静态变量	static int s_a = 10;		//常量：字符串常量/const修饰的变量（全局/局部变量）	const char* a = &quot;hello&quot;;	const int c_l_a = 10;	cout &lt;&lt; &quot;局部变量l_a的十进制地址为：&quot; &lt;&lt; (int)&amp;l_a...</div></div></div></a><a class="pagination-related" href="/2023/07/22/C++/%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98C++%E6%8F%90%E9%AB%98%E7%BC%96%E7%A8%8B%E7%B2%BE%E7%BE%8E%E7%AC%94%E8%AE%B0/" title="黑马程序员C++提高编程"><img class="cover" src="/img/33.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-22</div><div class="info-item-2">黑马程序员C++提高编程</div></div><div class="info-2"><div class="info-item-1">黑马程序员C++提高编程  提高阶段主要针对泛型编程和STL技术  一、模板  模板就是建立通用的模具，大大提高复用性,也是泛型编程的思想。C++提供两种模板机制：①函数模板 ②类模板 🔴注意：  ① 模板不是万能的。  ② 模板不能直接使用。 1.1 函数模板1.1.1 函数模板基础知识​      语法： 12template  &lt;typename T &gt;   函数声明或定义  ​       解释：template— 声明创建模板；typename — 可以用class代替；T — 通用的数据类型​      使用：①自动类型推导 ②显示指定类型 🟦意义：提高复用性，将类型参数化。 1234567891011121314151617//函数模板的使用template&lt;typename T&gt;void MySwap(T&amp; a, T&amp; b)&#123;	T temp = a;	a = b;	b = temp;&#125;int main()&#123;	int a = 10;	int b = 20;	MySwap(a,...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%BD%E7%A3%8AC-%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6%E8%AF%BE%E7%A8%8B-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB"><span class="toc-number">1.</span> <span class="toc-text">施磊C++高级进阶课程 | 学习笔记 | 博客汇总</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II"><img src="/img/3.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day68 | 灵神 | 二分查找：H指数II"/></a><div class="content"><a class="title" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II">Day68 | 灵神 | 二分查找：H指数II</a><time datetime="2025-03-19T16:00:00.000Z" title="发表于 2025-03-20 00:00:00">2025-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目"><img src="/img/4.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day67 | 灵神 | 二分查找：统计公平数对的数目"/></a><div class="content"><a class="title" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目">Day67 | 灵神 | 二分查找：统计公平数对的数目</a><time datetime="2025-03-18T16:00:00.000Z" title="发表于 2025-03-19 00:00:00">2025-03-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

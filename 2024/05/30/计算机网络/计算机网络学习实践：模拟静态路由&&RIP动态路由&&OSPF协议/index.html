@@ -1,0 +1,435 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络学习实践：模拟静态路由&amp;&amp;RIP动态路由&amp;&amp;OSPF协议 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="计算机网络学习实践：模拟静态路由&amp;&amp;RIP动态路由&amp;&amp;OSPF协议一、模拟静态路由084第4章 网络层–添加静态路由_哔哩哔哩_bilibili 1.实验准备实验环境：思科的模拟器  实验设备： 两个路由器，两个二层交换机（不是三层的），两个PC机 三个网段  192.168.0.0     255.255.255.0 （PC0所在网段） 172.16.0.0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络学习实践：模拟静态路由&amp;&amp;RIP动态路由&amp;&amp;OSPF协议">
+<meta property="og:url" content="https://darling-123456.github.io/2024/05/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%9A%E6%A8%A1%E6%8B%9F%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1&&RIP%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1&&OSPF%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="计算机网络学习实践：模拟静态路由&amp;&amp;RIP动态路由&amp;&amp;OSPF协议一、模拟静态路由084第4章 网络层–添加静态路由_哔哩哔哩_bilibili 1.实验准备实验环境：思科的模拟器  实验设备： 两个路由器，两个二层交换机（不是三层的），两个PC机 三个网段  192.168.0.0     255.255.255.0 （PC0所在网段） 172.16.0.0">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/48.jpg">
+<meta property="article:published_time" content="2024-05-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-22T17:11:20.278Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/48.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "计算机网络学习实践：模拟静态路由&&RIP动态路由&&OSPF协议",
+  "url": "https://darling-123456.github.io/2024/05/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%9A%E6%A8%A1%E6%8B%9F%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1&&RIP%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1&&OSPF%E5%8D%8F%E8%AE%AE/",
+  "image": "https://darling-123456.github.io/img/48.jpg",
+  "datePublished": "2024-05-29T16:00:00.000Z",
+  "dateModified": "2025-03-22T17:11:20.278Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/05/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%9A%E6%A8%A1%E6%8B%9F%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1&amp;&amp;RIP%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1&amp;&amp;OSPF%E5%8D%8F%E8%AE%AE/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络学习实践：模拟静态路由&&RIP动态路由&&OSPF协议',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/48.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">计算机网络学习实践：模拟静态路由&amp;&amp;RIP动态路由&amp;&amp;OSPF协议</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络学习实践：模拟静态路由&amp;&amp;RIP动态路由&amp;&amp;OSPF协议</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-29T16:00:00.000Z" title="发表于 2024-05-30 00:00:00">2024-05-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T17:11:20.278Z" title="更新于 2025-03-23 01:11:20">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="计算机网络学习实践：模拟静态路由-RIP动态路由-OSPF协议"><a href="#计算机网络学习实践：模拟静态路由-RIP动态路由-OSPF协议" class="headerlink" title="计算机网络学习实践：模拟静态路由&amp;&amp;RIP动态路由&amp;&amp;OSPF协议"></a>计算机网络学习实践：模拟静态路由&amp;&amp;RIP动态路由&amp;&amp;OSPF协议</h1><h2 id="一、模拟静态路由"><a href="#一、模拟静态路由" class="headerlink" title="一、模拟静态路由"></a>一、模拟静态路由</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Qr4y1N7cH?p=84&vd_source=7831c5b97cfc5c745eb48ff04f6515e7">084第4章 网络层–添加静态路由_哔哩哔哩_bilibili</a></p>
+<h3 id="1-实验准备"><a href="#1-实验准备" class="headerlink" title="1.实验准备"></a>1.实验准备</h3><p><code>实验环境：</code>思科的模拟器</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240529203026881.png" alt="image-20240529203026881"></p>
+<p><code>实验设备：</code></p>
+<p>两个路由器，两个二层交换机（不是三层的），两个PC机</p>
+<p><code>三个网段 </code></p>
+<p>192.168.0.0     255.255.255.0 （PC0所在网段）</p>
+<p>172.16.0.0     255.255.255.0（两路由器之间）</p>
+<p>104.16.0.0     255.255.255.0（PC1所在网段）</p>
+<p><code>PC0：</code></p>
+<p>192.168.0.2     255.255.255.0    默认网关：192.168.0.1</p>
+<p><code>PC1：</code></p>
+<p>104.16.0.2     255.255.255.0    默认网关：104.16.0.1</p>
+<p>直接将两个交换机分别和自己网段的PC机和路由器通过以太网线连接（图书第三个黑色的线），路由器之间用广域网线连接（红色闪电，带时钟的要自己配置带宽）</p>
+<h3 id="2-两路由器相关配置"><a href="#2-两路由器相关配置" class="headerlink" title="2.两路由器相关配置"></a>2.两路由器相关配置</h3><p><code>Router1</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">config t</span><br><span class="line">interface fastEthernet 0/0    #和你自己选的接口相关，这个是PC0的网关</span><br><span class="line">ip address 192.168.0.1 255.255.255.0       #设置PC0的网关</span><br><span class="line">exit</span><br><span class="line">interface serial 2/0 		#设置两路由器之间的网段</span><br><span class="line">ip address 172.16.0.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p><code>Router2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">config t</span><br><span class="line">interface fastEthernet 0/0    #和你自己选的接口相关，这个是PC1的网关</span><br><span class="line">ip address 104.16.0.1 255.255.255.0       #设置PC1的网关</span><br><span class="line">exit</span><br><span class="line">interface serial 3/0 		#设置两路由器之间的网段</span><br><span class="line">ip address 172.16.0.2 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-现象观察"><a href="#3-现象观察" class="headerlink" title="3.现象观察"></a>3.现象观察</h3><p>此时可以用PC0 ping，发现可以ping通的有自己的网关和Router1的172.16.0.1接口，172.16.0.2ping不通，104网段就更不用说了，PC1那边也是类似</p>
+<p>其实是PC1发出的数据包经过Router1到达了172.16.0.2但是172.16.0.2找不到192的网段</p>
+<p>所以没办法回复ping的ICMP报文，导致ping不通，172.16.0.2pingPC0也不通（可以通过使用wireshark抓包发现这个原因）</p>
+<p>这时可以发现路由器两个相连网段只能说数据能到达，并不能通信，除非是同一网段</p>
+<h3 id="4-配置路由器静态路由"><a href="#4-配置路由器静态路由" class="headerlink" title="4.配置路由器静态路由"></a>4.配置路由器静态路由</h3><p>对于Router2来说，它在回复PC0的ICMP请求报文的时候会发现自己的路由表里面没有到达192.168.0.0网段的选项，所以会找不到发送地点，这时就需要配置静态路由</p>
+<p><code>Router2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">config t</span><br><span class="line">ip route 192.168.0.0 255.255.255.0 172.16.0.1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">    目的网段的网络地址   目的网段掩码   对于Router1来说，要去目的网段的下一跳是那个IP地址即Router1的右边的接口地址</span></span><br></pre></td></tr></table></figure>
+
+<p>配置好之后，可以使用<code>show ip route</code>进行查看</p>
+<p>如下图所示</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240529210213372.png" alt="image-20240529210213372"></p>
+<p>会发现PC0已经可以ping通172.16.0.1了</p>
+<p>如果不通的话尝试输入shut和no shut，关闭然后打开</p>
+<p>但是ping104网段仍旧不通，这是因为路由器1在接受到PC0的ICMP报文后，找不到104网段在哪里</p>
+<p><code>Router1</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">config t</span><br><span class="line">ip route 104.16.0.0 255.255.255.0 172.16.0.2</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">    目的网段的网络地址   目的网段掩码   对于Router1来说，要去目的网段的下一跳是那个IP地址即Router2的左边的接口地址</span></span><br></pre></td></tr></table></figure>
+
+<p>都配置好之后，PC0和PC1即可相互通信</p>
+<h3 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h3><p>静态路由确实感觉人工处理起来会很麻烦</p>
+<p>路由器相连的两个网段只有是一个子网的情况下才能通信，否则不能</p>
+<h2 id="二、模拟动态路由RIP协议"><a href="#二、模拟动态路由RIP协议" class="headerlink" title="二、模拟动态路由RIP协议"></a>二、模拟动态路由RIP协议</h2><h3 id="1-实验准备-1"><a href="#1-实验准备-1" class="headerlink" title="1.实验准备"></a>1.实验准备</h3><p><code>实验环境：</code>华为模拟器ENSP</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240529233440883.png" alt="image-20240529233440883"></p>
+<p><code>实验设备：</code></p>
+<p>3个路由器，3个二层交换机（不是三层的），3个PC机</p>
+<p><code>5个网段 </code></p>
+<p>192.168.1.0     255.255.255.0 （PC1所在网段）</p>
+<p>192.168.2.0     255.255.255.0 （PC2所在网段）</p>
+<p>192.168.3.0     255.255.255.0 （PC3所在网段）</p>
+<p>172.0.0.0     255.255.255.0（AR4和AR5之间）</p>
+<p>176.0.0.0     255.255.255.0（AR5和AR6之间）</p>
+<p><code>PC1：</code></p>
+<p>192.168.1.2     255.255.255.0    默认网关：192.168.1.1</p>
+<p><code>PC2：</code></p>
+<p>192.168.2.2     255.255.255.0    默认网关：192.168.2.1</p>
+<p><code>PC3：</code></p>
+<p>192.168.3.2     255.255.255.0    默认网关：192.168.3.1</p>
+<p>直接将两个交换机分别和自己网段的PC机和路由器通过以太网线连接（图书第三个黑色的线），路由器之间用广域网线连接（红色闪电，带时钟的要自己配置带宽）</p>
+<h3 id="2-三个路由器相关配置"><a href="#2-三个路由器相关配置" class="headerlink" title="2.三个路由器相关配置"></a>2.三个路由器相关配置</h3><p>注意：接口看你自己的ENSP上显示的什么就按照哪个选</p>
+<p><code>AR4</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sys</span><br><span class="line">int GigabitEthernet 0/0/0    #这个是PC1的网关</span><br><span class="line">ip address 192.168.0.1 255.255.255.0       #设置PC1的网关</span><br><span class="line">q #退出选择另一接口</span><br><span class="line">int GigabitEthernet 0/0/1 		#设置AR4和AR5路由器之间的网段</span><br><span class="line">ip address 172.0.0.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p><code>AR5</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sys</span><br><span class="line">int GigabitEthernet 0/0/0    #设置AR4和AR5路由器之间的网段</span><br><span class="line">ip address 172.0.0.2 255.255.255.0      </span><br><span class="line">q #退出选择另一接口</span><br><span class="line">int GigabitEthernet 0/0/1    #这个是PC2的网关</span><br><span class="line">ip address 192.168.1.1 255.255.255.0       #设置PC2的网关</span><br><span class="line">q #退出选择另一接口</span><br><span class="line">int GigabitEthernet 0/0/2 		#设置AR5和AR6路由器之间的网段</span><br><span class="line">ip address 176.0.0.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p><code>AR6</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sys</span><br><span class="line">int GigabitEthernet 0/0/0    #这个是PC3的网关</span><br><span class="line">ip address 192.168.3.1 255.255.255.0       #设置PC3的网关</span><br><span class="line">q #退出选择另一接口</span><br><span class="line">int GigabitEthernet 0/0/1 		#设置AR5和AR6路由器之间的网段</span><br><span class="line">ip address 176.0.0.2 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>此时，三个PC机都可以ping通自己的网关，两个相邻路由器可以相互ping通，就算配置完成</p>
+<h3 id="3-RIP配置"><a href="#3-RIP配置" class="headerlink" title="3.RIP配置"></a>3.RIP配置</h3><p><code>配置方法：</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">注意要在[AR4]情况下，不是&lt;AR4&gt;或者某个具体接口</span></span><br><span class="line">rip</span><br><span class="line"></span><br><span class="line">network + 路由器所有直连网段的网络地址 #不需要子网掩码</span><br></pre></td></tr></table></figure>
+
+<p><code>AR4</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rip</span><br><span class="line"></span><br><span class="line">network 192.168.1.0</span><br><span class="line">network 172.0.0.0</span><br></pre></td></tr></table></figure>
+
+<p><code>AR5</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rip</span><br><span class="line"></span><br><span class="line">network 192.168.2.0</span><br><span class="line">network 172.0.0.0</span><br><span class="line">network 176.0.0.0</span><br></pre></td></tr></table></figure>
+
+<p><code>AR4</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rip</span><br><span class="line"></span><br><span class="line">network 192.168.3.0</span><br><span class="line">network 176.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-查看结果"><a href="#4-查看结果" class="headerlink" title="4.查看结果"></a>4.查看结果</h3><h4 id="查看路由表"><a href="#查看路由表" class="headerlink" title="查看路由表"></a>查看路由表</h4><p>输入命令</p>
+<p><code>dis ip routing-table</code></p>
+<p>这是配置完成的Router1（AR4）的路由表信息，可以看到有3个RIP协议，通向了与AR4不直接相连的三个子网，表明配置成功</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240529233706029.png" alt="image-20240529233706029"></p>
+<p>在AR5和AR6中也能看到类似的</p>
+<h4 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h4><p>PC1 ping PC2和PC3均可成功，三者之间可以互相通信，实验完成</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240529234250374.png" alt="image-20240529234250374"></p>
+<h3 id="5-可能出现的问题"><a href="#5-可能出现的问题" class="headerlink" title="5.可能出现的问题"></a>5.可能出现的问题</h3><p>在实验中如果出现了这个错误，是因为网段选的不太好</p>
+<p>The network address is invalid, and the specified address must be major-n et address without any subnets.</p>
+<p>这个错误提示意味着网络地址无效,并且指定的地址必须是没有子网的主网络地址。这个错误通常出现在配</p>
+<p>置动态路由协议RIP时,当指定的网络地址不符合要求时会出现。在这种情况下,网络地址必须是没有子网的主网</p>
+<p>络地址,不能包含任何子网。</p>
+<ol>
+<li>“地址必须是没有子网的主网络地址”的解释<ul>
+<li>这一表述意味着所需的IP地址应该是一个没有进一步划分子网的主网络地址。换句话说，该地址应该只包含一个网络号和主机号，而没有额外的子网网络号和子网主机号。</li>
+<li>在实际应用中，这通常意味着IP地址和子网掩码的组合应该使得IP地址的前部分完全代表网络号，而后部分完全代表主机号，没有额外的子网划分。</li>
+</ul>
+</li>
+<li>示例<ul>
+<li>假设一个网络的IP地址范围是192.168.1.0到192.168.1.255，子网掩码是255.255.255.0。这个范围内的所有IP地址都可以被认为是“没有子网的主网络地址”，因为它们没有进一步划分子网。</li>
+<li>如果该网络使用子网掩码255.255.255.192进行划分，那么它将被分为四个子网，每个子网有不同的网络地址和主机地址范围。在这种情况下，只有这四个子网的网络地址（例如192.168.1.0、192.168.1.64、192.168.1.128和192.168.1.192）才是“没有子网的主网络地址”（在子网划分的层面上），而其他的IP地址则属于这些子网中的主机地址。</li>
+</ul>
+</li>
+</ol>
+<p>可以重新选别的符合条件的网段</p>
+<h2 id="三、模拟动态路由OSPF协议"><a href="#三、模拟动态路由OSPF协议" class="headerlink" title="三、模拟动态路由OSPF协议"></a>三、模拟动态路由OSPF协议</h2><h3 id="1-实验准备-2"><a href="#1-实验准备-2" class="headerlink" title="1.实验准备"></a>1.实验准备</h3><p><code>实验环境：</code>思科的模拟器</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240530115941573.png" alt="image-20240530115941573"></p>
+<p><code>实验设备：</code></p>
+<p>5个路由器，3个二层交换机（不是三层的），3个PC机</p>
+<p><code>8个网段 </code></p>
+<p>172.16.0.0 255.255.0.0 （PC0所在网段）</p>
+<p>172.17.0.0 255.255.0.0 （PC1所在网段）</p>
+<p>172.18.0.0 255.255.0.0 （PC2所在网段）</p>
+<p>192.168.1.0 255.255.255.0 （R2和R0）</p>
+<p>192.168.2.0 255.255.255.0  （R1和R0）</p>
+<p>192.168.3.0 255.255.255.0 （R1和R4）</p>
+<p>192.168.4.0 255.255.255.0 （R3和R0）</p>
+<p>192.168.5.0 255.255.255.0 （R3和R4）</p>
+<p><code>PC0：</code></p>
+<p>172.16.0.2  255.255.0.0   默认网关：172.16.0.1</p>
+<p><code>PC1：</code></p>
+<p>172.17.0.2  255.255.0.0   默认网关：172.17.0.1</p>
+<p><code>PC2：</code></p>
+<p>172.18.0.2  255.255.0.0   默认网关：172.18.0.1</p>
+<p>直接将两个交换机分别和自己网段的PC机和路由器通过以太网线连接（图书第三个黑色的线），路由器之间用广域网线连接（红色闪电，带时钟的要自己配置带宽）</p>
+<p>如果Serial接口不够的话要去自己加接口，如图所示<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-05-30%20105437.png" alt="屏幕截图 2024-05-30 105437"></p>
+<h3 id="2-五个路由器相关配置"><a href="#2-五个路由器相关配置" class="headerlink" title="2.五个路由器相关配置"></a>2.五个路由器相关配置</h3><p><code>no sh</code> </p>
+<p>使用该命令确保是打开状态不然IP地址加不上，就是图中必须全是绿点</p>
+<p><code>Router2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">config t</span><br><span class="line">interface fastEthernet 0/0    #和你自己选的接口相关，这个是PC0的网关</span><br><span class="line">no sh #确保是打开状态不然IP地址加不上</span><br><span class="line">ip address 172.16.0.1 255.255.0.0       #设置PC0的网关</span><br><span class="line">exit</span><br><span class="line">interface serial 2/0 		#设置两路由器之间的网段 2和0</span><br><span class="line">no sh #确保是打开状态不然IP地址加不上</span><br><span class="line">ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p><code>Router3</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">config t</span><br><span class="line">interface fastEthernet 0/0    #和你自己选的接口相关，这个是PC0的网关</span><br><span class="line">ip address 172.17.0.1 255.255.0.0       #设置PC0的网关</span><br><span class="line">exit</span><br><span class="line">interface serial 2/0 		#设置两路由器之间的网段 3和0</span><br><span class="line">ip address 192.168.4.2 255.255.255.0</span><br><span class="line">exit</span><br><span class="line">interface serial 3/0 		#设置两路由器之间的网段 3和4</span><br><span class="line">ip address 192.168.5.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p><code>Router4</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">config t</span><br><span class="line">interface fastEthernet 0/0    #和你自己选的接口相关，这个是PC0的网关</span><br><span class="line">ip address 172.18.0.1 255.255.0.0       #设置PC0的网关</span><br><span class="line">exit</span><br><span class="line">interface serial 2/0 		#设置两路由器之间的网段 3和4</span><br><span class="line">ip address 192.168.5.2 255.255.255.0</span><br><span class="line">exit</span><br><span class="line">interface serial 3/0 		#设置两路由器之间的网段 1和4</span><br><span class="line">ip address 192.168.3.2 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p><code>Router0</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">config t</span><br><span class="line">interface serial 3/0 		#设置两路由器之间的网段 2和0</span><br><span class="line">ip address 192.168.1.2 255.255.255.0</span><br><span class="line">exit</span><br><span class="line">interface serial 6/0 		#设置两路由器之间的网段 3和0</span><br><span class="line">ip address 192.168.4.1 255.255.255.0</span><br><span class="line">exit</span><br><span class="line">interface serial 2/0 		#设置两路由器之间的网段 1和0</span><br><span class="line">ip address 192.168.2.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p><code>Router1</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">en</span><br><span class="line">config t</span><br><span class="line">interface serial 3/0 		#设置两路由器之间的网段 1和0</span><br><span class="line">ip address 192.168.2.2 255.255.255.0</span><br><span class="line">exit</span><br><span class="line">interface serial 2/0 		#设置两路由器之间的网段 1和4</span><br><span class="line">ip address 192.168.3.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>相邻路由器之间可以ping通，网关和PC可以ping通才算配置完成</p>
+<h3 id="3-OSPF配置"><a href="#3-OSPF配置" class="headerlink" title="3.OSPF配置"></a>3.OSPF配置</h3><p>关键部分</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">指定ospf协议 1代表进程号</span></span><br><span class="line">router ospf 1 </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">        路由器直连网段    子网掩码的反码   自治区域</span> </span><br><span class="line">network   172.16.0.0    0.0.255.255      area 0</span><br></pre></td></tr></table></figure>
+
+<p><code>R2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">config t</span><br><span class="line">router ospf 1</span><br><span class="line">network 172.16.0.0 0.0.255.255 area 0</span><br><span class="line">network 192.168.1.0 0.0.0.255 area 0</span><br></pre></td></tr></table></figure>
+
+<p><code>R0</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">config t</span><br><span class="line">router ospf 1</span><br><span class="line">network 192.168.1.0 0.0.0.255 area 0</span><br><span class="line">network 192.168.2.0 0.0.0.255 area 0</span><br><span class="line">network 192.168.4.0 0.0.0.255 area 0</span><br></pre></td></tr></table></figure>
+
+<p><code>R1</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">config t</span><br><span class="line">router ospf 1</span><br><span class="line">network 192.168.2.0 0.0.0.255 area 0</span><br><span class="line">network 192.168.3.0 0.0.0.255 area 0</span><br></pre></td></tr></table></figure>
+
+<p><code>R4</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">config t</span><br><span class="line">router ospf 1</span><br><span class="line">network 172.18.0.0 0.0.255.255 area 0</span><br><span class="line">network 192.168.3.0 0.0.0.255 area 0</span><br><span class="line">network 192.168.5.0 0.0.0.255 area 0</span><br></pre></td></tr></table></figure>
+
+<p><code>R3</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">config t</span><br><span class="line">router ospf 1</span><br><span class="line">network 172.17.0.0 0.0.255.255 area 0</span><br><span class="line">network 192.168.4.0 0.0.0.255 area 0</span><br><span class="line">network 192.168.5.0 0.0.0.255 area 0</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-查看结果-1"><a href="#4-查看结果-1" class="headerlink" title="4.查看结果"></a>4.查看结果</h3><h4 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h4><p>在R2上使用<code>show ip route</code>得到如下结果算OSPF配置完成</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240530122908779.png" alt="image-20240530122908779"></p>
+<p>一共有8个网段，全部学习到了</p>
+<p>其实 O代表OSPF协议，110是管理距离，代表优先级，这个值越小越好</p>
+<p>RIP协议是120，，静态路由是1，OSPF比RIP更可信，静态路由最可信</p>
+<p>129,193这些是度量值，算出来的</p>
+<h4 id="PING"><a href="#PING" class="headerlink" title="PING"></a>PING</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240530123629574.png" alt="image-20240530123629574"></p>
+<p>说明 PC0 ping 1&amp;&amp;2 都是通的</p>
+<h4 id="tracert"><a href="#tracert" class="headerlink" title="tracert"></a>tracert</h4><p>跟踪 0 ping 1 过程</p>
+<p>走的是 R2 R0 R3这条路</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240530123955143.png" alt="image-20240530123955143"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/05/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%9A%E6%A8%A1%E6%8B%9F%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1&amp;&amp;RIP%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1&amp;&amp;OSPF%E5%8D%8F%E8%AE%AE/">https://darling-123456.github.io/2024/05/30/计算机网络/计算机网络学习实践：模拟静态路由&amp;&amp;RIP动态路由&amp;&amp;OSPF协议/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post-share"><div class="social-share" data-image="/img/48.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/05/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E8%B7%B5%EF%BC%9A%E6%A8%A1%E6%8B%9FPPP%E5%8D%8F%E8%AE%AE&amp;&amp;%E9%AA%8C%E8%AF%81%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91%EF%BC%88VLAN%EF%BC%89/" title="计算机网络实践：模拟PPP协议&amp;&amp;验证虚拟局域网（VLAN）"><img class="cover" src="/img/47.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">计算机网络实践：模拟PPP协议&&验证虚拟局域网（VLAN）</div></div><div class="info-2"><div class="info-item-1">计算机网络实践：模拟PPP协议&amp;&amp;验证虚拟局域网（VLAN）一、模拟PPP协议实验环境：思科模拟器 FastEthernet是以太网接口，serial是广域网接口，连的线也不同 主要用到的就是RouterA和RouterB  路由器连接注意： 一台路由器的serial 2&#x2F;0连接另外一台的 serial 3&#x2F;0，这台的2&#x2F;0去连接下一台的3&#x2F;0，交错开来 1.配置路由器接口IP地址：Router0（RouterA） 1234567enconfigure t     //进入特权模式hostname RouterA //重命名 配置身份验证的时候用interface serial 2/0clock rate 64000   //时钟频率 设置带宽，控制网速的ip address 172.16.1.1 255.255.255.0no shutdown  Router1（RouterB） 123456enconfigure t     //进入特权模式interface serial 2/0clock rate 64000  ...</div></div></div></a><a class="pagination-related" href="/2024/06/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%9A%E9%85%8D%E7%BD%AE%E4%B8%BB%E6%9C%BA%E9%80%9A%E8%BF%87DHCP%E8%8E%B7%E5%8F%96IP%E5%B9%B6%E9%80%9A%E8%BF%87%E5%9F%9F%E5%90%8D%E8%AE%BF%E9%97%AEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器"><img class="cover" src="/img/49.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器</div></div><div class="info-2"><div class="info-item-1">计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器点一点就能配置，不需要输入命令 1.实验准备实验环境：思科的模拟器  实验设备： 3个服务器，1个二层交换机（不是三层的），2个PC机，1个路由器 2个网段  192.168.1.0     255.255.255.0 （web服务器所在网段） 192.168.0.0     255.255.255.0（其余所有设备） DNS服务器 192.168.0.253  255.255.255.0 默认网关192.168.0.254 web服务器 192.168.1.1  255.255.255.0 默认网关192.168.1.254 DHCP服务器 192.168.0.252 ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/05/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/Wireshark%E7%BD%91%E7%BB%9C%E5%88%86%E6%9E%90%E5%B0%B1%E8%BF%99%E4%B9%88%E7%AE%80%E5%8D%95%EF%BC%9A%E4%BB%8E%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98%E8%AF%B4%E8%B5%B7/" title="Wireshark网络分析就这么简单：从一道面试题说起"><img class="cover" src="/img/46.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-27</div><div class="info-item-2">Wireshark网络分析就这么简单：从一道面试题说起</div></div><div class="info-2"><div class="info-item-1">Wireshark网络分析就这么简单：从一道面试题说起1.实验环境配置注：ensp在BpingA时，A发出的回复报文是通过网关发送而不是直接发送的，本书中显示的是直接发送的，大家可以改用两台真正的虚拟机进行实验，除了这点外，其余的没有啥问题可以凑活看看 实验环境：华为ENSP，抓包工具Wireshark ENSP学习网址（想看看一下） 同网段与网关之间通信_哔哩哔哩_bilibili 实验配置：  A主机mac：1056（为了方便只看后四位，后面也是如此表示） B主机mac：20D8 网关mac：3d18 1234567网关配置语句sysint vlan1ip add 192.168.26.2这时可以尝试一下 ping A和B看看通不通  2.理论分析A ping B   A根据自己的子网掩码判断B是否和自己属于同一子网，用自己的子网掩码与B主机的IP地址做&amp;运算，计算出B主机的网段也是192.168.26.0&#x2F;24，所以在A看来B和A属于同一网段    A在VLAN发送ARP广播询问B的Mac地址  ...</div></div></div></a><a class="pagination-related" href="/2024/06/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%9A%E9%85%8D%E7%BD%AE%E4%B8%BB%E6%9C%BA%E9%80%9A%E8%BF%87DHCP%E8%8E%B7%E5%8F%96IP%E5%B9%B6%E9%80%9A%E8%BF%87%E5%9F%9F%E5%90%8D%E8%AE%BF%E9%97%AEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器"><img class="cover" src="/img/49.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-01</div><div class="info-item-2">计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器</div></div><div class="info-2"><div class="info-item-1">计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器点一点就能配置，不需要输入命令 1.实验准备实验环境：思科的模拟器  实验设备： 3个服务器，1个二层交换机（不是三层的），2个PC机，1个路由器 2个网段  192.168.1.0     255.255.255.0 （web服务器所在网段） 192.168.0.0     255.255.255.0（其余所有设备） DNS服务器 192.168.0.253  255.255.255.0 默认网关192.168.0.254 web服务器 192.168.1.1  255.255.255.0 默认网关192.168.1.254 DHCP服务器 192.168.0.252 ...</div></div></div></a><a class="pagination-related" href="/2024/06/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%9ADHCP%E8%B7%A8%E7%BD%91%E6%AE%B5%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8DIP/" title="计算机网络学习实践：DHCP跨网段动态分配IP"><img class="cover" src="/img/50.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-01</div><div class="info-item-2">计算机网络学习实践：DHCP跨网段动态分配IP</div></div><div class="info-2"><div class="info-item-1">计算机网络学习实践：DHCP跨网段动态分配IP1.实验准备实验环境：思科的模拟器  实验设备： 1个服务器，2个二层交换机（不是三层的），4个PC机，1个路由器 三个网段  192.168.1.0     255.255.255.0 （PC0,2所在网段） 192.168.2.0     255.255.255.0（PC1,3网段） 192.168.0.0     255.255.255.0（DHCP服务器所在网段） DHCP服务器 192.168.0.2 255.255.255.0 默认网关192.168.0.1 4个PC机无需任何配置 2.路由器配置0，1， 7这些接口都是自己选的 123456789101112enconfig tinterface fastEthernet 0/0ip address 192.168.1.1 255.255.255.0 #PC0,2的网关ip helper-address 192.168.0.2  #DHCP服务器的IPexitinterface fastEthernet 1/0ip address 192.168.2.1...</div></div></div></a><a class="pagination-related" href="/2024/05/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IP%EF%BC%8C%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%EF%BC%8C%E4%B8%BB%E6%9C%BA%E5%9C%B0%E5%9D%80%EF%BC%8C%E7%BD%91%E7%BB%9C%E5%8F%B7%EF%BC%8C%E5%AD%90%E7%BD%91%E5%8F%B7%EF%BC%8C%E4%B8%BB%E6%9C%BA%E5%8F%B7%E5%AE%9A%E4%B9%89%E3%80%81%E7%9B%B8%E4%BA%92%E5%85%B3%E7%B3%BB%E5%8F%8A%E5%85%B6%E8%AE%A1%E7%AE%97/" title="IP，网络地址，主机地址，网络号，子网号，主机号定义、相互关系及其计算"><img class="cover" src="/img/45.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-28</div><div class="info-item-2">IP，网络地址，主机地址，网络号，子网号，主机号定义、相互关系及其计算</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/2024/05/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AE%9E%E8%B7%B5%EF%BC%9A%E6%A8%A1%E6%8B%9FPPP%E5%8D%8F%E8%AE%AE&&%E9%AA%8C%E8%AF%81%E8%99%9A%E6%8B%9F%E5%B1%80%E5%9F%9F%E7%BD%91%EF%BC%88VLAN%EF%BC%89/" title="计算机网络实践：模拟PPP协议&amp;&amp;验证虚拟局域网（VLAN）"><img class="cover" src="/img/47.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-29</div><div class="info-item-2">计算机网络实践：模拟PPP协议&amp;&amp;验证虚拟局域网（VLAN）</div></div><div class="info-2"><div class="info-item-1">计算机网络实践：模拟PPP协议&amp;&amp;验证虚拟局域网（VLAN）一、模拟PPP协议实验环境：思科模拟器 FastEthernet是以太网接口，serial是广域网接口，连的线也不同 主要用到的就是RouterA和RouterB  路由器连接注意： 一台路由器的serial 2&#x2F;0连接另外一台的 serial 3&#x2F;0，这台的2&#x2F;0去连接下一台的3&#x2F;0，交错开来 1.配置路由器接口IP地址：Router0（RouterA） 1234567enconfigure t     //进入特权模式hostname RouterA //重命名 配置身份验证的时候用interface serial 2/0clock rate 64000   //时钟频率 设置带宽，控制网速的ip address 172.16.1.1 255.255.255.0no shutdown  Router1（RouterB） 123456enconfigure t     //进入特权模式interface serial 2/0clock rate 64000  ...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%9A%E6%A8%A1%E6%8B%9F%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1-RIP%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1-OSPF%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.</span> <span class="toc-text">计算机网络学习实践：模拟静态路由&amp;&amp;RIP动态路由&amp;&amp;OSPF协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A8%A1%E6%8B%9F%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">1.1.</span> <span class="toc-text">一、模拟静态路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9E%E9%AA%8C%E5%87%86%E5%A4%87"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.实验准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%A4%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.两路由器相关配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%8E%B0%E8%B1%A1%E8%A7%82%E5%AF%9F"><span class="toc-number">1.1.3.</span> <span class="toc-text">3.现象观察</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1%E5%99%A8%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-number">1.1.4.</span> <span class="toc-text">4.配置路由器静态路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.5.</span> <span class="toc-text">5.总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%A8%A1%E6%8B%9F%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1RIP%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.</span> <span class="toc-text">二、模拟动态路由RIP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9E%E9%AA%8C%E5%87%86%E5%A4%87-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.实验准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%89%E4%B8%AA%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.三个路由器相关配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-RIP%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.3.</span> <span class="toc-text">3.RIP配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%9F%A5%E7%9C%8B%E7%BB%93%E6%9E%9C"><span class="toc-number">1.2.4.</span> <span class="toc-text">4.查看结果</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">查看路由表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ping"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">ping</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.5.</span> <span class="toc-text">5.可能出现的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A8%A1%E6%8B%9F%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1OSPF%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.3.</span> <span class="toc-text">三、模拟动态路由OSPF协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9E%E9%AA%8C%E5%87%86%E5%A4%87-2"><span class="toc-number">1.3.1.</span> <span class="toc-text">1.实验准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BA%94%E4%B8%AA%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.五个路由器相关配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-OSPF%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.OSPF配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%9F%A5%E7%9C%8B%E7%BB%93%E6%9E%9C-1"><span class="toc-number">1.3.4.</span> <span class="toc-text">4.查看结果</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">路由表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PING"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">PING</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tracert"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">tracert</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II"><img src="/img/3.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day68 | 灵神 | 二分查找：H指数II"/></a><div class="content"><a class="title" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II">Day68 | 灵神 | 二分查找：H指数II</a><time datetime="2025-03-19T16:00:00.000Z" title="发表于 2025-03-20 00:00:00">2025-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目"><img src="/img/4.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day67 | 灵神 | 二分查找：统计公平数对的数目"/></a><div class="content"><a class="title" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目">Day67 | 灵神 | 二分查找：统计公平数对的数目</a><time datetime="2025-03-18T16:00:00.000Z" title="发表于 2025-03-19 00:00:00">2025-03-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

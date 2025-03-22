@@ -1,0 +1,304 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="为什么学习这么难!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Darlingの妙妙屋">
+<meta property="og:url" content="https://darling-123456.github.io/page/3/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="为什么学习这么难!">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/avatar.jpg">
+<meta property="article:author" content="Darling">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/page/3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Darlingの妙妙屋',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(/img/top.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">Darlingの妙妙屋</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2024/12/28/%E5%AD%A6%E6%A0%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/pycharm+anaconda%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" title="pycharm+anaconda创建项目"><img class="post-bg" src="/img/39.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="pycharm+anaconda创建项目"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/28/%E5%AD%A6%E6%A0%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/pycharm+anaconda%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" title="pycharm+anaconda创建项目">pycharm+anaconda创建项目</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-27T16:00:00.000Z" title="发表于 2024-12-28 00:00:00">2024-12-28</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T16:58:29.144Z" title="更新于 2025-03-23 00:58:29">2025-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="content">pycharm+anaconda创建项目安装： Windows下Python+PyCharm的安装步骤及PyCharm的使用-CSDN博客 详细Anaconda安装+配置+环境创建教程-CSDN博客 创建项目： 开始尝试新建一个项目吧！选择好项目建设的文件夹我的项目命名为：pythontset，选择自定义环境-select existing(已存在环境)，类型可选择conda(这就是前边已经配置好的anaconda环境)，点击创建。这里我的test项目就已经创建完成了输入print(“hello world”)， 运行一下试试看！ 成功。 </div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/12/28/%E5%AD%A6%E6%A0%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Windows%E4%B8%8BPython+PyCharm%E7%9A%84%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4%E5%8F%8APyCharm%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Windows下Python+PyCharm的安装步骤及PyCharm的使用"><img class="post-bg" src="/img/40.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Windows下Python+PyCharm的安装步骤及PyCharm的使用"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/28/%E5%AD%A6%E6%A0%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Windows%E4%B8%8BPython+PyCharm%E7%9A%84%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4%E5%8F%8APyCharm%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Windows下Python+PyCharm的安装步骤及PyCharm的使用">Windows下Python+PyCharm的安装步骤及PyCharm的使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-27T16:00:00.000Z" title="发表于 2024-12-28 00:00:00">2024-12-28</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T17:00:05.223Z" title="更新于 2025-03-23 01:00:05">2025-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="content">Windows下Python+PyCharm的安装步骤及PyCharm的使用一、Python的安装（1）环境准备python是一门跨平台的语言，如Windows、Linux、MacOS等平台都能完美兼容，以下只对Windows平台安装做详细介绍。  Windows PC python3.6.4 python官方下载：Python Releases for Windows | Python.org，可根据自己需要下载版本。   我下载的是python3.6.4，比较老的一个版本了，选择Download Windows x86-64 executable installer，下载64位的：   注意：“x86”是指32位的操作系统，“x86-64”是指64位的操作系统。  （2）Python安装 python安装非常简单，双击下载好的安装包，进入选择安装方式 第一种：Install Now 立即安装，即采用默认安装方式，不能自行指定安装的路径。 第二种：Customize installation...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/12/28/%E5%AD%A6%E6%A0%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E4%BF%AE%E6%94%B9%E6%88%90%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F%E6%BA%90%E8%A7%A3%E5%86%B3Anaconda%E6%8A%A5The%20channel%20is%20not%20accessible%E6%BA%90%E9%80%9A%E9%81%93%E4%B8%8D%E5%8F%AF%E7%94%A8%E9%97%AE%E9%A2%98/" title="修改成清华镜像源解决Anaconda报The channel is not accessible源通道不可用问题"><img class="post-bg" src="/img/43.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="修改成清华镜像源解决Anaconda报The channel is not accessible源通道不可用问题"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/28/%E5%AD%A6%E6%A0%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E4%BF%AE%E6%94%B9%E6%88%90%E6%B8%85%E5%8D%8E%E9%95%9C%E5%83%8F%E6%BA%90%E8%A7%A3%E5%86%B3Anaconda%E6%8A%A5The%20channel%20is%20not%20accessible%E6%BA%90%E9%80%9A%E9%81%93%E4%B8%8D%E5%8F%AF%E7%94%A8%E9%97%AE%E9%A2%98/" title="修改成清华镜像源解决Anaconda报The channel is not accessible源通道不可用问题">修改成清华镜像源解决Anaconda报The channel is not accessible源通道不可用问题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-27T16:00:00.000Z" title="发表于 2024-12-28 00:00:00">2024-12-28</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T17:02:49.293Z" title="更新于 2025-03-23 01:02:49">2025-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="content">修改成清华镜像源解决Anaconda报The channel is not accessible源通道不可用问题最近在通过pycharm开发python程序，引用anaconda环境建立虚拟环境时报错，报UnavailableInvalidChannel: The channel is not accessible or is invalid.应该是镜像源访问通道无法访问或无效。现将解决办法记录如下： 环境说明：操作系统：win10安装有anaconda 4.10.3pycharm2021.2 报错现象：在pycharm中新建python项目，引用anaconda建立虚拟环境时报错报“UnavailableInvalidChannel: The channel is not accessible or is invalid.” 或者执行命令遇到这种情况  解决办法：1、找到anaconda的源配置文件配置文件.condar.c一般都在c&#x2F;user&#x2F;用户名这个目录里面 根据报错的建议提示：  You will need to ajust your conda...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/12/28/%E5%AD%A6%E6%A0%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AF%A6%E7%BB%86Anaconda%E5%AE%89%E8%A3%85+%E9%85%8D%E7%BD%AE+%E7%8E%AF%E5%A2%83%E5%88%9B%E5%BB%BA%E6%95%99%E7%A8%8B/" title="详细Anaconda安装+配置+环境创建教程"><img class="post-bg" src="/img/41.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="详细Anaconda安装+配置+环境创建教程"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/28/%E5%AD%A6%E6%A0%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%AF%A6%E7%BB%86Anaconda%E5%AE%89%E8%A3%85+%E9%85%8D%E7%BD%AE+%E7%8E%AF%E5%A2%83%E5%88%9B%E5%BB%BA%E6%95%99%E7%A8%8B/" title="详细Anaconda安装+配置+环境创建教程">详细Anaconda安装+配置+环境创建教程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-27T16:00:00.000Z" title="发表于 2024-12-28 00:00:00">2024-12-28</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T17:00:51.051Z" title="更新于 2025-03-23 01:00:51">2025-03-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="content">详细Anaconda安装+配置+环境创建教程一、Anaconda简介Anaconda 是一个开源的 Python 和 [R 语言](https://so.csdn.net/so/search?q=R 语言&amp;spm&#x3D;1001.2101.3001.7020)的发行版本，主要用于数据科学、机器学习和科学计算。它包含了大量的科学计算库和工具，并且提供了一个方便的环境管理工具，使得用户可以轻松地创建、管理和切换不同的 Python 环境。（我使用的原因是可以方便的切换python环境，每个环境包与包的版本不冲突，以及可以很方便的导入与导出包，最主要的原因是我的科研需要使用Deeplabcut,用anaconda比较方便） Anaconda 的主要特点 包管理：  Anaconda 使用 conda 作为包管理工具，可以方便地安装、更新和删除 Python 包。 支持多种操作系统和平台（Windows、macOS、Linux）。   环境管理：  Anaconda 允许用户创建独立的 Python 环境，每个环境可以有不同的 Python 版本和包依赖。  使用...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/12/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day55%20%20%E7%81%B5%E7%A5%9E%20%20%E7%9B%B8%E5%90%91%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%9A%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E7%9A%84%E5%AE%B9%E5%99%A8&amp;&amp;%E6%8E%A5%E9%9B%A8%E6%B0%B4/" title="Day55 | 灵神 | 相向双指针：盛最多水的容器&amp;&amp;接雨水"><img class="post-bg" src="/img/16.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day55 | 灵神 | 相向双指针：盛最多水的容器&amp;&amp;接雨水"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day55%20%20%E7%81%B5%E7%A5%9E%20%20%E7%9B%B8%E5%90%91%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%9A%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E7%9A%84%E5%AE%B9%E5%99%A8&amp;&amp;%E6%8E%A5%E9%9B%A8%E6%B0%B4/" title="Day55 | 灵神 | 相向双指针：盛最多水的容器&amp;&amp;接雨水">Day55 | 灵神 | 相向双指针：盛最多水的容器&amp;&amp;接雨水</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-20T16:00:00.000Z" title="发表于 2024-12-21 00:00:00">2024-12-21</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T13:32:28.943Z" title="更新于 2025-03-22 21:32:28">2025-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%9B%B8%E5%90%91%E5%8F%8C%E6%8C%87%E9%92%88/">相向双指针</a></span></div><div class="content">Day55 | 灵神 | 相向双指针：盛最多水的容器&amp;&amp;接雨水盛最多水的容器 接雨水_哔哩哔哩_bilibili 11.盛最多水的容器11. 盛最多水的容器 - 力扣（LeetCode） 这道题就不太能想到思路了（悲） 思路： 还是使用相向双指针 我们随便挑两根柱子，就比如图中的两根，左边的下标为l，右边的下标为r，那么能接的水就是 1sum=min(height[l],height[r])*(r-l)   首先先找出短的一端，然后固定它，（为什么找短端而不找长端？这个稍后解释）这个例子中r比较短，那么就固定r。此时接水总量为 1sum1=height[r]*(r-l)  分类讨论: 1.假设在l和r中间，找到一根比height[r]要小的柱子k来当左端 1sum2=height[k]*(r-k)  由于 12height[r]&gt;height[k]r-l&gt;r-k ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/12/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day54%20%20%E7%81%B5%E7%A5%9E%20%20%E7%9B%B8%E5%90%91%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%9A%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8CII-%E8%BE%93%E5%85%A5%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84&amp;&amp;%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" title="Day54 | 灵神 | 相向双指针：两数之和II-输入有序数组&amp;&amp;三数之和"><img class="post-bg" src="/img/17.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day54 | 灵神 | 相向双指针：两数之和II-输入有序数组&amp;&amp;三数之和"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day54%20%20%E7%81%B5%E7%A5%9E%20%20%E7%9B%B8%E5%90%91%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%9A%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8CII-%E8%BE%93%E5%85%A5%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84&amp;&amp;%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/" title="Day54 | 灵神 | 相向双指针：两数之和II-输入有序数组&amp;&amp;三数之和">Day54 | 灵神 | 相向双指针：两数之和II-输入有序数组&amp;&amp;三数之和</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-19T16:00:00.000Z" title="发表于 2024-12-20 00:00:00">2024-12-20</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T13:32:16.511Z" title="更新于 2025-03-22 21:32:16">2025-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%9B%B8%E5%90%91%E5%8F%8C%E6%8C%87%E9%92%88/">相向双指针</a></span></div><div class="content">Day54 | 灵神 | 相向双指针：两数之和II-输入有序数组&amp;&amp;三数之和两数之和 三数之和【基础算法精讲 01】_哔哩哔哩_bilibili 167.两数之和II-输入有序数组167. 两数之和 II - 输入有序数组 - 力扣（LeetCode） 思路： 数组给咱们的是排序好的，那自然而然定义两根指针，一个在数组头l，一个在数组尾r 这样定义的好处是 两根指针中间的数字一定比头指针要大，一定比尾指针要小 如果两指针之和大于target的话，那中间某个数加上尾指针肯定也比target要大，那说明两个数加起来大了，那就把右边大的数字减小一点 如果两指针之和小于target的话，那头指针加上中间某个数肯定也比target要小，那说明两个数加起来小了，那就把左边大的数字增大一点 如果两指针之和等于target的话，那说明我们找到了答案直接返回就行 举例： 2	4	6	8	9    target&#x3D;12 一开始 2 +...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/12/05/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E4%BA%8C%E5%88%B7%E6%80%BB%E7%BB%93%E4%BB%A5%E5%8F%8A%E6%84%9F%E5%8F%97/" title="代码随想录二刷总结以及感受"><img class="post-bg" src="/img/21.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="代码随想录二刷总结以及感受"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/05/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E4%BA%8C%E5%88%B7%E6%80%BB%E7%BB%93%E4%BB%A5%E5%8F%8A%E6%84%9F%E5%8F%97/" title="代码随想录二刷总结以及感受">代码随想录二刷总结以及感受</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-04T16:00:00.000Z" title="发表于 2024-12-05 00:00:00">2024-12-05</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T13:43:40.275Z" title="更新于 2025-03-22 21:43:40">2025-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">刷题总结</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">刷题总结</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="content">代码随想录二刷总结以及感受二刷时进行的刷题记录笔者懒得找对应的天数了，大家自行查找想看的吧(嘻~) 刷题记录_为了前进而后退，为了走直路而走弯路的博客-CSDN博客 刷题总结刷题总结_为了前进而后退，为了走直路而走弯路的博客-CSDN博客 总结及感受1.截止2024&#x2F;12&#x2F;5...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/12/05/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day53%20%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20%EF%BC%9A%E5%8D%95%E8%B0%83%E6%A0%88%20%E6%8E%A5%E9%9B%A8%E6%B0%B4&amp;&amp;%E6%9F%B1%E5%BD%A2%E5%9B%BE%E4%B8%AD%E6%9C%80%E5%A4%A7%E7%9A%84%E7%9F%A9%E5%BD%A2/" title="Day53 | 单调栈：接雨水&amp;&amp;柱形图中最大的矩形"><img class="post-bg" src="/img/18.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day53 | 单调栈：接雨水&amp;&amp;柱形图中最大的矩形"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/05/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day53%20%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20%EF%BC%9A%E5%8D%95%E8%B0%83%E6%A0%88%20%E6%8E%A5%E9%9B%A8%E6%B0%B4&amp;&amp;%E6%9F%B1%E5%BD%A2%E5%9B%BE%E4%B8%AD%E6%9C%80%E5%A4%A7%E7%9A%84%E7%9F%A9%E5%BD%A2/" title="Day53 | 单调栈：接雨水&amp;&amp;柱形图中最大的矩形">Day53 | 单调栈：接雨水&amp;&amp;柱形图中最大的矩形</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-04T16:00:00.000Z" title="发表于 2024-12-05 00:00:00">2024-12-05</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T13:32:12.972Z" title="更新于 2025-03-22 21:32:12">2025-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/">单调栈</a></span></div><div class="content">Day53 | 单调栈：接雨水&amp;&amp;柱形图中最大的矩形单调栈【基础算法精讲 26】_哔哩哔哩_bilibili 42.接雨水42. 接雨水 -...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/12/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day52%20%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20%EF%BC%9A%E5%8D%95%E8%B0%83%E6%A0%88%20%E6%AF%8F%E6%97%A5%E6%B8%A9%E5%BA%A6&amp;&amp;%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E7%9A%84%E5%85%83%E7%B4%A0I&amp;&amp;%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E5%85%83%E7%B4%A0II/" title="Day52 | 单调栈：每日温度&amp;&amp;下一个更大的元素I&amp;&amp;下一个更大元素II"><img class="post-bg" src="/img/19.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day52 | 单调栈：每日温度&amp;&amp;下一个更大的元素I&amp;&amp;下一个更大元素II"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day52%20%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20%EF%BC%9A%E5%8D%95%E8%B0%83%E6%A0%88%20%E6%AF%8F%E6%97%A5%E6%B8%A9%E5%BA%A6&amp;&amp;%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E7%9A%84%E5%85%83%E7%B4%A0I&amp;&amp;%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E5%85%83%E7%B4%A0II/" title="Day52 | 单调栈：每日温度&amp;&amp;下一个更大的元素I&amp;&amp;下一个更大元素II">Day52 | 单调栈：每日温度&amp;&amp;下一个更大的元素I&amp;&amp;下一个更大元素II</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-03T16:00:00.000Z" title="发表于 2024-12-04 00:00:00">2024-12-04</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T13:31:39.473Z" title="更新于 2025-03-22 21:31:39">2025-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/">单调栈</a></span></div><div class="content">Day52 | 单调栈：每日温度&amp;&amp;下一个更大的元素I&amp;&amp;下一个更大元素II单调栈【基础算法精讲 26】_哔哩哔哩_bilibili 及时去掉无用数据，保证栈中元素有序 739.每日温度739. 每日温度 - 力扣（LeetCode） 从左往右遍历 每次碰到一个数就先和栈顶元素进行比较，如果比栈顶元素大，那说明我们找到了答案，就记录答案，然后把找到答案的元素出栈 我们这样收集下来，栈里面的元素都是单调递减的  举个例子，如图所示 我们从1往后遍历，栈为空，1入栈，此时栈内为1 碰到4，4大于1，那就把1出栈，然后记录答案，4入栈，栈内为4 碰到3，3小于4, 3入栈，栈内为4,3 碰到5, 5大于3,3出栈，记录答案，栈内为4 栈顶元素变成了4，继续比较，5大于4，4也找到了答案，记录答案，4弹出，5入栈 以此类推 完整代码： 1234567891011121314151617class Solution &#123;public:    vector&lt;int&gt;...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/12/02/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/" title="二叉树路径问题模板总结"><img class="post-bg" src="/img/24.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="二叉树路径问题模板总结"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/12/02/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/" title="二叉树路径问题模板总结">二叉树路径问题模板总结</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-01T16:00:00.000Z" title="发表于 2024-12-02 00:00:00">2024-12-02</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T13:46:17.181Z" title="更新于 2025-03-22 21:46:17">2025-03-22</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">刷题总结</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">刷题总结</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a></span></div><div class="content">二叉树路径问题模板总结问题分类二叉树路径的问题大致可以分为两类： 1、自顶向下一般是前序遍历 顾名思义，就是从某一个节点(不一定是根节点)，从上向下寻找路径，到某一个节点(不一定是叶节点)结束具体题目如下： 257. 二叉树的所有路径 - 力扣（LeetCode） 112. 路径总和 - 力扣（LeetCode） 113. 路径总和 II - 力扣（LeetCode） 437. 路径总和 III - 力扣（LeetCode） 面试题 04.12. 求和路径 - 力扣（LeetCode） 988. 从叶结点开始的最小字符串 - 力扣（LeetCode） 而继续细分的话还可以分成一般路径与给定和的路径 自顶而下：dfs，每次记得想想递归函数的本层逻辑，收集结果的条件，继续递归要传什么参数 123456789101112131415161718192021222324252627282930313233//一般路径,即单纯收集路径：	vector&lt;vector&lt;int&gt;&gt; res;	void tra(TreeNode *t,vector&lt;int&gt;...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#content-inner">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#content-inner">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/#content-inner">6</a><a class="extend next" rel="next" href="/page/4/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II"><img src="/img/3.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day68 | 灵神 | 二分查找：H指数II"/></a><div class="content"><a class="title" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II">Day68 | 灵神 | 二分查找：H指数II</a><time datetime="2025-03-19T16:00:00.000Z" title="发表于 2025-03-20 00:00:00">2025-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目"><img src="/img/4.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day67 | 灵神 | 二分查找：统计公平数对的数目"/></a><div class="content"><a class="title" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目">Day67 | 灵神 | 二分查找：统计公平数对的数目</a><time datetime="2025-03-18T16:00:00.000Z" title="发表于 2025-03-19 00:00:00">2025-03-19</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Redis/"><span class="card-category-list-name">Redis</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84C-%E3%81%AE%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF/"><span class="card-category-list-name">从零开始的C++の学习之路</span><span class="card-category-list-count">9</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/"><span class="card-category-list-name">刷题总结</span><span class="card-category-list-count">9</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/"><span class="card-category-list-name">刷题记录</span><span class="card-category-list-count">19</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">工具</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">机器学习</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">深度学习</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><span class="card-category-list-name">计算机网络</span><span class="card-category-list-count">6</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 1.14em; color: #999b9d">读书笔记</a> <a href="/tags/%E5%9B%9E%E6%BA%AF%E6%B3%95/" style="font-size: 1.1em; color: #999">回溯法</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.28em; color: #99a0aa">计算机网络</a> <a href="/tags/Redis/" style="font-size: 1.1em; color: #999">Redis</a> <a href="/tags/wireshark/" style="font-size: 1.1em; color: #999">wireshark</a> <a href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" style="font-size: 1.46em; color: #99a7bb">刷题记录</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 1.23em; color: #999ea6">机器学习</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.5em; color: #99a9bf">算法</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">数据结构</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 1.1em; color: #999">深度学习</a> <a href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" style="font-size: 1.28em; color: #99a0aa">二分查找</a> <a href="/tags/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/" style="font-size: 1.41em; color: #99a5b7">刷题总结</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 1.1em; color: #999">二叉树</a> <a href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/" style="font-size: 1.14em; color: #999b9d">单调栈</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="font-size: 1.37em; color: #99a4b2">学习笔记</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.19em; color: #999da1">动态规划</a> <a href="/tags/%E5%A5%BD%E7%94%A8%E5%B7%A5%E5%85%B7/" style="font-size: 1.32em; color: #99a2ae">好用工具</a> <a href="/tags/%E7%9B%B8%E5%90%91%E5%8F%8C%E6%8C%87%E9%92%88/" style="font-size: 1.19em; color: #999da1">相向双指针</a> <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.37em; color: #99a4b2">滑动窗口</a> <a href="/tags/C/" style="font-size: 1.41em; color: #99a5b7">C++</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/03/">
+            <span class="card-archive-list-date">
+              三月 2025
+            </span>
+            <span class="card-archive-list-count">16</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/02/">
+            <span class="card-archive-list-date">
+              二月 2025
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/12/">
+            <span class="card-archive-list-date">
+              十二月 2024
+            </span>
+            <span class="card-archive-list-count">11</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/11/">
+            <span class="card-archive-list-date">
+              十一月 2024
+            </span>
+            <span class="card-archive-list-count">7</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/10/">
+            <span class="card-archive-list-date">
+              十月 2024
+            </span>
+            <span class="card-archive-list-count">12</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/06/">
+            <span class="card-archive-list-date">
+              六月 2024
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2024/05/">
+            <span class="card-archive-list-date">
+              五月 2024
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2023/07/">
+            <span class="card-archive-list-date">
+              七月 2023
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">57</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">240.7k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-03-22T17:31:47.715Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["种一棵树最好的时间是十年前 &#44;","其次是现在 ."].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  typedJSFn.processSubtitle(["种一棵树最好的时间是十年前 &#44;","其次是现在 ."])
+}
+typedJSFn.run(subtitleType)</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

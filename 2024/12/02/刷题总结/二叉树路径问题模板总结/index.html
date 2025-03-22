@@ -1,0 +1,412 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>二叉树路径问题模板总结 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="二叉树路径问题模板总结问题分类二叉树路径的问题大致可以分为两类： 1、自顶向下一般是前序遍历 顾名思义，就是从某一个节点(不一定是根节点)，从上向下寻找路径，到某一个节点(不一定是叶节点)结束具体题目如下： 257. 二叉树的所有路径 - 力扣（LeetCode） 112. 路径总和 - 力扣（LeetCode） 113. 路径总和 II - 力扣（LeetCode） 437. 路径总和 III">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉树路径问题模板总结">
+<meta property="og:url" content="https://darling-123456.github.io/2024/12/02/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="二叉树路径问题模板总结问题分类二叉树路径的问题大致可以分为两类： 1、自顶向下一般是前序遍历 顾名思义，就是从某一个节点(不一定是根节点)，从上向下寻找路径，到某一个节点(不一定是叶节点)结束具体题目如下： 257. 二叉树的所有路径 - 力扣（LeetCode） 112. 路径总和 - 力扣（LeetCode） 113. 路径总和 II - 力扣（LeetCode） 437. 路径总和 III">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/24.jpg">
+<meta property="article:published_time" content="2024-12-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-22T13:46:17.181Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="刷题总结">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="二叉树">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/24.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "二叉树路径问题模板总结",
+  "url": "https://darling-123456.github.io/2024/12/02/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/",
+  "image": "https://darling-123456.github.io/img/24.jpg",
+  "datePublished": "2024-12-01T16:00:00.000Z",
+  "dateModified": "2025-03-22T13:46:17.181Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/12/02/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '二叉树路径问题模板总结',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/24.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">二叉树路径问题模板总结</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">二叉树路径问题模板总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-01T16:00:00.000Z" title="发表于 2024-12-02 00:00:00">2024-12-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T13:46:17.181Z" title="更新于 2025-03-22 21:46:17">2025-03-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">刷题总结</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="二叉树路径问题模板总结"><a href="#二叉树路径问题模板总结" class="headerlink" title="二叉树路径问题模板总结"></a>二叉树路径问题模板总结</h1><h2 id="问题分类"><a href="#问题分类" class="headerlink" title="问题分类"></a>问题分类</h2><p>二叉树路径的问题大致可以分为两类：</p>
+<h3 id="1、自顶向下"><a href="#1、自顶向下" class="headerlink" title="1、自顶向下"></a>1、自顶向下</h3><p>一般是前序遍历</p>
+<p>顾名思义，就是从某一个节点(不一定是根节点)，从上向下寻找路径，到某一个节点(不一定是叶节点)结束<br>具体题目如下：</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-tree-paths/description/">257. 二叉树的所有路径 - 力扣（LeetCode）</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/path-sum/description/">112. 路径总和 - 力扣（LeetCode）</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/path-sum-ii/description/">113. 路径总和 II - 力扣（LeetCode）</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/path-sum-iii/description/?envType=study-plan-v2&envId=top-100-liked">437. 路径总和 III - 力扣（LeetCode）</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/paths-with-sum-lcci/description/">面试题 04.12. 求和路径 - 力扣（LeetCode）</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/smallest-string-starting-from-leaf/description/">988. 从叶结点开始的最小字符串 - 力扣（LeetCode）</a></p>
+<p>而继续细分的话还可以分成一般路径与给定和的路径</p>
+<p><strong>自顶而下：</strong><br>dfs，每次记得想想递归函数的本层逻辑，收集结果的条件，继续递归要传什么参数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//一般路径,即单纯收集路径：</span></span><br><span class="line">	vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">tra</span><span class="params">(TreeNode *t,vector&lt;<span class="type">int</span>&gt; path)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">//递归函数的本层逻辑</span></span><br><span class="line">        path.<span class="built_in">push_back</span>(t-&gt;val);</span><br><span class="line">        <span class="comment">//收集结果</span></span><br><span class="line">        <span class="keyword">if</span>(t-&gt;left==<span class="literal">nullptr</span>&amp;&amp;t-&gt;right==<span class="literal">nullptr</span>)</span><br><span class="line">                res.<span class="built_in">push_back</span>(path);</span><br><span class="line">        <span class="comment">//继续递归</span></span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;left,path);</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;right,path);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//给定和的路径：</span></span><br><span class="line">	vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">tra</span><span class="params">(TreeNode *t,vector&lt;<span class="type">int</span>&gt; path,<span class="type">int</span> targetSum)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">//递归函数的本层逻辑</span></span><br><span class="line">        targetSum-=t-&gt;val;</span><br><span class="line">        path.<span class="built_in">push_back</span>(t-&gt;val);</span><br><span class="line">        <span class="comment">//收集结果</span></span><br><span class="line">        <span class="keyword">if</span>(t-&gt;left==<span class="literal">nullptr</span>&amp;&amp;t-&gt;right==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">if</span>(targetSum==<span class="number">0</span>)</span><br><span class="line">                res.<span class="built_in">push_back</span>(path);</span><br><span class="line">        <span class="comment">//继续递归</span></span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;left,path,targetSum);</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;right,path,targetSum);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>这类题型DFS注意点：</strong><br>1、如果是找路径和等于给定target的路径的，那么可以不用新增一个临时变量cursum来判断当前路径和，只需要用给定和target减去节点值，最终结束条件判断target&#x3D;&#x3D;0即可</p>
+<p>2、是否要回溯：二叉树的问题大部分是不需要回溯的，原因如下：<br>二叉树的递归部分(DFS)：tra(t-&gt;left),tra(t-&gt;right)已经把可能的路径穷尽了,<br>因此到任意叶节点的路径只可能有一条，绝对不可能出现另外的路径也到这个满足条件的叶节点的;</p>
+<p>而对比二维数组(例如迷宫问题)的DFS,for循环向四个方向查找每次只能朝向一个方向，并没有穷尽路径，因此某一个满足条件的点可能是有多条路径到该点的</p>
+<p>并且visited数组标记已经走过的路径是会受到另外路径是否访问的影响，这时候必须回溯</p>
+<p>3、找到路径后是否要return:<br>取决于题目是否要求找到叶节点满足条件的路径,如果必须到叶节点,那么就要return;<br>但如果是到任意节点都可以，那么必不能return,因为这条路径下面还可能有更深的路径满足条件，还要在此基础上继续递归</p>
+<p>4、是否要双重递归：看题目要不要求从根节点开始的，还是从任意节点开始（典型题目：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/path-sum-iii/description/?envType=study-plan-v2&envId=top-100-liked">437. 路径总和 III - 力扣（LeetCode）</a>）</p>
+<h4 id="257-二叉树的所有路径"><a href="#257-二叉树的所有路径" class="headerlink" title="257.二叉树的所有路径"></a>257.二叉树的所有路径</h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-tree-paths/description/">257. 二叉树的所有路径 - 力扣（LeetCode）</a></p>
+<p>这道题就是直接套用模板，只不过是vector path变成了string s，然后加上了-&gt;</p>
+<p>这道题把递归函数的本层逻辑放到收集结果的前面是因为这样可以在加最后一个字符的时候不加-&gt;</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;string&gt; res;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">tra</span><span class="params">(string s,TreeNode *t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span>(t-&gt;left==<span class="literal">nullptr</span>&amp;&amp;t-&gt;right==<span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            s+=<span class="built_in">to_string</span>(t-&gt;val);</span><br><span class="line">            res.<span class="built_in">push_back</span>(s);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        s+=<span class="built_in">to_string</span>(t-&gt;val);</span><br><span class="line">        s+=<span class="string">&quot;-&gt;&quot;</span>;</span><br><span class="line">        <span class="built_in">tra</span>(s,t-&gt;left);</span><br><span class="line">        <span class="built_in">tra</span>(s,t-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">vector&lt;string&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        string s;</span><br><span class="line">        <span class="built_in">tra</span>(s,root);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="112-路径总和"><a href="#112-路径总和" class="headerlink" title="112.路径总和"></a>112.路径总和</h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/path-sum/description/">112. 路径总和 - 力扣（LeetCode）</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">bool</span> flag=<span class="literal">false</span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">tra</span><span class="params">(TreeNode *t,<span class="type">int</span> target)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        target-=t-&gt;val;</span><br><span class="line">        <span class="keyword">if</span>(t-&gt;left==<span class="literal">nullptr</span>&amp;&amp;t-&gt;right==<span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(target==<span class="number">0</span>)</span><br><span class="line">                flag=<span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;left,target);</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;right,target);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">hasPathSum</span><span class="params">(TreeNode* root, <span class="type">int</span> targetSum)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">tra</span>(root,targetSum);</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="113-路径总和II"><a href="#113-路径总和II" class="headerlink" title="113.路径总和II"></a>113.路径总和II</h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/path-sum-ii/description/">113. 路径总和 II - 力扣（LeetCode）</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">tra</span><span class="params">(TreeNode *t,vector&lt;<span class="type">int</span>&gt; path,<span class="type">int</span> targetSum)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        targetSum-=t-&gt;val;</span><br><span class="line">        path.<span class="built_in">push_back</span>(t-&gt;val);</span><br><span class="line">        <span class="keyword">if</span>(t-&gt;left==<span class="literal">nullptr</span>&amp;&amp;t-&gt;right==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">if</span>(targetSum==<span class="number">0</span>)</span><br><span class="line">                res.<span class="built_in">push_back</span>(path);</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;left,path,targetSum);</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;right,path,targetSum);</span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">pathSum</span>(TreeNode* root, <span class="type">int</span> targetSum) &#123;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line">        <span class="built_in">tra</span>(root,path,targetSum);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="437-路径总和III"><a href="#437-路径总和III" class="headerlink" title="437.路径总和III"></a>437.路径总和III</h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/path-sum-iii/description/?envType=study-plan-v2&envId=top-100-liked">437. 路径总和 III - 力扣（LeetCode）</a></p>
+<p>本题就不是从根节点到叶子节点，而是任意节点到任意节点，只要满足自顶向下即可</p>
+<p>而我们之前用的模板其实是从根节点到叶子结点，接下来这么做</p>
+<p>1.把判断是不是叶子节点的if去掉，那就是根节点到任意节点的路径</p>
+<p>2.那么怎么从任意节点开始呢？</p>
+<p>我们的backtracking是之前的从根节点到叶子节点的路径查询去掉了叶子结点的判断if，那就是根节点到任意路径，其实在这道题里面就是当传入的targetSum为0的时候，backtracking就会从传入的节点开始向下搜索，那我们再重新写一个遍历函数，把每个节点都当成根节点传一遍，那每个节点都会向下搜索路径，所以tra就是遍历这课树，遍历的时候让backtracking从当前结点开始向下搜索找到合适的路径</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> sum=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">tra</span><span class="params">(TreeNode *t,<span class="type">long</span> <span class="type">long</span> targetSum)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">backtracking</span>(t,targetSum);</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;left,targetSum);</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;right,targetSum);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(TreeNode *t,<span class="type">long</span> <span class="type">long</span> targetSum)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        targetSum-=t-&gt;val;</span><br><span class="line">        <span class="keyword">if</span>(targetSum==<span class="number">0</span>)</span><br><span class="line">            sum++;</span><br><span class="line">        <span class="built_in">backtracking</span>(t-&gt;left,targetSum);</span><br><span class="line">        <span class="built_in">backtracking</span>(t-&gt;right,targetSum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">pathSum</span><span class="params">(TreeNode* root, <span class="type">int</span> targetSum)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">tra</span>(root,targetSum);</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>注：这样做的复杂度较高，大家最好学习一下其他题解的时间复杂度较低的做法。</p>
+<h4 id="面试题-04-12-求和路径"><a href="#面试题-04-12-求和路径" class="headerlink" title="面试题 04.12.求和路径"></a>面试题 04.12.求和路径</h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/paths-with-sum-lcci/description/">面试题 04.12. 求和路径 - 力扣（LeetCode）</a></p>
+<p>本题和路径总和III一样，不过多赘述</p>
+<h4 id="998-从叶节点开始的最小字符串"><a href="#998-从叶节点开始的最小字符串" class="headerlink" title="998.从叶节点开始的最小字符串"></a>998.从叶节点开始的最小字符串</h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/smallest-string-starting-from-leaf/description/">988. 从叶结点开始的最小字符串 - 力扣（LeetCode）</a></p>
+<p>直接套用模板找出所有的路径最后sort排序即可</p>
+<p>注意我们是从上面往下遍历的，要注意收集结果之前要把字符串反转一下</p>
+<p>完整代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;string&gt; res;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">tra</span><span class="params">(TreeNode *t,string s)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        s+=<span class="string">&#x27;a&#x27;</span>+t-&gt;val;</span><br><span class="line">        <span class="keyword">if</span>(t-&gt;left==<span class="literal">nullptr</span>&amp;&amp;t-&gt;right==<span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">reverse</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>());</span><br><span class="line">            res.<span class="built_in">push_back</span>(s);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;left,s);</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;right,s);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">string <span class="title">smallestFromLeaf</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        string s;</span><br><span class="line">        <span class="built_in">tra</span>(root,s);</span><br><span class="line">        <span class="built_in">sort</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">return</span> res[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2、非自顶向下"><a href="#2、非自顶向下" class="headerlink" title="2、非自顶向下"></a>2、非自顶向下</h3><p>就是从任意节点到任意节点的路径，不需要自顶向下</p>
+<p>一般是后序遍历</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/diameter-of-binary-tree/description/">543. 二叉树的直径 - 力扣（LeetCode）</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-univalue-path/description/">687. 最长同值路径 - 力扣（LeetCode）</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/">124. 二叉树中的最大路径和 - 力扣（LeetCode）</a></p>
+<p><strong>二、非自顶而下：</strong></p>
+<p>这类题目一般解题思路如下：</p>
+<p>设计一个后序遍历函数maxpath，调用自身求出以一个节点为根节点的左侧最长路径left和右侧最长路径right，那么经过该节点的最长路径就是left+right</p>
+<p>接着只需要从根节点开始dfs,不断比较更新全局变量即可</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maxPath</span><span class="params">(TreeNode *root)</span> <span class="comment">//以root为路径起始点的最长路径</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!root)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> left=<span class="built_in">maxPath</span>(root-&gt;left);</span><br><span class="line">    <span class="type">int</span> right=<span class="built_in">maxPath</span>(root-&gt;right);</span><br><span class="line">    res = <span class="built_in">max</span>(res, left + right + root-&gt;val); <span class="comment">//更新全局变量  </span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">max</span>(left, right);   <span class="comment">//返回左右路径较长者</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这类题型DFS注意点：</p>
+<p>1、left,right代表的含义要根据题目所求设置，比如最长路径、最大路径和等等</p>
+<p>2、全局变量res的初值设置是0还是INT_MIN要看题目节点是否存在负值,如果存在就用INT_MIN，否则就是0</p>
+<p>3、注意两点之间路径为1，因此一个点是不能构成路径的，但是如果是路径和的话就另说</p>
+<p>4、res &#x3D; max(res, left + right + root-&gt;val); </p>
+<p>这个是关键，是以当前根结点为根结点的子树所能做出的最大路径，而在自底向上遍历的过程中，会把每</p>
+<p>一个结点当做根节点看看当前子树的最大路径</p>
+<p>5.return t-&gt;val+max(left, right);</p>
+<p>这是第二个重点，这个保证了我们在树结构的每一层只会选择一个，要么左要么右，而不是既有左子树的</p>
+<p>结点又有右子树的结点</p>
+<h4 id="543-二叉树的直径"><a href="#543-二叉树的直径" class="headerlink" title="543.二叉树的直径"></a>543.二叉树的直径</h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/diameter-of-binary-tree/description/">543. 二叉树的直径 - 力扣（LeetCode）</a></p>
+<p><strong>1.函数参数以及返回值</strong></p>
+<p>maxDepth保存最大值</p>
+<p>tra后序遍历进行路径选择</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> maxDepth=<span class="number">-1</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">tra</span><span class="params">(TreeNode *t)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2.终止条件</strong></p>
+<p>遇到空就返回0，因为这个对路径和或者最大路径长度的深度没有影响</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.本层递归函数逻辑</strong></p>
+<p>left记录左子树深度</p>
+<p>right记录右子树深度</p>
+<p>更新以当前结点为子树的深度（l+r+1）（包含当前结点的路径长度）和maxDepth之间的大小，最大值赋值给maxDepth</p>
+<p>更新后，返回上层递归函数当前子树的最大深度</p>
+<p>返回的子树最大深度是因为我们在父节点进行路径选择的时候，当前结点的左右子树不可以同时被选</p>
+<p>举个例子 2为当前结点，那我们往1这个父节点返回的时候，4,2和5,2这两条路径只能选择一条，我们挑最大的给父节点</p>
+<p>而不是4,2,5这种路径返回给父节点，因为1,2,4,5这种路径是非法的</p>
+<p>我们只能是1,2,4或者1,2,5这种的路径</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241202171331677.png" alt="image-20241202171331677"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> left=<span class="built_in">tra</span>(t-&gt;left);</span><br><span class="line"><span class="type">int</span> right=<span class="built_in">tra</span>(t-&gt;right);</span><br><span class="line">maxDepth=<span class="built_in">max</span>(maxDepth,left+right<span class="number">+1</span>);</span><br><span class="line"><span class="keyword">return</span> <span class="number">1</span>+<span class="built_in">max</span>(left,right);</span><br></pre></td></tr></table></figure>
+
+<p><strong>完整代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> maxDepth=<span class="number">-1</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">tra</span><span class="params">(TreeNode *t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> left=<span class="built_in">tra</span>(t-&gt;left);</span><br><span class="line">        <span class="type">int</span> right=<span class="built_in">tra</span>(t-&gt;right);</span><br><span class="line">        maxDepth=<span class="built_in">max</span>(maxDepth,left+right<span class="number">+1</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>+<span class="built_in">max</span>(left,right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">diameterOfBinaryTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> t=<span class="built_in">tra</span>(root);</span><br><span class="line">        <span class="keyword">return</span> maxDepth<span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="124-二叉树中的最大路径和"><a href="#124-二叉树中的最大路径和" class="headerlink" title="124.二叉树中的最大路径和"></a>124.二叉树中的最大路径和</h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/">124. 二叉树中的最大路径和 - 力扣（LeetCode）</a></p>
+<p><strong>1.函数参数以及返回值</strong></p>
+<p>maxSum保存最大值</p>
+<p>choosePath后序遍历进行路径选择</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> maxSum=INT_MIN;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">choosePath</span><span class="params">(TreeNode *t)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2.终止条件</strong></p>
+<p>遇到空就返回0，因为这个对路径和或者最大路径长度的深度没有影响</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.本层递归函数逻辑</strong></p>
+<p>1.后序遍历</p>
+<p>2.maxSum更新操作表示以当前结点为根结点的子树的最大路径长度或者最大路径和</p>
+<p>3.在l和r的地方也要注意，因为题目有负值，所以返回值要和0作比较，如果返回值是个负数，那说明l选择的路径的结点我们都不选，因为对最大路径和是负作用。</p>
+<p>4.最后返回值地方返回max(l,r)选择左子树或者右子树其中一个，这样避免了选择同时有左子树和右子树的情况</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> l=<span class="built_in">max</span>(<span class="built_in">choosePath</span>(t-&gt;left),<span class="number">0</span>);</span><br><span class="line"><span class="type">int</span> r=<span class="built_in">max</span>(<span class="built_in">choosePath</span>(t-&gt;right),<span class="number">0</span>);</span><br><span class="line">maxSum=<span class="built_in">max</span>(maxSum,l+r+t-&gt;val);</span><br><span class="line"><span class="keyword">return</span> t-&gt;val+<span class="built_in">max</span>(l,r);</span><br></pre></td></tr></table></figure>
+
+<p><strong>完整代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> maxSum=INT_MIN;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">choosePath</span><span class="params">(TreeNode *t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> l=<span class="built_in">max</span>(<span class="built_in">choosePath</span>(t-&gt;left),<span class="number">0</span>);</span><br><span class="line">        <span class="type">int</span> r=<span class="built_in">max</span>(<span class="built_in">choosePath</span>(t-&gt;right),<span class="number">0</span>);</span><br><span class="line">        maxSum=<span class="built_in">max</span>(maxSum,l+r+t-&gt;val);</span><br><span class="line">        <span class="keyword">return</span> t-&gt;val+<span class="built_in">max</span>(l,r);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxPathSum</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> res=<span class="built_in">choosePath</span>(root);</span><br><span class="line">        <span class="keyword">return</span> maxSum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="687-最长同值路径"><a href="#687-最长同值路径" class="headerlink" title="687.最长同值路径"></a>687.最长同值路径</h4><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-univalue-path/description/">687. 最长同值路径 - 力扣（LeetCode）</a></p>
+<p><strong>1.函数参数以及返回值</strong></p>
+<p>maxDepth保存最大值</p>
+<p>tra后序遍历进行路径选择</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">tra</span><span class="params">(TreeNode *t)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2.终止条件</strong></p>
+<p>遇到空就返回0，因为这个对路径和或者最大路径长度的深度没有影响</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.本层递归函数逻辑</strong></p>
+<p>left记录左子树相同</p>
+<p>right记录右子树深度</p>
+<p>1.后序遍历</p>
+<p>2.res更新操作表示以当前结点为根结点的子树的最大路径长度或者最大路径和。大家可能对这里有疑惑，觉得你怎么知道当前结点和左右子树全都是一样的值呢？如果不知道的话怎么可以写r+l呢？</p>
+<p>其实是这样的，如果上面的判断，左边和当前的节点一样，那当前节点和左子树就可以连上，如果不一样那就直接把l&#x3D;0，就相当于把左子树给砍掉了。同理，如果右子树也一样。</p>
+<p>而如果可以连上，那说明l+r就是对的，就是以当前结点为根结点的子树中的最长同值路径。</p>
+<p>3.在l和r的地方也要注意，因为题目是判断是否相同，所以要进行判断，左右子树返回值分别和当前节点的值进行比较，相等的话就在下层子树返回的基础上++，一旦不相同就要置为0，因为要求连续相等路径，而这条路径相当于已经断了。不用担心前面的没有保存上，res更新的时候会把它给记录下来。</p>
+<p>4.最后返回值地方返回max(l,r)选择左子树或者右子树其中一个，这样避免了选择同时有左子树和右子树的情况</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> l=<span class="built_in">tra</span>(t-&gt;left);</span><br><span class="line"><span class="type">int</span> r=<span class="built_in">tra</span>(t-&gt;right);</span><br><span class="line"><span class="keyword">if</span>(t-&gt;left&amp;&amp;t-&gt;val==t-&gt;left-&gt;val)</span><br><span class="line">	l++;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	l=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span>(t-&gt;right&amp;&amp;t-&gt;right-&gt;val==t-&gt;val)</span><br><span class="line">	r++;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	r=<span class="number">0</span>;</span><br><span class="line">res=<span class="built_in">max</span>(res,r+l);</span><br><span class="line"><span class="keyword">return</span> <span class="built_in">max</span>(l,r);</span><br></pre></td></tr></table></figure>
+
+<p><strong>完整代码：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">tra</span><span class="params">(TreeNode *t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> l=<span class="built_in">tra</span>(t-&gt;left);</span><br><span class="line">        <span class="type">int</span> r=<span class="built_in">tra</span>(t-&gt;right);</span><br><span class="line">        <span class="keyword">if</span>(t-&gt;left&amp;&amp;t-&gt;val==t-&gt;left-&gt;val)</span><br><span class="line">            l++;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            l=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(t-&gt;right&amp;&amp;t-&gt;right-&gt;val==t-&gt;val)</span><br><span class="line">            r++;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            r=<span class="number">0</span>;</span><br><span class="line">        res=<span class="built_in">max</span>(res,r+l);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(l,r);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">longestUnivaluePath</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> r=<span class="built_in">tra</span>(root);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>最后补充总结：</code></p>
+<p>1.第一题最简单，除了模板以外不需要做什么改动。第二题较难，要根据题目对l，r进行的处理。</p>
+<p>第三题最难，也是难在了对l，r的处理上面了。</p>
+<p>2.这类型题要点</p>
+<p>（1）后序遍历</p>
+<p>（2）对l和r的含义和操作要清晰，这是难点</p>
+<p>（3）res&#x2F;max值的更新操作要想明白</p>
+<p>（4）最后的返回值的含义，其实表现的是路径的选择</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/12/02/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/">https://darling-123456.github.io/2024/12/02/刷题总结/二叉树路径问题模板总结/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">刷题总结</a><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><a class="post-meta__tags" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a></div><div class="post-share"><div class="social-share" data-image="/img/24.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/11/11/%E5%B7%A5%E5%85%B7/gcc%20%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3%E5%8F%8A%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" title="gcc 命令详解及最佳实践"><img class="cover" src="/img/54.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">gcc 命令详解及最佳实践</div></div><div class="info-2"><div class="info-item-1">gcc 命令详解及最佳实践介绍GCC（英文全拼：GNU Compiler Collection）是 GNU 工具链的主要组成部分，是一套以 GPL 和 LGPL 许可证发布的程序语言编译器自由软件，由 Richard Stallman 于 1985 年开始开发。 GCC 原名为 GNU C语言编译器，因为它原本只能处理 C 语言，但如今的 GCC 不仅可以编译 C、C++ 和 Objective-C，还可以通过不同的前端模块支持各种语言，包括 Java、Fortran、Ada、Pascal、Go 和 D 语言等等。 编译过程GCC 的编译过程可以划分为四个阶段：预处理（Pre-Processing）、编译（Compiling）、汇编（Assembling）以及链接（Linking）。  Linux 程序员可以根据自己的需要控制 GCC 的编译阶段，以便检查或使用编译器在该阶段的输出信息，帮助调试和优化程序。以 C 语言为例，从源文件的编译到可执行文件的运行，整个过程大致如下。  各文件后缀说明如下：    后缀 描述 后缀 描述    .c C...</div></div></div></a><a class="pagination-related" href="/2024/12/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day52%20%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20%EF%BC%9A%E5%8D%95%E8%B0%83%E6%A0%88%20%E6%AF%8F%E6%97%A5%E6%B8%A9%E5%BA%A6&amp;&amp;%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E7%9A%84%E5%85%83%E7%B4%A0I&amp;&amp;%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9B%B4%E5%A4%A7%E5%85%83%E7%B4%A0II/" title="Day52 | 单调栈：每日温度&amp;&amp;下一个更大的元素I&amp;&amp;下一个更大元素II"><img class="cover" src="/img/19.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Day52 | 单调栈：每日温度&&下一个更大的元素I&&下一个更大元素II</div></div><div class="info-2"><div class="info-item-1">Day52 | 单调栈：每日温度&amp;&amp;下一个更大的元素I&amp;&amp;下一个更大元素II单调栈【基础算法精讲 26】_哔哩哔哩_bilibili 及时去掉无用数据，保证栈中元素有序 739.每日温度739. 每日温度 - 力扣（LeetCode） 从左往右遍历 每次碰到一个数就先和栈顶元素进行比较，如果比栈顶元素大，那说明我们找到了答案，就记录答案，然后把找到答案的元素出栈 我们这样收集下来，栈里面的元素都是单调递减的  举个例子，如图所示 我们从1往后遍历，栈为空，1入栈，此时栈内为1 碰到4，4大于1，那就把1出栈，然后记录答案，4入栈，栈内为4 碰到3，3小于4, 3入栈，栈内为4,3 碰到5, 5大于3,3出栈，记录答案，栈内为4 栈顶元素变成了4，继续比较，5大于4，4也找到了答案，记录答案，4弹出，5入栈 以此类推 完整代码： 1234567891011121314151617class Solution &#123;public:    vector&lt;int&gt;...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/11/07/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/01%E8%83%8C%E5%8C%85%E6%A8%A1%E6%9D%BF/" title="01背包模板"><img class="cover" src="/img/20.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-07</div><div class="info-item-2">01背包模板</div></div><div class="info-2"><div class="info-item-1">01背包模板01背包是动态规划应该如何学习？-CSDN博客中的选或不选情况完全背包模板总结-CSDN博客 选或不选灵神视频 0-1背包 完全背包_哔哩哔哩_bilibili 01背包（模板，可以配合该视频和代码随想录博客一起看）  恰好装这个容量，求方案数量的最大最小价值和，那就是把选最大值的操作换成加号 494. 目标和 - 力扣（LeetCode）后续如果遇到其他两种变形笔者同步更新到这里 第一步：回溯法（深度优先遍历）思路： 配合视频一起看更棒 0-1背包...</div></div></div></a><a class="pagination-related" href="/2024/11/10/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0/" title="动态规划如何学习"><img class="cover" src="/img/23.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-10</div><div class="info-item-2">动态规划如何学习</div></div><div class="info-2"><div class="info-item-1">动态规划如何学习参考灵神的视频和题解做的笔记（灵神YYDS，以后也都会用这套逻辑去思考） 动态规划入门：从记忆化搜索到递推_哔哩哔哩_bilibili 746. 使用最小花费爬楼梯 -...</div></div></div></a><a class="pagination-related" href="/2024/11/08/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85%E6%B1%82%E6%96%B9%E6%A1%88%E6%95%B0%E9%87%8F%EF%BC%88%E6%8E%92%E5%88%97%E5%92%8C%E7%BB%84%E5%90%88%E6%95%B0%E9%87%8F%EF%BC%89/" title="完全背包求方案数量（排列和组合数量）"><img class="cover" src="/img/28.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-08</div><div class="info-item-2">完全背包求方案数量（排列和组合数量）</div></div><div class="info-2"><div class="info-item-1">完全背包求方案数量（排列和组合数量）先遍历物品，后遍历背包容量 得到的就是nums能凑成target的组合 先遍历背包容量，后遍历物品 得到的就是nums能凑成target的排列 组合经典题目零钱兑换II Day39 | 动态规划 ：完全背包应用 零钱兑换&amp;&amp;零钱兑换II-CSDN博客 排列经典题目组合总和IV Day40 | 动态规划 ：完全背包应用 组合总和IV（类比爬楼梯）-CSDN博客 </div></div></div></a><a class="pagination-related" href="/2024/12/05/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E4%BA%8C%E5%88%B7%E6%80%BB%E7%BB%93%E4%BB%A5%E5%8F%8A%E6%84%9F%E5%8F%97/" title="代码随想录二刷总结以及感受"><img class="cover" src="/img/21.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-05</div><div class="info-item-2">代码随想录二刷总结以及感受</div></div><div class="info-2"><div class="info-item-1">代码随想录二刷总结以及感受二刷时进行的刷题记录笔者懒得找对应的天数了，大家自行查找想看的吧(嘻~) 刷题记录_为了前进而后退，为了走直路而走弯路的博客-CSDN博客 刷题总结刷题总结_为了前进而后退，为了走直路而走弯路的博客-CSDN博客 总结及感受1.截止2024&#x2F;12&#x2F;5...</div></div></div></a><a class="pagination-related" href="/2024/10/14/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%E7%AB%A0%E8%8A%82%E6%80%BB%E7%BB%93/" title="代码随想录回溯算法章节小总结"><img class="cover" src="/img/22.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-14</div><div class="info-item-2">代码随想录回溯算法章节小总结</div></div><div class="info-2"><div class="info-item-1">回溯算法章节小总结1.树层去重1.可以对原数组排序的40. 组合总和 II - 力扣（LeetCode） 通过排序+相邻元素相同+used数组来进行去重 123456789101112131415161718192021void backtracking(vector&lt;int&gt;&amp; candidates, int target, int sum, int startIndex, vector&lt;bool&gt;&amp; used) &#123;      if (sum == target) &#123;          result.push_back(path);          return;      &#125;      for (int i = startIndex; i &lt; candidates.size() &amp;&amp; sum + candidates[i] &lt;= target; i++) &#123;          // used[i - 1] == true，说明同一树枝candidates[i -...</div></div></div></a><a class="pagination-related" href="/2024/11/07/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85%E6%A8%A1%E6%9D%BF/" title="完全背包模板"><img class="cover" src="/img/27.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-07</div><div class="info-item-2">完全背包模板</div></div><div class="info-2"><div class="info-item-1">完全背包模板选或不选0-1背包 完全背包_哔哩哔哩_bilibili 动态规划应该如何学习？-CSDN博客 01背包模板 |...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">二叉树路径问题模板总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E7%B1%BB"><span class="toc-number">1.1.</span> <span class="toc-text">问题分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">1、自顶向下</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#257-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">257.二叉树的所有路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#112-%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8C"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">112.路径总和</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#113-%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8CII"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">113.路径总和II</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#437-%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8CIII"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">437.路径总和III</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%98-04-12-%E6%B1%82%E5%92%8C%E8%B7%AF%E5%BE%84"><span class="toc-number">1.1.1.5.</span> <span class="toc-text">面试题 04.12.求和路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#998-%E4%BB%8E%E5%8F%B6%E8%8A%82%E7%82%B9%E5%BC%80%E5%A7%8B%E7%9A%84%E6%9C%80%E5%B0%8F%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.1.1.6.</span> <span class="toc-text">998.从叶节点开始的最小字符串</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E9%9D%9E%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">2、非自顶向下</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#543-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">543.二叉树的直径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#124-%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">124.二叉树中的最大路径和</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#687-%E6%9C%80%E9%95%BF%E5%90%8C%E5%80%BC%E8%B7%AF%E5%BE%84"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">687.最长同值路径</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II"><img src="/img/3.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day68 | 灵神 | 二分查找：H指数II"/></a><div class="content"><a class="title" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II">Day68 | 灵神 | 二分查找：H指数II</a><time datetime="2025-03-19T16:00:00.000Z" title="发表于 2025-03-20 00:00:00">2025-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目"><img src="/img/4.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day67 | 灵神 | 二分查找：统计公平数对的数目"/></a><div class="content"><a class="title" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目">Day67 | 灵神 | 二分查找：统计公平数对的数目</a><time datetime="2025-03-18T16:00:00.000Z" title="发表于 2025-03-19 00:00:00">2025-03-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

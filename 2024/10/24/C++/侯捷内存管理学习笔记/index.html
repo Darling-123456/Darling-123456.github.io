@@ -1,0 +1,643 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>侯捷内存管理学习笔记 | C++ | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="侯捷内存管理学习笔记第一章节 primitives零.new和delete概述C++中的new和delete是用于动态内存分配和释放的操作符，它们的底层机制和工作原理相对复杂，但也可以简单清晰地解释。 new的底层机制和工作原理 内存分配： 当使用new操作符时，它首先会调用底层的内存分配函数（如operator new），这个函数通常是对malloc的封装。malloc会从堆中分配足够的内存空间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="侯捷内存管理学习笔记 | C++">
+<meta property="og:url" content="https://darling-123456.github.io/2024/10/24/C++/%E4%BE%AF%E6%8D%B7%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="侯捷内存管理学习笔记第一章节 primitives零.new和delete概述C++中的new和delete是用于动态内存分配和释放的操作符，它们的底层机制和工作原理相对复杂，但也可以简单清晰地解释。 new的底层机制和工作原理 内存分配： 当使用new操作符时，它首先会调用底层的内存分配函数（如operator new），这个函数通常是对malloc的封装。malloc会从堆中分配足够的内存空间">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/36.jpg">
+<meta property="article:published_time" content="2024-10-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-22T14:50:52.745Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/36.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "侯捷内存管理学习笔记 | C++",
+  "url": "https://darling-123456.github.io/2024/10/24/C++/%E4%BE%AF%E6%8D%B7%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/",
+  "image": "https://darling-123456.github.io/img/36.jpg",
+  "datePublished": "2024-10-23T16:00:00.000Z",
+  "dateModified": "2025-03-22T14:50:52.745Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/10/24/C++/%E4%BE%AF%E6%8D%B7%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '侯捷内存管理学习笔记 | C++',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/36.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">侯捷内存管理学习笔记 | C++</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">侯捷内存管理学习笔记 | C++</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-10-23T16:00:00.000Z" title="发表于 2024-10-24 00:00:00">2024-10-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-22T14:50:52.745Z" title="更新于 2025-03-22 22:50:52">2025-03-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84C-%E3%81%AE%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF/">从零开始的C++の学习之路</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">11k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>34分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="侯捷内存管理学习笔记"><a href="#侯捷内存管理学习笔记" class="headerlink" title="侯捷内存管理学习笔记"></a>侯捷内存管理学习笔记</h1><h1 id="第一章节-primitives"><a href="#第一章节-primitives" class="headerlink" title="第一章节 primitives"></a>第一章节 primitives</h1><h2 id="零-new和delete概述"><a href="#零-new和delete概述" class="headerlink" title="零.new和delete概述"></a>零.new和delete概述</h2><p>C++中的<code>new</code>和<code>delete</code>是用于动态内存分配和释放的操作符，它们的底层机制和工作原理相对复杂，但也可以简单清晰地解释。</p>
+<h3 id="new的底层机制和工作原理"><a href="#new的底层机制和工作原理" class="headerlink" title="new的底层机制和工作原理"></a><code>new</code>的底层机制和工作原理</h3><ol>
+<li><strong>内存分配</strong>：<ul>
+<li>当使用<code>new</code>操作符时，它首先会调用底层的内存分配函数（如<code>operator new</code>），这个函数通常是对<code>malloc</code>的封装。<code>malloc</code>会从堆中分配足够的内存空间。</li>
+<li>如果内存分配失败，<code>operator new</code>会抛出一个<code>std::bad_alloc</code>异常，而不是像<code>malloc</code>那样返回<code>NULL</code>。</li>
+</ul>
+</li>
+<li><strong>对象构造</strong>：<ul>
+<li>内存分配成功后，<code>new</code>会调用对象的构造函数来初始化分配的内存区域。对于内置类型（如<code>int</code>、<code>char</code>等），这一步可能只是简单地设置值；而对于自定义类型，则会调用其构造函数。</li>
+</ul>
+</li>
+<li><strong>返回指针</strong>：<ul>
+<li>最后，<code>new</code>返回一个指向已分配并初始化对象的指针。</li>
+</ul>
+</li>
+</ol>
+<h3 id="delete的底层机制和工作原理"><a href="#delete的底层机制和工作原理" class="headerlink" title="delete的底层机制和工作原理"></a><code>delete</code>的底层机制和工作原理</h3><ol>
+<li><strong>对象析构</strong>：<ul>
+<li>当使用<code>delete</code>操作符时，它首先会调用对象的析构函数来清理对象中的资源。这一步对于自定义类型尤其重要，因为析构函数通常包含释放动态分配资源（如内存、文件句柄等）的代码。</li>
+</ul>
+</li>
+<li><strong>内存释放</strong>：<ul>
+<li>析构函数调用完成后，<code>delete</code>会调用底层的内存释放函数（如<code>operator delete</code>），这个函数通常是对<code>free</code>的封装。<code>free</code>会将之前分配的内存空间归还给堆管理器。</li>
+</ul>
+</li>
+<li><strong>指针置空</strong>（可选）：<ul>
+<li>虽然<code>delete</code>本身不会将指针置为空（<code>nullptr</code>），但这是一个良好的编程习惯。在释放内存后，将指针置为空可以避免悬空指针（dangling pointer）问题，即指针仍然指向已释放的内存区域。</li>
+</ul>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><strong>匹配使用</strong>：确保使用<code>new</code>分配的内存使用<code>delete</code>释放，使用<code>new[]</code>分配的内存使用<code>delete[]</code>释放。不匹配使用会导致未定义行为。</li>
+<li><strong>不要重复释放</strong>：不要对同一个内存块调用<code>delete</code>（或<code>delete[]</code>）多次。</li>
+<li><strong>避免使用已释放的内存</strong>：一旦内存被<code>delete</code>释放，就不要再尝试访问它。</li>
+</ul>
+<p>在C++<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D&spm=1001.2101.3001.7020">内存分配</a>当中分为四个阶层：</p>
+<p>  1.调用容器<br>  2.使用new关键词<br>  3.直接调用malloc和free<br>  4.调用与系统绑定的内存分配函数</p>
+<p>这四个阶层有层层包含的关系：<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/fb22e0d287c10cec142d938782488bd1.png" alt="在这里插入图片描述"><br>从::operateor new()开始，可以进行重载。同理，delete也可以进行重载。</p>
+<p>new会调用operator new，然后operator new调用malloc进行内存分配</p>
+<p>在第四个，你可以自己设计一个分配器搭配一个容器。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e9b90ea7af531da14134181022627ffd.png" alt="在这里插入图片描述"></p>
+<h2 id="一、new-和delete"><a href="#一、new-和delete" class="headerlink" title="一、new()和delete()"></a>一、new()和delete()</h2><h3 id="1-new"><a href="#1-new" class="headerlink" title="1. new()"></a>1. new()</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1fb2df6813e4159926c51d3c976ce583.png" alt="在这里插入图片描述"><br>new关键词相当于进行<strong>两个步骤</strong>：</p>
+<p>  1.调用operator new，分配所创建对象需要的内存（其内部就是对malloc()的封装）<br>  2.调用对象的构造函数</p>
+<p>如果某个步骤发生错误，则抛出异常。</p>
+<p>注意：在一些版本中，只有编译器可以直接调用构造函数，如果在程序中自己调用则会出错。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A* pA = <span class="keyword">new</span> <span class="built_in">A</span>(<span class="number">1</span>);<span class="comment">//正确</span></span><br><span class="line">	</span><br><span class="line">pA-&gt;A::<span class="built_in">A</span>(<span class="number">3</span>);<span class="comment">//错误</span></span><br><span class="line">	</span><br><span class="line">A::<span class="built_in">A</span>(<span class="number">5</span>);<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-delete"><a href="#2-delete" class="headerlink" title="2.delete()"></a>2.delete()</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/2346a3be131178d230c20810c7ad0401.png" alt="在这里插入图片描述"><br>相应的，delete关键词也相当于两个步骤：</p>
+<p>  1.先对需要delete的对象进行析构，调用其析构函数<br>  2.再释放该对象所使用的内存空间（内部是封装了free()函数）</p>
+<h3 id="3-new-和delete"><a href="#3-new-和delete" class="headerlink" title="3.new[ ]和delete[ ]"></a>3.new[ ]和delete[ ]</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6e11004bdebb4b94bb4a697d71b1c8f6.png" alt="在这里插入图片描述"><br>  使用new[ ]时，顺序分配对象所需空间，指针指向第一个内存空间，但不调用构造函数进行初始化（如果对象内不包含指针成员则无影响，包含则有影响）,后续可以通过指针对各个对象进行初始化。同时在空间开头会有一个cookie，记录了这个空间共有几个对象。<br>  使用delete[ ]时会读取cookie，倒序析构对象，并释放对应的空间；如果直接使用delete则不会读取cookie，会导致空间错位，程序报错，<strong>所以new[ ]必须要跟delet[]对应</strong>。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c04ee6cf1cf361fb2e3bea6657eccc19.png" alt="在这里插入图片描述"></p>
+<h3 id="4-placement-new（定位new）"><a href="#4-placement-new（定位new）" class="headerlink" title="4.placement new（定位new）"></a>4.placement new（定位new）</h3><p>定位new（Placement new）是C++中的一个高级特性，它允许在已分配的内存上构造对象，而不会进行新的内存分配。以下是对定位new的详细解释：</p>
+<h4 id="一、定义与原理"><a href="#一、定义与原理" class="headerlink" title="一、定义与原理"></a>一、定义与原理</h4><ul>
+<li><strong>定义</strong>：定位new就是在已分配好的内存空间中调用构造函数对象进行初始化。它不会申请新的内存空间，而是利用已经分配好的空间来构造对象。</li>
+<li><strong>原理</strong>：使用定位new时，程序员需要指定一个已经分配好的内存区域，然后在这个区域中调用对象的构造函数来构造对象。由于对象的空间是预先分配好的，因此定位new不会进行额外的内存分配操作。</li>
+</ul>
+<h4 id="二、使用方法"><a href="#二、使用方法" class="headerlink" title="二、使用方法"></a>二、使用方法</h4><p>定位new的使用语法通常如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cpp复制代码</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> (placement_address) <span class="built_in">type</span> (initializer_list);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>placement_address</code>：这是一个指向已分配内存的指针，表示对象将要被构造的位置。</li>
+<li><code>type</code>：这是要构造的对象的类型。</li>
+<li><code>initializer_list</code>：这是传递给对象构造函数的初始化列表（可选）。</li>
+</ul>
+<p>例如，假设有一个已经分配好的内存区域<code>mem</code>，并且想要在这个区域中构造一个类型为<code>A</code>的对象，可以使用以下代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cpp复制代码</span><br><span class="line"></span><br><span class="line">A* p = <span class="built_in">new</span> (mem) A;</span><br></pre></td></tr></table></figure>
+
+<p>此时，指针<code>p</code>和数组名<code>mem</code>指向同一片存储区，对象<code>A</code>将在<code>mem</code>指向的内存区域中被构造。</p>
+<h4 id="三、注意事项"><a href="#三、注意事项" class="headerlink" title="三、注意事项"></a>三、注意事项</h4><ul>
+<li><strong>内存管理</strong>：由于定位new不会进行内存分配，因此程序员需要手动管理内存。在对象不再需要时，需要显式地调用析构函数来释放对象占用的内存。</li>
+<li><strong>对象生命周期</strong>：使用定位new构造的对象，其生命周期由程序员负责管理。程序员需要确保在对象不再需要时正确地调用析构函数，以避免内存泄漏和悬空指针等问题。</li>
+<li><strong>使用场景</strong>：定位new通常用于内存池或自定义内存管理等场景，在这些场景中，程序员需要精确地控制内存的使用和对象的构造与析构。</li>
+</ul>
+<h4 id="四、示例"><a href="#四、示例" class="headerlink" title="四、示例"></a>四、示例</h4><p>以下是一个使用定位new的示例代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;new&gt;</span> <span class="comment">// 包含定位new所需的头文件  </span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;  </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    <span class="built_in">A</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;A&#x27;s constructor called&quot;</span> &lt;&lt; std::endl; &#125;  </span><br><span class="line">    ~<span class="built_in">A</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;A&#x27;s destructor called&quot;</span> &lt;&lt; std::endl; &#125;  </span><br><span class="line">&#125;;  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    <span class="type">char</span> mem[<span class="built_in">sizeof</span>(A)]; <span class="comment">// 分配一块足够大的内存区域来存储对象A  </span></span><br><span class="line">    A* p = <span class="built_in">new</span> (mem) A; <span class="comment">// 在指定的内存区域中构造对象A  </span></span><br><span class="line">    <span class="comment">// ... 使用对象p ...  </span></span><br><span class="line">    p-&gt;~<span class="built_in">A</span>(); <span class="comment">// 显式地调用析构函数来释放对象占用的内存  </span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们首先分配了一块足够大的内存区域<code>mem</code>来存储对象<code>A</code>，然后使用定位new在<code>mem</code>指向的内存区域中构造了一个对象<code>A</code>。最后，我们显式地调用了析构函数来释放对象占用的内存。</p>
+<p>综上所述，定位new是C++中的一个高级特性，它允许在已分配的内存上构造对象而不会进行新的内存分配。在使用时需要谨慎处理内存管理和对象生命周期的问题以确保程序的正确性和稳定性。</p>
+<p>课程中：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/806bc9dcf641fc9cad074fe303f5e661.png" alt="在这里插入图片描述"><br>  形式就相当于new ( p ) ,是将一块已经分配好了的内存用于构建对象，new则是当场分配一块内存用于构建对象，<strong>并没有特定的placement delete</strong>。</p>
+<p>其中buf是已经分配好的内存</p>
+<p>上面第二行这一行会被编译器解释为这三行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241022174140625.png" alt="image-20241022174140625"></p>
+<p>1.给一块已经分配好的内存，这一步其实什么都不会做，因为内存已经分配好了</p>
+<p>2.转型</p>
+<p>3.调用对象的构造函数</p>
+<p>其实就相当于调用了一次构造函数  </p>
+<h2 id="二、重载"><a href="#二、重载" class="headerlink" title="二、重载"></a>二、重载</h2><h3 id="1-new-和delete"><a href="#1-new-和delete" class="headerlink" title="1.new()和delete()"></a>1.new()和delete()</h3><p>  new()表达式本身不可重载，表示operator new()，但operator new()可以重载，分为全局和类内，通常重载类内的。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/13d713585ebd65109ad47be8f77214c5.png" alt="在这里插入图片描述"><br>  类内对operator new()和operator delete()进行重载，operator new()重载的第一参数必须是size_t，其大小足以保证存储内存中对象的大小，否则将抛出异常。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6ad3aabcf4fc78e9b7d97c47e6ef4665.png" alt="在这里插入图片描述"><br>  如果在创建对象时，直接调用new()和delete()，则调用的是类内重载的new()和delete()，是编译器调用的，并且重载的new和delete这两个函数一定得是<strong>静态的</strong>，因为调用的时候还没有实例对象<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/24337688e22150f0f8c9ce019bae02d6.png" alt="在这里插入图片描述"><br>  如果调用::new()和::delete()，则调用的是全局的new()和delete()<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3eaa396bb749d3a72b403e7246f4be70.png" alt="在这里插入图片描述"><br>  <strong>注意：</strong></p>
+<p>这里说的是placement operator delete不是operator delete</p>
+<p>前者是下图说的抛异常的时候用，后者是和operator new配对的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/83568284eb7542fbc96d835b3ea4f009.png" alt="在这里插入图片描述"></p>
+<p>很好的例子：</p>
+<p>这是我们平常用的string，它的new会多出来一个extra，所以要重载</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241022201812108.png" alt="image-20241022201812108"></p>
+<p><strong>重载全局的operator new和operator delete的接口的格式</strong></p>
+<p>new一定要写参数size，delete写ptr指针，而size可写可不写是一个选项</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023221714126.png" alt="image-20241023221714126"></p>
+<h3 id="2-allocator-和deallocator"><a href="#2-allocator-和deallocator" class="headerlink" title="2.allocator()和deallocator()"></a>2.allocator()和deallocator()</h3><p>  进行类内operator new()和operator delete()的重载，主要是为了减少::operator new()和::operator delete()的调用。因为::operator new()是对malloc()适配，每调用一次malloc(),就会产生头尾两个cookie共8个字节，既造成了空间浪费，速度上也更慢。</p>
+<p>  但对每一个不同的类进行重载，并且每次重载的内容都差不多，会造成大量重复劳动，会有很多的重复代码，所以设计一个概念把之前重载中共同的部分抽象出来，作为一个类来使用，即为allocator()和deallocator()。</p>
+<p>  设计一个allocator的类，在类里面定义allocator()和deallocator()。allocator()使用<strong>内存池</strong>模式，每次申请一大块内存，然后将这块内存切割小块，大小等同于对象的大小，并串成一个链表。这样只有在申请一大块内存的时候会调用malloc()，生成两个cookie，创建对象时不使用malloc()，而是从链表中取出一块分给对象，调用deallocator()也不将释放的内存free()给系统，而且将这块内存重新插入链表顶端。</p>
+<p><strong>重载operator new和delete的版本</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241022202556920.png" alt="image-20241022202556920"></p>
+<p>测试结果会有cookie的空间占用</p>
+<p>现在这样就不需要上面又是struct又是union的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/253eacc54f593972a8d0bdd9cc291a9f.png" alt="在这里插入图片描述"></p>
+<p><strong>static allocator</strong>（用allocator的版本）</p>
+<p>对象需要重载new和delete时，直接在类内创建一个allocator对象，调用allocator的类方法，即上面那张图。</p>
+<p>使用static使得每个类有一个自己的内存池，进行内存管理，而不是一个对象一个内存池</p>
+<p>测试结果没有cookie的空间占用</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f47cdf391bf7b18f054c1cc356fb9d3f.png" alt="在这里插入图片描述"></p>
+<p>application class的所有内存分配的细节都让allocator去操心，我们的工作是让application class正常工作</p>
+<p><strong>使用宏把重复的代码定义一下来使用的版本</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241022205628521.png" alt="image-20241022205628521"></p>
+<p>测试结果没有cookie的空间占用，和static版本相同</p>
+<p><code>技术的演进</code></p>
+<p>new delete针对一个对象-&gt;static alloctor针对一个类-&gt;globa allocator针对一个标准库，里面有16个链表（static alloctor只有一个链表）</p>
+<h3 id="3-new-handler"><a href="#3-new-handler" class="headerlink" title="3.new_handler"></a>3.new_handler</h3><p>  在调用内存失败，抛出异常之前，会调用一个由自己设计的一个补救函数，即new_handler()。若new_handler()中没有abort()或者exit()，或者没有让更多内存可用，则会一直调用new_handler()直至满足内存需求。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241022210612589.png" alt="image-20241022210612589"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用：</span></span><br><span class="line"><span class="comment">//在main中写</span></span><br><span class="line"><span class="built_in">set_new_handler</span>(自己写的补救函数名);</span><br></pre></td></tr></table></figure>
+
+<p>注：</p>
+<p>new delete的重载不可以是&#x3D;default的，但可以是&#x3D;delete的</p>
+<h1 id="第二章节-std-allocator（为小区块服务）"><a href="#第二章节-std-allocator（为小区块服务）" class="headerlink" title="第二章节 std::allocator（为小区块服务）"></a>第二章节 std::allocator（为小区块服务）</h1><p>西北有高楼，上与浮云齐。</p>
+<p>在工业级别，可能会用malloc上百万次，即使是有内存池的存在，cookie占用的额外内存还是不容小觑，同时malloc也挺慢的，所以这部分的目标就是去掉malloc，使得效率提高，空间率精简</p>
+<p>去除cookie的先决条件是申请的块是一样的大小，如果块有大有小那就不能去掉，因为要标识块的大小，如果是一样的大小，那就可以去掉。而一个类的对象实例大小肯定是一样的。</p>
+<h2 id="1-占用内存的计算方式"><a href="#1-占用内存的计算方式" class="headerlink" title="1.占用内存的计算方式"></a>1.占用内存的计算方式</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241022215936337.png" alt="image-20241022215936337"></p>
+<p>0xC是block size,是咱们申请分配的内存大小，实际给咱的是计算后的结果即0x40</p>
+<h2 id="2-不同版本的allocator设计"><a href="#2-不同版本的allocator设计" class="headerlink" title="2.不同版本的allocator设计"></a>2.不同版本的allocator设计</h2><h3 id="1-VC6、BC5、G2-9和G4-9的allocator"><a href="#1-VC6、BC5、G2-9和G4-9的allocator" class="headerlink" title="1. VC6、BC5、G2.9和G4.9的allocator"></a>1. VC6、BC5、G2.9和G4.9的allocator</h3><h4 id="VC6的标准分配器"><a href="#VC6的标准分配器" class="headerlink" title="VC6的标准分配器"></a>VC6的标准分配器</h4><p>这个编译器的allocator没有任何特殊设计，单纯是调用malloc和free，分配是以对象元素为单位。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f239c045988301e668255bd886d3dc1d.png" alt="在这里插入图片描述"></p>
+<h4 id="BC5的标准分配器"><a href="#BC5的标准分配器" class="headerlink" title="BC5的标准分配器"></a>BC5的标准分配器</h4><p>和VC6相同，没有任何特殊设计。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/81f8c769d550ded1f23281713fa63c6e.png" alt="在这里插入图片描述"></p>
+<h4 id="GNU4-9的标准分配器"><a href="#GNU4-9的标准分配器" class="headerlink" title="GNU4.9的标准分配器"></a>GNU4.9的标准分配器</h4><p>同样，没有任何特殊设计，和VC6，BC5一样。这个文件中已经说明，这个分配器没有用，容器的分配器不使用它！</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ddffcf4f6459babdebfcdc21eb7cc40f.png" alt="在这里插入图片描述"></p>
+<h4 id="GUN-2-9d的标准分配器"><a href="#GUN-2-9d的标准分配器" class="headerlink" title="GUN 2.9d的标准分配器"></a>GUN 2.9d的标准分配器</h4><p>同样，没有任何特殊设计</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023093804151.png" alt="image-20241023093804151"></p>
+<p>这些版本下的allocator()本质上都是malloc()<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ff1e96270a3c5ea652b9ac8d63d351f0.png" alt="在这里插入图片描述"><br>在这些版本下，所有的容器都是直接调用allocator(),即第二个模板参数都是allocator。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/55db2ce6813a8240aeffffa3185b9ed2.png" alt="在这里插入图片描述"></p>
+<h3 id="2-G2-9的alloc流程解析"><a href="#2-G2-9的alloc流程解析" class="headerlink" title="2. G2.9的alloc流程解析"></a>2. G2.9的alloc流程解析</h3><p>这个和G4.9 pool allocator就消除了大部分cookie的额外空间，因为只要用malloc就会有cookie，所以不可能完全没有，只是尽可能去回收已经分配过得内存来减少malloc从而减少cookie。两者实现方式差不多所以看2.9版的</p>
+<h4 id="1-内存池配置器概述："><a href="#1-内存池配置器概述：" class="headerlink" title="1.内存池配置器概述："></a>1.内存池配置器概述：</h4><ol>
+<li><strong>一级配置器</strong>：直接对<code>malloc</code>和<code>free</code>（或<code>new</code>和<code>delete</code>）进行封装，提供预申请内存接口，减少内存分配的上下文切换。当申请的内存区块大于一定阈值（如128bytes）时，一级配置器会处理这些大块内存的分配和释放。</li>
+<li><strong>二级配置器</strong>：是真正的内存池实现，主要针对小块内存的频繁申请和释放。它采用内存块分级管理策略，将内存划分为多个不同大小的区块（如8, 16, 24, …, 120, 128 bytes等），并使用自由链表（free-lists）来管理这些区块。当需要小块内存时，二级配置器会尝试从自由链表中找到合适大小的区块进行分配；当释放小块内存时，也会将其回收到对应的自由链表中。</li>
+</ol>
+<h4 id="2-具体流程"><a href="#2-具体流程" class="headerlink" title="2.具体流程"></a>2.具体流程</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6fc79a47b691e0cac43f25b796e2269d.png" alt="在这里插入图片描述"><br>  原始的allocator()只维护一个内存链表，链表中每个节点的内存块大小根据创建allocator的对象来决定。现在的alloc通过free-list维护16条链表,节点的内存块大小从8byte到128byte共16种。</p>
+<p>  <strong>内存申请过程：程序申请一块32bytes大小的空间，alloc会先通过malloc申请一块32*40bytes的空间，分一块给程序，32*19挂到free-list上维护为一条大小为32bytes，个数为19的链表.剩下32*20交给备用空间，暂时不进行处理。若程序继续要申请一块64bytes大小的空间，则直接将刚刚剩余的32*20的空间挂到free-list变为64*10的链表，并把第一个节点内的内存分配给程序。</strong></p>
+<p>下一次申请就没有备用空间了，就得重新和malloc申请</p>
+<p>PS：加入追加量概念和每次除以16都是经验所得，不用太纠结</p>
+<p>注意点：<br>  1.每一个区块采用union结构，前四个字节表示为指向下一个区块的指针，好处是减少了额外的指针开销。有元素的时候就放元素了，用完了归还的时候又变成了指针。<br>  2.每条链表的长度为1-20，即使空间足够，长度也不会超过20。<br>  3.申请的空间如果很大，那还是会到一级配置器调用malloc。若当前需要申请一块104bytes的空间，而备用空间只剩下80bytes，则先将备用空间的80bytes挂到#9号链表下，再进行内存申请，若空间剩余不为8的倍数，则向上补齐为8的倍数再放入链表。<br>  4.若当前要申请一块72bytes的空间，备用空间不够，系统内存也不够无法通过malloc()额外申请。则将80bytes的链表（即最靠近72bytes，且比72bytes大的链表）中切下一块放入备用空间，再从备用空间中切下72bytes，交给程序。若80bytes的链表也没有空间，则依次向后继续找，若找到128bytes仍然没有足够的空间，则报错内存分配失败。<br>  <strong>5.备用空间是通过一头一尾两个指针来界定。</strong><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a7ba181ea982bd664f621469e695dc9f.png" alt="在这里插入图片描述"><br>  6.当程序将空间返回时，若大于128bytes，直接通过一级配置器返还给系统，还是会调用free来回收，若小于128bytes，则直接安插到free-list对应链表的<strong>头部</strong>。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/916b689f74e1f053e437abf04948d815.png" alt="在这里插入图片描述"><br>  7.若程序申请80bytes的内存空间，链表上为空，则先调用备用空间。若备用空间能分配一块以上但不足20块的内存大小，比如备用空间还有248，那就分成3块，给程序一块，然后两块空余，这三块都挂在9号，备用空间只剩8这样子。若备用空间内存足够，则将一块内存分配给程序，剩余19块内存挂载到链表上，并通过指针相连。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0669b1cff25dc0bd6f64aab389034fea.png" alt="在这里插入图片描述"><br>  8.若程序申请80bytes的内存空间，链表上为空且备用空间不足，则<strong>free-list</strong>会调用<strong>refill()函数来填充链表</strong>，进行malloc()操作。若系统空间只能分配一块80bytes，则直接将内存分配给程序，不挂到链表上；若系统空间内存足够，则将一块内存分配给程序，剩余19块内存挂载到链表上，并通过指针相连。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a91e99cc07fc396af8972c4acc343a1b.png" alt="在这里插入图片描述"><br>  9.<strong>为什么当备用空间不足，且系统空间不足以申请20块内存时，要从更大的内存块链表切下一块放入备用空间，而不是向系统申请一块内存？</strong><br>  因为链表上挂着的内存，本质上都是由alloc维护，只要是申请过并且分配过的（很大的一块空间但是内存池不知道这个到底有多大，因为链表很长，所以就都拿在手中)就不还给操作系统，如果这样做就相当于不使用alloc现有的内存而去向系统继续申请额外内存，后果是当前程序占有的内存越来越大，对于多任务系统是一种灾难。<strong>尽可能使用已经拥有的内存！！！</strong></p>
+<h4 id="3-缺陷以及消除cookie后的测试结果"><a href="#3-缺陷以及消除cookie后的测试结果" class="headerlink" title="3.缺陷以及消除cookie后的测试结果"></a>3.缺陷以及消除cookie后的测试结果</h4><p><code>缺陷：</code></p>
+<p>比如3号一开始的指针，这个是一开始用malloc分配的有cookie，在后面分配的时候，没有变量去保存这个指针，所以也导致归还不了内存，在第四讲中会有更好的东西来弥补它</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023110511895.png" alt="image-20241023110511895"></p>
+<p><code>测试结果：</code></p>
+<p>都是一百万个对象</p>
+<p>左边用了内存池，分配内存的行为malloc只调用了122次，而右边没有用的调用了一百万次malloc，一个cookie是8字节，相当于多用了8百万字节的额外空间，前面只是122*8个字节而已。</p>
+<p>而上面的1675283是new的调用的次数，其实这个没有影响，因为内存池多了一层管理，而右边没人管理，所以左边会比右边多一些new和delete的操作，而这里面的delete其实没办法计数的。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023111736164.png" alt="image-20241023111736164"></p>
+<h1 id="第三章节-malloc-free"><a href="#第三章节-malloc-free" class="headerlink" title="第三章节 malloc&#x2F;free"></a>第三章节 malloc&#x2F;free</h1><p>先通过概述了解一下大致的工作流程再去看源代码会清晰很多</p>
+<h2 id="1-malloc概述"><a href="#1-malloc概述" class="headerlink" title="1.malloc概述"></a>1.malloc概述</h2><p>C++中的<code>malloc</code>函数是一个用于动态内存分配的函数，其底层机制和工作原理相对复杂但可以通过以下简单清晰的解释来理解。</p>
+<h3 id="底层机制"><a href="#底层机制" class="headerlink" title="底层机制"></a>底层机制</h3><p><code>malloc</code>函数在C++（以及C语言）中用于从堆（heap）中分配一块指定大小的内存空间，并返回该内存空间的起始地址。堆是操作系统管理的一块内存区域，用于动态分配内存。</p>
+<p><code>malloc</code>函数的底层实现依赖于操作系统的内存管理机制。在Linux系统中，<code>malloc</code>通常通过维护一个空闲链表来管理可用的内存块。这个链表将可用的内存块连接起来，当<code>malloc</code>被调用时，它会遍历这个链表以找到第一个足够大的空闲块来满足请求。</p>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><ol>
+<li><strong>内存分配</strong>：<ul>
+<li>当<code>malloc</code>被调用时，它首先计算所需内存的大小（包括一些额外的空间用于管理，如链表指针等）。</li>
+<li>然后，它遍历空闲链表以找到第一个足够大的空闲块。</li>
+<li>如果找到这样的块，<code>malloc</code>会将其拆分成两部分：一部分是用户请求的大小，另一部分是剩余的大小（如果有的话），并将剩余部分重新链接到空闲链表中。</li>
+<li>最后，<code>malloc</code>返回用户请求大小的内存块的起始地址。</li>
+</ul>
+</li>
+<li><strong>内存释放</strong>：<ul>
+<li>当使用完<code>malloc</code>分配的内存后，应使用<code>free</code>函数来释放它。</li>
+<li><code>free</code>函数会接收一个指向要释放内存的指针，并将这块内存重新链接到空闲链表中。</li>
+</ul>
+</li>
+<li><strong>内存碎片整理</strong>：<ul>
+<li>随着多次的<code>malloc</code>和<code>free</code>调用，空闲链表可能会被切成很多小的内存片段（内存碎片）。</li>
+<li>当用户请求一块较大的内存空间时，可能会出现空闲链表中没有满足要求的片段的情况。</li>
+<li>在这种情况下，<code>malloc</code>可能会请求延时，并开始检查空闲链表上的各个内存片段，尝试将它们合并成较大的内存块以满足请求。</li>
+</ul>
+</li>
+<li><strong>系统调用</strong>：<ul>
+<li>对于小块内存分配（通常小于128KB），<code>malloc</code>可能会使用<code>brk()</code>系统调用来调整堆的顶部指针，从而分配新的内存空间。</li>
+<li>对于大块内存分配（通常大于128KB），<code>malloc</code>可能会使用<code>mmap()</code>系统调用来在文件映射区域分配内存。</li>
+</ul>
+</li>
+</ol>
+<h3 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><code>malloc</code>分配的内存空间是未初始化的，可能包含任意值，因此在使用前需要对其进行初始化。</li>
+<li>使用完毕后，应通过调用<code>free</code>函数来释放<code>malloc</code>分配的内存空间，以避免内存泄漏。</li>
+<li>在多线程环境下，使用<code>malloc</code>分配内存时需要注意线程安全性。</li>
+</ul>
+<p><code>free</code> 函数在 C++（以及 C 语言）中用于释放之前通过 <code>malloc</code>、<code>calloc</code> 或 <code>realloc</code> 等函数动态分配的内存空间。其底层机制和工作原理可以简单而清晰地解释如下：</p>
+<h2 id="2-free概述"><a href="#2-free概述" class="headerlink" title="2.free概述"></a>2.free概述</h2><h3 id="底层机制-1"><a href="#底层机制-1" class="headerlink" title="底层机制"></a>底层机制</h3><p><code>free</code> 函数的底层实现依赖于操作系统的内存管理机制，特别是与堆（heap）管理相关的部分。在大多数操作系统中，堆是一块由操作系统管理的内存区域，用于满足程序的动态内存分配需求。</p>
+<p>当 <code>free</code> 被调用时，它接收一个指向要释放内存的指针。这个指针必须是指向之前通过 <code>malloc</code>、<code>calloc</code> 或 <code>realloc</code> 分配的内存块的起始地址。</p>
+<h3 id="工作原理-1"><a href="#工作原理-1" class="headerlink" title="工作原理"></a>工作原理</h3><ol>
+<li>验证指针<ul>
+<li><code>free</code> 首先会检查传入的指针是否为 <code>NULL</code>。如果是，<code>free</code> 会立即返回而不执行任何操作，因为释放一个空指针是安全的。</li>
+<li>如果指针不是 <code>NULL</code>，<code>free</code> 会继续验证该指针是否指向一个有效的、之前分配的内存块。这通常通过检查指针是否在堆的范围内以及是否指向一个已知的内存块头（包含管理信息，如大小、状态等）来完成。</li>
+</ul>
+</li>
+<li>更新内存块头<ul>
+<li>一旦验证了指针的有效性，<code>free</code> 会更新该内存块头的信息，将其标记为“空闲”或“已释放”。</li>
+</ul>
+</li>
+<li>合并内存块<ul>
+<li>为了减少内存碎片，<code>free</code> 会尝试将刚刚释放的内存块与其相邻的空闲内存块合并。这通常涉及更新内存块头中的大小和链表指针信息。</li>
+<li>如果合并成功，新的空闲内存块将包含合并前两块内存的总大小。</li>
+</ul>
+</li>
+<li>维护空闲链表<ul>
+<li>在许多实现中，空闲的内存块会被组织成一个链表（或类似的数据结构），以便快速查找和分配。</li>
+<li><code>free</code> 会将刚刚释放（或合并后）的内存块插入到这个链表中，或者更新链表中现有节点的信息。</li>
+</ul>
+</li>
+<li>系统调用（可选）<ul>
+<li>在某些情况下，如果释放的内存块非常大或者达到了某个阈值，<code>free</code> 可能会通过系统调用（如 <code>munmap</code>）将内存归还给操作系统。</li>
+<li>然而，这通常是可选的，并且取决于具体的内存分配器实现和操作系统的行为。</li>
+</ul>
+</li>
+<li>返回<ul>
+<li>最后，<code>free</code> 函数返回，不再对该内存块有任何引用或控制。</li>
+</ul>
+</li>
+</ol>
+<h3 id="注意事项-2"><a href="#注意事项-2" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><strong>不要重复释放</strong>：不要对同一个内存块调用 <code>free</code> 多次，这会导致未定义行为，可能包括程序崩溃或数据损坏。</li>
+<li><strong>避免使用已释放的内存</strong>：一旦内存被 <code>free</code> 释放，就不要再尝试访问它。这可能会导致程序崩溃或安全漏洞。</li>
+<li><strong>匹配分配和释放</strong>：确保使用与分配内存时相同的函数（或函数族）来释放内存。例如，如果内存是通过 <code>malloc</code> 分配的，那么应该使用 <code>free</code> 来释放它；如果内存是通过 <code>new</code> 分配的，那么应该使用 <code>delete</code>（或 <code>delete[]</code> 对于数组）来释放它。</li>
+</ul>
+<h2 id="3-VC6的malloc设计"><a href="#3-VC6的malloc设计" class="headerlink" title="3.VC6的malloc设计"></a>3.VC6的malloc设计</h2><p>实际上malloc也是内存池的思想，malloc本质上的速度也并不慢</p>
+<p>  这是VC6版本下的malloc程序设计，从下往上一次执行。在该版本中有SBH（small block heap）的设计,即对于小块内存会采用特殊的分配方式。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/20dfb9844b4ed402a0566cdb0abc3525.png" alt="在这里插入图片描述"></p>
+<h3 id="SBH首次分配内存详细步骤"><a href="#SBH首次分配内存详细步骤" class="headerlink" title="SBH首次分配内存详细步骤"></a>SBH首次分配内存详细步骤</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b8e546c08a1ae472ea1dd3305f5b1c3c.png" alt="在这里插入图片描述"></p>
+<p>总体的malloc如上图。总的来说，就是为了添加debug信息，申请具体的内存，方面内存管理。</p>
+<ol>
+<li>_heap_init()做的事是分配16个头，16个头的数据结构如下，使用这个数据结构使得每个header能够管理1M的内存，1M内存能够快速分配，快速回收。一个header包括两个指针，一个指针指向自己管理的内存，一个指针指向管理内存中心。详细见步骤6。这些bit用于存放链表的状态，是否挂载上page。</li>
+</ol>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a4846e5acca3d91b950f17abe47d7087.png" alt="在这里插入图片描述"></p>
+<p>2._ioinit()负责第一次分配内存：根据是不是debug的模式，调用不同的内存分配策略。debug直接调用malloc，非debug则给程序分配256字节的内存</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/506a763f0087f8577dce80449658f0cd.png" alt="img"></p>
+<p>3._heap_alloc_dbg()负责在debug模式下，加上一些调试信息（debug header），这些调试信息就是下面的数据结构_CrtMemBlockHeader。这些调试信息包括：调试文件名，行号，数据大小，间隔符。绿色的地方就是填充我们最后要申请分配的内存。被分配的内存会被指针串起来形成一条链表。</p>
+<p>gap就是把绿色部分包住，不让用户写的超过这个范围(间隔符)</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a9cb3fc6a20767089bdebdfe023e0f5f.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023152711137.png" alt="image-20241023152711137"></p>
+<p>4._heap-alloc_base()根据申请的大小来判断（是否大于1016，为什么是1016？因为要留给cookie八字节的内存）是要自己提供服务还是交由<strong>操作系统</strong>来服务。</p>
+<p>5.__sbh_alloc_block()用于字节对齐，加首尾cookie。处理完之后的内存块如下图右上角的图。cookie利用最后的一个bit来代表这个内存块是否被分配出去，1表示已分配，0表示未分配。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/694bcb8258cf333da1e3f37288e99c3d.png" alt="在这里插入图片描述"></p>
+<p>6.__sbh_alloc_new_region()：内存管理中心数据结构就是tagRegion，管理区块是不是被分配，在不在内存分配链表上。为了管理好1M的内存空间，花了16K的内存（tagRegion数据结构）。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ff4bd789df1546304aceb8a09ff6235a.png" alt="在这里插入图片描述"></p>
+<p>7.__sbh_alloc_new_group()：4K一个page。一个header管理1M内存，这个1M内存会被分成32块（组，每个组由32对指针组成，即双向链表），32块分别由内存管理中心的数据结构来管理，每一个块又会被分成8个page，一个page占4K，使用链表将这些page连起来，连起来之后首尾接到绿箭头指向的双向链表中。完成这些工作之后，申请一块内存，得到内存，初始化，内存申请就成功了。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b8e546c08a1ae472ea1dd3305f5b1c3c.png" alt="在这里插入图片描述"></p>
+<p>8.最后将__sbh_alloc_new_region组好的内存填充到组中去。层层return会让用户拿到指向绿色开头的指针。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/675d307a10da58fe4cc7fa19d91daa1e.png" alt="在这里插入图片描述"></p>
+<h3 id="SBH第二（n）次分配内存"><a href="#SBH第二（n）次分配内存" class="headerlink" title="SBH第二（n）次分配内存"></a>SBH第二（n）次分配内存</h3><p>在一个page上继续进行切分，当前page不够用，去其他page找。header负责维护的状态应该发生变化。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0f20eb6e0363549036914a804365c37c.png" alt="在这里插入图片描述"></p>
+<h3 id="内存释放"><a href="#内存释放" class="headerlink" title="内存释放"></a>内存释放</h3><p>将一个内存块的cookie中的状态置为未分配，将内存变为两个指针，指向负责管理内存的链表，header中的bit也发生变化，表示未分配。</p>
+<p>回收相邻的内存。应该有个合并策略（这就是为什么要有下cookie的原因），要不然会出现内存碎片的问题。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/94f6f25c60c4355315496750fb97c1f7.png" alt="在这里插入图片描述"></p>
+<h3 id="free-p"><a href="#free-p" class="headerlink" title="free( p )"></a>free( p )</h3><p>p属于哪个header？<br>p属于哪个group？<br>p属于哪个free-list？</p>
+<h3 id="内存分配总结"><a href="#内存分配总结" class="headerlink" title="内存分配总结"></a>内存分配总结</h3><p>上述的分配策略，总的思想是一个分段管理。至于为什么有16个头，32个组，1个头管理1M内存，这些都是经验值，有利于操作系统。</p>
+<p>全回收的动作会被延缓，并不会只要归还所有内存之后就把这么多段的内存整合还给操作体统（defer）。当第二个全回收出现的时候才会把内存归还操作系统。</p>
+<h1 id="第四章节-loki-allocator"><a href="#第四章节-loki-allocator" class="headerlink" title="第四章节 loki::allocator"></a>第四章节 loki::allocator</h1><h2 id="0-概述"><a href="#0-概述" class="headerlink" title="0.概述"></a>0.概述</h2><p><code>loki::allocator</code> 是 Loki 库中的一个内存分配器组件，但需要注意的是，Loki 库并非 C++ 标准库的一部分，而是一个提供设计模式、编程惯用法等实现的第三方库。由于 Loki 库的具体实现和版本可能有所不同，以下对 <code>loki::allocator</code> 的底层原理和工作机制的描述将基于一般性的理解和假设。</p>
+<h3 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h3><p><code>loki::allocator</code> 的底层原理主要涉及到内存的分配和释放策略，旨在优化性能和减少内存碎片。它可能采用了以下一些技术：</p>
+<ol>
+<li>内存池（Memory Pool）<ul>
+<li>内存池是一种预先分配大块内存并在需要时从中分配小块内存的技术。<code>loki::allocator</code> 可能实现了一个或多个内存池，用于存储不同类型的对象。</li>
+<li>内存池的好处是减少了向操作系统请求内存的次数，从而提高了性能。此外，它还允许分配器更好地控制内存碎片。</li>
+</ul>
+</li>
+<li>对象对齐（Object Alignment）<ul>
+<li>为了满足特定硬件或编译器的要求，<code>loki::allocator</code> 可能支持对象对齐。这意味着对象在内存中的位置将满足特定的对齐条件。</li>
+<li>对齐通常是为了提高内存访问速度或满足特定数据结构的布局要求。</li>
+</ul>
+</li>
+<li>自定义分配策略<ul>
+<li><code>loki::allocator</code> 可能允许用户定义自己的分配策略，如分配大小、对齐要求、是否使用内存池等。</li>
+<li>这提供了灵活性，使得分配器可以根据特定的应用场景进行优化。</li>
+</ul>
+</li>
+<li>缓存友好性（Cache Friendliness）<ul>
+<li>为了提高内存访问效率，<code>loki::allocator</code> 可能会尝试将对象分配在缓存友好的位置。</li>
+<li>这可能涉及到对象的布局、内存池的组织方式以及分配策略的选择。</li>
+</ul>
+</li>
+</ol>
+<h3 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h3><p><code>loki::allocator</code> 的工作机制通常包括以下几个步骤：</p>
+<ol>
+<li>内存分配<ul>
+<li>当需要分配内存时，<code>loki::allocator</code> 首先会检查内存池中是否有足够的空闲空间。</li>
+<li>如果有，它会从内存池中分配一块适当大小的内存给对象。</li>
+<li>如果没有足够的空闲空间，它可能会向操作系统请求更多的内存，并扩展内存池。</li>
+</ul>
+</li>
+<li>对象构造<ul>
+<li>在分配内存之后，<code>loki::allocator</code> 可能会调用对象的构造函数来初始化对象（对于类类型对象而言）。</li>
+<li>这一步是可选的，取决于分配器的设计和使用场景。</li>
+</ul>
+</li>
+<li>内存释放<ul>
+<li>当对象不再需要时，<code>loki::allocator</code> 会负责释放对象所占用的内存。</li>
+<li>它可能会将这块内存归还给内存池，以便将来重新分配。</li>
+<li>如果内存池已满或不再需要，它可能会将部分或全部内存归还给操作系统。</li>
+</ul>
+</li>
+<li>对象析构<ul>
+<li>在释放内存之前，<code>loki::allocator</code> 可能会调用对象的析构函数来清理对象（对于类类型对象而言）。</li>
+<li>这一步同样是可选的，取决于分配器的设计和使用场景。</li>
+</ul>
+</li>
+</ol>
+<h3 id="注意事项-3"><a href="#注意事项-3" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>由于 <code>loki::allocator</code> 不是标准库的一部分，你需要确保你的项目中包含了 Loki 库，并且正确地配置了编译环境。</li>
+<li>在使用 <code>loki::allocator</code> 之前，你应该仔细阅读相关的文档和源代码，以了解它的具体实现和用法。</li>
+<li>考虑到 Loki 库的使用可能不太广泛，如果你在维护一个长期的项目或与其他开发者合作，使用标准库中的 <code>std::allocator</code> 或其他广泛使用的第三方库可能是更安全、更可维护的选择。</li>
+</ul>
+<h2 id="1、loki的allocator设计"><a href="#1、loki的allocator设计" class="headerlink" title="1、loki的allocator设计"></a>1、loki的allocator设计</h2><h3 id="0-总体上"><a href="#0-总体上" class="headerlink" title="0.总体上"></a>0.总体上</h3><p>loki::allocator由三个类构成，用户直接操纵SmallObjAllocator。</p>
+<p>上面两个类都带有两个指针指向vector对象的类型</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e67c43847e184da045c1d4e15868ca02.png" alt="在这里插入图片描述"></p>
+<h3 id="1-Chunk"><a href="#1-Chunk" class="headerlink" title="1. Chunk"></a>1. Chunk</h3><h4 id="（1）Chunk的结构和初始化"><a href="#（1）Chunk的结构和初始化" class="headerlink" title="（1）Chunk的结构和初始化"></a>（1）Chunk的结构和初始化</h4><p>Chunk包含三个部分：一个指针和2个unsigned char。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/98db57121c4e5873dc6e3bd2cc0f1820.png" alt="在这里插入图片描述"><br>  在chunk初始化时会申请一块内存，然后根据Blocksize将内存切成若干块，由一个指针指向该内存。然后遍历这些内存块，把每个内存块的第一个字节按顺序编号，用这种方式（类似索引）实现嵌入式指针的效果。firstAvailableBlock用于记录下一个可以分配的内存块编号，blocksAvailable_用于记录总共还剩多少个内存块可以分配。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1b11b107feb048e3b3a48d3a72b57c18.png" alt="在这里插入图片描述"></p>
+<h4 id="（2）Chunk的内存分配过程"><a href="#（2）Chunk的内存分配过程" class="headerlink" title="（2）Chunk的内存分配过程"></a>（2）Chunk的内存分配过程</h4><p>  找到firstAvailableBlock记录的可分配内存块，该编号为相对于内存开头的偏移量，这块内存的第一位记录的是下一块优先分配的内存编号，在给出这块内存之前，将firstAvailableBlock指针指向次优先级的内存块，同时blocksAvailable_的值-1。</p>
+<p>就是图中的4-&gt;3（这个是索引，表示从开头到这块是第几块，3是第四块）就是数字3的块给出去了，如果程序还要继续申请内存那给出去的就会是索引号3，数字块2，再下一个就是索引号2，数字块1。每给出去一块可用的块数就会减一。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5255e1b5b8421e10cf08c13ef16cb25a.png" alt="在这里插入图片描述"></p>
+<h4 id="（3）Chunk的内存释放过程"><a href="#（3）Chunk的内存释放过程" class="headerlink" title="（3）Chunk的内存释放过程"></a>（3）Chunk的内存释放过程</h4><p>回收的块号是回收指针减去头指针再除以块数得到的</p>
+<p>  先将firstAvailableBlock写入返回内存块的第一位，即最高优先权的位置（在链表里面其实就是个头插法，只不过这里没有虚拟头结点罢了），再根据返回指针的位置，计算出当前内存块的具体位置编号，赋给firstAvailableBlock，最后将blocksAvailable_的值+1。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023195252839.png" alt="image-20241023195252839"></p>
+<p>所以就明白为什么顺序是乱的，因为分配出去的块的顺序和重新回收插入到头部的顺序大多数情况下都不会相同</p>
+<h3 id="2-FixedAllocator"><a href="#2-FixedAllocator" class="headerlink" title="2. FixedAllocator"></a>2. FixedAllocator</h3><h4 id="（1）FixedAllocator的结构"><a href="#（1）FixedAllocator的结构" class="headerlink" title="（1）FixedAllocator的结构"></a>（1）FixedAllocator的结构</h4><p>  FixedAllocator包含一个vector&lt; Chunk &gt;，allocChunk指针指向的是上一个进行内存分配的chunk，deallocChunk指针指向的是上一个进行内存归还的chunk（根据经验设计的，局部性原理）。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/7467223998d53720a5b1375b333f64c1.png" alt="在这里插入图片描述"></p>
+<h4 id="（2）Allocator"><a href="#（2）Allocator" class="headerlink" title="（2）Allocator"></a>（2）Allocator</h4><p>  首先对allocChunk进行判断，若指针为空或者所指的chunk已经满了，则开始从头遍历chunk。<br>  若遍历结束没找到可用的chunk，则再尾部新增加一个chunk，将allocChunk指向新增的chunk，deallocChunk指向第一个chunk（因为vector可能会搬运move，move之后，原来的指针可能就失效了，所以要重新搞一个值，那索性就第一个好了）。<br>  若遍历过程中找到了可用的chunk，然后直接从该chunk进行内存分配，将allocChunk指向该chunk。还要标记一个哨兵，下次直接从这里开始找Chunk<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/76dfa6bd9b5dd0bd284a61c4de72d617.png" alt="在这里插入图片描述"></p>
+<h4 id="（2）Deallocator"><a href="#（2）Deallocator" class="headerlink" title="（2）Deallocator"></a>（2）Deallocator</h4><p>Deallocator函数进行两个操作，先找到可以归还内存的chunk，再进行chunk全回收判断。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3a5444c75dcb737c8b482fa6ac15f67a.png" alt="在这里插入图片描述"></p>
+<h5 id="①-VicinityFind"><a href="#①-VicinityFind" class="headerlink" title="① VicinityFind"></a>① VicinityFind</h5><p>  定义两个指针分别指向deallocChunk和deallocChunk + 1的chunk，然后从deallocChunk往front找，deallocChunk + 1往back找，交叉寻找（往上找一个chunk，往下找一个chunk），如果找到内存块所属chunk则进入chunk内存返还，<strong>若找不到则一直循环！</strong>（新版已经改了）<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c784f5622b02d1a3c5066a010eb468b7.png" alt="在这里插入图片描述"></p>
+<h5 id="②-DoDeallocator"><a href="#②-DoDeallocator" class="headerlink" title="② DoDeallocator"></a>② DoDeallocator</h5><p>  先调用Deallocator进行内存回收，回收完了进行判断，若当前chunk可用空间与初始状态不同，则说明还未全回收，直接跳出程序。若相同，则确认全回收，进行返还判断，分为三种情况：<br>  1.若全回收的chunk为vector的最后一块，并且前一块也是全回收的，则将最后一块chunk释放给系统。<br>  2.若全回收的chunk不为vector的最后一块，但最后一块chunk是全回收的，则将最后一块chunk释放给系统，当前chunk不释放。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5381916b020d5a1effbd5536a09c0bac.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d581e0c2bb3282f814d1c0d653ee409d.png" alt="在这里插入图片描述"></p>
+<h3 id="3-SmallObjAllocator"><a href="#3-SmallObjAllocator" class="headerlink" title="3. SmallObjAllocator"></a>3. SmallObjAllocator</h3><p>  SmallObjAllocator是由一系列内存块大小不同的vector&lt; Chunk &gt;组成，主要功能是将程序的内存申请分配到合适大小的vector&lt; Chunk &gt;进行处理。<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b7f5a2a32edd9a001f056ce62ce053ac.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/56c9ced5717ec8da911b55e84ac0c603.png" alt="在这里插入图片描述"></p>
+<h2 id="2、loki-allocator的特点"><a href="#2、loki-allocator的特点" class="headerlink" title="2、loki::allocator的特点"></a>2、loki::allocator的特点</h2><p><strong>1.结构简单精简，多使用暴力遍历。<br>2.使用数组取代链表，索引取代指针的特殊实现。<br>3.有较为简单的chunk全回收判断，进而归还给系统。<br>4.有deferring(暂缓归还)功能。<br>5.本身是个allocator，用于分配不带有cookies的内存块，最适用于容器，但底层却通过vector实现，不太合理，它内部的vector用的分配器还是标准库的那一套而不是他自己这个，要用它自己这个得我们自己写容器的时候指明第二个参数是他这个分配器才行。</strong></p>
+<h1 id="第五章节-other-issues"><a href="#第五章节-other-issues" class="headerlink" title="第五章节 other issues"></a>第五章节 other issues</h1><p>就是介绍一下GUN的其他分配器，方便在各种情形下去使用</p>
+<h2 id="GNU4-9分配器"><a href="#GNU4-9分配器" class="headerlink" title="GNU4.9分配器"></a>GNU4.9分配器</h2><p>分配器各有各的优势。</p>
+<h3 id="1-new-allocator和malloc-allocator（最简单的）"><a href="#1-new-allocator和malloc-allocator（最简单的）" class="headerlink" title="1.new_allocator和malloc_allocator（最简单的）"></a>1.new_allocator和malloc_allocator（最简单的）</h3><p><strong>new_allocator</strong></p>
+<p>实现出简单的operator new和operator delete，这个好处就是能够重载。</p>
+<p><strong>malloc_allocator</strong></p>
+<p>直接调用malloc和free，没有经过operator new &#x2F; delete，所以没有重载的机会。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023203411232.png" alt="image-20241023203411232"></p>
+<hr>
+<h3 id="2-智能型的分配器"><a href="#2-智能型的分配器" class="headerlink" title="2.智能型的分配器"></a>2.智能型的分配器</h3><p>array_allocator、debug_allocator、__mt_allocator、__pool_allocator、bitmap_allocator都是智能型</p>
+<h4 id="1-array-allocator"><a href="#1-array-allocator" class="headerlink" title="1.array_allocator"></a>1.array_allocator</h4><p>允许分配一个<strong>已知且固定大小</strong>（known and fixed size）的内存块，这些内存来自<code>std::array</code>对象。使用这个分配器，大小固定的容器（包括<code>std::string</code>）就不再需要调用<code>operator new</code>和<code>operator delete</code>。这就使我们能够使用STL abstractions，而无需在运行时造成混乱或增加开销。甚至在程序启动时也可以使用这种分配器。</p>
+<p>其实就是用C++底部的静态的数组来供应内存，然后如果一开始就知道大小的话，这个就比较好用，速度也快。既不是new也不是malloc。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8e66394b39f2a16cf0cba9bcfd6ecbcc.png" alt="在这里插入图片描述"></p>
+<p><code>array_allocator的使用</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023205844066.png" alt="image-20241023205844066"></p>
+<p>arrat_allocator并不会回收已经给出的内存空间。（不能回收其实没有啥用）</p>
+<p>静态分配，不需要free。没啥用，因为不free，用过的空间不能再次使用了。</p>
+<p>也可以将底部C++的数组换成标准库的array容器。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023210221463.png" alt="image-20241023210221463"></p>
+<h4 id="2-debug-allocator"><a href="#2-debug-allocator" class="headerlink" title="2.debug_allocator"></a>2.debug_allocator</h4><p>这是一个包装器（wrapper），可以包装在任何分配器（allocator）之上。它会将用户的请求量增加一些，然后由分配器进行响应，并使用那一小块额外的内存来存储大小信息。一旦<code>deallocate()</code>函数接收到一个指针，它就会检查大小信息，并使用<code>assert()</code>函数来确保匹配。</p>
+<p>就是自己是加了点东西，然后分配的活一点不干都外包给它里面那个allocator。</p>
+<p>多出来的_M_extra就是记录区块大小，就只是加了个大小，没什么用（不是我说的，是侯捷老师说的，但我也觉得没啥用）</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/467e0f17f6325b38b4ee529d11ed7f14.png" alt="在这里插入图片描述"></p>
+<hr>
+<h3 id="3-三种使用内存池的分配器"><a href="#3-三种使用内存池的分配器" class="headerlink" title="3.三种使用内存池的分配器"></a>3.三种使用内存池的分配器</h3><p>下面的三种分配器实现都是内存池的思想，追求的是不要分配过多的cookie。</p>
+<h4 id="1-pool-allocator"><a href="#1-pool-allocator" class="headerlink" title="1.__pool_allocator"></a>1.__pool_allocator</h4><p>就是GNU2.9中的alloc，这里不再赘述。</p>
+<h4 id="2-mt-allocator"><a href="#2-mt-allocator" class="headerlink" title="2.__mt_allocator"></a>2.__mt_allocator</h4><p>多线程的内存分配器。</p>
+<h4 id="3-bitmap-allocator"><a href="#3-bitmap-allocator" class="headerlink" title="3.bitmap_allocator"></a>3.bitmap_allocator</h4><p>是个bitmap index，用以索引至一个以2的指数倍成长的篮子</p>
+<p>一个高效能的分配器，使用bit-map追踪被使用和未被使用的内存块。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023211037280.png" alt="image-20241023211037280"></p>
+<h5 id="1-内存分配"><a href="#1-内存分配" class="headerlink" title="1.内存分配"></a>1.内存分配</h5><p><strong>关于blocks，supper-blocks，bitmap，mini-vector</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/95d2debb53e4364ba16d92dd0825850a.png" alt="在这里插入图片描述"><br>1.上图是一个super block</p>
+<p>bitmap用于存放后面的block是否被分配出去</p>
+<p>use-count表示已经分配了多少个</p>
+<p>2.<strong>__mini_vector</strong>是控制中心，用来管理后面的block，指向block的头尾</p>
+<p>bitmap的变化方向和_M_start变化方向相反</p>
+<p>start和finish是super block的空闲块的头和尾，end_of_storage指的是容量的尾巴(就那个会扩容两倍那个实际上的容量的尾巴，模仿标准库vector容器写的)</p>
+<p>3.如果一个super block用光了，就会新起一个super block，控制中心mini_vector也会增长，而且能够分配的内存会翻倍，如下图：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6a8c9bc96533570cd4e2002d61b7f27e.png" alt="在这里插入图片描述"></p>
+<p>用1表示还没分配的block，用0表示已经分配的block，前面的数字会标识还有几块空闲没有被分配的</p>
+<p>4.这个vector的entries无限制，每个entry代表一种value type，不用的value type即使大小相同也不混用</p>
+<p>就和一个类有一个分配器一样的，这里的entry代表的super block也是每个类型一个，不会混用</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023212639506.png" alt="image-20241023212639506"></p>
+<h5 id="2-内存回收"><a href="#2-内存回收" class="headerlink" title="2.内存回收"></a>2.内存回收</h5><p>如果发生全回收，便会造成下一次分配的内存规模减半（它自己设计就是这样的，不用纠结）。图中64,128,256全部都回收，那下一次malloc分配的话就是给分配128个blocks。</p>
+<p><code>下面是第一个64blocks的全回收</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023213355765.png" alt="image-20241023213355765"></p>
+<p>全回收，使用另外一个__min_vector来登记（free list）全回收的super block。对于原来的两个指针，是用vector的erase来删除的，就相当于删掉了vector的0,1号元素。</p>
+<p>问题1的答案其实是0号和2号都可以的。但是测出来是2号，这个是无所谓的。</p>
+<p>问题2的答案是唯一的。因为要先用已经分配过得内存，这一点是好的。</p>
+<p>发生全回收，则分配内存减半，如下图是<code>三次全回收</code>的情况：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/314136d70ceb5b4f3c0e8d70584bf149.png" alt="在这里插入图片描述"></p>
+<p>右上角的_s_free_list就是登记全回收的super block的链表,释放的时候就看这里面哪个super block最长最大，就释放掉谁。</p>
+<p>如果free list中已经有64个super block，下一次再free的的super block，直接delete。</p>
+<p><strong>如果要这时候要申请一个block，那就从_s_free_list里面恢复一个进行使用</strong></p>
+<h3 id="4-这些分配器的使用"><a href="#4-这些分配器的使用" class="headerlink" title="4.这些分配器的使用"></a>4.这些分配器的使用</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023214741499.png" alt="image-20241023214741499"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241023214815272.png" alt="image-20241023214815272"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/10/24/C++/%E4%BE%AF%E6%8D%B7%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">https://darling-123456.github.io/2024/10/24/C++/侯捷内存管理学习笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C++</a><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div><div class="post-share"><div class="social-share" data-image="/img/36.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/10/21/redis%E7%AC%94%E8%AE%B0/" title="Redis"><img class="cover" src="/img/58.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Redis</div></div><div class="info-2"><div class="info-item-1">Redis基础一.初始Redis1.1SQL 和 NoSql的区别1.1.1结构化和非结构化 (1) SQL关系性数据库  传统关系型数据库是结构化数据，每一张表都有严格的约束信息：字段名、字段数据类型、字段约束等等信息，插入的数据必须遵守这些约束  (2) NoSql数据库 NoSql对数据库格式没有严格约束，往往形式松散，自由。 可以是key-value,可以是文档，或者图格式     1.1.2关联和非关联 (1) 关系型数据库  (2) 非关系型数据库 12345678910111213141516171819&#123;  id: 1,  name: &quot;张三&quot;,  orders: [    &#123;       id: 1,       item: &#123;	 id: 10, title: &quot;荣耀6&quot;, price: 4999       &#125;    &#125;,    &#123;       id: 2,       item: &#123;	 id: 20, title:...</div></div></div></a><a class="pagination-related" href="/2024/10/24/%E5%B7%A5%E5%85%B7/Source%20insight%E6%BA%90%E7%A0%81%E6%9F%A5%E7%9C%8B%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Source insight源码查看工具的使用"><img class="cover" src="/img/55.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Source insight源码查看工具的使用</div></div><div class="info-2"><div class="info-item-1">Source insight源码查看工具的使用常用的基本操作新建工程点击new project 在源代码同级目录下创建一个insight，将我们的项目工程放在这里（这样只是方便好找）  刚刚创建的文件和源码文件同级，点击源码文件，点击Add Tree  添加完毕后直接关了就行 之后点击project-&gt;synchronize Files进行同步，点击start，然后同步完关闭 这样做直接就可以把修改同步到源码文件上面了  点击菜单这个P图标  侧边出现这样的目录  有些.cc文件出不来的更改操作 点击菜单栏options-&gt;file type options  在filefilit处加上      ,*.cc     注意是英文的 添加后关闭 之后点击project的add and remove project file重新Add tree一下就有了 查看文件在P图标点击后直接在搜索栏搜索就行  后面的project symbols可以直接搜想看的函数 快捷键设置options-&gt; key...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/10/20/C++/%E4%BE%AF%E6%8D%B7%20C++%20STL%E6%A0%87%E5%87%86%E5%BA%93%E5%92%8C%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" title="侯捷 C++ STL标准库和泛型编程 | 学习笔记"><img class="cover" src="/img/34.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-20</div><div class="info-item-2">侯捷 C++ STL标准库和泛型编程 | 学习笔记</div></div><div class="info-2"><div class="info-item-1">侯捷 C++ STL标准库和泛型编程 | 学习笔记1 STL概述STL —— Standard Template Library，标准模板库 C++ Standard LIbrary，C++标准库中包含STL（即STL+一些小东西） 1.1 头文件名称 C++标准库的 header files 不带 .h，例如：#include&lt;vector&gt; 新式 C header files 不带 .h，例如：#include&lt;cstdio&gt; 老式 C header files 带 .h 仍然可用，例如：#include&lt;stdio.h&gt;   新式 header 内的组件封装于 namespace std 老式 header 内的组件不封装于 namespace std  1.2...</div></div></div></a><a class="pagination-related" href="/2024/10/16/C++/%E6%96%BD%E7%A3%8AC++%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6%E8%AF%BE%E7%A8%8B%20%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20%20%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/" title="施磊C++ | 进阶学习笔记"><img class="cover" src="/img/38.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-16</div><div class="info-item-2">施磊C++ | 进阶学习笔记</div></div><div class="info-2"><div class="info-item-1">施磊C++高级进阶课程 | 学习笔记 | 博客汇总以下是CSDN链接 施磊C++ | 进阶学习笔记 | 1.对象的应用优化、右值引用的优化-CSDN博客 施磊C++ | 进阶学习笔记 | 2.智能指针-CSDN博客 施磊C++ | 进阶学习笔记 | 3.绑定器和函数对象、lambda表达式-CSDN博客 施磊C++ | 进阶学习笔记 | 4.c++11内容汇总、多线程应用实践-CSDN博客 施磊C++ | 进阶学习笔记 | 5.设计模式-CSDN博客 剩余有关面试的等到明年投简历前学习 </div></div></div></a><a class="pagination-related" href="/2024/10/16/C++/%E6%96%BD%E7%A3%8AC++%20%20%E8%BF%9B%E9%98%B6%20%20%E7%AC%94%E8%AE%B0/" title="施磊C++ | 进阶学习笔记"><img class="cover" src="/img/37.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-16</div><div class="info-item-2">施磊C++ | 进阶学习笔记</div></div><div class="info-2"><div class="info-item-1">施磊C++ | 进阶学习笔记一、对象的应用优化、右值引用的优化1.1 构造，拷贝，赋值，析构中的优化1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253#include&lt;iostream&gt;using namespace std;class test&#123;public:	test(int a = 10) :ma(a) &#123; cout &lt;&lt; &quot;test(int)&quot; &lt;&lt; endl; &#125;	~test() &#123; cout &lt;&lt; &quot;~test&quot; &lt;&lt; endl; &#125;	test(const test&amp; t) :ma(t.ma) &#123; cout &lt;&lt; &quot;test(const &amp;)&quot; &lt;&lt; endl; &#125;	test&amp;...</div></div></div></a><a class="pagination-related" href="/2024/10/10/C++/%E4%BE%AF%E6%8D%B7%20%20C++11%20%E6%96%B0%E7%89%B9%E6%80%A7%20%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="侯捷 C++11 新特性 学习笔记"><img class="cover" src="/img/35.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-10</div><div class="info-item-2">侯捷 C++11 新特性 学习笔记</div></div><div class="info-2"><div class="info-item-1">C++11 新特性 学习笔记1.Variadic TemplatesC++11支持函数模板的默认模板参数在 C++98&#x2F;03 标准中，类模板可以有默认的模板参数，如下： 12345template &lt;typename T, typename U = int, U N = 0&gt;struct Foo&#123;    // ...&#125;;  但是却不支持函数的默认模板参数： 12345template &lt;typename T = int&gt;  // error in C++98/03: default template argumentsvoid func()&#123;    // ...&#125;  现在这一限制在 C++11 中被解除了。上面的 func 函数在 C++11 中可以直接使用，代码如下： 12345int main(void)&#123;    func();   //T = int    return 0;&#125;  此时模板参数 T 的类型就为默认值...</div></div></div></a><a class="pagination-related" href="/2023/07/22/C++/%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98C++%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E7%B2%BE%E7%BE%8E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="黑马程序员C++核心编程学习笔记"><img class="cover" src="/img/32.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-22</div><div class="info-item-2">黑马程序员C++核心编程学习笔记</div></div><div class="info-2"><div class="info-item-1">黑马程序员C++核心编程学习笔记一、内存1.1 内存四区C++程序在执行时，将内存大致分为4个区域：代码区，全局区，栈区，堆区  代码区：存放函数体的的二进制代码，操作系统管理。  🔵特点：①共享 ：对于频繁被执行的程序，只需要在内存中有一份代码即可。    ②只读：目的是防止程序意外地修改了它的指令。  全局区：存放全局变量、静态变量和常量（除了const修饰的局部变量）。程序结束时由操作系统释放。   1234567891011121314151617181920212223//全局变量int g_a = 10;const int c_g_a = 10;int main()&#123;	int l_a = 10;	//静态变量	static int s_a = 10;		//常量：字符串常量/const修饰的变量（全局/局部变量）	const char* a = &quot;hello&quot;;	const int c_l_a = 10;	cout &lt;&lt; &quot;局部变量l_a的十进制地址为：&quot; &lt;&lt; (int)&amp;l_a...</div></div></div></a><a class="pagination-related" href="/2023/07/22/C++/%E9%BB%91%E9%A9%AC%E7%A8%8B%E5%BA%8F%E5%91%98C++%E6%8F%90%E9%AB%98%E7%BC%96%E7%A8%8B%E7%B2%BE%E7%BE%8E%E7%AC%94%E8%AE%B0/" title="黑马程序员C++提高编程"><img class="cover" src="/img/33.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-22</div><div class="info-item-2">黑马程序员C++提高编程</div></div><div class="info-2"><div class="info-item-1">黑马程序员C++提高编程  提高阶段主要针对泛型编程和STL技术  一、模板  模板就是建立通用的模具，大大提高复用性,也是泛型编程的思想。C++提供两种模板机制：①函数模板 ②类模板 🔴注意：  ① 模板不是万能的。  ② 模板不能直接使用。 1.1 函数模板1.1.1 函数模板基础知识​      语法： 12template  &lt;typename T &gt;   函数声明或定义  ​       解释：template— 声明创建模板；typename — 可以用class代替；T — 通用的数据类型​      使用：①自动类型推导 ②显示指定类型 🟦意义：提高复用性，将类型参数化。 1234567891011121314151617//函数模板的使用template&lt;typename T&gt;void MySwap(T&amp; a, T&amp; b)&#123;	T temp = a;	a = b;	b = temp;&#125;int main()&#123;	int a = 10;	int b = 20;	MySwap(a,...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">57</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BE%AF%E6%8D%B7%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">侯捷内存管理学习笔记</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%8A%82-primitives"><span class="toc-number">2.</span> <span class="toc-text">第一章节 primitives</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B6-new%E5%92%8Cdelete%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">零.new和delete概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#new%E7%9A%84%E5%BA%95%E5%B1%82%E6%9C%BA%E5%88%B6%E5%92%8C%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.1.</span> <span class="toc-text">new的底层机制和工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#delete%E7%9A%84%E5%BA%95%E5%B1%82%E6%9C%BA%E5%88%B6%E5%92%8C%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.2.</span> <span class="toc-text">delete的底层机制和工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">2.1.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81new-%E5%92%8Cdelete"><span class="toc-number">2.2.</span> <span class="toc-text">一、new()和delete()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-new"><span class="toc-number">2.2.1.</span> <span class="toc-text">1. new()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-delete"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.delete()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-new-%E5%92%8Cdelete"><span class="toc-number">2.2.3.</span> <span class="toc-text">3.new[ ]和delete[ ]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-placement-new%EF%BC%88%E5%AE%9A%E4%BD%8Dnew%EF%BC%89"><span class="toc-number">2.2.4.</span> <span class="toc-text">4.placement new（定位new）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%8E%9F%E7%90%86"><span class="toc-number">2.2.4.1.</span> <span class="toc-text">一、定义与原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.4.2.</span> <span class="toc-text">二、使用方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">2.2.4.3.</span> <span class="toc-text">三、注意事项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.2.4.4.</span> <span class="toc-text">四、示例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%87%8D%E8%BD%BD"><span class="toc-number">2.3.</span> <span class="toc-text">二、重载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-new-%E5%92%8Cdelete"><span class="toc-number">2.3.1.</span> <span class="toc-text">1.new()和delete()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-allocator-%E5%92%8Cdeallocator"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.allocator()和deallocator()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-new-handler"><span class="toc-number">2.3.3.</span> <span class="toc-text">3.new_handler</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%E8%8A%82-std-allocator%EF%BC%88%E4%B8%BA%E5%B0%8F%E5%8C%BA%E5%9D%97%E6%9C%8D%E5%8A%A1%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">第二章节 std::allocator（为小区块服务）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%8D%A0%E7%94%A8%E5%86%85%E5%AD%98%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">1.占用内存的计算方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%8D%E5%90%8C%E7%89%88%E6%9C%AC%E7%9A%84allocator%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.2.</span> <span class="toc-text">2.不同版本的allocator设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-VC6%E3%80%81BC5%E3%80%81G2-9%E5%92%8CG4-9%E7%9A%84allocator"><span class="toc-number">3.2.1.</span> <span class="toc-text">1. VC6、BC5、G2.9和G4.9的allocator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VC6%E7%9A%84%E6%A0%87%E5%87%86%E5%88%86%E9%85%8D%E5%99%A8"><span class="toc-number">3.2.1.1.</span> <span class="toc-text">VC6的标准分配器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BC5%E7%9A%84%E6%A0%87%E5%87%86%E5%88%86%E9%85%8D%E5%99%A8"><span class="toc-number">3.2.1.2.</span> <span class="toc-text">BC5的标准分配器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GNU4-9%E7%9A%84%E6%A0%87%E5%87%86%E5%88%86%E9%85%8D%E5%99%A8"><span class="toc-number">3.2.1.3.</span> <span class="toc-text">GNU4.9的标准分配器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GUN-2-9d%E7%9A%84%E6%A0%87%E5%87%86%E5%88%86%E9%85%8D%E5%99%A8"><span class="toc-number">3.2.1.4.</span> <span class="toc-text">GUN 2.9d的标准分配器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-G2-9%E7%9A%84alloc%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90"><span class="toc-number">3.2.2.</span> <span class="toc-text">2. G2.9的alloc流程解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%86%85%E5%AD%98%E6%B1%A0%E9%85%8D%E7%BD%AE%E5%99%A8%E6%A6%82%E8%BF%B0%EF%BC%9A"><span class="toc-number">3.2.2.1.</span> <span class="toc-text">1.内存池配置器概述：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%85%B7%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-number">3.2.2.2.</span> <span class="toc-text">2.具体流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%BC%BA%E9%99%B7%E4%BB%A5%E5%8F%8A%E6%B6%88%E9%99%A4cookie%E5%90%8E%E7%9A%84%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="toc-number">3.2.2.3.</span> <span class="toc-text">3.缺陷以及消除cookie后的测试结果</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0%E8%8A%82-malloc-free"><span class="toc-number">4.</span> <span class="toc-text">第三章节 malloc&#x2F;free</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-malloc%E6%A6%82%E8%BF%B0"><span class="toc-number">4.1.</span> <span class="toc-text">1.malloc概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E6%9C%BA%E5%88%B6"><span class="toc-number">4.1.1.</span> <span class="toc-text">底层机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">4.1.2.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-1"><span class="toc-number">4.1.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-free%E6%A6%82%E8%BF%B0"><span class="toc-number">4.2.</span> <span class="toc-text">2.free概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E6%9C%BA%E5%88%B6-1"><span class="toc-number">4.2.1.</span> <span class="toc-text">底层机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86-1"><span class="toc-number">4.2.2.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-2"><span class="toc-number">4.2.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-VC6%E7%9A%84malloc%E8%AE%BE%E8%AE%A1"><span class="toc-number">4.3.</span> <span class="toc-text">3.VC6的malloc设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SBH%E9%A6%96%E6%AC%A1%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4"><span class="toc-number">4.3.1.</span> <span class="toc-text">SBH首次分配内存详细步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SBH%E7%AC%AC%E4%BA%8C%EF%BC%88n%EF%BC%89%E6%AC%A1%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98"><span class="toc-number">4.3.2.</span> <span class="toc-text">SBH第二（n）次分配内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%87%8A%E6%94%BE"><span class="toc-number">4.3.3.</span> <span class="toc-text">内存释放</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#free-p"><span class="toc-number">4.3.4.</span> <span class="toc-text">free( p )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%80%BB%E7%BB%93"><span class="toc-number">4.3.5.</span> <span class="toc-text">内存分配总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0%E8%8A%82-loki-allocator"><span class="toc-number">5.</span> <span class="toc-text">第四章节 loki::allocator</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-%E6%A6%82%E8%BF%B0"><span class="toc-number">5.1.</span> <span class="toc-text">0.概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="toc-number">5.1.1.</span> <span class="toc-text">底层原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="toc-number">5.1.2.</span> <span class="toc-text">工作机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-3"><span class="toc-number">5.1.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81loki%E7%9A%84allocator%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.2.</span> <span class="toc-text">1、loki的allocator设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-%E6%80%BB%E4%BD%93%E4%B8%8A"><span class="toc-number">5.2.1.</span> <span class="toc-text">0.总体上</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Chunk"><span class="toc-number">5.2.2.</span> <span class="toc-text">1. Chunk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%881%EF%BC%89Chunk%E7%9A%84%E7%BB%93%E6%9E%84%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">5.2.2.1.</span> <span class="toc-text">（1）Chunk的结构和初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%882%EF%BC%89Chunk%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E8%BF%87%E7%A8%8B"><span class="toc-number">5.2.2.2.</span> <span class="toc-text">（2）Chunk的内存分配过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%883%EF%BC%89Chunk%E7%9A%84%E5%86%85%E5%AD%98%E9%87%8A%E6%94%BE%E8%BF%87%E7%A8%8B"><span class="toc-number">5.2.2.3.</span> <span class="toc-text">（3）Chunk的内存释放过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-FixedAllocator"><span class="toc-number">5.2.3.</span> <span class="toc-text">2. FixedAllocator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%881%EF%BC%89FixedAllocator%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">5.2.3.1.</span> <span class="toc-text">（1）FixedAllocator的结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%882%EF%BC%89Allocator"><span class="toc-number">5.2.3.2.</span> <span class="toc-text">（2）Allocator</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%EF%BC%882%EF%BC%89Deallocator"><span class="toc-number">5.2.3.3.</span> <span class="toc-text">（2）Deallocator</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E2%91%A0-VicinityFind"><span class="toc-number">5.2.3.3.1.</span> <span class="toc-text">① VicinityFind</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E2%91%A1-DoDeallocator"><span class="toc-number">5.2.3.3.2.</span> <span class="toc-text">② DoDeallocator</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-SmallObjAllocator"><span class="toc-number">5.2.4.</span> <span class="toc-text">3. SmallObjAllocator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81loki-allocator%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">5.3.</span> <span class="toc-text">2、loki::allocator的特点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0%E8%8A%82-other-issues"><span class="toc-number">6.</span> <span class="toc-text">第五章节 other issues</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GNU4-9%E5%88%86%E9%85%8D%E5%99%A8"><span class="toc-number">6.1.</span> <span class="toc-text">GNU4.9分配器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-new-allocator%E5%92%8Cmalloc-allocator%EF%BC%88%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%EF%BC%89"><span class="toc-number">6.1.1.</span> <span class="toc-text">1.new_allocator和malloc_allocator（最简单的）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%99%BA%E8%83%BD%E5%9E%8B%E7%9A%84%E5%88%86%E9%85%8D%E5%99%A8"><span class="toc-number">6.1.2.</span> <span class="toc-text">2.智能型的分配器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-array-allocator"><span class="toc-number">6.1.2.1.</span> <span class="toc-text">1.array_allocator</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-debug-allocator"><span class="toc-number">6.1.2.2.</span> <span class="toc-text">2.debug_allocator</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%89%E7%A7%8D%E4%BD%BF%E7%94%A8%E5%86%85%E5%AD%98%E6%B1%A0%E7%9A%84%E5%88%86%E9%85%8D%E5%99%A8"><span class="toc-number">6.1.3.</span> <span class="toc-text">3.三种使用内存池的分配器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-pool-allocator"><span class="toc-number">6.1.3.1.</span> <span class="toc-text">1.__pool_allocator</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-mt-allocator"><span class="toc-number">6.1.3.2.</span> <span class="toc-text">2.__mt_allocator</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-bitmap-allocator"><span class="toc-number">6.1.3.3.</span> <span class="toc-text">3.bitmap_allocator</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="toc-number">6.1.3.3.1.</span> <span class="toc-text">1.内存分配</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6"><span class="toc-number">6.1.3.3.2.</span> <span class="toc-text">2.内存回收</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%BF%99%E4%BA%9B%E5%88%86%E9%85%8D%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">6.1.4.</span> <span class="toc-text">4.这些分配器的使用</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II"><img src="/img/3.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day68 | 灵神 | 二分查找：H指数II"/></a><div class="content"><a class="title" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II">Day68 | 灵神 | 二分查找：H指数II</a><time datetime="2025-03-19T16:00:00.000Z" title="发表于 2025-03-20 00:00:00">2025-03-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目"><img src="/img/4.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day67 | 灵神 | 二分查找：统计公平数对的数目"/></a><div class="content"><a class="title" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目">Day67 | 灵神 | 二分查找：统计公平数对的数目</a><time datetime="2025-03-18T16:00:00.000Z" title="发表于 2025-03-19 00:00:00">2025-03-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
