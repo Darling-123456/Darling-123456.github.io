@@ -1,0 +1,412 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ubuntu中apt-get的默认安装路径 安装 卸载以及查看的方法总结 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ubuntu中apt-get的默认安装路径。安装、卸载以及查看的方法总结apt-get 下载后，软件所在路径是什么？？ &#x2F;var&#x2F;cache&#x2F;apt&#x2F;archives ubuntu 默认的PATH为 PATH&#x3D;&#x2F;home&#x2F;brightman&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:&amp;#x2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu中apt-get的默认安装路径 安装 卸载以及查看的方法总结">
+<meta property="og:url" content="https://darling-123456.github.io/2024/11/08/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/ubuntu%E4%B8%ADapt-get%E7%9A%84%E9%BB%98%E8%AE%A4%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84%E3%80%82%E5%AE%89%E8%A3%85%E3%80%81%E5%8D%B8%E8%BD%BD%E4%BB%A5%E5%8F%8A%E6%9F%A5%E7%9C%8B%E7%9A%84%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="ubuntu中apt-get的默认安装路径。安装、卸载以及查看的方法总结apt-get 下载后，软件所在路径是什么？？ &#x2F;var&#x2F;cache&#x2F;apt&#x2F;archives ubuntu 默认的PATH为 PATH&#x3D;&#x2F;home&#x2F;brightman&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:&amp;#x2">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/164.jpg">
+<meta property="article:published_time" content="2024-11-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-23T07:25:47.869Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="踩坑记录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/164.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ubuntu中apt-get的默认安装路径 安装 卸载以及查看的方法总结",
+  "url": "https://darling-123456.github.io/2024/11/08/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/ubuntu%E4%B8%ADapt-get%E7%9A%84%E9%BB%98%E8%AE%A4%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84%E3%80%82%E5%AE%89%E8%A3%85%E3%80%81%E5%8D%B8%E8%BD%BD%E4%BB%A5%E5%8F%8A%E6%9F%A5%E7%9C%8B%E7%9A%84%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/",
+  "image": "https://darling-123456.github.io/img/164.jpg",
+  "datePublished": "2024-11-07T16:00:00.000Z",
+  "dateModified": "2025-03-23T07:25:47.869Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/11/08/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/ubuntu%E4%B8%ADapt-get%E7%9A%84%E9%BB%98%E8%AE%A4%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84%E3%80%82%E5%AE%89%E8%A3%85%E3%80%81%E5%8D%B8%E8%BD%BD%E4%BB%A5%E5%8F%8A%E6%9F%A5%E7%9C%8B%E7%9A%84%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ubuntu中apt-get的默认安装路径 安装 卸载以及查看的方法总结',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">170</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/164.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">ubuntu中apt-get的默认安装路径 安装 卸载以及查看的方法总结</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">ubuntu中apt-get的默认安装路径 安装 卸载以及查看的方法总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-07T16:00:00.000Z" title="发表于 2024-11-08 00:00:00">2024-11-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-23T07:25:47.869Z" title="更新于 2025-03-23 15:25:47">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">踩坑记录</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="ubuntu中apt-get的默认安装路径。安装、卸载以及查看的方法总结"><a href="#ubuntu中apt-get的默认安装路径。安装、卸载以及查看的方法总结" class="headerlink" title="ubuntu中apt-get的默认安装路径。安装、卸载以及查看的方法总结"></a>ubuntu中apt-get的默认安装路径。安装、卸载以及查看的方法总结</h1><p>apt-get 下载后，软件所在路径是什么？？</p>
+<p>&#x2F;var&#x2F;cache&#x2F;apt&#x2F;archives</p>
+<p>ubuntu 默认的PATH为</p>
+<p>PATH&#x3D;&#x2F;home&#x2F;brightman&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;sbin:&#x2F;bin:&#x2F;usr&#x2F;games</p>
+<p>apt-get install安装目录是包的维护者确定的，不是用户</p>
+<p>$ dpkg -L packagename、</p>
+<p>dpkg -L +软件包的名字，可以知道这个软件包包含了哪些文件， 这个方法可以列出所有安装后留在系统里的文件</p>
+<p>系统安装软件一般在&#x2F;usr&#x2F;share，可执行的文件在&#x2F;usr&#x2F;bin，配置文件可能安装到了&#x2F;etc下等。</p>
+<p>文档一般在 &#x2F;usr&#x2F;share</p>
+<p>可执行文件 &#x2F;usr&#x2F;bin</p>
+<p>配置文件 &#x2F;etc</p>
+<p>lib文件 &#x2F;usr&#x2F;lib</p>
+<p>说明：由于图形化界面方法（如Add&#x2F;Remove… 和Synaptic Package Manageer）比较简单，所以这里主要总结在终端通过命令行方式进行的软件包安装、卸载和删除的方法。</p>
+<p>一、Ubuntu中软件安装方法</p>
+<p>1、APT方式</p>
+<p>（1）普通安装：apt-get install softname1 softname2 …;</p>
+<p>（2）修复安装：apt-get -f install softname1 softname2… ;(-f Atemp to correct broken dependencies)</p>
+<p>（3）重新安装：apt-get –reinstall install softname1 softname2…;</p>
+<p>2、Dpkg方式</p>
+<p>（1）普通安装：dpkg -i package_name.deb</p>
+<p>3、源码安装（.tar、tar.gz、tar.bz2、tar.Z）</p>
+<p>首先解压缩源码压缩包然后通过tar命令来完成</p>
+<p>a．解xx.tar.gz：tar zxf xx.tar.gz<br>b．解xx.tar.Z：tar zxf xx.tar.Z<br>c．解xx.tgz：tar zxf xx.tgz<br>d．解xx.bz2：bunzip2 xx.bz2<br>e．解xx.tar：tar xf xx.tar</p>
+<p>然后进入到解压出的目录中，建议先读一下README之类的说明文件，因为此时不同源代码包或者预编译包可能存在差异，然后建议使用ls -F –color或者ls -F命令（实际上我的只需要 l 命令即可）查看一下可执行文件，可执行文件会以*号的尾部标志。</p>
+<p>一般依次执行.&#x2F;configure</p>
+<p>​           make</p>
+<p>​           sudo make install</p>
+<p>即可完成安装。</p>
+<p>二、Ubuntu中软件包的卸载方法</p>
+<p>1、APT方式</p>
+<p>（1）移除式卸载：apt-get remove softname1 softname2 …;（移除软件包，当包尾部有+时，意为安装）</p>
+<p>（2）清除式卸载 ：apt-get –purge remove softname1 softname2…;(同时清除配置)</p>
+<p>​    清除式卸载：apt-get purge sofname1 softname2…;(同上，也清除配置文件)</p>
+<p>2、Dpkg方式</p>
+<p>（1）移除式卸载：dpkg -r pkg1 pkg2 …;</p>
+<p>（2）清除式卸载：dpkg -P pkg1 pkg2…;</p>
+<p>三、Ubuntu中软件包的查询方法</p>
+<p>Dpkg 使用文本文件来作为数据库.通称在 <code>/var/lib/dpkg</code> 目录下. 通称在 status 文件中存储软件状态,和控制信息. 在 info&#x2F; 目录下备份控制文件, 并在其下的 .list 文件中记录安装文件清单, 其下的 .mdasums 保存文件的 MD5 编码.</p>
+<p>体验使用数据库的时刻到了:</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">$ dpkg -l</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Desired=Unknown/Install/Remove/Purge/Hold</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">||/ Name       Version           Description</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+++-===========-================-========================================</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ii  aalib1     1.4p5-28          ascii art library - transitional package</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ii  adduser    3.85              Add and remove users and groups</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ii  alien      .63               install non-native packages with dpkg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">... ...</span><br></pre></td></tr></table></figure></blockquote>
+<p>每条记录对应一个软件包, 注意每条记录的第一, 二, 三个字符. 这就是软件包的状态标识, 后边依此是软件包名称, 版本号, 和简单描述.</p>
+<ul>
+<li>第一字符为期望值,它包括:<ul>
+<li>u 状态未知,这意味着软件包未安装,并且用户也未发出安装请求.</li>
+<li>i 用户请求安装软件包.</li>
+<li>r 用户请求卸载软件包.</li>
+<li>p 用户请求清除软件包.</li>
+<li>h 用户请求保持软件包版本锁定.</li>
+</ul>
+</li>
+<li>第二列,是软件包的当前状态.此列包括软件包的六种状态.<ul>
+<li>n 软件包未安装.</li>
+<li>i 软件包安装并完成配置.</li>
+<li>c 软件包以前安装过,现在删除了,但是它的配置文件还留在系统中.</li>
+<li>u 软件包被解包,但还未配置.</li>
+<li>f 试图配置软件包,但是失败了.</li>
+<li>h 软件包安装,但是但是没有成功.</li>
+</ul>
+</li>
+<li>第三列标识错误状态,可以总结为四种状态. 第一种状态标识没有问题,为空. 其它三种符号则标识相应问题.<ul>
+<li>h 软件包被强制保持,因为有其它软件包依赖需求,无法升级.</li>
+<li>r 软件包被破坏,可能需要重新安装才能正常使用(包括删除).</li>
+<li>x 软包件被破坏,并且被强制保持.</li>
+</ul>
+</li>
+</ul>
+<p>也可以以统配符模式进行模糊查询, 比如我要查找以nano字符开始的所有软件包:</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">$ dpkg -l nano*</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Desired=Unknown/Install/Remove/Purge/Hold</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">||/ Name           Version        Description</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+++-==============-==============-============================================</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ii  nano           1.3.10-2       free Pico clone with some new features</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pn  nano-tiny      &lt;none&gt;         (no description available)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">un  nanoblogger    &lt;none&gt;         (no description available)</span><br></pre></td></tr></table></figure></blockquote>
+<p>以上状态说明: 系统中安装了 <code>nano</code> 版本为 <code>1.3.10-2</code> ;安装过 <code>nano-tiny</code> , 后来又清除了; 从未安装过<code>nanoblogger</code> .</p>
+<p>如果觉得 dpkg 的参数过多, 不利于记忆的话, 完全可以使用 dpkg-query 进行 dpkg 数据库查询.</p>
+<p>应用范例:</p>
+<ul>
+<li><p>查询系统中属于nano的文件:</p>
+<blockquote>
+<p>$ dpkg –listfiles nano</p>
+</blockquote>
+<p>or</p>
+<blockquote>
+<p>$ dpkg-query -L nano</p>
+</blockquote>
+</li>
+<li><p>查看软件nano的详细信息:</p>
+<blockquote>
+<p>$ dpkg -s nano</p>
+</blockquote>
+<p>or</p>
+<blockquote>
+<p>$ dpkg-query -s nano</p>
+</blockquote>
+</li>
+<li><p>查看系统中软件包状态, 支持模糊查询:</p>
+<blockquote>
+<p>$ dpkg -l</p>
+</blockquote>
+<p>or</p>
+<blockquote>
+<p>$dpkg-query -l</p>
+</blockquote>
+</li>
+<li><p>查看某个文件的归属包:</p>
+<blockquote>
+<p>$ dpkg-query -S nano</p>
+</blockquote>
+<p>or</p>
+<blockquote>
+<p>$ dpkg -S nano</p>
+</blockquote>
+</li>
+</ul>
+<p>三、其他应用总结</p>
+<p>apt-cache search # ——(package 搜索包)<br>apt-cache show #——(package 获取包的相关信息，如说明、大小、版本等)<br>apt-get install # ——(package 安装包)<br>apt-get install # —–(package –reinstall 重新安装包)<br>apt-get -f install # —–(强制安装, “-f &#x3D; –fix-missing”当是修复安装吧…)<br>apt-get remove #—–(package 删除包)<br>apt-get remove –purge # ——(package 删除包，包括删除配置文件等)<br>apt-get autoremove –purge # —-(package 删除包及其依赖的软件包+配置文件等（只对6.10有效，强烈推荐）)<br>apt-get update #——更新源<br>apt-get upgrade #——更新已安装的包<br>apt-get dist-upgrade # ———升级系统<br>apt-get dselect-upgrade #——使用 dselect 升级<br>apt-cache depends #——-(package 了解使用依赖)<br>apt-cache rdepends # ——(package 了解某个具体的依赖,当是查看该包被哪些包依赖吧…)<br>apt-get build-dep # ——(package 安装相关的编译环境)<br>apt-get source #——(package 下载该包的源代码)<br>apt-get clean &amp;&amp; apt-get autoclean # ——–清理下载文件的存档 &amp;&amp; 只清理过时的包<br>apt-get check #——-检查是否有损坏的依赖<br>dpkg -S filename —–查找filename属于哪个软件包<br>apt-file search filename —–查找filename属于哪个软件包<br>apt-file list packagename —–列出软件包的内容<br>apt-file update –更新apt-file的数据库</p>
+<p>dpkg –info “软件包名” –列出软件包解包后的包名称.<br>dpkg -l –列出当前系统中所有的包.可以和参数less一起使用在分屏查看. (类似于rpm -qa)<br>dpkg -l |grep -i “软件包名” –查看系统中与”软件包名”相关联的包.<br>dpkg -s 查询已安装的包的详细信息.<br>dpkg -L 查询系统中已安装的软件包所安装的位置. (类似于rpm -ql)<br>dpkg -S 查询系统中某个文件属于哪个软件包. (类似于rpm -qf)<br>dpkg -I 查询deb包的详细信息,在一个软件包下载到本地之后看看用不用安装(看一下呗).<br>dpkg -i 手动安装软件包(这个命令并不能解决软件包之前的依赖性问题),如果在安装某一个软件包的时候遇到了软件依赖的问题,可以用apt-get -f install在解决信赖性这个问题.<br>dpkg -r 卸载软件包.不是完全的卸载,它的配置文件还存在.<br>dpkg -P 全部卸载(但是还是不能解决软件包的依赖性的问题)<br>dpkg -reconfigure 重新配置</p>
+<p>apt-get install<br>下载软件包，以及所有依赖的包，同时进行包的安装或升级。如果某个包被设置了 hold (停止标志，就会被搁在一边(即不会被升级)。更多 hold 细节请看下面。<br>apt-get remove [–purge]<br>移除 以及任何依赖这个包的其它包。<br>–purge 指明这个包应该被完全清除 (purged) ，更多信息请看 dpkg -P。</p>
+<p>apt-get update<br>升级来自 Debian 镜像的包列表，如果你想安装当天的任何软件，至少每天运行一次，而且每次修改了<br>&#x2F;etc&#x2F;apt&#x2F;sources.list 後，必须执行。</p>
+<p>apt-get upgrade [-u]<br>升 级所有已经安装的包为最新可用版本。不会安装新的或移除老的包。如果一个包改变了依赖关系而需要安装一个新的包，那么它将不会被升级，而是标志为 hold。apt-get update 不会升级被标志为 hold 的包 (这个也就是 hold 的意思)。请看下文如何手动设置包为 hold。我建议同时使用 ‘-u’ 选项，因为这样你就能看到哪些包将会被升级。</p>
+<p>apt-get dist-upgrade [-u]<br>和 apt-get upgrade 类似，除了 dist-upgrade 会安装和移除包来满足依赖关系。因此具有一定的危险性。</p>
+<p>apt-cache search<br>在软件包名称和描述中，搜索包含xxx的软件包。</p>
+<p>apt-cache show<br>显示某个软件包的完整的描述。</p>
+<p>apt-cache showpkg<br>显示软件包更多细节，以及和其它包的关系。</p>
+<p>dselect<br>console-apt<br>aptitude<br>gnome-apt<br>APT 的几个图形前端(其中一些在使用前得先安装)。这里 dselect 无疑是最强大的，也是最古老，最难驾驭。</p>
+<p>普通 Dpkg 用法<br>dpkg -i<br>安装一个 Debian 包文件，如你手动下载的文件。</p>
+<p>dpkg -c<br>列出 的内容。</p>
+<p>dpkg -I<br>从 中提取包信息。</p>
+<p>dpkg -r<br>移除一个已安装的包。</p>
+<p>dpkg -P<br>完全清除一个已安装的包。和 remove 不同的是，remove 只是删掉数据和可执行文件，purge 另外还删除所有的配制文件。</p>
+<p>dpkg -L<br>列出 安装的所有文件清单。同时请看 dpkg -c 来检查一个 .deb 文件的内容。</p>
+<p>dpkg -s<br>显示已安装包的信息。同时请看 apt-cache 显示 Debian 存档中的包信息，以及 dpkg -I 来显示从一个 .deb 文件中提取的包信息。</p>
+<p>dpkg-reconfigure<br>重 新配制一个已经安装的包，如果它使用的是 debconf (debconf 为包安装提供了一个统一的配制界面)。你能够重新配制 debconf 它本身，如你想改变它的前端或提问的优先权。例如，重新配制 debconf，使用一个 dialog 前端，简单运行：</p>
+<p>dpkg-reconfigure –frontend&#x3D;dialog debconf (如果你安装时选错了，这里可以改回来哟：)</p>
+<p>echo “ hold” | dpkg –set-selections<br>设置 的状态为 hlod (命令行方式)</p>
+<p>dpkg –get-selections “”<br>取的 的当前状态 (命令行方式)</p>
+<p>支持通配符，如：<br>Debian:~# dpkg –get-selections <em>wine</em><br>libwine hold<br>libwine-alsa hold<br>libwine-arts hold<br>libwine-dev hold<br>libwine-nas hold<br>libwine-print hold<br>libwine-twain hold<br>wine hold<br>wine+ hold<br>wine-doc hold<br>wine-utils hold</p>
+<p>例如：<br>大家现在用的都是 gaim-0.58 + QQ-plugin，为了防止 gaim 被升级，我们可以采用如下方法：</p>
+<p>方法一：<br>Debian:<del># echo “gaim hold” | dpkg –set-selections<br>然後用下面命令检查一下：<br>Debian:</del># dpkg –get-selections “gaim”<br>gaim hold<br>现在的状态标志是 hold，就不能被升级了。</p>
+<p>如果想恢复怎么办呢?<br>Debian:<del># echo “gaim install” | dpkg –set-selections<br>Debian:</del># dpkg –get-selections “gaim”<br>gaim install<br>这时状态标志又被重置为 install，可以继续升级了。</p>
+<p>同志们会问，哪个这些状态标志都写在哪个文件中呢?<br>在 &#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;status 里，你也可以通过修改这个文件实现 hold。</p>
+<p>有时你会发现有的软件状态标志是 purge，不要奇怪。<br>如：事先已经安装了 amsn，然後把它卸了。<br>apt-get remove –purge amsn<br>那么状态标志就从 install 变成 purge。</p>
+<p>方法二：<br>在&#x2F;etc&#x2F;apt 下手动建一个 preferences 文件<br>内容：<br>Package: gaim<br>Pin: version 0.58*<br>保存</p>
+<p>dpkg -S<br>在包数据库中查找 ，并告诉你哪个包包含了这个文件。(注：查找的是事先已经安装的包)</p>
+<p>-——————————————-<br>Debian的软件包管理工具命令不完全列表<br>-——————————————-<br>Debian系统中所有的包信息都在&#x2F;var&#x2F;lib&#x2F;dpkg下.其中&#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;info目录中保存了各个软件包的信息及管理文件.每个文件的作用如下:<br>以 “.conffiles”   结尾的文件记录软件包的配置列表.<br>以 “.list”     结尾的文件记录了软件包的文件列表,用户可在文件当中找到软件包文件的具体安装位置.<br>以 “.md5sums”    结尾的文件记录了md5信息,用来进行包的验证的.<br>以 “.config”    结尾的文件是软件包的安装配置角本.<br>以 “.postinst”   角本是完成Debian包解开之后的配置工作,通常用来执行所安装软件包相关的命令和服务的重新启动.<br>以 “.preinst”    角本在Debain解包之前运行,主要作用是是停止作用于即将升级的软件包服务直到软件包安装或和升级完成.<br>以 “.prerm”     脚本负责停止与软件包关联的daemon服务,在删除软件包关联文件之前执行.<br>以 “.postrm”    脚本负责修改软件包链接或文件关联,或删除由它创建的文件.</p>
+<p>&#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;available是软件包的描述信息.<br>包括当前系统中所有使用的Debian安装源中所有的软件包,还包括当前系统中已经安装和未安装的软件包.</p>
+<p>1.dpkg包管理工具</p>
+<p>dpkg -r 卸载软件包.不是完全的卸载,它的配置文件还存在.<br>dpkg –info “软件包名” –列出软件包解包后的包名称.<br>dpkg -l   –列出当前系统中所有的包.可以和参数less一起使用在分屏查看.<br>dpkg -l |grep -i “软件包名” –查看系统中与”软件包名”相关联的包.<br>dpkg -s  查询已安装的包的详细信息. dpkg -L  查询系统中已安装的软件包所安装的位置.<br>dpkg -S  查询系统中某个文件属于哪个软件包.<br>dpkg -I  查询deb包的详细信息,在一个软件包下载到本地之后看看用不用安装(看一下呗).<br>dpkg -i 手动安装软件包(这个命令并不能解决软件包之前的依赖性问题),如果在安装某一个软件包的时候遇到了软件依赖的问题,可以用apt-get -f install在解决信赖性这个问题.<br>dpkg -reconfigure 重新配置<br>dpkg -P 全部卸载(但是还是不能解决软件包的依赖性的问题)</p>
+<p>\2. apt高级包管理工具<br>  (1)GTK图形的”synaptic”,这是APT的前端工具.<br>  (2)”aptitude”,这也是APT的前端工具.<br>  用APT管理工具进行包的管理,可以有以下几种方法做源:<br>  (1)拿安装盘做源,方法如下:<br>    apt-cdrom ident    扫描光盘的信息<br>    apt-cdrom add     添加光盘源<br>  (2)这也是最常用的方法就是把源添加到&#x2F;etc&#x2F;apt&#x2F;source.list中,之后更新列apt-get update</p>
+<p>APT管理工具常用命令<br>apt-cache 加上不同的子命令和参数的使用可以实现查找,显示软件,包信息及包信赖关系等功能.<br>apt-cache stats 显示当前系统所有使用的Debain数据源的统计信息.<br>apt-cache search +”包名”,可以查找相关的软件包.<br>apt-cache show  +”包名”,可以显示指定软件包的详细信息.<br>apt-cache depends +”包名”,可以查找软件包的依赖关系.<br>apt-get upgrade  更新系统中所有的包到最新版<br>apt-get install  安装软件包<br>apt-get –reindtall install 重新安装软件包<br>apt-get remove 卸载软件包<br>apt-get –purge remove 完全卸载软件包<br>apt-get clean 清除无用的软件包<br>在用命令apt-get install之前,是先将软件包下载到&#x2F;var&#x2F;cache&#x2F;apt&#x2F;archives中,之后再进行安装的.所以我们可以用apt-get clean清除&#x2F;var&#x2F;cache&#x2F;apt&#x2F;archives目录中的软件包.</p>
+<p>源码包安装<br>  apt-cache showsrc 查找看源码包的文件信息(在下载之前)<br>  apt-get source 下载源码包.<br>  apt-get build-dep +”包名” 构建源码包的编译环境.</p>
+<p>清除处于rc状态的软件包</p>
+<p>dpkg -l |grep ^rc|awk ‘{print $2}’ |tr [“\n”] [“ “] | sudo xargs dpkg -P -</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/11/08/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/ubuntu%E4%B8%ADapt-get%E7%9A%84%E9%BB%98%E8%AE%A4%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84%E3%80%82%E5%AE%89%E8%A3%85%E3%80%81%E5%8D%B8%E8%BD%BD%E4%BB%A5%E5%8F%8A%E6%9F%A5%E7%9C%8B%E7%9A%84%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">https://darling-123456.github.io/2024/11/08/记录踩过的坑/ubuntu中apt-get的默认安装路径。安装、卸载以及查看的方法总结/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">踩坑记录</a></div><div class="post-share"><div class="social-share" data-image="/img/164.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/11/08/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/ubuntu22.04%20%E5%AF%86%E9%92%A5%E5%AD%98%E5%82%A8%E5%9C%A8%E8%BF%87%E6%97%B6%E7%9A%84%20trusted.gpg%20%E5%AF%86%E9%92%A5%E7%8E%AF%E4%B8%AD/" title="ubuntu22.04 密钥存储在过时的 trusted.gpg 密钥环中"><img class="cover" src="/img/161.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">ubuntu22.04 密钥存储在过时的 trusted.gpg 密钥环中</div></div><div class="info-2"><div class="info-item-1">ubuntu22.04 密钥存储在过时的 trusted.gpg 密钥环中使用 sudo apt update 命令时，会提示密钥存储在过时的 trusted.gpg 密钥环中，具体提示内容如下： W: https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/dists/jammy/InRelease: 密钥存储在过时的 trusted.gpg 密钥环中（&#x2F;etc&#x2F;apt&#x2F;trusted.gpg），请参见 apt-key(8) 的 DEPRECATION 一节以了解详情。 解决方法： 在终端运行以下命令 12cd /etc/aptsudo cp trusted.gpg trusted.gpg.d   再次运行 sudo apt update ，不再出现此提示。 </div></div></div></a><a class="pagination-related" href="/2024/11/09/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E8%99%9A%E6%8B%9F%E6%9C%BAping%E4%B8%8D%E9%80%9A%E4%B8%BB%E6%9C%BA%E7%9A%84%E9%97%AE%E9%A2%98/" title="虚拟机ping不通主机的问题"><img class="cover" src="/img/163.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">虚拟机ping不通主机的问题</div></div><div class="info-2"><div class="info-item-1">虚拟机ping不通主机的问题零、虚拟机和主机ip地址查看windows：win+r输入cmd输入ipconfig，途中192.168.120.1就是主机地址  ubuntu：打开终端输入ifconfig查看即可 一、虚拟机ping 虚拟机一般只要虚拟机的网络连接方式都为NAT方式就没有毛病 二、虚拟机ping主机若不通一般是主机的防火墙的问题（Windows都有这个毛病）1，搜索控制面板 2，系统和安全-&gt;防火墙-&gt;高级系统设置-&gt;入站规则启动下面的，设置为允许。 备用方法若上面开启后不行，但关闭防火墙后可以ping通，使用下面方法此方法适用于win10和win server平台打开”防火墙网络保护”点击”高级设置”选项，随后在”高级安全Windows...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/03/17/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo%20init%E9%97%AE%E9%A2%98/" title="用hexo初始化博客执行hexo init时碰到的问题"><img class="cover" src="/img/80.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-17</div><div class="info-item-2">用hexo初始化博客执行hexo init时碰到的问题</div></div><div class="info-2"><div class="info-item-1">用hexo初始化博客执行hexo init时碰到的问题123456$ hexo init myblogINFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.gitfatal: unable to access &#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: SSL certificate problem: unable to get local issuer certificateWARN  git clone failed. Copying data insteadINFO  Install dependenciesINFO  Start blogging with...</div></div></div></a><a class="pagination-related" href="/2024/11/08/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/MIT%206.s081%20make%20qemu%E5%90%AF%E5%8A%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%8D%A1%E4%BD%8F%E4%BA%86%E5%8A%A8%E4%B8%8D%E4%BA%86%E4%BA%86/" title="MIT 6.s081 make qemu启动的时候卡住了动不了了"><img class="cover" src="/img/160.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-08</div><div class="info-item-2">MIT 6.s081 make qemu启动的时候卡住了动不了了</div></div><div class="info-2"><div class="info-item-1">MIT 6.s081 make qemu启动的时候卡住了动不了了执行了make qemu，卡住动不了了 123qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp3 -nographic -drive file=fs. img, if=none, format=raw, id=x0 -device virtio-blk-device, drive=x0,bus=virtio-mmio-bus.0  停在了这么个倒霉地方 此时此刻，似乎软件包 qemu-system-misc 收到了一个更新，该更新破坏了它与我们内核的兼容性。如果运行 make qemu 并且脚本在 qemu-system-riscv64 -machine virt -bios none -kernel&#x2F;kernel -m 128M -smp 3 -nographic -drive file&#x3D;fs.img，if&#x3D;none，format&#x3D;raw，id&#x3D;x0...</div></div></div></a><a class="pagination-related" href="/2024/11/15/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/Linux%E4%B9%8Bvim%E5%85%A8%E9%80%89%EF%BC%8C%E5%85%A8%E9%83%A8%E5%A4%8D%E5%88%B6%EF%BC%8C%E5%85%A8%E9%83%A8%E5%88%A0%E9%99%A4/" title="Linux之vim全选 全部复制 全部删除"><img class="cover" src="/img/168.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-15</div><div class="info-item-2">Linux之vim全选 全部复制 全部删除</div></div><div class="info-2"><div class="info-item-1">Linux之vim全选，全部复制，全部删除Vim中如何全选并复制？（区分大小写！！！）全部删除：按esc键后，先按gg（到达顶部），然后dG全部复制：按esc键后，先按gg，然后ggyG全选高亮显示：按esc键后，先按gg，然后ggvG或者ggVG 单行复制：按esc键后, 然后yy单行删除：按esc键后, 然后dd粘贴：按esc键后, 然后p vim只能粘贴50行的问题：在当前用户主目录（）编辑&#x2F;.vimrc（如果不存在，新建这个文件），添加一行 1:set viminfo=&#x27;1000,&lt;500     至于为什么要输入输入’1000,这个其实不重要，最主要的是输入&lt;500,它是设置寄存器保存的行数的。即最大值为...</div></div></div></a><a class="pagination-related" href="/2024/11/01/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/VS%20code%E8%B0%83%E8%AF%95%E6%97%B6%E6%98%BE%E7%A4%BAUnable%20to%20start%20debugging.The%20value%20of%20miDebuggerPath%20is%20invalid/" title="VS code调试时显示Unable to start debugging The value of miDebuggerPath is invalid"><img class="cover" src="/img/152.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-01</div><div class="info-item-2">VS code调试时显示Unable to start debugging The value of miDebuggerPath is invalid</div></div><div class="info-2"><div class="info-item-1">VS code调试时显示Unable to start debugging.The value of miDebuggerPath is invalid一、问题现象VS code调试时显示Unable to start debugging.The value of miDebuggerPath is invalid。具体现象如下图： 二、问题原因看到问题首先千万不能怕，由英文提示可知是路径错误，所以打开launch.json去改正地址即可。 三、解决办法按下图将地址格式改正确即可。注意D盘和具有文件间还有个&#x2F;。 </div></div></div></a><a class="pagination-related" href="/2024/11/11/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/Linux%E6%8A%A5%20%E2%80%9Cpermission%20denied%E2%80%9D%20%E5%BC%82%E5%B8%B8%E7%9A%84%E5%8E%9F%E5%9B%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" title="Linux报 permission denied异常的原因以及解决办法"><img class="cover" src="/img/167.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-11</div><div class="info-item-2">Linux报 permission denied异常的原因以及解决办法</div></div><div class="info-2"><div class="info-item-1">Linux报 “permission denied” 异常的原因以及解决办法Linux报 permission denied （权限被拒绝）错误通常是由于当前用户缺少执行该文件或文件夹的权限而导致的。这是 Linux 系统的安全机制之一，可以保证系统的安全性和稳定性。下面来详细介绍一下Linux报 permission denied的原因和解决办法。 原因 文件或文件夹的权限不够： Linux系统中，每个文件都有不同的权限，包括读、写、执行权限。如果当前用户没有执行某个文件或文件夹的权限，就会报 permission denied 错误。比如，一个文件的权限是-rw-r–r–，这意味着该文件的所有者可以读写，其他用户只能读取，如果你是其他用户，想要执行该文件，就会提示错误。 当前用户不是文件或文件夹的所有者：如果一个文件或文件夹没有读、写、执行权限，但是它属于当前用户，那么你就有权执行，但如果你不是该文件或文件夹的所有者，就无权执行。 文件或文件夹不存在：如果你输入的路径是错误的或该文件已经被删除，就会报permission denied...</div></div></div></a><a class="pagination-related" href="/2024/12/11/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/Ubuntu%E4%BD%BF%E7%94%A8telnet%E8%BF%9E%E6%8E%A5%E6%97%B6%E5%87%BA%E7%8E%B0%E7%9A%84%E9%94%99%E8%AF%AF%EF%BC%9A%E6%B2%A1%E6%9C%89%E5%88%B0%E4%B8%BB%E6%9C%BA%E7%9A%84%E8%B7%AF%E7%94%B1%EF%BC%88%E8%83%BDping%E9%80%9A%E4%BD%86%E6%98%AF%E8%BF%98%E6%98%AF%E6%8A%A5%E9%94%99%EF%BC%89/" title="Ubuntu使用telnet连接时出现的错误 没有到主机的路由 能ping通但是还是报错"><img class="cover" src="/img/170.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-11</div><div class="info-item-2">Ubuntu使用telnet连接时出现的错误 没有到主机的路由 能ping通但是还是报错</div></div><div class="info-2"><div class="info-item-1">Ubuntu使用telnet连接时出现的错误：没有到主机的路由（能ping通但是还是报错）错误如下：  说明： A机：192.168.120.138 B机：192.168.120.139 开启的服务端口是1234 解决方法： 1.检查是不是能ping通如果ping不通，那就先解决这个问题 2.防火墙的问题以下操作要在b机上运行，即开启服务的那个主机 列出所有规则： 1firewall-cmd --list-all   这里看到的只有22和8000端口，刚刚使用ufw开放的端口没有。于是使用相关命令开放端口（1234替换成想指定的端口）： 如果是udp也要换成udp而不是用tcp 1firewall-cmd --zone=public --add-port=1234/tcp --permanent  执行完添加端口命令后，一定要重启防火墙才能生效，重启命令如下： 1firewall-cmd...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">170</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ubuntu%E4%B8%ADapt-get%E7%9A%84%E9%BB%98%E8%AE%A4%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84%E3%80%82%E5%AE%89%E8%A3%85%E3%80%81%E5%8D%B8%E8%BD%BD%E4%BB%A5%E5%8F%8A%E6%9F%A5%E7%9C%8B%E7%9A%84%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">ubuntu中apt-get的默认安装路径。安装、卸载以及查看的方法总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img src="/img/84.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly博客功能完善和美化（四）---博客上传"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传">hexo+butterfly博客功能完善和美化（四）---博客上传</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img src="/img/87.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly搭建博客网站总结篇"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇">hexo+butterfly搭建博客网站总结篇</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>解决vscode终端输出中文乱码问题图文教程 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="解决vscode终端输出中文乱码问题图文教程解决网上终端chcp65001仍然无效，或者vscode由utf-8改为GBK仍然无效的问题，提供了三个方案，c&#x2F;c++设置通用 乱码原因因windows中文版系统cmd编码默认为GBK，而vscode默认新建文件的编码为UTF-8所以会出现中文乱码情况 方法一（永久性）将系统默认编码改为UTF-8,该方法需确保你的vscode编码格式已为UT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决vscode终端输出中文乱码问题图文教程">
+<meta property="og:url" content="https://darling-123456.github.io/2024/11/01/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E8%A7%A3%E5%86%B3vscode%E7%BB%88%E7%AB%AF%E8%BE%93%E5%87%BA%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B%E3%80%91/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="解决vscode终端输出中文乱码问题图文教程解决网上终端chcp65001仍然无效，或者vscode由utf-8改为GBK仍然无效的问题，提供了三个方案，c&#x2F;c++设置通用 乱码原因因windows中文版系统cmd编码默认为GBK，而vscode默认新建文件的编码为UTF-8所以会出现中文乱码情况 方法一（永久性）将系统默认编码改为UTF-8,该方法需确保你的vscode编码格式已为UT">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/156.jpg">
+<meta property="article:published_time" content="2024-10-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-23T07:21:15.988Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="踩坑记录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/156.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "解决vscode终端输出中文乱码问题图文教程",
+  "url": "https://darling-123456.github.io/2024/11/01/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E8%A7%A3%E5%86%B3vscode%E7%BB%88%E7%AB%AF%E8%BE%93%E5%87%BA%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B%E3%80%91/",
+  "image": "https://darling-123456.github.io/img/156.jpg",
+  "datePublished": "2024-10-31T16:00:00.000Z",
+  "dateModified": "2025-03-23T07:21:15.988Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/11/01/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E8%A7%A3%E5%86%B3vscode%E7%BB%88%E7%AB%AF%E8%BE%93%E5%87%BA%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B%E3%80%91/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '解决vscode终端输出中文乱码问题图文教程',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">170</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/156.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">解决vscode终端输出中文乱码问题图文教程</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">解决vscode终端输出中文乱码问题图文教程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-10-31T16:00:00.000Z" title="发表于 2024-11-01 00:00:00">2024-11-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-23T07:21:15.988Z" title="更新于 2025-03-23 15:21:15">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">踩坑记录</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="解决vscode终端输出中文乱码问题图文教程"><a href="#解决vscode终端输出中文乱码问题图文教程" class="headerlink" title="解决vscode终端输出中文乱码问题图文教程"></a>解决vscode终端输出中文乱码问题图文教程</h1><p>解决网上终端chcp65001仍然无效，或者vscode由utf-8改为GBK仍然无效的问题，提供了三个方案，c&#x2F;c++设置通用</p>
+<h3 id="乱码原因"><a href="#乱码原因" class="headerlink" title="乱码原因"></a>乱码原因</h3><p>因windows<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E4%B8%AD%E6%96%87%E7%89%88&spm=1001.2101.3001.7020">中文版</a>系统cmd编码默认为GBK，而vscode默认新建文件的编码为UTF-8所以会出现中文乱码情况</p>
+<h3 id="方法一（永久性）"><a href="#方法一（永久性）" class="headerlink" title="方法一（永久性）"></a>方法一（永久性）</h3><p>将系统默认编码改为UTF-8,该方法需确保你的vscode编码格式已为UTF-8(若之前未作修改默认为UTF-8，不确定也可以看界面右下角，若不是也可自行更改，方法二中有介绍vscode编码格式更改方法)<br><strong>缺点：系统设置更改，可能导致某些软件乱码，例如之前在gbk模式下载的caj文献打不开，需重新下载</strong><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5a4a316dbc4b3435d0f8907b186ebfe7.png" alt="在这里插入图片描述"></p>
+<p>win键–设置–时间和语言–语言–管理语言设置–更改系统区域设置–勾选Beta版使用Unicode UTF-8提供全球语言支持<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/083c5182bd599e8932b960d1ff2c5c7a.png" alt="在这里插入图片描述"><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0057b7c9b21514680651d833bc3b159d.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8773e3eacc80ddc91df0ba2285dea80f.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9cd18dd0ea79bc51388c5d630b25b6f4.png" alt="更改系统区域设置"><br>勾选Beta版使用Unicode UTF-8提供全球语言支持<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b0c62192bb0110698983528914d8e89e.png" alt="img"></p>
+<p>！！！更改系统设置时一定要重启电脑，否则会随机性报错，可能会出现设置改完了但没有生效的情况</p>
+<p>重启电脑后我们发现再次进入系统cmd中输入chcp显示65001<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b14e161408d3f7915c447ea6ee0368ca.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/934d97580ec2d777fb9dfcd923ef8bd5.png" alt="在这里插入图片描述"><br>此时更改成功，在vscode终端运行不会乱码</p>
+<h3 id="方法二（永久性）强力推荐！！！！！！！！！！！"><a href="#方法二（永久性）强力推荐！！！！！！！！！！！" class="headerlink" title="方法二（永久性）强力推荐！！！！！！！！！！！"></a>方法二（永久性）强力推荐！！！！！！！！！！！</h3><p>方法2（永久性）<br>更改vscode默认编码UTF-8为GBK，（<em>该法需确认系统编码环境为GBK格式</em>，cmd终端输入chcp可以查看当前系统默认编译器,65001代表UTF-8,936代表GBK;设置完仍需重启vscode否则仍会出问题<br><strong>缺点：博主电脑对于首字符为汉字的字符串显示仍乱吗，但对于字符中夹杂中文则不会乱码，而同门电脑则未遇到问题，博主未找到原因</strong></p>
+<p><strong>！！！！！！！！！！！！！！！！！！！！！！！！！2022.11.24博主找到原因了，透透透，方法写在方法二末尾附加部分</strong></p>
+<p><em>1已经写好的程序文件，通过右下角更改：</em><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/88675f75fdffe177fe32d614b93eb4ad.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b2dd8297af6b6f418acf171d8a8aedf8.png" alt="在这里插入图片描述"><br>保存为GBK格式<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/31674bb5b6994774963d19f213f9b072.png" alt="在这里插入图片描述"><br>重新运行程序即解决乱码问题，</p>
+<p><em>2新建文件时我们发现右下角又会变为utf8，因此还需修改默认新建文件和打开文件编码方式</em><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8ef984fde23bf9762b440ab17aa7b705.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e416aa1baf376ab3f3cdc938781f2b89.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/164cb3285d2789b55b8983ab8c419114.png" alt="在这里插入图片描述"><br>将此处的utf8改为gbk，即可使新建的文件均为gbk格式</p>
+<h3 id="附加（CMD修改成旧控制台）"><a href="#附加（CMD修改成旧控制台）" class="headerlink" title="附加（CMD修改成旧控制台）"></a>附加（CMD修改成旧控制台）</h3><p>博主使用方法三没有出现中文乱码情况，但是cin输入中文时终端不显示，最后在修改系统终端的过程中解决了方法二输出字符串首字符为中文就报错的情况！！！（期间博主转用visual studio2012，无需设置任何编码格式，也无需配置编译环境，即使中文乱码修改控制台为旧控制台即可解决所有问题。确实比vscode简单，但是编译器太原始，写代码不舒服，还是回到了vscode，实在新手小白不愿意配置环境可以使用visual studio，想高效书写查看代码还是建议vscode）</p>
+<p>如图，博主使用方法二，将vscode编码格式设为gbk，终端编码格式为默认值，仍为gbk，但是对于首字符为中文的字符串仍然乱码，而只要首字符非中文还是不会乱码的<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ac8426fac53613243579f3ab71acaeb4.png" alt="在这里插入图片描述"><br><strong>解决方案</strong><br>win+R输入cmd进入系统终端，记住是系统终端不是vscode的虚拟终端！<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3d6c0bd020cfc65a9c60ecdf3e4864f5.png" alt="在这里插入图片描述"><br>在终端上边框空白处右键进入“”属性“”（右键黑色处无效哦）<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d340abc72c65f3df7ccf80474c479043.png" alt="在这里插入图片描述"><br>勾选启用旧版控制台，然后确认后关闭终端，重启vscode重新运行就OK了<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8b9d8bfbf03fc7a2118fcc727c907113.png" alt="在这里插入图片描述"><br>可以看到，之前所有问题迎刃而解，中文不乱码，cin也能接受中文字符并显示<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a46aea03316885a6f9817190829332b4.png" alt="在这里插入图片描述"><br><em>该法同样适用cout中文乱码，printf正常</em></p>
+<h3 id="方法三（临时性）"><a href="#方法三（临时性）" class="headerlink" title="方法三（临时性）"></a>方法三（临时性）</h3><p>vscode仍默认编码保存编码方式UTF-8，在vscode终端输入chcp 65001手动调节虚拟终端编码为UTF-8（注：vscode启用的是虚拟终端，不会更改系统设置，即win+r再cmd进入的终端显示的活动代码不会改变）<br><strong>缺点：因该法改变的是虚拟终端的编码格式为一次性，在重启vscode或者重新打开项目文件时需重新再vscode的虚拟终端输入chcp 65001</strong></p>
+<p><em>博主一开始用的是方法1没问题，后在查看知网caj文件时出现问题，转用同门推荐方法2，离奇的事出现了，他没问题，我就是乱码，后发现在我电脑上只要首字符非中文就不会乱码，最后博主使用了方法三亲测有效，但一定要注意把vscode的设置还原成默认的utf-8</em><br><strong>博主在使用cin输入时又出现了中文不显示，最后通过修改系统CMD设置得以解决</strong></p>
+<p>未更改前中文乱码<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/06264f53bb22520f37ab35faff429b50.png" alt="在这打双打撒旦里插入图片描述"><br>vscode虚拟终端输入chcp 65001<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d905725f47e581cfc4c6869d8e9f118b.png" alt="在这里插入图片描述"><br>显示激活65001，意思就是已将虚拟终端的编码格式设为UTF-8<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/06c1c2e8b6d2cca27aaced2549efd2a0.png" alt="在这里插入图片描述"><br>此时run code不再乱码<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/bc651a83f1c5b8904dc529365daeb250.png" alt="在这里插入图片描述"></p>
+<h3 id="如果之前尝试了其他方法调乱了不要着急："><a href="#如果之前尝试了其他方法调乱了不要着急：" class="headerlink" title="如果之前尝试了其他方法调乱了不要着急："></a>如果之前尝试了其他方法调乱了不要着急：</h3><p><strong>cmd终端chcp可以查看当前系统默认编译器,65001代表UTF-8,936代表GBK;<br>vscode界面右小角会显示当前代码文件的编码格式</strong></p>
+<p><em>二者统一即可，均为GBK或均为UTF-8均可</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/11/01/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E8%A7%A3%E5%86%B3vscode%E7%BB%88%E7%AB%AF%E8%BE%93%E5%87%BA%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B%E3%80%91/">https://darling-123456.github.io/2024/11/01/记录踩过的坑/解决vscode终端输出中文乱码问题图文教程】/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">踩坑记录</a></div><div class="post-share"><div class="social-share" data-image="/img/156.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/11/01/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E3%80%90win%E3%80%91vscode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8ctrl+shift+p%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="win下vscode无法使用ctrl+shift+p快捷键的解决方案"><img class="cover" src="/img/149.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">win下vscode无法使用ctrl+shift+p快捷键的解决方案</div></div><div class="info-2"><div class="info-item-1">【win】vscode无法使用ctrl+shift+p快捷键的解决方案今天使用vscode的时候遇到的这个问题，明明快捷键设置的是ctrl+shift+p，但是在电脑上怎么敲都敲不出来，因为用这个快捷键打开命令面板都习惯了，也不想换，就在找原因。 同时百度的时候还遇到了几个可能的问题：  键盘不支持全键无冲，ctrl+shift+p的组合冲突了 键盘坏了（最开始我还真有这个想法，但测试了一下就发现没坏） 如果是笔记本，测试自带键盘能否正常使用该快捷键  最后发现是我开机自启了picgo，而picgo的快速上传快捷键和vscode冲突了。  在picgo的设置-快捷键设置里面，把这个快捷键给禁用就行。 </div></div></div></a><a class="pagination-related" href="/2024/11/02/linuxC++%E5%B7%A5%E4%BD%9C%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/Ubuntu%2022.04%E5%AE%89%E8%A3%85Visual%20Studio%20Code(VS%20Code)/" title="Ubuntu 22.04安装Visual Studio Code(VS Code)"><img class="cover" src="/img/59.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Ubuntu 22.04安装Visual Studio Code(VS Code)</div></div><div class="info-2"><div class="info-item-1">Ubuntu 22.04安装Visual Studio Code(VS Code)一、下载打开浏览器，访问VS Code的官方网址：https://code.visualstudio.com。 在首页的左侧有两个蓝色的按钮，点击左边的按钮，下载.deb格式的安装包，下载完成后得到如下文件。 二、安装下载完成后，可以通过图形界面或命令行的方式安装，以下两种方式任选一种即可。 通过图形界面安装1.右键点击安装包，在菜单中选择“使用其他程序打开” 2.在“选择应用程序”中选择“软件安装”然后点击“选择”  打开安装包的速度可能较慢，请耐心等待  3.在新打开的窗口中可以查看一些安装包的信息，这里直接点击“安装” 4.输入当前账户密码，然后点击“认证”开始安装 （用户认证）  （正在安装）  （安装完成） 5.安装完成后，点击Dock栏上的“显示应用程序”，在“启动器”中就能找到VS Code 的图标，点击即可运行 通过命令行安装1.打开终端，切换至放有安装包目录，执行以下命令开始安装 12sudo dpkg -i...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/03/17/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo%20init%E9%97%AE%E9%A2%98/" title="用hexo初始化博客执行hexo init时碰到的问题"><img class="cover" src="/img/80.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-17</div><div class="info-item-2">用hexo初始化博客执行hexo init时碰到的问题</div></div><div class="info-2"><div class="info-item-1">用hexo初始化博客执行hexo init时碰到的问题123456$ hexo init myblogINFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.gitfatal: unable to access &#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: SSL certificate problem: unable to get local issuer certificateWARN  git clone failed. Copying data insteadINFO  Install dependenciesINFO  Start blogging with...</div></div></div></a><a class="pagination-related" href="/2024/11/08/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/MIT%206.s081%20make%20qemu%E5%90%AF%E5%8A%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%8D%A1%E4%BD%8F%E4%BA%86%E5%8A%A8%E4%B8%8D%E4%BA%86%E4%BA%86/" title="MIT 6.s081 make qemu启动的时候卡住了动不了了"><img class="cover" src="/img/160.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-08</div><div class="info-item-2">MIT 6.s081 make qemu启动的时候卡住了动不了了</div></div><div class="info-2"><div class="info-item-1">MIT 6.s081 make qemu启动的时候卡住了动不了了执行了make qemu，卡住动不了了 123qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp3 -nographic -drive file=fs. img, if=none, format=raw, id=x0 -device virtio-blk-device, drive=x0,bus=virtio-mmio-bus.0  停在了这么个倒霉地方 此时此刻，似乎软件包 qemu-system-misc 收到了一个更新，该更新破坏了它与我们内核的兼容性。如果运行 make qemu 并且脚本在 qemu-system-riscv64 -machine virt -bios none -kernel&#x2F;kernel -m 128M -smp 3 -nographic -drive file&#x3D;fs.img，if&#x3D;none，format&#x3D;raw，id&#x3D;x0...</div></div></div></a><a class="pagination-related" href="/2024/11/15/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/Linux%E4%B9%8Bvim%E5%85%A8%E9%80%89%EF%BC%8C%E5%85%A8%E9%83%A8%E5%A4%8D%E5%88%B6%EF%BC%8C%E5%85%A8%E9%83%A8%E5%88%A0%E9%99%A4/" title="Linux之vim全选 全部复制 全部删除"><img class="cover" src="/img/168.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-15</div><div class="info-item-2">Linux之vim全选 全部复制 全部删除</div></div><div class="info-2"><div class="info-item-1">Linux之vim全选，全部复制，全部删除Vim中如何全选并复制？（区分大小写！！！）全部删除：按esc键后，先按gg（到达顶部），然后dG全部复制：按esc键后，先按gg，然后ggyG全选高亮显示：按esc键后，先按gg，然后ggvG或者ggVG 单行复制：按esc键后, 然后yy单行删除：按esc键后, 然后dd粘贴：按esc键后, 然后p vim只能粘贴50行的问题：在当前用户主目录（）编辑&#x2F;.vimrc（如果不存在，新建这个文件），添加一行 1:set viminfo=&#x27;1000,&lt;500     至于为什么要输入输入’1000,这个其实不重要，最主要的是输入&lt;500,它是设置寄存器保存的行数的。即最大值为...</div></div></div></a><a class="pagination-related" href="/2024/11/01/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/VS%20code%E8%B0%83%E8%AF%95%E6%97%B6%E6%98%BE%E7%A4%BAUnable%20to%20start%20debugging.The%20value%20of%20miDebuggerPath%20is%20invalid/" title="VS code调试时显示Unable to start debugging The value of miDebuggerPath is invalid"><img class="cover" src="/img/152.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-01</div><div class="info-item-2">VS code调试时显示Unable to start debugging The value of miDebuggerPath is invalid</div></div><div class="info-2"><div class="info-item-1">VS code调试时显示Unable to start debugging.The value of miDebuggerPath is invalid一、问题现象VS code调试时显示Unable to start debugging.The value of miDebuggerPath is invalid。具体现象如下图： 二、问题原因看到问题首先千万不能怕，由英文提示可知是路径错误，所以打开launch.json去改正地址即可。 三、解决办法按下图将地址格式改正确即可。注意D盘和具有文件间还有个&#x2F;。 </div></div></div></a><a class="pagination-related" href="/2024/11/11/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/Linux%E6%8A%A5%20%E2%80%9Cpermission%20denied%E2%80%9D%20%E5%BC%82%E5%B8%B8%E7%9A%84%E5%8E%9F%E5%9B%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" title="Linux报 permission denied异常的原因以及解决办法"><img class="cover" src="/img/167.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-11</div><div class="info-item-2">Linux报 permission denied异常的原因以及解决办法</div></div><div class="info-2"><div class="info-item-1">Linux报 “permission denied” 异常的原因以及解决办法Linux报 permission denied （权限被拒绝）错误通常是由于当前用户缺少执行该文件或文件夹的权限而导致的。这是 Linux 系统的安全机制之一，可以保证系统的安全性和稳定性。下面来详细介绍一下Linux报 permission denied的原因和解决办法。 原因 文件或文件夹的权限不够： Linux系统中，每个文件都有不同的权限，包括读、写、执行权限。如果当前用户没有执行某个文件或文件夹的权限，就会报 permission denied 错误。比如，一个文件的权限是-rw-r–r–，这意味着该文件的所有者可以读写，其他用户只能读取，如果你是其他用户，想要执行该文件，就会提示错误。 当前用户不是文件或文件夹的所有者：如果一个文件或文件夹没有读、写、执行权限，但是它属于当前用户，那么你就有权执行，但如果你不是该文件或文件夹的所有者，就无权执行。 文件或文件夹不存在：如果你输入的路径是错误的或该文件已经被删除，就会报permission denied...</div></div></div></a><a class="pagination-related" href="/2024/12/11/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/Ubuntu%E4%BD%BF%E7%94%A8telnet%E8%BF%9E%E6%8E%A5%E6%97%B6%E5%87%BA%E7%8E%B0%E7%9A%84%E9%94%99%E8%AF%AF%EF%BC%9A%E6%B2%A1%E6%9C%89%E5%88%B0%E4%B8%BB%E6%9C%BA%E7%9A%84%E8%B7%AF%E7%94%B1%EF%BC%88%E8%83%BDping%E9%80%9A%E4%BD%86%E6%98%AF%E8%BF%98%E6%98%AF%E6%8A%A5%E9%94%99%EF%BC%89/" title="Ubuntu使用telnet连接时出现的错误 没有到主机的路由 能ping通但是还是报错"><img class="cover" src="/img/170.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-11</div><div class="info-item-2">Ubuntu使用telnet连接时出现的错误 没有到主机的路由 能ping通但是还是报错</div></div><div class="info-2"><div class="info-item-1">Ubuntu使用telnet连接时出现的错误：没有到主机的路由（能ping通但是还是报错）错误如下：  说明： A机：192.168.120.138 B机：192.168.120.139 开启的服务端口是1234 解决方法： 1.检查是不是能ping通如果ping不通，那就先解决这个问题 2.防火墙的问题以下操作要在b机上运行，即开启服务的那个主机 列出所有规则： 1firewall-cmd --list-all   这里看到的只有22和8000端口，刚刚使用ufw开放的端口没有。于是使用相关命令开放端口（1234替换成想指定的端口）： 如果是udp也要换成udp而不是用tcp 1firewall-cmd --zone=public --add-port=1234/tcp --permanent  执行完添加端口命令后，一定要重启防火墙才能生效，重启命令如下： 1firewall-cmd...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">170</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3vscode%E7%BB%88%E7%AB%AF%E8%BE%93%E5%87%BA%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">解决vscode终端输出中文乱码问题图文教程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%B1%E7%A0%81%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.0.1.</span> <span class="toc-text">乱码原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%88%E6%B0%B8%E4%B9%85%E6%80%A7%EF%BC%89"><span class="toc-number">1.0.2.</span> <span class="toc-text">方法一（永久性）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%88%E6%B0%B8%E4%B9%85%E6%80%A7%EF%BC%89%E5%BC%BA%E5%8A%9B%E6%8E%A8%E8%8D%90%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%81"><span class="toc-number">1.0.3.</span> <span class="toc-text">方法二（永久性）强力推荐！！！！！！！！！！！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%E5%8A%A0%EF%BC%88CMD%E4%BF%AE%E6%94%B9%E6%88%90%E6%97%A7%E6%8E%A7%E5%88%B6%E5%8F%B0%EF%BC%89"><span class="toc-number">1.0.4.</span> <span class="toc-text">附加（CMD修改成旧控制台）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89%EF%BC%88%E4%B8%B4%E6%97%B6%E6%80%A7%EF%BC%89"><span class="toc-number">1.0.5.</span> <span class="toc-text">方法三（临时性）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E4%B9%8B%E5%89%8D%E5%B0%9D%E8%AF%95%E4%BA%86%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95%E8%B0%83%E4%B9%B1%E4%BA%86%E4%B8%8D%E8%A6%81%E7%9D%80%E6%80%A5%EF%BC%9A"><span class="toc-number">1.0.6.</span> <span class="toc-text">如果之前尝试了其他方法调乱了不要着急：</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img src="/img/84.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly博客功能完善和美化（四）---博客上传"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传">hexo+butterfly博客功能完善和美化（四）---博客上传</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img src="/img/87.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly搭建博客网站总结篇"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇">hexo+butterfly搭建博客网站总结篇</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
