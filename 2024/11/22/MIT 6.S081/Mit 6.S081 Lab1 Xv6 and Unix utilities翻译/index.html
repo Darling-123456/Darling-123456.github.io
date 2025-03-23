@@ -1,0 +1,423 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>MIT 6.S081 Lab1 Xv6 and Unix utilities翻译 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Lab1: Xv6 and Unix utilities实验任务启动xv6(难度：Easy)获取实验室的xv6源代码并切换到util分支 1234567$ git clone git:&#x2F;&#x2F;g.csail.mit.edu&#x2F;xv6-labs-2020Cloning into &#x27;xv6-labs-2020&#x27;......$ cd xv6-labs-2020$ git checkout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT 6.S081 Lab1 Xv6 and Unix utilities翻译">
+<meta property="og:url" content="https://darling-123456.github.io/2024/11/22/MIT%206.S081/Mit%206.S081%20Lab1%20Xv6%20and%20Unix%20utilities%E7%BF%BB%E8%AF%91/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="Lab1: Xv6 and Unix utilities实验任务启动xv6(难度：Easy)获取实验室的xv6源代码并切换到util分支 1234567$ git clone git:&#x2F;&#x2F;g.csail.mit.edu&#x2F;xv6-labs-2020Cloning into &#x27;xv6-labs-2020&#x27;......$ cd xv6-labs-2020$ git checkout">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/93.jpg">
+<meta property="article:published_time" content="2024-11-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-23T05:03:02.275Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="MIT 6.S081">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/93.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "MIT 6.S081 Lab1 Xv6 and Unix utilities翻译",
+  "url": "https://darling-123456.github.io/2024/11/22/MIT%206.S081/Mit%206.S081%20Lab1%20Xv6%20and%20Unix%20utilities%E7%BF%BB%E8%AF%91/",
+  "image": "https://darling-123456.github.io/img/93.jpg",
+  "datePublished": "2024-11-21T16:00:00.000Z",
+  "dateModified": "2025-03-23T05:03:02.275Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/11/22/MIT%206.S081/Mit%206.S081%20Lab1%20Xv6%20and%20Unix%20utilities%E7%BF%BB%E8%AF%91/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MIT 6.S081 Lab1 Xv6 and Unix utilities翻译',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">119</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/93.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">MIT 6.S081 Lab1 Xv6 and Unix utilities翻译</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">MIT 6.S081 Lab1 Xv6 and Unix utilities翻译</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-21T16:00:00.000Z" title="发表于 2024-11-22 00:00:00">2024-11-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-23T05:03:02.275Z" title="更新于 2025-03-23 13:03:02">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/MIT-6-S081/">MIT 6.S081</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="Lab1-Xv6-and-Unix-utilities"><a href="#Lab1-Xv6-and-Unix-utilities" class="headerlink" title="Lab1: Xv6 and Unix utilities"></a>Lab1: Xv6 and Unix utilities</h1><h1 id="实验任务"><a href="#实验任务" class="headerlink" title="实验任务"></a>实验任务</h1><h2 id="启动xv6-难度：Easy"><a href="#启动xv6-难度：Easy" class="headerlink" title="启动xv6(难度：Easy)"></a>启动xv6(难度：Easy)</h2><p>获取实验室的xv6源代码并切换到util分支</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> git://g.csail.mit.edu/xv6-labs-2020</span><br><span class="line">Cloning into <span class="string">&#x27;xv6-labs-2020&#x27;</span>...</span><br><span class="line">...</span><br><span class="line">$ <span class="built_in">cd</span> xv6-labs-2020</span><br><span class="line">$ git checkout util</span><br><span class="line">Branch <span class="string">&#x27;util&#x27;</span> <span class="built_in">set</span> up to track remote branch <span class="string">&#x27;util&#x27;</span> from <span class="string">&#x27;origin&#x27;</span>.</span><br><span class="line">Switched to a new branch <span class="string">&#x27;util&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>Xv6-labs-2020存储库与本书的xv6-riscv稍有不同;它主要添加一些文件。如果你好奇的话，可以执行<code>git log</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
+<p>您将需要使用Git版本控制系统管理和提交文件以及后续的实验室作业。接下来，切换到一个分支(执行<code>git checkout util</code>)，其中包含针对该实验室定制的xv6版本。要了解关于Git的更多信息，请查看Git用户手册。Git允许您跟踪对代码所做的更改。例如，如果你完成了其中一个练习，并且想检查你的进度，你可以通过运行以下命令来提交你的变化:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -am <span class="string">&#x27;my solution for util lab exercise 1&#x27;</span></span><br><span class="line">Created commit 60d2135: my solution <span class="keyword">for</span> util lab exercise 1</span><br><span class="line"> 1 files changed, 1 insertions(+), 0 deletions(-)</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+
+<p>您可以使用<code>git diff</code>命令跟踪您的更改。运行<code>git diff</code>将显示自上次提交以来对代码的更改，<code>git diff origin/util</code>将显示相对于初始xv6-labs-2020代码的更改。这里，***origin&#x2F;xv6-labs-2020***是git分支的名称，它是包含您下载的初始代码分支。</p>
+<ul>
+<li><strong>构建并运行xv6</strong></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ make qemu</span><br><span class="line">riscv64-unknown-elf-gcc    -c -o kernel/entry.o kernel/entry.S</span><br><span class="line">riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -DSOL_UTIL -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o kernel/start.o kernel/start.c</span><br><span class="line">...  </span><br><span class="line">riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_zombie user/zombie.o user/ulib.o user/usys.o user/printf.o user/umalloc.o</span><br><span class="line">riscv64-unknown-elf-objdump -S user/_zombie &amp;gt; user/zombie.asm</span><br><span class="line">riscv64-unknown-elf-objdump -t user/_zombie | sed <span class="string">&#x27;1,/SYMBOL TABLE/d; s/ .* / /; /^$/d&#x27;</span> &amp;gt; user/zombie.sym</span><br><span class="line">mkfs/mkfs fs.img README  user/xargstest.sh user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie </span><br><span class="line">nmeta 46 (boot, super, <span class="built_in">log</span> blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000</span><br><span class="line">balloc: first 591 blocks have been allocated</span><br><span class="line">balloc: write bitmap block at sector 45</span><br><span class="line">qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 3 -nographic -drive file=fs.img,<span class="keyword">if</span>=none,format=raw,<span class="built_in">id</span>=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0</span><br><span class="line"></span><br><span class="line">xv6 kernel is booting</span><br><span class="line"></span><br><span class="line">hart 2 starting</span><br><span class="line">hart 1 starting</span><br><span class="line">init: starting sh</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+
+<p>如果你在提示符下输入 <code>ls</code>，你会看到类似如下的输出:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">.              1 1 1024</span><br><span class="line">..             1 1 1024</span><br><span class="line">README         2 2 2059</span><br><span class="line">xargstest.sh   2 3 93</span><br><span class="line"><span class="built_in">cat</span>            2 4 24256</span><br><span class="line"><span class="built_in">echo</span>           2 5 23080</span><br><span class="line">forktest       2 6 13272</span><br><span class="line">grep           2 7 27560</span><br><span class="line">init           2 8 23816</span><br><span class="line"><span class="built_in">kill</span>           2 9 23024</span><br><span class="line"><span class="built_in">ln</span>             2 10 22880</span><br><span class="line"><span class="built_in">ls</span>             2 11 26448</span><br><span class="line"><span class="built_in">mkdir</span>          2 12 23176</span><br><span class="line"><span class="built_in">rm</span>             2 13 23160</span><br><span class="line">sh             2 14 41976</span><br><span class="line">stressfs       2 15 24016</span><br><span class="line">usertests      2 16 148456</span><br><span class="line">grind          2 17 38144</span><br><span class="line"><span class="built_in">wc</span>             2 18 25344</span><br><span class="line">zombie         2 19 22408</span><br><span class="line">console        3 20 0</span><br></pre></td></tr></table></figure>
+
+<p>这些是<code>mkfs</code>在初始文件系统中包含的文件；大多数是可以运行的程序。你刚刚跑了其中一个：<code>ls</code>。</p>
+<p>xv6没有<code>ps</code>命令，但是如果您键入Ctrl-p，内核将打印每个进程的信息。如果现在尝试，您将看到两行：一行用于init，另一行用于sh。</p>
+<p>退出 qemu : <code>Ctrl-a x</code>。</p>
+<h2 id="sleep-难度：Easy"><a href="#sleep-难度：Easy" class="headerlink" title="sleep(难度：Easy)"></a>sleep(难度：Easy)</h2><p> YOUR JOB</p>
+<p><strong>实现xv6的UNIX程序</strong><code>sleep</code><strong>：您的</strong><code>sleep</code><strong>应该暂停到用户指定的计时数。一个滴答(tick)是由xv6内核定义的时间概念，即来自定时器芯片的两个中断之间的时间。您的解决方案应该在文件user&#x2F;sleep.c中</strong></p>
+<p><strong>提示：</strong></p>
+<ul>
+<li>在你开始编码之前，请阅读《book-riscv-rev1》的第一章</li>
+<li>看看其他的一些程序（如**&#x2F;user&#x2F;echo.c, &#x2F;user&#x2F;grep.c, &#x2F;user&#x2F;rm.c**）查看如何获取传递给程序的命令行参数</li>
+<li>如果用户忘记传递参数，<code>sleep</code>应该打印一条错误信息</li>
+<li>命令行参数作为字符串传递; 您可以使用<code>atoi</code>将其转换为数字（详见**&#x2F;user&#x2F;ulib.c**）</li>
+<li>使用系统调用<code>sleep</code></li>
+<li>请参阅<strong>kernel&#x2F;sysproc.c</strong>以获取实现<code>sleep</code>系统调用的xv6内核代码（查找<code>sys_sleep</code>），<strong>user&#x2F;user.h</strong>提供了<code>sleep</code>的声明以便其他程序调用，用汇编程序编写的<strong>user&#x2F;usys.S</strong>可以帮助<code>sleep</code>从用户区跳转到内核区。</li>
+<li>确保<code>main</code>函数调用<code>exit()</code>以退出程序。</li>
+<li>将你的<code>sleep</code>程序添加到<strong>Makefile</strong>中的<code>UPROGS</code>中；完成之后，<code>make qemu</code>将编译您的程序，并且您可以从xv6的shell运行它。</li>
+<li>看看Kernighan和Ritchie编著的《C程序设计语言》（第二版）来了解C语言。</li>
+</ul>
+<p>从xv6 shell运行程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ make qemu</span><br><span class="line">...</span><br><span class="line">init: starting sh</span><br><span class="line">$ <span class="built_in">sleep</span> 10</span><br><span class="line">(nothing happens <span class="keyword">for</span> a little <span class="keyword">while</span>)</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+
+<p>如果程序在如上所示运行时暂停，则解决方案是正确的。运行<code>make grade</code>看看你是否真的通过了睡眠测试。</p>
+<p>请注意，<code>make grade</code>运行所有测试，包括下面作业的测试。如果要对一项作业运行成绩测试，请键入（不要启动XV6，在外部终端下使用）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./grade-lab-util <span class="built_in">sleep</span></span><br></pre></td></tr></table></figure>
+
+<p>这将运行与<code>sleep</code>匹配的成绩测试。或者，您可以键入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make GRADEFLAGS=<span class="built_in">sleep</span> grade</span><br></pre></td></tr></table></figure>
+
+<p>效果是一样的。</p>
+<h2 id="pingpong（难度：Easy）"><a href="#pingpong（难度：Easy）" class="headerlink" title="pingpong（难度：Easy）"></a>pingpong（难度：Easy）</h2><p> YOUR JOB</p>
+<p><strong>编写一个使用UNIX系统调用的程序来在两个进程之间“ping-pong”一个字节，请使用两个管道，每个方向一个。父进程应该向子进程发送一个字节;子进程应该打印“<code>&lt;pid&gt;: received ping</code>”，其中<code>&lt;pid&gt;</code>是进程ID，并在管道中写入字节发送给父进程，然后退出;父级应该从读取从子进程而来的字节，打印“<code>&lt;pid&gt;: received pong</code>”，然后退出。您的解决方案应该在文件user&#x2F;pingpong.c中。</strong></p>
+<p><strong>提示：</strong></p>
+<ul>
+<li>使用<code>pipe</code>来创造管道</li>
+<li>使用<code>fork</code>创建子进程</li>
+<li>使用<code>read</code>从管道中读取数据，并且使用<code>write</code>向管道中写入数据</li>
+<li>使用<code>getpid</code>获取调用进程的pid</li>
+<li>将程序加入到<strong>Makefile</strong>的<code>UPROGS</code></li>
+<li>xv6上的用户程序有一组有限的可用库函数。您可以在<strong>user&#x2F;user.h</strong>中看到可调用的程序列表；源代码（系统调用除外）位<strong>user&#x2F;ulib.c</strong>、<strong>user&#x2F;printf.c</strong>和<strong>user&#x2F;umalloc.c</strong>中。</li>
+</ul>
+<p>运行程序应得到下面的输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ make qemu</span><br><span class="line">...</span><br><span class="line">init: starting sh</span><br><span class="line">$ pingpong</span><br><span class="line">4: received ping</span><br><span class="line">3: received pong</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+
+<p>如果您的程序在两个进程之间交换一个字节并产生如上所示的输出，那么您的解决方案是正确的。</p>
+<h2 id="Primes-素数，难度：Moderate-Hard"><a href="#Primes-素数，难度：Moderate-Hard" class="headerlink" title="Primes(素数，难度：Moderate&#x2F;Hard)"></a>Primes(素数，难度：Moderate&#x2F;Hard)</h2><p> YOUR JOB</p>
+<p><strong>使用管道编写</strong><code>prime sieve</code>(筛选素数)的并发版本。这个想法是由Unix管道的发明者Doug McIlroy提出的。请查看<a target="_blank" rel="noopener" href="http://swtch.com/~rsc/thread/">这个网站</a>(翻译在下面)，该网页中间的图片和周围的文字解释了如何做到这一点。您的解决方案应该在&#x2F;user&#x2F;primes.c文件中。</p>
+<p>您的目标是使用<code>pipe</code>和<code>fork</code>来设置管道。第一个进程将数字2到35输入管道。对于每个素数，您将安排创建一个进程，该进程通过一个管道从其左邻居读取数据，并通过另一个管道向其右邻居写入数据。由于xv6的文件描述符和进程数量有限，因此第一个进程可以在35处停止。</p>
+<p><strong>提示：</strong></p>
+<ul>
+<li>请仔细关闭进程不需要的文件描述符，否则您的程序将在第一个进程达到35之前就会导致xv6系统资源不足。</li>
+<li>一旦第一个进程达到35，它应该使用<code>wait</code>等待整个管道终止，包括所有子孙进程等等。因此，主<code>primes</code>进程应该只在打印完所有输出之后，并且在所有其他<code>primes</code>进程退出之后退出。</li>
+<li>提示：当管道的<code>write</code>端关闭时，<code>read</code>返回零。</li>
+<li>最简单的方法是直接将32位（4字节）int写入管道，而不是使用格式化的ASCII I&#x2F;O。</li>
+<li>您应该仅在需要时在管线中创建进程。</li>
+<li>将程序添加到<strong>Makefile</strong>中的<code>UPROGS</code></li>
+</ul>
+<p>如果您的解决方案实现了基于管道的筛选并产生以下输出，则是正确的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ make qemu</span><br><span class="line">...</span><br><span class="line">init: starting sh</span><br><span class="line">$ primes</span><br><span class="line">prime 2</span><br><span class="line">prime 3</span><br><span class="line">prime 5</span><br><span class="line">prime 7</span><br><span class="line">prime 11</span><br><span class="line">prime 13</span><br><span class="line">prime 17</span><br><span class="line">prime 19</span><br><span class="line">prime 23</span><br><span class="line">prime 29</span><br><span class="line">prime 31</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+
+<p><strong>参考资料翻译：</strong></p>
+<blockquote>
+<p>考虑所有小于1000的素数的生成。Eratosthenes的筛选法可以通过执行以下伪代码的进程管线来模拟：</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">p = get a number from left neighbor</span><br><span class="line">print p</span><br><span class="line">loop:</span><br><span class="line">    n = get a number from left neighbor</span><br><span class="line">    <span class="keyword">if</span> (p does not divide n)</span><br><span class="line">        send n to right neighbor</span><br><span class="line">p = 从左邻居中获取一个数</span><br><span class="line">print p</span><br><span class="line">loop:</span><br><span class="line">    n = 从左邻居中获取一个数</span><br><span class="line">    <span class="keyword">if</span> (n不能被p整除)</span><br><span class="line">        将n发送给右邻居</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/p1.png" alt="img"></p>
+<blockquote>
+<p>生成进程可以将数字2、3、4、…、1000输入管道的左端：行中的第一个进程消除2的倍数，第二个进程消除3的倍数，第三个进程消除5的倍数，依此类推。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241122091835099.png" alt="image-20241122091835099"></p>
+</blockquote>
+<h2 id="find（难度：Moderate）"><a href="#find（难度：Moderate）" class="headerlink" title="find（难度：Moderate）"></a>find（难度：Moderate）</h2><p> YOUR JOB</p>
+<p><strong>写一个简化版本的UNIX的<code>find</code>程序：查找目录树中具有特定名称的所有文件，你的解决方案应该放在user&#x2F;find.c</strong></p>
+<p>提示：</p>
+<ul>
+<li>查看<strong>user&#x2F;ls.c</strong>文件学习如何读取目录</li>
+<li>使用递归允许<code>find</code>下降到子目录中</li>
+<li>不要在“<code>.</code>”和“<code>..</code>”目录中递归</li>
+<li>对文件系统的更改会在qemu的运行过程中一直保持；要获得一个干净的文件系统，请运行<code>make clean</code>，然后<code>make qemu</code></li>
+<li>你将会使用到C语言的字符串，要学习它请看《C程序设计语言》（K&amp;R）,例如第5.5节</li>
+<li>注意在C语言中不能像python一样使用“<code>==</code>”对字符串进行比较，而应当使用<code>strcmp()</code></li>
+<li>将程序加入到Makefile的<code>UPROGS</code></li>
+</ul>
+<p>如果你的程序输出下面的内容，那么它是正确的（当文件系统中包含文件<strong>b</strong>和<strong>a&#x2F;b</strong>的时候）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ make qemu</span><br><span class="line">...</span><br><span class="line">init: starting sh</span><br><span class="line">$ <span class="built_in">echo</span> &gt; b</span><br><span class="line">$ <span class="built_in">mkdir</span> a</span><br><span class="line">$ <span class="built_in">echo</span> &gt; a/b</span><br><span class="line">$ find . b</span><br><span class="line">./b</span><br><span class="line">./a/b</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+
+<h2 id="xargs（难度：Moderate）"><a href="#xargs（难度：Moderate）" class="headerlink" title="xargs（难度：Moderate）"></a>xargs（难度：Moderate）</h2><p> YOUR JOB</p>
+<p>编写一个简化版UNIX的<code>xargs</code>程序：它从标准输入中按行读取，并且为每一行执行一个命令，将行作为参数提供给命令。你的解决方案应该在<strong>user&#x2F;xargs.c</strong></p>
+<p>下面的例子解释了<code>xargs</code>的行为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> hello too | xargs <span class="built_in">echo</span> <span class="built_in">bye</span></span><br><span class="line"><span class="built_in">bye</span> hello too</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+
+<p>注意，这里的命令是<code>echo bye</code>，额外的参数是<code>hello too</code>，这样就组成了命令<code>echo bye hello too</code>，此命令输出<code>bye hello too</code></p>
+<p>请注意，UNIX上的<code>xargs</code>进行了优化，一次可以向该命令提供更多的参数。 我们不需要您进行此优化。 要使UNIX上的<code>xargs</code>表现出本实验所实现的方式，请将<code>-n</code>选项设置为1。例如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;1\n2&quot;</span> | xargs -n 1 <span class="built_in">echo</span> line</span><br><span class="line">line 1</span><br><span class="line">line 2</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>使用<code>fork</code>和<code>exec</code>对每行输入调用命令，在父进程中使用<code>wait</code>等待子进程完成命令。</li>
+<li>要读取单个输入行，请一次读取一个字符，直到出现换行符（’\n’）。</li>
+<li><strong>kernel&#x2F;param.h</strong>声明<code>MAXARG</code>，如果需要声明<code>argv</code>数组，这可能很有用。</li>
+<li>将程序添加到<strong>Makefile</strong>中的<code>UPROGS</code>。</li>
+<li>对文件系统的更改会在qemu的运行过程中保持不变；要获得一个干净的文件系统，请运行<code>make clean</code>，然后<code>make qemu</code></li>
+</ul>
+<p><code>xargs</code>、<code>find</code>和<code>grep</code>结合得很好</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find . b | xargs grep hello</span><br></pre></td></tr></table></figure>
+
+<p>将对“<code>.</code>”下面的目录中名为<strong>b</strong>的每个文件运行<code>grep hello</code>。</p>
+<p>要测试您的<code>xargs</code>方案是否正确，请运行shell脚本<strong>xargstest.sh</strong>。如果您的解决方案产生以下输出，则是正确的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ make qemu</span><br><span class="line">...</span><br><span class="line">init: starting sh</span><br><span class="line">$ sh &lt; xargstest.sh</span><br><span class="line">$ $ $ $ $ $ hello</span><br><span class="line">hello</span><br><span class="line">hello</span><br><span class="line">$ $</span><br></pre></td></tr></table></figure>
+
+<p>你可能不得不回去修复你的<code>find</code>程序中的bug。输出有许多<code>$</code>，因为xv6 shell没有意识到它正在处理来自文件而不是控制台的命令，并为文件中的每个命令打印<code>$</code>。</p>
+<h1 id="提交实验"><a href="#提交实验" class="headerlink" title="提交实验"></a>提交实验</h1><p><strong>这就完成了实验</strong>。确保你通过了所有的成绩测试。如果这个实验有问题，别忘了把你的答案写在**answers-lab-name.txt中。**提交你的更改（包括answers-lab-name.txt），然后在实验目录中键入<code>make handin</code>以提交实验。</p>
+<p><strong>花费的时间</strong></p>
+<p>创建一个命名为time.txt的新文件，并在其中输入一个整数，即您在实验室花费的小时数。不要忘记<code>git add</code>和<code>git commit</code>文件。</p>
+<p><strong>提交</strong></p>
+<p>你将使用**<a target="_blank" rel="noopener" href="https://6828.scripts.mit.edu/2020/handin.py/">提交网站</a>**提交作业。您需要从提交网站请求一次API密钥，然后才能提交任何作业或实验。</p>
+<p>将最终更改提交到实验后，键入<code>make handin</code>以提交实验。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -am <span class="string">&quot;ready to submit my lab&quot;</span></span><br><span class="line">[util c2e3c8b] ready to submit my lab</span><br><span class="line"> 2 files changed, 18 insertions(+), 2 deletions(-)</span><br><span class="line"></span><br><span class="line">$ make handin</span><br><span class="line">tar: Removing leading `/<span class="string">&#x27; from member names</span></span><br><span class="line"><span class="string">Get an API key for yourself by visiting https://6828.scripts.mit.edu/2020/handin.py/</span></span><br><span class="line"><span class="string">Please enter your API key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line"><span class="string">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span></span><br><span class="line"><span class="string">                                 Dload  Upload   Total   Spent    Left  Speed</span></span><br><span class="line"><span class="string">100 79258  100   239  100 79019    853   275k --:--:-- --:--:-- --:--:--  276k</span></span><br><span class="line"><span class="string">$</span></span><br></pre></td></tr></table></figure>
+
+<p><code>make handin</code>将把你的API密钥存储在myapi.key中。如果需要更改API密钥，只需删除此文件并让<code>make handin</code>再次生成它(<strong>myapi.key</strong>不得包含换行符）。</p>
+<p>如果你运行了<code>make handin</code>，并且你有未提交的更改或未跟踪的文件，则会看到类似于以下内容的输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> M hello.c</span><br><span class="line">?? bar.c</span><br><span class="line">?? foo.pyc</span><br><span class="line">Untracked files will not be handed in.  Continue? [y/N]</span><br></pre></td></tr></table></figure>
+
+<p>检查上述行，确保跟踪了您的实验解决方案所需的所有文件，即以??开头的行中所显示的文件。您可以使用<code>git add filename</code>命令使git追踪创建的新文件。</p>
+<p>如果<code>make handin</code>无法正常工作，请尝试使用curl或Git命令修复该问题。或者你可以运行<code>make tarball</code>。这将为您制作一个tar文件，然后您可以通过我们的web界面上传。</p>
+<ul>
+<li>请运行“<code>make grade</code>”以确保您的代码通过所有测试</li>
+<li>在运行“<code>make handin</code>”之前提交任何修改过的源代码&#96;</li>
+<li>您可以检查提交的状态，并在以下位置下载提交的代码：<a target="_blank" rel="noopener" href="https://6828.scripts.mit.edu/2020/handin.py/">https://6828.scripts.mit.edu/2020/handin.py/</a></li>
+</ul>
+<h1 id="可选的挑战练习"><a href="#可选的挑战练习" class="headerlink" title="可选的挑战练习"></a>可选的挑战练习</h1><ul>
+<li>编写一个<code>uptime</code>程序，使用<code>uptime</code>系统调用以滴答为单位打印计算机正常运行时间。（easy）</li>
+<li>在<code>find</code>程序的名称匹配中支持正则表达式。grep.c对正则表达式有一些基本的支持。（easy）</li>
+<li>xv6 shell（<strong>user&#x2F;sh.c</strong>）只是另一个用户程序，您可以对其进行改进。它是一个最小的shell，缺少建立在真实shell中的许多特性。例如，<ul>
+<li>在处理<strong>文件中的</strong>shell命令时，将shell修改为不打印$（moderate）</li>
+<li>将shell修改为支持<code>wait</code>（easy）</li>
+<li>将shell修改为支持用“<code>;</code>”分隔的命令列表（moderate）</li>
+<li>通过实现左括号“<code>(</code>” 以及右括号“<code>)</code>”来修改shell以支持子shell（moderate）</li>
+<li>将shell修改为支持<code>tab</code>键补全（easy）</li>
+<li>修改shell使其支持命令历史记录（moderate）</li>
+<li>或者您希望shell执行的任何其他操作。</li>
+</ul>
+</li>
+<li>如果您非常雄心勃勃，可能需要修改内核以支持所需的内核特性；xv6支持的并不多。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/11/22/MIT%206.S081/Mit%206.S081%20Lab1%20Xv6%20and%20Unix%20utilities%E7%BF%BB%E8%AF%91/">https://darling-123456.github.io/2024/11/22/MIT 6.S081/Mit 6.S081 Lab1 Xv6 and Unix utilities翻译/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MIT-6-S081/">MIT 6.S081</a></div><div class="post-share"><div class="social-share" data-image="/img/93.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/11/22/MIT%206.S081/Lab1%20Xv6%20and%20Unix%20utilities/" title="MIT 6.S081 Lab1 Xv6 and Unix utilities"><img class="cover" src="/img/92.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">MIT 6.S081 Lab1 Xv6 and Unix utilities</div></div><div class="info-2"><div class="info-item-1">Lab1: Xv6 and Unix utilities实验任务1.启动XV6(easy)安装xv6和qemu部分请看环境搭建部分Mit6.S081-实验环境搭建_mit 6.s081-CSDN博客 启动qemu  执行ls命令  2.Sleep(easy)-练手的，就是熟悉一下怎么在xv6项目中加.c文件，生成可执行程序并进行测试的实现xv6的UNIX程序sleep：您的sleep应该暂停到用户指定的计时数。一个滴答(tick)是由xv6内核定义的时间概念，即来自定时器芯片的两个中断之间的时间。您的解决方案应该在文件user&#x2F;sleep.c中 提示：  在你开始编码之前，请阅读《book-riscv-rev1》的第一章 看看其他的一些程序（如**&#x2F;user&#x2F;echo.c, &#x2F;user&#x2F;grep.c, &#x2F;user&#x2F;rm.c**）查看如何获取传递给程序的命令行参数 如果用户忘记传递参数，sleep应该打印一条错误信息 命令行参数作为字符串传递;...</div></div></div></a><a class="pagination-related" href="/2024/12/02/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/" title="二叉树路径问题模板总结"><img class="cover" src="/img/24.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">二叉树路径问题模板总结</div></div><div class="info-2"><div class="info-item-1">二叉树路径问题模板总结问题分类二叉树路径的问题大致可以分为两类： 1、自顶向下一般是前序遍历 顾名思义，就是从某一个节点(不一定是根节点)，从上向下寻找路径，到某一个节点(不一定是叶节点)结束具体题目如下： 257. 二叉树的所有路径 - 力扣（LeetCode） 112. 路径总和 - 力扣（LeetCode） 113. 路径总和 II - 力扣（LeetCode） 437. 路径总和 III - 力扣（LeetCode） 面试题 04.12. 求和路径 - 力扣（LeetCode） 988. 从叶结点开始的最小字符串 - 力扣（LeetCode） 而继续细分的话还可以分成一般路径与给定和的路径 自顶而下：dfs，每次记得想想递归函数的本层逻辑，收集结果的条件，继续递归要传什么参数 123456789101112131415161718192021222324252627282930313233//一般路径,即单纯收集路径：	vector&lt;vector&lt;int&gt;&gt; res;	void tra(TreeNode *t,vector&lt;int&gt;...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/11/22/MIT%206.S081/lab1%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" title="MIT 6.S081 lab1 遇到的问题"><img class="cover" src="/img/91.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-22</div><div class="info-item-2">MIT 6.S081 lab1 遇到的问题</div></div><div class="info-2"><div class="info-item-1">lab1 遇到的问题1.qemu-system-riscv64: -device virtio-blk-device,drive&#x3D;x0,bus&#x3D;virtio-mmio-bus.0: Failed to get “write” lock Is another process using the image [fs.img]? make: *** [Makefile:209：qemu] 错误 1笔者在做MIT 6.S081时碰到的报错 这个错误信息表示 QEMU 在尝试访问磁盘映像文件 fs.img 时无法获取写锁，这通常意味着该映像文件正在被另一个进程使用。以下是一些解决该问题的建议：  检查正在运行的进程： 使用以下命令检查是否有其他 QEMU 实例或进程正在使用 fs.img： 1lsof fs.img  这将列出所有打开该文件的进程。  杀死冲突进程： 如果发现有进程正在使用该文件，可以选择杀死它们： 1kill &lt;PID&gt;  将  替换为实际的进程号。  确保 QEMU 不在后台运行： 确保没有任何 QEMU...</div></div></div></a><a class="pagination-related" href="/2024/11/15/MIT%206.S081/%E7%AC%AC%E4%B8%80%E7%AB%A0%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" title="MIT 6.S081 第一章问题记录"><img class="cover" src="/img/88.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-15</div><div class="info-item-2">MIT 6.S081 第一章问题记录</div></div><div class="info-2"><div class="info-item-1">第一章问题记录1.3之前1.调用exec系统调用以后，exec调用的进程的内存空间会覆盖原来调用exec的进程内存空间吗 是的，当一个进程调用 exec 系列的系统调用时，调用进程的内存空间会被新程序的内存空间覆盖。具体来说，exec 替换了当前进程的映像，包括代码段、数据段和堆栈段，但保留了进程的标识符和一些其他属性（如打开的文件描述符）。 在调用 exec 后，原来的进程代码不再可用。新程序会从入口点开始执行，原进程的内存内容将在这个替换过程中消失。因此，exec 实际上是将当前进程的运行状态变更为新程序，而不是创建新进程。 2.linux的c语言的系统调用exec之后的代码都将不再执行？ 是的，在 Linux 中使用 exec 系列系统调用后，当前进程的地址空间将被新的程序替换，之后的代码将不再执行。 具体来说，exec 调用会加载并执行一个新的可执行程序，而在调用 exec 之前的代码会被替换，进程的上下文（包括变量、状态等）也会改变。因此，一旦 exec 调用成功返回（注意，如果出错会返回 -1，并保留原进程的上下文），原来的代码就不会再被执行。 例如，调用 exec...</div></div></div></a><a class="pagination-related" href="/2024/12/09/MIT%206.S081/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/" title="MIT 6.S081 第二章问题记录"><img class="cover" src="/img/89.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-09</div><div class="info-item-2">MIT 6.S081 第二章问题记录</div></div><div class="info-2"><div class="info-item-1">第二章问题记录1.CS模式由于客户&#x2F;服务器（Client&#x2F;Server）模式，具有非常多的优点，故在单机微内核操作系统中几乎无一例外地都采用客户&#x2F;服务器模式，将操作系统中最基本的部分放入内核中，而把操作系统的绝大部分功能都放在微内核外面的一组服务器(进程)中实现。 2.Xv6使用页表（由硬件实现）为每个进程提供自己的地址空间。3.操作系统中有哪些操作是由硬件实现的？ 内存管理：  虚拟内存管理：通过内存管理单元（MMU），硬件实现虚拟地址到物理地址的转换，支持页表机制来管理进程的内存空间。 页错误处理：当一个进程试图访问未映射的页面时，硬件通过触发页错误中断来通知操作系统进行处理。  页表和虚拟地址到物理地址的转换  中断处理：  外部设备中断：硬件中断控制器（如 APIC）允许外部设备（如键盘、鼠标、磁盘等）向 CPU 发出中断信号，操作系统可以在中断发生时中断当前执行任务，转而处理外部设备的请求。 软件中断和 syscall：CPU...</div></div></div></a><a class="pagination-related" href="/2024/11/08/MIT%206.S081/Mit6.S081-%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="MIT 6.S081 实验环境搭建"><img class="cover" src="/img/90.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-08</div><div class="info-item-2">MIT 6.S081 实验环境搭建</div></div><div class="info-2"><div class="info-item-1">Mit6.S081-实验环境搭建注：大家每次做一些操作的时候觉得不太保险就先把虚拟机克隆一份 前言qemu（quick emulator）：这是一个模拟硬件环境的软件，利用它可以运行我们编译好的操作系统。准备一个Linux系统，安装qemu以及其他依赖，通过git克隆下github的xv6源码，利用gcc编译源码得到可运行的操作系统，再利用qemu加载这个操作系统。 一、Linux系统笔者用的是VM的ubuntu24.04，大家可以到网上找找安装教程，很多很详细，就不多说了 二、SSH连接工具笔者使用的是xshell，大家可以到网上找找安装教程，很多很详细，就不多说了 三、环境搭建6.S081 &#x2F; 2020 年秋季 1、安装依赖1sudo apt-get install git build-essential gdb-multiarch qemu-system-misc gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu   2、克隆源码只有克隆了源码才会有xv6-labs-2020目录，不然是没有的 1git clone...</div></div></div></a><a class="pagination-related" href="/2024/11/22/MIT%206.S081/Lab1%20Xv6%20and%20Unix%20utilities/" title="MIT 6.S081 Lab1 Xv6 and Unix utilities"><img class="cover" src="/img/92.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-22</div><div class="info-item-2">MIT 6.S081 Lab1 Xv6 and Unix utilities</div></div><div class="info-2"><div class="info-item-1">Lab1: Xv6 and Unix utilities实验任务1.启动XV6(easy)安装xv6和qemu部分请看环境搭建部分Mit6.S081-实验环境搭建_mit 6.s081-CSDN博客 启动qemu  执行ls命令  2.Sleep(easy)-练手的，就是熟悉一下怎么在xv6项目中加.c文件，生成可执行程序并进行测试的实现xv6的UNIX程序sleep：您的sleep应该暂停到用户指定的计时数。一个滴答(tick)是由xv6内核定义的时间概念，即来自定时器芯片的两个中断之间的时间。您的解决方案应该在文件user&#x2F;sleep.c中 提示：  在你开始编码之前，请阅读《book-riscv-rev1》的第一章 看看其他的一些程序（如**&#x2F;user&#x2F;echo.c, &#x2F;user&#x2F;grep.c, &#x2F;user&#x2F;rm.c**）查看如何获取传递给程序的命令行参数 如果用户忘记传递参数，sleep应该打印一条错误信息 命令行参数作为字符串传递;...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">119</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lab1-Xv6-and-Unix-utilities"><span class="toc-number">1.</span> <span class="toc-text">Lab1: Xv6 and Unix utilities</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%BB%BB%E5%8A%A1"><span class="toc-number">2.</span> <span class="toc-text">实验任务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8xv6-%E9%9A%BE%E5%BA%A6%EF%BC%9AEasy"><span class="toc-number">2.1.</span> <span class="toc-text">启动xv6(难度：Easy)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sleep-%E9%9A%BE%E5%BA%A6%EF%BC%9AEasy"><span class="toc-number">2.2.</span> <span class="toc-text">sleep(难度：Easy)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pingpong%EF%BC%88%E9%9A%BE%E5%BA%A6%EF%BC%9AEasy%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">pingpong（难度：Easy）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Primes-%E7%B4%A0%E6%95%B0%EF%BC%8C%E9%9A%BE%E5%BA%A6%EF%BC%9AModerate-Hard"><span class="toc-number">2.4.</span> <span class="toc-text">Primes(素数，难度：Moderate&#x2F;Hard)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#find%EF%BC%88%E9%9A%BE%E5%BA%A6%EF%BC%9AModerate%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">find（难度：Moderate）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xargs%EF%BC%88%E9%9A%BE%E5%BA%A6%EF%BC%9AModerate%EF%BC%89"><span class="toc-number">2.6.</span> <span class="toc-text">xargs（难度：Moderate）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E5%AE%9E%E9%AA%8C"><span class="toc-number">3.</span> <span class="toc-text">提交实验</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%AF%E9%80%89%E7%9A%84%E6%8C%91%E6%88%98%E7%BB%83%E4%B9%A0"><span class="toc-number">4.</span> <span class="toc-text">可选的挑战练习</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img src="/img/84.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly博客功能完善和美化（四）---博客上传"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传">hexo+butterfly博客功能完善和美化（四）---博客上传</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img src="/img/87.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly搭建博客网站总结篇"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇">hexo+butterfly搭建博客网站总结篇</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

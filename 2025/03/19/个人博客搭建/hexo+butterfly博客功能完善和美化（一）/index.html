@@ -1,0 +1,360 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>hexo+butterfly博客功能完善和美化（一） | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="hexo+butterfly博客功能完善和美化（一）参考自hexo的butterfly主题美化，2024年初版_hexo 主题-CSDN博客 【Hexo】Hexo搭建Butterfly主题并快速美化_hexo butterfly-CSDN博客 博主试了试可以成功的美化，先更新一篇大家先看看，剩下的功能等博主自己实现了再更新吧 1.准备工作1.1修改配置文件，应用butterfly主题修改 _con">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo+butterfly博客功能完善和美化（一）">
+<meta property="og:url" content="https://darling-123456.github.io/2025/03/19/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="hexo+butterfly博客功能完善和美化（一）参考自hexo的butterfly主题美化，2024年初版_hexo 主题-CSDN博客 【Hexo】Hexo搭建Butterfly主题并快速美化_hexo butterfly-CSDN博客 博主试了试可以成功的美化，先更新一篇大家先看看，剩下的功能等博主自己实现了再更新吧 1.准备工作1.1修改配置文件，应用butterfly主题修改 _con">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/81.jpg">
+<meta property="article:published_time" content="2025-03-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-23T04:32:43.240Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="个人博客网站搭建 hexo+butterfly">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/81.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "hexo+butterfly博客功能完善和美化（一）",
+  "url": "https://darling-123456.github.io/2025/03/19/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/",
+  "image": "https://darling-123456.github.io/img/81.jpg",
+  "datePublished": "2025-03-18T16:00:00.000Z",
+  "dateModified": "2025-03-23T04:32:43.240Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2025/03/19/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'hexo+butterfly博客功能完善和美化（一）',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">119</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/81.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">hexo+butterfly博客功能完善和美化（一）</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">hexo+butterfly博客功能完善和美化（一）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-18T16:00:00.000Z" title="发表于 2025-03-19 00:00:00">2025-03-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-23T04:32:43.240Z" title="更新于 2025-03-23 12:32:43">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA-hexo-butterfly/">个人博客网站搭建 hexo+butterfly</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="hexo-butterfly博客功能完善和美化（一）"><a href="#hexo-butterfly博客功能完善和美化（一）" class="headerlink" title="hexo+butterfly博客功能完善和美化（一）"></a>hexo+butterfly博客功能完善和美化（一）</h1><p>参考自<a target="_blank" rel="noopener" href="https://blog.csdn.net/JesseXW/article/details/135649752">hexo的butterfly主题美化，2024年初版_hexo 主题-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mjh1667002013/article/details/129290903">【Hexo】Hexo搭建Butterfly主题并快速美化_hexo butterfly-CSDN博客</a></p>
+<p>博主试了试可以成功的美化，先更新一篇大家先看看，剩下的功能等博主自己实现了再更新吧</p>
+<h2 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h2><h3 id="1-1修改配置文件，应用butterfly主题"><a href="#1-1修改配置文件，应用butterfly主题" class="headerlink" title="1.1修改配置文件，应用butterfly主题"></a>1.1修改配置文件，应用butterfly主题</h3><p>修改 _config.yml 中的 theme 属性为 butterfly</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0b3356daa5f4097214b24f5f0eee996d.png" alt="img"></p>
+<h3 id="1-2安装插件"><a href="#1-2安装插件" class="headerlink" title="1.2安装插件"></a>1.2安装插件</h3><p><strong>如果你没有 pug 以及 stylus 的渲染器，请下载安装</strong></p>
+<p>在hexo根目录下键入以下命令：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="operator">-</span>renderer<span class="operator">-</span>pug hexo<span class="operator">-</span>renderer<span class="operator">-</span>stylus <span class="comment">--save</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-推荐操作，复制一份butterfly主题专用的配置文件"><a href="#1-3-推荐操作，复制一份butterfly主题专用的配置文件" class="headerlink" title="1.3 推荐操作，复制一份butterfly主题专用的配置文件"></a>1.3 推荐操作，复制一份butterfly主题专用的配置文件</h3><p>在 hexo 的根目录创建一个文件 _config.butterfly.yml 后续对butterfly主题的美化配置就在该配置文件下进行修改就可以了~</p>
+<p><strong>层级关系如下图所示：</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/21bf2197dbd9e0d0918645ecc287745d.png" alt="img"></p>
+<h3 id="1-5-设置一个图片存储目录"><a href="#1-5-设置一个图片存储目录" class="headerlink" title="1.5 设置一个图片存储目录"></a>1.5 设置一个图片存储目录</h3><p>在 source 目录下新建一个 image 文件夹，方便后续存储展示用的相关图片（名字你可以随便取）</p>
+<p><strong>层级关系如下</strong>：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5ea2ef892d7039bb52982cd6e30ddffa.png" alt="img"></p>
+<h2 id="2-网站资料配置"><a href="#2-网站资料配置" class="headerlink" title="2. 网站资料配置"></a>2. 网站资料配置</h2><p>在 <strong>_config.yml</strong> 文件里配置！</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/555b584a36add33cf8f3930189b9e39b.png" alt="img"></p>
+<p>对应效果如图：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/94fa74a09176b06dd4e2b418927c702c.png" alt="img"></p>
+<h2 id="3-导航栏配置"><a href="#3-导航栏配置" class="headerlink" title="3. 导航栏配置"></a>3. 导航栏配置</h2><p>这里我直接copy展示用的代码了（毕竟完全不会）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">nav:</span><br><span class="line">  logo: /image/test.gif</span><br><span class="line">  display_title: true</span><br><span class="line">  fixed: false # fixed navigation bar    </span><br><span class="line">post_asset_folder: true  </span><br><span class="line">menu:</span><br><span class="line">  首页: / || fas fa-home</span><br><span class="line">  时间轴: /archives/ || fas fa-archive</span><br><span class="line">  标签: /tags/ || fas fa-tags</span><br><span class="line">  分类: /categories/ || fas fa-folder-open</span><br><span class="line">  清单||fa fa-heartbeat:</span><br><span class="line">    音乐: /music/ || fas fa-music</span><br><span class="line">    照片: /Gallery/ || fas fa-images</span><br><span class="line">    电影: /movies/ || fas fa-video</span><br></pre></td></tr></table></figure>
+
+<p>效果（<strong>搜索是额外配的，后面会说</strong>）：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/2e13801f1c8df0fe96e1b3112e6b07ff.png" alt="img"></p>
+<h2 id="4-修改头像"><a href="#4-修改头像" class="headerlink" title="4. 修改头像"></a>4. 修改头像</h2><p>将你喜欢的头像复制到之前配置的image文件夹里，路径如图所示：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/dc9f1ae09d58bcf15e0fb9b326e7d9e2.png" alt="img"></p>
+<p>然后在你复制出来的主题配置文件，也就是 _config.butterfly.yml 中添加如下配置：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#头像</span></span><br><span class="line">avatar:</span><br><span class="line">  img: <span class="regexp">/image/mi</span>ku.jpg</span><br><span class="line">  <span class="comment"># effect: true # 头像会一直转，转的贼快，太鬼畜了</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-顶部图设置"><a href="#5-顶部图设置" class="headerlink" title="5. 顶部图设置"></a>5. 顶部图设置</h2><p>代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#顶部图</span><br><span class="line">index_img: /image/miku.jpg</span><br><span class="line">default_top_img: /image/miku.jpg</span><br><span class="line">index_top_img_height: 400px #顶部图高度</span><br></pre></td></tr></table></figure>
+
+<p>效果：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/95520500e2b3d996e2c893500ddb8c6f.png" alt="img"></p>
+<p><strong>tips：</strong></p>
+<ol>
+<li>感觉400px差不多了，或者默认就是全屏，但是全屏得往下拉才能看见博客。对于萌新不是很友好，我第一次进就是发现找半天找不到博客在哪</li>
+<li>图片不要被宽屏误导了，请选择****竖屏****展示的图片，且清晰度越高越好（不然就是糊的）</li>
+<li>经过观察，设置为400px时，展示的图片位置大概就在中间，所以最好选择你最想展示的部分为中间的图片~</li>
+</ol>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b16007d9ce2dfdeeecdf89a1060bbe40.png" alt="img"></p>
+<h2 id="6-浏览器图标修改"><a href="#6-浏览器图标修改" class="headerlink" title="6. 浏览器图标修改"></a>6. 浏览器图标修改</h2><p>先找一个你喜欢的图标，注意格式需为32*32。可以从阿里的矢量图库中下载自己喜欢的：</p>
+<p><a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont-阿里巴巴矢量图标库</a></p>
+<p>保存后放在image文件夹内（或者你自己自定义存图片的文件夹）：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/bc85951c67cc4966c660afa4b6c539c1.png" alt="img"></p>
+<p> 在你的主题配置文件内添加如下代码即可：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">favicon</span>: <span class="regexp">/image/</span>动物.<span class="property">png</span></span><br></pre></td></tr></table></figure>
+
+<p> 效果如图所示：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c0e8a9b61b3bff78cebd271a7ceb412e.png" alt="img"></p>
+<p>这个笔者是找的自己的图片，没去阿里的里面看</p>
+<h2 id="7-博客内各种页面的图片背景"><a href="#7-博客内各种页面的图片背景" class="headerlink" title="7.博客内各种页面的图片背景"></a>7.博客内各种页面的图片背景</h2><p>_config.butterfly.yml内有这样一段，大家设置头像啥的时候应该也见到了</p>
+<p>可以根据个人需要来设置需要的</p>
+<p>特别注意，如果暂时各个页面的顶部图不需要太区分的话可以设置下面这个</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default_top_img: /img/background.jpg</span><br></pre></td></tr></table></figure>
+
+<p>这个是默认顶部图，只要你没设置对应的顶部图，那就默认显示这个</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250319104713650.png" alt="image-20250319104713650"></p>
+<h2 id="8-页面加载动画，慢加载动画"><a href="#8-页面加载动画，慢加载动画" class="headerlink" title="8. 页面加载动画，慢加载动画"></a>8. 页面加载动画，慢加载动画</h2><p>在主题配置文件 _config.butterfly.yml 加入以下代码即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#加载动画</span><br><span class="line">preloader:</span><br><span class="line">  enable: true</span><br><span class="line">  source: 1 #可选值1=fullpage或2=progress bar，可查看https://codebyzach.github.io/pace/</span><br><span class="line">  pace_css_url: </span><br></pre></td></tr></table></figure>
+
+<p>效果：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5274469b563b655d1a7de62e5339851b.png" alt="img"></p>
+<blockquote>
+<p>这个加载动画是butterfly默认的，目前在百度上没有找到可以直接使用的加载动画代码或url，只能凑合着用了，呃呃。</p>
+</blockquote>
+<p>也可以自己去找一个喜欢的gif动图，然后用图床picgo之类的软件传到阿里云，生成链接就有url了</p>
+<h2 id="9-网站副标题（循环打字特效）"><a href="#9-网站副标题（循环打字特效）" class="headerlink" title="9. 网站副标题（循环打字特效）"></a>9. 网站副标题（循环打字特效）</h2><p>在_config.butterfly.yml搜索subtitle，添加如下代码即可（速度我已经进行了相应调整，您可以根据自己的喜好进行修改）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 主页subtitle</span></span><br><span class="line">subtitle:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Typewriter Effect (打字效果)</span></span><br><span class="line">  effect: <span class="literal">true</span></span><br><span class="line">  startDelay: 300 <span class="comment"># time before typing starts in milliseconds</span></span><br><span class="line">  typeSpeed: 200 <span class="comment"># type speed in milliseconds</span></span><br><span class="line">  backSpeed: 800 <span class="comment"># backspacing speed in milliseconds</span></span><br><span class="line">  <span class="comment"># loop (循环打字)</span></span><br><span class="line">  loop: <span class="literal">true</span></span><br><span class="line">  <span class="comment"># source 调用三方服务</span></span><br><span class="line">  <span class="comment"># source: false 开关调用</span></span><br><span class="line">  <span class="comment"># subtitle 会先显示 source , 再显示 sub 的內容</span></span><br><span class="line">  <span class="built_in">source</span>: <span class="literal">true</span></span><br><span class="line">  <span class="comment"># 如果关闭打字效果，subtitle 只会显示 sub 的第一行文字</span></span><br><span class="line">  sub:</span><br><span class="line">    - 自小刺头深草里 &amp;#44; 而今渐觉出蓬蒿</span><br><span class="line">    - 时人不识凌云木 &amp;#44; 直待凌云始道高</span><br></pre></td></tr></table></figure>
+
+<p>效果：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a0d266abc7b126a2329830507a953a85.png" alt="img"></p>
+<h2 id="10-创建文件夹（分类和标签）"><a href="#10-创建文件夹（分类和标签）" class="headerlink" title="10.创建文件夹（分类和标签）"></a>10.创建文件夹（分类和标签）</h2><p>1.分类</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="attribute">page</span> categories</span><br></pre></td></tr></table></figure>
+
+<p>会出现<code>source/categories/index.md</code>文件</p>
+<p>2.标签</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="attribute">page</span> tags</span><br></pre></td></tr></table></figure>
+
+<p>会出现<code>source/tags/index.md</code>文件</p>
+<p>这些以后上传博客的时候会用到还是配置好比较好</p>
+<h2 id="11-背景特效"><a href="#11-背景特效" class="headerlink" title="11. 背景特效"></a>11. 背景特效</h2><p>详见官方文档：<a target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/#%E8%83%8C%E6%99%AF%E7%89%B9%E6%95%88">Butterfly 安裝文檔(四) 主題配置-2 | Butterfly</a></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f3a5eab66344f0128e393038cfb78230.png" alt="img"></p>
+<p>我的博客选的是动态彩带，这个是_config.butterfly.yml中自带的，你去那个文件夹里面搜下面这个标签就行，代码如下：</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">canvas_fluttering_ribbon:</span></span><br><span class="line">  enable: <span class="literal">true</span></span><br><span class="line">  mobile: <span class="literal">false</span> # <span class="literal">false</span> 手机端不显示 <span class="literal">true</span> 手机端显示</span><br></pre></td></tr></table></figure>
+
+<p>后来改了，改成这个了</p>
+<p>修改主题配置文件<code>_config.butterfly.yml</code>。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">yml</span></span><br><span class="line"><span class="attr">canvas_nest:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">&#x27;0,0,255&#x27;</span> <span class="comment">#color of lines, default: &#x27;0,0,0&#x27;; RGB values: (R,G,B).(<span class="doctag">note:</span> use &#x27;,&#x27; to separate.)</span></span><br><span class="line">  <span class="attr">opacity:</span> <span class="number">0.7</span> <span class="comment"># the opacity of line (0~1), default: 0.5.</span></span><br><span class="line">  <span class="attr">zIndex:</span> <span class="number">-1</span> <span class="comment"># z-index property of the background, default: -1.</span></span><br><span class="line">  <span class="attr">count:</span> <span class="number">99</span> <span class="comment"># the number of lines, default: 99.</span></span><br><span class="line">  <span class="attr">mobile:</span> <span class="literal">false</span> <span class="comment"># false 手機端不顯示 true 手機端顯示</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6370e60740d1a.gif" alt="img"></p>
+<h2 id="12-鼠标点击特效"><a href="#12-鼠标点击特效" class="headerlink" title="12. 鼠标点击特效"></a>12. 鼠标点击特效</h2><p>目前官方文档中<strong>鼠标点击特效的文字特效已无法使用（截至2024&#x2F;1&#x2F;18）</strong>，目前我的博客采用的是爱心效果，这个也是_config.butterfly.yml中自带的，你去那个文件夹里面搜下面这个标签就行，代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 点击出现爱心</span></span><br><span class="line">click_heart:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  mobile: <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="13-樱花飘落效果"><a href="#13-樱花飘落效果" class="headerlink" title="13.樱花飘落效果"></a>13.樱花飘落效果</h2><p><code>预览：</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250319132443717.png" alt="image-20250319132443717"></p>
+<p>在主题配置文件<code>_config.butterfly.yml</code>的<code>inject</code>配置项中<code>bottom</code>下引入<code>sakura.js</code>即可。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">inject:</span></span><br><span class="line">  <span class="attr">bottom:</span></span><br><span class="line">   <span class="comment"># 樱花飘落效果</span></span><br><span class="line">   <span class="comment"># - &lt;script async src=&quot;https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js&quot;&gt;&lt;/script&gt;</span></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2025/03/19/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89/">https://darling-123456.github.io/2025/03/19/个人博客搭建/hexo+butterfly博客功能完善和美化（一）/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%90%AD%E5%BB%BA-hexo-butterfly/">个人博客网站搭建 hexo+butterfly</a></div><div class="post-share"><div class="social-share" data-image="/img/81.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/03/19/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/Hexo%E6%B7%BB%E5%8A%A0Live2D%E7%9C%8B%E6%9D%BF%E5%A8%98+%E6%A8%A1%E5%9E%8B%E9%A2%84%E8%A7%88/" title="Hexo添加Live2D看板娘+模型预览"><img class="cover" src="/img/86.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Hexo添加Live2D看板娘+模型预览</div></div><div class="info-2"><div class="info-item-1">Hexo添加Live2D看板娘+模型预览添加和注意事项关于如何添加，可以看这里：https://www.jianshu.com/p/3a6342e16e57模型的GitHub地址：https://github.com/xiazeyu/live2d-widget-models需要注意：  live2d-widget-model-haru模型需要安装npm install live2d-widget-model-haru  在使用的时候，live2d-widget-model-haru有两个模型，所以在使用的时候，是这样的：  use: live2d-widget-model-haru&#x2F;01 或者use: live2d-widget-model-haru&#x2F;02   01和02的json文件是空的，所以需要把live2d-widget-model-haru文件夹下的json文件复制进去   模型预览以下模型均是在width: 150 、height:...</div></div></div></a><a class="pagination-related" href="/2025/03/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day68%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9AH%E6%8C%87%E6%95%B0II/" title="Day68 | 灵神 | 二分查找：H指数II"><img class="cover" src="/img/3.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Day68 | 灵神 | 二分查找：H指数II</div></div><div class="info-2"><div class="info-item-1">Day68 | 灵神 | 二分查找：H指数II275.H指数II275. H 指数 II - 力扣（LeetCode） 思路：很遗憾笔者这道题没做出来，看了灵神的还是不太懂，后来看了评论区各位大佬的解释，来这里浅显的说一下自己的理解 在此之前请先看看灵神的题解，如果看懂了还是不要继续往下看了，如果没看懂的话，我来说一说我疑惑的点，看看是不是也是你疑惑的点呢？ 灵神题解：275. H 指数 II -...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/03/19/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/Hexo%E6%B7%BB%E5%8A%A0Live2D%E7%9C%8B%E6%9D%BF%E5%A8%98+%E6%A8%A1%E5%9E%8B%E9%A2%84%E8%A7%88/" title="Hexo添加Live2D看板娘+模型预览"><img class="cover" src="/img/86.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-19</div><div class="info-item-2">Hexo添加Live2D看板娘+模型预览</div></div><div class="info-2"><div class="info-item-1">Hexo添加Live2D看板娘+模型预览添加和注意事项关于如何添加，可以看这里：https://www.jianshu.com/p/3a6342e16e57模型的GitHub地址：https://github.com/xiazeyu/live2d-widget-models需要注意：  live2d-widget-model-haru模型需要安装npm install live2d-widget-model-haru  在使用的时候，live2d-widget-model-haru有两个模型，所以在使用的时候，是这样的：  use: live2d-widget-model-haru&#x2F;01 或者use: live2d-widget-model-haru&#x2F;02   01和02的json文件是空的，所以需要把live2d-widget-model-haru文件夹下的json文件复制进去   模型预览以下模型均是在width: 150 、height:...</div></div></div></a><a class="pagination-related" href="/2025/03/17/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo%20init%E9%97%AE%E9%A2%98/" title="用hexo初始化博客执行hexo init时碰到的问题"><img class="cover" src="/img/80.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-17</div><div class="info-item-2">用hexo初始化博客执行hexo init时碰到的问题</div></div><div class="info-2"><div class="info-item-1">用hexo初始化博客执行hexo init时碰到的问题123456$ hexo init myblogINFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.gitfatal: unable to access &#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: SSL certificate problem: unable to get local issuer certificateWARN  git clone failed. Copying data insteadINFO  Install dependenciesINFO  Start blogging with...</div></div></div></a><a class="pagination-related" href="/2025/03/20/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E4%BA%8C%EF%BC%89/" title="hexo+butterfly博客功能完善和美化（二）"><img class="cover" src="/img/82.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-20</div><div class="info-item-2">hexo+butterfly博客功能完善和美化（二）</div></div><div class="info-2"><div class="info-item-1">hexo+butterfly博客功能完善和美化（二）参考博客： hexo的butterfly主题美化，2024年初版_hexo 主题-CSDN博客 【Hexo】Hexo搭建Butterfly主题并快速美化_hexo butterfly-CSDN博客 Butterfly 主题的详细配置 | 梁圣磊の博客 基于 Hexo 键入搜索功能 | 唐志远 笔者也是兜兜转转，能用的不能用的，有bug的没bug的都试了一遍，我写的这些都是我实现了的，没实现的都没写，要是有坑的话我一般也会贴上我是咋弄的 1.看板娘添加具体步骤前往博客根目录，打开cmd命令窗口执行npm install --save hexo-helper-live2d。 1npm install --save hexo-helper-live2d  输入以下命令，下载相应的模型， 替换成你想要的模型名称即可，更多模型选择请点击此处，各个模型的预览请访问原作者或者Hexo添加Live2D看板娘+模型预览-CSDN博客 1npm install --save...</div></div></div></a><a class="pagination-related" href="/2025/03/21/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E4%B8%89%EF%BC%89---%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD%E8%BD%BD%E5%85%A5/" title="hexo+butterfly博客功能完善和美化（三）---评论功能载入"><img class="cover" src="/img/83.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-21</div><div class="info-item-2">hexo+butterfly博客功能完善和美化（三）---评论功能载入</div></div><div class="info-2"><div class="info-item-1">hexo+butterfly博客功能完善和美化（三）—评论功能载入1.twikoo基于 Hexo 键入评论功能 | 唐志远 笔者直接跟着这篇做的，配了一个多小时，先别急，看完我说的再去这篇文章 结果就是 关于Vercel被墙导致获取Twikoo评论失败的解决方案 | 唐志远 这个解决方案是，把人外网的域名换成国内的域名，意思是你还得自己有域名，当然如果你自己有域名的话，这个我觉得就挺好的，效果图如下所示，输入昵称和邮箱可以评论  2.笔者推荐–giscus笔者没买过域名，也懒得去配那些东西 就直接找了一个简单的 看看效果吧先  最吸引我的是不需要额外连接数据库，直接就把评论扔到github的代码仓库了，所以配置起来简单很多，不过你想要评论的话就得登录github账号，这也算是个限制吧 简介 由 GitHub Discussions 驱动的评论系统。让访客借助 GitHub 在你的网站上留下评论和反应吧！本项目受 utterances 强烈启发。  开源。🌏 无跟踪，无广告，永久免费。📡 🚫 无需数据库。全部数据均储存在 GitHub Discussions...</div></div></div></a><a class="pagination-related" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img class="cover" src="/img/84.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-22</div><div class="info-item-2">hexo+butterfly博客功能完善和美化（四）---博客上传</div></div><div class="info-2"><div class="info-item-1">hexo+butterfly博客功能完善和美化（四）—博客上传这是最后一期讲美化和功能完善了，笔者会陆续把csdn上面的博客转移到我的博客网站上面，大家可以来访问 Darlingの妙妙屋 1.图床主要是用作博客封面的图片会很多，所以会用到图床 这个是一个上传图片的软件，一般把图片存在云服务器上面，然后你会获得一个外链，可以直接访问到你的图片 好处： 1.你用链接的话，你的博客封面的图片就不用存在本地，外存会小一点 2.每次hexo g，hexo d的速度会快一点。再者可能别人访问你的网站的速度会快一点？这个我没测试过 3.最重要的是文章里面的图片基本是必须用链接？不然文章里面的各种截图都放到本地的img感觉会很占外存，部署也比较麻烦。大家可以试试文档里面的照片都存在本地，然后hexo...</div></div></div></a><a class="pagination-related" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img class="cover" src="/img/87.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-22</div><div class="info-item-2">hexo+butterfly搭建博客网站总结篇</div></div><div class="info-2"><div class="info-item-1">hexo+butterfly搭建博客网站总结篇0.往期栏目下面都是csdn链接 个人博客网站搭建_为了前进而后退，为了走直路而走弯路的博客-CSDN博客 【Node】node.js安装与配置（详细步骤）-CSDN博客 利用hexo+github部署属于自己的个人博客网站(2025年3月所写)_hexo部署-CSDN博客 用hexo初始化博客执行hexo init时碰到的问题-CSDN博客 hexo+butterfly博客功能完善和美化（一）_hexo butterfly 修改背景图-CSDN博客 Hexo添加Live2D看板娘+模型预览_live2d...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">119</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#hexo-butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E4%B8%80%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">hexo+butterfly博客功能完善和美化（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.1.</span> <span class="toc-text">1.准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%8C%E5%BA%94%E7%94%A8butterfly%E4%B8%BB%E9%A2%98"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1修改配置文件，应用butterfly主题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2安装插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E6%8E%A8%E8%8D%90%E6%93%8D%E4%BD%9C%EF%BC%8C%E5%A4%8D%E5%88%B6%E4%B8%80%E4%BB%BDbutterfly%E4%B8%BB%E9%A2%98%E4%B8%93%E7%94%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.3 推荐操作，复制一份butterfly主题专用的配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E8%AE%BE%E7%BD%AE%E4%B8%80%E4%B8%AA%E5%9B%BE%E7%89%87%E5%AD%98%E5%82%A8%E7%9B%AE%E5%BD%95"><span class="toc-number">1.1.4.</span> <span class="toc-text">1.5 设置一个图片存储目录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BD%91%E7%AB%99%E8%B5%84%E6%96%99%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text">2. 网站资料配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.</span> <span class="toc-text">3. 导航栏配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BF%AE%E6%94%B9%E5%A4%B4%E5%83%8F"><span class="toc-number">1.4.</span> <span class="toc-text">4. 修改头像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%A1%B6%E9%83%A8%E5%9B%BE%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.5.</span> <span class="toc-text">5. 顶部图设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9B%BE%E6%A0%87%E4%BF%AE%E6%94%B9"><span class="toc-number">1.6.</span> <span class="toc-text">6. 浏览器图标修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%8D%9A%E5%AE%A2%E5%86%85%E5%90%84%E7%A7%8D%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%9B%BE%E7%89%87%E8%83%8C%E6%99%AF"><span class="toc-number">1.7.</span> <span class="toc-text">7.博客内各种页面的图片背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E5%8A%A8%E7%94%BB%EF%BC%8C%E6%85%A2%E5%8A%A0%E8%BD%BD%E5%8A%A8%E7%94%BB"><span class="toc-number">1.8.</span> <span class="toc-text">8. 页面加载动画，慢加载动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E7%BD%91%E7%AB%99%E5%89%AF%E6%A0%87%E9%A2%98%EF%BC%88%E5%BE%AA%E7%8E%AF%E6%89%93%E5%AD%97%E7%89%B9%E6%95%88%EF%BC%89"><span class="toc-number">1.9.</span> <span class="toc-text">9. 网站副标题（循环打字特效）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%88%E5%88%86%E7%B1%BB%E5%92%8C%E6%A0%87%E7%AD%BE%EF%BC%89"><span class="toc-number">1.10.</span> <span class="toc-text">10.创建文件夹（分类和标签）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E8%83%8C%E6%99%AF%E7%89%B9%E6%95%88"><span class="toc-number">1.11.</span> <span class="toc-text">11. 背景特效</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E7%89%B9%E6%95%88"><span class="toc-number">1.12.</span> <span class="toc-text">12. 鼠标点击特效</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E6%A8%B1%E8%8A%B1%E9%A3%98%E8%90%BD%E6%95%88%E6%9E%9C"><span class="toc-number">1.13.</span> <span class="toc-text">13.樱花飘落效果</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img src="/img/84.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly博客功能完善和美化（四）---博客上传"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传">hexo+butterfly博客功能完善和美化（四）---博客上传</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img src="/img/87.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly搭建博客网站总结篇"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇">hexo+butterfly搭建博客网站总结篇</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

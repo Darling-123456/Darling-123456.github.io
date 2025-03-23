@@ -1,0 +1,390 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>线程池 | ThreadPool的submitTask和threadFunc方法 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="线程池 | ThreadPool的submitTask和threadFunc方法123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263&#x2F;&#x2F;线程池类型class ThreadPool&#123;public:	Thread">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程池 | ThreadPool的submitTask和threadFunc方法">
+<meta property="og:url" content="https://darling-123456.github.io/2025/01/12/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E7%BA%BF%E7%A8%8B%E6%B1%A0%20%20ThreadPool%E7%9A%84submitTask%E5%92%8CthreadFunc%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="线程池 | ThreadPool的submitTask和threadFunc方法123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263&#x2F;&#x2F;线程池类型class ThreadPool&#123;public:	Thread">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/117.jpg">
+<meta property="article:published_time" content="2025-01-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-23T04:58:31.370Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="项目">
+<meta property="article:tag" content="线程池">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/117.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "线程池 | ThreadPool的submitTask和threadFunc方法",
+  "url": "https://darling-123456.github.io/2025/01/12/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E7%BA%BF%E7%A8%8B%E6%B1%A0%20%20ThreadPool%E7%9A%84submitTask%E5%92%8CthreadFunc%E6%96%B9%E6%B3%95/",
+  "image": "https://darling-123456.github.io/img/117.jpg",
+  "datePublished": "2025-01-11T16:00:00.000Z",
+  "dateModified": "2025-03-23T04:58:31.370Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2025/01/12/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E7%BA%BF%E7%A8%8B%E6%B1%A0%20%20ThreadPool%E7%9A%84submitTask%E5%92%8CthreadFunc%E6%96%B9%E6%B3%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '线程池 | ThreadPool的submitTask和threadFunc方法',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">119</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/117.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">线程池 | ThreadPool的submitTask和threadFunc方法</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">线程池 | ThreadPool的submitTask和threadFunc方法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-01-11T16:00:00.000Z" title="发表于 2025-01-12 00:00:00">2025-01-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-23T04:58:31.370Z" title="更新于 2025-03-23 12:58:31">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84C-%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">从零开始的C++项目实践</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="线程池-ThreadPool的submitTask和threadFunc方法"><a href="#线程池-ThreadPool的submitTask和threadFunc方法" class="headerlink" title="线程池 | ThreadPool的submitTask和threadFunc方法"></a>线程池 | ThreadPool的submitTask和threadFunc方法</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//线程池类型</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadPool</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">ThreadPool</span>();</span><br><span class="line">	~<span class="built_in">ThreadPool</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置线程池工作模式</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">setMode</span><span class="params">(PoolMode mode)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置task任务队列上限阈值</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">setTaskQueMaxThresHold</span><span class="params">(<span class="type">int</span> threshold)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//设置线程池cached模式下线程数量上限</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">setthreadSizeThresHold</span><span class="params">(<span class="type">int</span> threshold)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//给线程池提交任务</span></span><br><span class="line">	<span class="function">Result <span class="title">submitTask</span><span class="params">(std::shared_ptr&lt;Task&gt; sp)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//启动线程池 返回值是当前电脑的CPU核心数量</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">start</span><span class="params">(<span class="type">int</span> initThreadSize = std::thread::hardware_concurrency())</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//禁用拷贝构造和拷贝赋值</span></span><br><span class="line">	<span class="built_in">ThreadPool</span>(<span class="type">const</span> ThreadPool&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">	ThreadPool&amp; <span class="keyword">operator</span>=(<span class="type">const</span> ThreadPool&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="comment">//定义线程的回调函数</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">threadFunc</span><span class="params">(<span class="type">int</span> threadid)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//检查pool的运行状态</span></span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">checkRunningState</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="comment">//std::vector&lt;std::unique_ptr&lt;Thread&gt;&gt; threads_;//线程列表</span></span><br><span class="line">	std::unordered_map&lt;<span class="type">int</span>, std::unique_ptr&lt;Thread&gt;&gt; threads_;</span><br><span class="line">	<span class="type">size_t</span> initThreadSize_;<span class="comment">//初识的线程数量</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//记录当前线程池里面线程的总数量</span></span><br><span class="line">	std::atomic_int curThreadSize_;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//线程池内线程数量上限</span></span><br><span class="line">	<span class="type">int</span> threadSizeThresHold_;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//记录空闲线程的数量</span></span><br><span class="line">	std::atomic_int idleThreadSize_;</span><br><span class="line"></span><br><span class="line">	std::queue&lt;std::shared_ptr&lt;Task&gt;&gt; taskQue_;<span class="comment">//任务队列</span></span><br><span class="line">	<span class="comment">/*任务数量 用原子类型是因为每次给任务分配线程之后，任务就会出队，</span></span><br><span class="line"><span class="comment">	数量会进行++或者--，用原子类型来保证这个操作是原子的就行，没必要用互斥锁*/</span></span><br><span class="line">	std::atomic_int taskSize_;</span><br><span class="line">	<span class="type">int</span> taskQueMaxThresHold_;<span class="comment">//任务数量上限阈值</span></span><br><span class="line"></span><br><span class="line">	std::mutex taskQueMtx_;<span class="comment">//保证任务队列的线程安全</span></span><br><span class="line">	std::condition_variable notFull_;<span class="comment">//表示任务队列不满，给用户线程用，表示可以给任务队列提交自己的任务</span></span><br><span class="line">	std::condition_variable notEmpty_;<span class="comment">//表示任务队列不空，给线程池用，表示线程池可以给任务分配线程了</span></span><br><span class="line">	std::condition_variable exitCoond_;<span class="comment">//等待线程资源全部回收</span></span><br><span class="line"></span><br><span class="line">	PoolMode poolMode_;<span class="comment">//当前线程池的工作模式</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//表示当前线程池的启动状态</span></span><br><span class="line">	std::atomic_bool isPoolRunning_;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-submitTask"><a href="#1-submitTask" class="headerlink" title="1.submitTask()"></a>1.submitTask()</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//给线程池提交任务 用户调用该接口传入任务对象</span></span><br><span class="line"><span class="function">Result <span class="title">ThreadPool::submitTask</span><span class="params">(std::shared_ptr&lt;Task&gt; sp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//获取锁</span></span><br><span class="line">	<span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(taskQueMtx_)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//线程的通信   等待任务队列有空余</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//用户提交任务，最长不能阻塞超过1s，否则判断提交任务失败</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/*while (taskQue_.size() == taskQueMaxThresHold_)</span></span><br><span class="line"><span class="comment">	&#123;</span></span><br><span class="line"><span class="comment">		notFull_.wait(lock);</span></span><br><span class="line"><span class="comment">	&#125;*/</span></span><br><span class="line">	<span class="comment">//这一行相当于上面三行，功能一样</span></span><br><span class="line">	<span class="comment">//notFull_.wait(lock, [&amp;]()-&gt;bool &#123;return taskQue_.size() &lt; taskQueMaxThresHold_; &#125;);</span></span><br><span class="line">	 </span><br><span class="line">	<span class="comment">//满足等待1秒要求的</span></span><br><span class="line">	<span class="keyword">if</span> (!notFull_.<span class="built_in">wait_for</span>(lock, std::chrono::<span class="built_in">seconds</span>(<span class="number">1</span>),</span><br><span class="line">		[&amp;]()-&gt;<span class="type">bool</span> &#123;<span class="keyword">return</span> taskQue_.<span class="built_in">size</span>() &lt; (<span class="type">size_t</span>)taskQueMaxThresHold_; &#125;))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//表示等了1秒，条件还是没满足，即提交任务失败了</span></span><br><span class="line">		std::cerr &lt;&lt; <span class="string">&quot;task queue is full,submit task fail&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Result</span>(sp,<span class="literal">false</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//如果有空余，把任务放入任务队列中</span></span><br><span class="line">	taskQue_.<span class="built_in">emplace</span>(sp);</span><br><span class="line"></span><br><span class="line">	taskSize_++;<span class="comment">//提交了任务，任务数量++</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//因为新放了任务，任务队列肯定不空 notEmpty通知</span></span><br><span class="line">	notEmpty_.<span class="built_in">notify_all</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//cached模式：需要根据任务数量和空闲线程的数量，判断是否需要创建新的线程出来</span></span><br><span class="line">	<span class="comment">//适合场景：小而且快的任务</span></span><br><span class="line">	<span class="keyword">if</span> (poolMode_ == PoolMode::MODE_CACHED</span><br><span class="line">		&amp;&amp; taskSize_ &gt; idleThreadSize_</span><br><span class="line">		&amp;&amp; curThreadSize_ &lt; threadSizeThresHold_)</span><br><span class="line">	&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;create new thread........&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">		<span class="comment">//创建新线程对象</span></span><br><span class="line">		<span class="keyword">auto</span> ptr = std::<span class="built_in">make_unique</span>&lt;Thread&gt;(std::<span class="built_in">bind</span>(&amp;ThreadPool::threadFunc, <span class="keyword">this</span>, std::placeholders::_1));</span><br><span class="line">		<span class="type">int</span> threadId = ptr-&gt;<span class="built_in">getId</span>();</span><br><span class="line">		threads_.<span class="built_in">emplace</span>(threadId, std::<span class="built_in">move</span>(ptr));</span><br><span class="line">		threads_[threadId]-&gt;<span class="built_in">start</span>();<span class="comment">//启动线程</span></span><br><span class="line">		<span class="comment">//修改线程个数相关的变量</span></span><br><span class="line">		curThreadSize_++;</span><br><span class="line">		idleThreadSize_++;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//返回任务的Result对象</span></span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">Result</span>(sp);</span><br><span class="line">	<span class="comment">//return task-&gt;getResult();不能是这种形式，因为线程执行结束才会有返回值，线程结束后task就没了，所以不能通过任务来调方法得到Result</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>1.<strong>获取锁</strong></p>
+<p>提交任务涉及入队操作，对任务队列进行操作必须是线程安全的，所以要先获取锁</p>
+<p><code>unique_lock</code> 会在其生命周期结束时自动释放锁，防止忘记解锁而导致死锁</p>
+<p>2.<strong>等待任务队列有空余空间</strong>：</p>
+<ul>
+<li><pre><code class="language-cpp">notFull_.wait_for(lock, std::chrono::seconds(1), [&amp;]()-&gt;bool &#123;return taskQue_.size() &lt; (size_t)taskQueMaxThresHold_; &#125;);
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 使用条件变量 `notFull_` 来等待任务队列 `taskQue_` 有空余空间。</span><br><span class="line">  - `wait_for` 函数会等待最多 1 秒钟，在等待期间会释放 `taskQueMtx_` 锁，以便其他线程可以添加或移除任务。</span><br><span class="line">  - 等待的条件是任务队列的大小小于 `taskQueMaxThresHold_`，如果条件满足或者等待超时（1 秒），函数将继续执行。</span><br><span class="line">  - 如果等待超时且条件不满足，函数将输出错误信息并返回一个表示失败的 `Result` 对象。</span><br><span class="line"></span><br><span class="line">3.**将任务添加到任务队列中**：</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  taskQue_.emplace(sp);</span><br></pre></td></tr></table></figure>
+
+- 如果任务队列有空间，将任务 `sp` 放入任务队列中。
+</code></pre>
+</li>
+<li><pre><code>taskSize_++;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 任务数量加一，以跟踪任务队列中的任务数量。</span><br><span class="line"></span><br><span class="line">4.**通知任务队列不为空**：</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  notEmpty_.notify_all();</span><br></pre></td></tr></table></figure>
+
+- 使用条件变量 `notEmpty_` 通知所有等待在 `notEmpty_` 上的线程，表明任务队列不为空，可能是正在等待任务的工作线程，它们可以开始处理任务。
+</code></pre>
+</li>
+</ul>
+<p>5.<strong>创建新线程（仅在 CACHED 模式下）</strong>：</p>
+<ul>
+<li><pre><code class="language-cpp">if (poolMode_ == PoolMode::MODE_CACHED &amp;&amp; taskSize_ &gt; idleThreadSize_ &amp;&amp; curThreadSize_ &lt; threadSizeThresHold_)
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 检查线程池的模式是否为 `MODE_CACHED`。</span><br><span class="line">  - 检查任务数量是否大于空闲线程数量且当前线程数量小于线程数量阈值。</span><br><span class="line">  - 如果满足上述条件，将创建一个新的线程。</span><br><span class="line"></span><br><span class="line">- ```cpp</span><br><span class="line">  auto ptr = std::make_unique&lt;Thread&gt;(std::bind(&amp;ThreadPool::threadFunc, this, std::placeholders::_1));</span><br></pre></td></tr></table></figure>
+
+- 创建一个新的 `Thread` 对象，并使用 `std::bind` 将 `ThreadPool` 的 `threadFunc` 函数绑定到新线程。
+</code></pre>
+</li>
+<li><pre><code class="language-cpp">int threadId = ptr-&gt;getId();
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 获取新线程的 `ID`。</span><br><span class="line"></span><br><span class="line">- ```cp</span><br><span class="line">  threads_.emplace(threadId, std::move(ptr));</span><br></pre></td></tr></table></figure>
+
+- 将新线程存储到 `threads_` 映射中。
+</code></pre>
+</li>
+<li><pre><code class="language-cpp">threads_[threadId]-&gt;start();
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 启动新线程。</span><br><span class="line"></span><br><span class="line">- ```cpp</span><br><span class="line">  curThreadSize_++;</span><br><span class="line">  idleThreadSize_++;</span><br></pre></td></tr></table></figure>
+
+- 增加当前线程数量和空闲线程数量。
+</code></pre>
+</li>
+</ul>
+<ol>
+<li><p><strong>返回结果</strong>：</p>
+<ul>
+<li><pre><code>return Result(sp);
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">     - 无论任务是否立即执行，都会返回一个 `Result` 对象，该对象与提交的任务相关联。</span><br><span class="line"></span><br><span class="line">### 关键点说明：</span><br><span class="line"></span><br><span class="line">- **条件变量和锁的使用**：</span><br><span class="line">  - 条件变量 `notFull_` 和 `notEmpty_` 与互斥锁 `taskQueMtx_` 配合使用，以协调线程池中的任务提交和任务处理。</span><br><span class="line">  - `notFull_` 用于等待任务队列有空余空间，`notEmpty_` 用于通知任务队列不为空。</span><br><span class="line">- **超时等待机制**：</span><br><span class="line">  - 使用 `wait_for` 避免长时间阻塞提交任务的线程，如果任务队列已满，会等待 1 秒钟，超时后会返回提交失败的结果。</span><br><span class="line">- **线程创建策略**：</span><br><span class="line">  - 在 `MODE_CACHED` 模式下，根据任务数量、空闲线程数量和线程数量阈值来决定是否创建新线程，适用于处理小而快的任务。</span><br><span class="line"></span><br><span class="line">这个函数是线程池的核心部分，它允许用户提交任务，管理任务队列的大小，并在需要时创建新的线程。使用条件变量和互斥锁确保了任务提交的线程安全性和线程池的高效运行。</span><br><span class="line"></span><br><span class="line">## 2.threadFunc()</span><br><span class="line"></span><br><span class="line">```cpp</span><br><span class="line">//定义线程的回调函数 线程池的所有线程从任务队列中消费任务</span><br><span class="line">void ThreadPool::threadFunc(int threadid)</span><br><span class="line">&#123;</span><br><span class="line">	auto lastTime = std::chrono::high_resolution_clock().now();</span><br><span class="line"></span><br><span class="line">	for (;;)</span><br><span class="line">	&#123;</span><br><span class="line">		//注意，处理完任务队列相关的操作之后就应该释放锁了，线程执行任务的时候不应该拿着锁阻止其他线程继续拿任务执行</span><br><span class="line">		std::shared_ptr&lt;Task&gt; task;</span><br><span class="line">		&#123;</span><br><span class="line">			//先获取锁</span><br><span class="line">			std::unique_lock&lt;std::mutex&gt; lock(taskQueMtx_);</span><br><span class="line"></span><br><span class="line">			std::cout &lt;&lt; &quot;thread tid:&quot; &lt;&lt; std::this_thread::get_id() &lt;&lt; &quot;尝试获取任务&quot; &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">			//cached模式下，有可能已经创建了很多的线程，但是空闲时间超过了60s，应该把超时的空闲线程给回收掉</span><br><span class="line">			//超过initThreadSize_数量的线程要回收</span><br><span class="line">			//当前时间-上一次线程执行的时间&gt;60s</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			//每一秒钟返回一次 怎么区分超时返回还是有任务待执行的返回</span><br><span class="line">			while ( taskQue_.size() == 0)</span><br><span class="line">			&#123;</span><br><span class="line">				//线程池结束，回收线程资源</span><br><span class="line">				if (!isPoolRunning_)</span><br><span class="line">				&#123;</span><br><span class="line">					threads_.erase(threadid);</span><br><span class="line">					std::cout &lt;&lt; &quot;threadid&quot; &lt;&lt; threadid &lt;&lt; &quot;已被回收&quot; &lt;&lt; std::endl;</span><br><span class="line">					exitCoond_.notify_all();</span><br><span class="line">					return;</span><br><span class="line">				&#125;</span><br><span class="line">				if (poolMode_ == PoolMode::MODE_CACHED)</span><br><span class="line">				&#123;</span><br><span class="line">					//条件变量超时返回了</span><br><span class="line">					if (std::cv_status::timeout ==</span><br><span class="line">						notEmpty_.wait_for(lock, std::chrono::seconds(1)))</span><br><span class="line">					&#123;</span><br><span class="line">						auto now = std::chrono::high_resolution_clock().now();</span><br><span class="line">						auto dur = std::chrono::duration_cast&lt;std::chrono::seconds&gt; (now - lastTime);</span><br><span class="line">						if (dur.count() &gt;= THREAD_MAX_TDLE_TIME</span><br><span class="line">							&amp;&amp; curThreadSize_ &gt; initThreadSize_)</span><br><span class="line">						&#123;</span><br><span class="line">							//开始回收当前线程</span><br><span class="line">							//记录线程数量的相关变量的值的修改</span><br><span class="line">							//把线程对象从线程队列容器中删除 没有办法匹配当前的threadFunc是对应的哪个线程对象</span><br><span class="line">							//通过线程id确定线程对象进而进行一个删除</span><br><span class="line">							threads_.erase(threadid);</span><br><span class="line">							curThreadSize_--;</span><br><span class="line">							idleThreadSize_--;</span><br><span class="line"></span><br><span class="line">							std::cout &lt;&lt; &quot;threadid&quot; &lt;&lt; threadid &lt;&lt; &quot;已被回收&quot; &lt;&lt; std::endl;</span><br><span class="line">							return;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				else</span><br><span class="line">				&#123;</span><br><span class="line">					//等待notEmpty条件</span><br><span class="line">					notEmpty_.wait(lock);</span><br><span class="line">				&#125;</span><br><span class="line">				/*//线程池要结束，回收线程资源</span><br><span class="line">				if (!isPoolRunning_)</span><br><span class="line">				&#123;</span><br><span class="line">					threads_.erase(threadid);</span><br><span class="line">					std::cout &lt;&lt; &quot;threadid&quot; &lt;&lt; threadid &lt;&lt; &quot;已被回收&quot; &lt;&lt; std::endl;</span><br><span class="line">					exitCoond_.notify_all();</span><br><span class="line">					return;</span><br><span class="line">				&#125;*/</span><br><span class="line">			&#125;</span><br><span class="line">			idleThreadSize_--;</span><br><span class="line"></span><br><span class="line">			std::cout &lt;&lt; &quot;thread tid:&quot; &lt;&lt; std::this_thread::get_id() &lt;&lt; &quot;获取任务成功&quot; &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">			//从任务队列中取出一个任务</span><br><span class="line">			task = taskQue_.front();</span><br><span class="line">			taskQue_.pop();</span><br><span class="line">			taskSize_--;</span><br><span class="line"></span><br><span class="line">			//如果依然有剩余任务，继续通知其它的线程执行任务</span><br><span class="line">			if (taskQue_.size() &gt; 0)</span><br><span class="line">			&#123;</span><br><span class="line">				notEmpty_.notify_all();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			//取出一个任务需要进行通知，通知可以继续提交生产任务</span><br><span class="line">			notFull_.notify_all();</span><br><span class="line">		&#125;</span><br><span class="line">		//当前线程负责执行这个任务</span><br><span class="line">		if (task != nullptr)</span><br><span class="line">		&#123;</span><br><span class="line">			task-&gt;exec();</span><br><span class="line">		&#125;</span><br><span class="line">		idleThreadSize_++;</span><br><span class="line">		lastTime = std::chrono::high_resolution_clock().now();//更新线程调度的执行完任务的时间</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="函数功能解释："><a href="#函数功能解释：" class="headerlink" title="函数功能解释："></a>函数功能解释：</h3><p>1.<strong>初始化和变量定义</strong>：</p>
+<ul>
+<li><pre><code class="language-cpp">auto lastTime = std::chrono::high_resolution_clock().now();
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 记录线程开始执行时的时间，用于后续检查线程是否空闲超时。</span><br><span class="line"></span><br><span class="line">2.**无限循环**：</span><br><span class="line"></span><br><span class="line">- ```cpp</span><br><span class="line">  for (;;)</span><br></pre></td></tr></table></figure>
+
+- 表示线程会不断尝试从任务队列中获取任务，直到线程池停止或被回收。
+</code></pre>
+</li>
+</ul>
+<p>3.<strong>获取任务的锁</strong>：</p>
+<ul>
+<li><pre><code class="language-cpp">std::unique_lock&lt;std::mutex&gt; lock(taskQueMtx_);
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 使用 `std::unique_lock` 锁定 `taskQueMtx_` 互斥锁，确保在操作任务队列时的线程安全。</span><br><span class="line"></span><br><span class="line">4.**检查任务队列是否为空**：</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  while (taskQue_.size() == 0)</span><br></pre></td></tr></table></figure>
+
+- 当任务队列为空时，线程需要等待任务。
+</code></pre>
+</li>
+</ul>
+<p>5.<strong>线程池关闭检查</strong>：</p>
+<ul>
+<li><pre><code>if (!isPoolRunning_)
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 如果线程池停止运行，将当前线程从 `threads_` 中移除，通知其他等待的线程（通过 `exitCoond_`），并返回，结束线程。</span><br><span class="line"></span><br><span class="line">6.**缓存模式下的线程回收**：</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  if (poolMode_ == PoolMode::MODE_CACHED)</span><br></pre></td></tr></table></figure>
+
+- 在 `MODE_CACHED` 模式下，线程可能会因为长时间空闲而被回收。
+</code></pre>
+</li>
+<li><pre><code class="language-cpp">if (std::cv_status::timeout == notEmpty_.wait_for(lock, std::chrono::seconds(1)))
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 线程等待任务队列不为空，如果等待超时（1 秒），检查是否空闲时间超过 `THREAD_MAX_TDLE_TIME` 秒，且当前线程数大于初始线程数。</span><br><span class="line"></span><br><span class="line">- ```cpp</span><br><span class="line">  threads_.erase(threadid);</span><br></pre></td></tr></table></figure>
+
+- 如果满足回收条件，将线程从 `threads_` 中移除，更新线程相关的计数，如 `curThreadSize_` 和 `idleThreadSize_`，并结束线程。
+</code></pre>
+</li>
+</ul>
+<p>7.<strong>等待任务队列不为空</strong>：</p>
+<ul>
+<li><pre><code class="language-cpp">notEmpty_.wait(lock);
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 当任务队列不为 `MODE_CACHED` 模式或未超时等待时，线程会等待 `notEmpty_` 条件变量，直到有任务可用。</span><br><span class="line"></span><br><span class="line">8.**获取任务并更新状态**：</span><br><span class="line"></span><br><span class="line">- ```cpp</span><br><span class="line">  task = taskQue_.front(); </span><br><span class="line">  taskQue_.pop(); </span><br><span class="line">  taskSize_--;</span><br></pre></td></tr></table></figure>
+
+- 当有任务时，从任务队列的前端取出任务，更新任务队列大小和任务计数。
+</code></pre>
+</li>
+</ul>
+<p>9.<strong>通知其他线程</strong>：</p>
+<ul>
+<li><pre><code class="language-cpp">if (taskQue_.size() &gt; 0)
+&#123;
+    notEmpty_.notify_all();
+&#125;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 若任务队列还有任务，通知其他线程可以继续执行任务。</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  notFull_.notify_all();</span><br></pre></td></tr></table></figure>
+
+- 通知可以继续提交任务。
+</code></pre>
+</li>
+</ul>
+<p>10.<strong>执行任务</strong>：</p>
+<ul>
+<li><pre><code>task-&gt;exec();
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 执行取出的任务。</span><br><span class="line"></span><br><span class="line">11.**更新空闲时间**：</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  lastTime = std::chrono::high_resolution_clock().now();</span><br></pre></td></tr></table></figure>
+
+- 执行完任务后更新线程的最后执行时间，以便检查空闲时间。
+</code></pre>
+</li>
+</ul>
+<h3 id="简单来说，该函数的主要流程如下："><a href="#简单来说，该函数的主要流程如下：" class="headerlink" title="简单来说，该函数的主要流程如下："></a>简单来说，该函数的主要流程如下：</h3><ul>
+<li>线程不断尝试从任务队列中获取任务。</li>
+<li>在 <code>MODE_CACHED</code> 模式下，如果长时间等待任务超时且线程空闲，会检查是否需要回收该线程。</li>
+<li>当任务队列不为空时，取出任务，执行任务，更新状态并通知其他线程。</li>
+</ul>
+<h3 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h3><ul>
+<li>确保在多线程环境中，对任务队列的操作是线程安全的，通过 <code>taskQueMtx_</code> 互斥锁和 <code>notEmpty_</code>、<code>notFull_</code> 等条件变量的协调。</li>
+<li>对于 <code>MODE_CACHED</code> 模式，合理控制线程的回收时机，避免频繁创建和回收线程导致性能开销。</li>
+<li>当线程池停止时，要确保线程正确回收和资源释放。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2025/01/12/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E7%BA%BF%E7%A8%8B%E6%B1%A0%20%20ThreadPool%E7%9A%84submitTask%E5%92%8CthreadFunc%E6%96%B9%E6%B3%95/">https://darling-123456.github.io/2025/01/12/线程池项目/线程池  ThreadPool的submitTask和threadFunc方法/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C++</a><a class="post-meta__tags" href="/tags/%E9%A1%B9%E7%9B%AE/">项目</a><a class="post-meta__tags" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a></div><div class="post-share"><div class="social-share" data-image="/img/117.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/01/11/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E7%BA%BF%E7%A8%8B%E6%B1%A0%20%20Result%E3%80%81Task%E7%B1%BB/" title="线程池 | Result、Task类"><img class="cover" src="/img/118.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">线程池 | Result、Task类</div></div><div class="info-2"><div class="info-item-1">线程池 | Result、Task类1.Task类123456789101112131415//任务抽象基类class Task&#123;public:	Task();	~Task() = default;	void exec();	void setResult(Result* res);	//用户可以自定义任意任务类型，从Task继承，重写run方法，实现自定义任务处理	virtual Any run() = 0;private:	//不用shared是避免了智能指针交叉引用的问题	Result* result_;//Result 的生存周期要长于Task&#125;;  使用时，用户自己定义一个mytask类继承Task类，重写run方法完成自己想要的任务即可。 exec就是用来执行run()方法的一个包装函数 123456789101112131415//////////Task方法实现Task::Task():result_(nullptr)&#123;&#125;void Task::exec()&#123;	if (result_ !=...</div></div></div></a><a class="pagination-related" href="/2025/01/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E7%BA%BF%E7%A8%8B%E6%B1%A0%20%20Thread%E3%80%81ThreadPool%E7%B1%BB/" title="线程池 | Thread、ThreadPool类"><img class="cover" src="/img/116.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">线程池 | Thread、ThreadPool类</div></div><div class="info-2"><div class="info-item-1">线程池 | Thread、ThreadPool类1.线程池支持的模式123456//线程池支持的模式enum class PoolMode&#123;	MODE_FIXED,//固定数量的线程	MODE_CACHED,//线程数量可动态增长&#125;;  2.Thread类12345678910111213141516171819202122//线程类型class Thread&#123;public:	using ThreadFunc = std::function&lt;void(int)&gt;;	//线程构造	Thread(ThreadFunc func);	//线程析构	~Thread();	//启动线程	void start();	//获取线程id	int getId() const;private:	ThreadFunc func_;//回调函数	static int generateId_;//单调自增的一个id，用来标识一个线程	int...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/01/16/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E5%9F%BA%E4%BA%8EC++11%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE%E5%8D%9A%E5%AE%A2%E7%9B%AE%E5%BD%95%E6%B1%87%E6%80%BB/" title="基于C++11线程池项目博客目录汇总"><img class="cover" src="/img/112.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-16</div><div class="info-item-2">基于C++11线程池项目博客目录汇总</div></div><div class="info-2"><div class="info-item-1">基于C++11线程池项目博客目录汇总线程池 | C++ | 项目实战-CSDN博客 线程池 | Any、Semaphore类-CSDN博客 线程池 | Result、Task类-CSDN博客 线程池 | ThreadPool的submitTask和threadFunc方法-CSDN博客 线程池 | Thread、ThreadPool类-CSDN博客 线程池 | 测试代码-CSDN博客 线程池 | Linux平台编译线程池动态库-CSDN博客 基于C++14和C++17的改进版本： packaged_task 、future知识点-CSDN博客 线程池 | 改进版-CSDN博客 </div></div></div></a><a class="pagination-related" href="/2025/01/10/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E7%BA%BF%E7%A8%8B%E6%B1%A0%20%20Any%E3%80%81Semaphore%E7%B1%BB/" title="线程池 | Any、Semaphore类"><img class="cover" src="/img/119.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-10</div><div class="info-item-2">线程池 | Any、Semaphore类</div></div><div class="info-2"><div class="info-item-1">线程池 | Any、Semaphore类1.Any类123456789101112131415161718192021222324252627282930313233343536373839404142434445464748//Any类 表示可以接受任意数据的类型class Any&#123;public:	Any() = default;	~Any() = default;	Any(const Any&amp;) = delete;	Any&amp; operator=(const Any&amp;) = delete;	Any(Any&amp;&amp;) = default;	Any&amp; operator=(Any&amp;&amp;) = default;	//这个构造函数可以让Any类型接受任意其它的数据	template &lt;typename T&gt;	Any(T...</div></div></div></a><a class="pagination-related" href="/2025/01/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/packaged_task%20%E3%80%81future%E7%9F%A5%E8%AF%86%E7%82%B9/" title="packaged_task 、future知识点"><img class="cover" src="/img/111.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-15</div><div class="info-item-2">packaged_task 、future知识点</div></div><div class="info-2"><div class="info-item-1">packaged_task 、future知识点以下是对 packaged_task 和 future 的详细解释，尽量简单易懂并结合例子说明： 1. packaged_task 基本概念：  packaged_task 是一个类模板，它将一个可调用对象（如函数、函数对象、lambda 表达式等）和一个 future 关联起来。它可以将可调用对象的结果存储在 future 中，以便在将来的某个时间点获取结果。 可以将 packaged_task 看作是一个任务包装器，它包装了一个任务，并允许你在另一个线程中执行该任务，同时提供一种机制，让你可以在其他地方获取该任务的结果。   使用示例： 12345678910111213141516171819202122#include &lt;iostream&gt;#include &lt;thread&gt;#include &lt;future&gt;#include &lt;functional&gt;int add(int a, int b) &#123;    return a + b;&#125;int main()...</div></div></div></a><a class="pagination-related" href="/2025/01/16/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E7%BA%BF%E7%A8%8B%E6%B1%A0%20%20Linux%E5%B9%B3%E5%8F%B0%E7%BC%96%E8%AF%91%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8A%A8%E6%80%81%E5%BA%93/" title="线程池 | Linux平台编译线程池动态库"><img class="cover" src="/img/121.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-16</div><div class="info-item-2">线程池 | Linux平台编译线程池动态库</div></div><div class="info-2"><div class="info-item-1">线程池 | Linux平台编译线程池动态库环境：ubuntu24.04 1.编译 1g++ -fPIC -shared threadPool.cpp -o libtdpool.so -std=c++17  g++版本至少要在5.5以上才可以  12345678910一般程序在/usr/lib /usr/local/lib找.a静态库和.so动态库的在/usr/include/usr/local/include找*.h头文件的  所以要把.so放入对应位置 12sudo mv libtdpool.so /usr/local/libsudo mv threadpool.h /usr/local/include  删除threadPool.cpp  1g++ 测试.cpp -std=c++17 -ltdpool  2.运行1./a.out  发现不能直接运行有报错。 原因： 运行时的动态库目录和编译时不一样的 1cd /etc/ld.so.conf.d  1sudo vim...</div></div></div></a><a class="pagination-related" href="/2025/01/11/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E7%BA%BF%E7%A8%8B%E6%B1%A0%20%20Result%E3%80%81Task%E7%B1%BB/" title="线程池 | Result、Task类"><img class="cover" src="/img/118.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-11</div><div class="info-item-2">线程池 | Result、Task类</div></div><div class="info-2"><div class="info-item-1">线程池 | Result、Task类1.Task类123456789101112131415//任务抽象基类class Task&#123;public:	Task();	~Task() = default;	void exec();	void setResult(Result* res);	//用户可以自定义任意任务类型，从Task继承，重写run方法，实现自定义任务处理	virtual Any run() = 0;private:	//不用shared是避免了智能指针交叉引用的问题	Result* result_;//Result 的生存周期要长于Task&#125;;  使用时，用户自己定义一个mytask类继承Task类，重写run方法完成自己想要的任务即可。 exec就是用来执行run()方法的一个包装函数 123456789101112131415//////////Task方法实现Task::Task():result_(nullptr)&#123;&#125;void Task::exec()&#123;	if (result_ !=...</div></div></div></a><a class="pagination-related" href="/2025/01/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E9%A1%B9%E7%9B%AE/%E7%BA%BF%E7%A8%8B%E6%B1%A0%20%20%E6%94%B9%E8%BF%9B%E7%89%88/" title="线程池 | 改进版"><img class="cover" src="/img/114.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-15</div><div class="info-item-2">线程池 | 改进版</div></div><div class="info-2"><div class="info-item-1">线程池 | 改进版1.改进点1.如何能让用户提交任务的过程更加简单方便？   1234从pool.submitTask(std::make_shared&lt;MyTask&gt;(1,...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">119</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0-ThreadPool%E7%9A%84submitTask%E5%92%8CthreadFunc%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">线程池 | ThreadPool的submitTask和threadFunc方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-submitTask"><span class="toc-number">1.1.</span> <span class="toc-text">1.submitTask()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%8A%9F%E8%83%BD%E8%A7%A3%E9%87%8A%EF%BC%9A"><span class="toc-number">1.1.1.</span> <span class="toc-text">函数功能解释：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%9D%A5%E8%AF%B4%EF%BC%8C%E8%AF%A5%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%BB%E8%A6%81%E6%B5%81%E7%A8%8B%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="toc-number">1.1.2.</span> <span class="toc-text">简单来说，该函数的主要流程如下：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%9A"><span class="toc-number">1.1.3.</span> <span class="toc-text">注意事项：</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img src="/img/84.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly博客功能完善和美化（四）---博客上传"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传">hexo+butterfly博客功能完善和美化（四）---博客上传</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img src="/img/87.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly搭建博客网站总结篇"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇">hexo+butterfly搭建博客网站总结篇</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
