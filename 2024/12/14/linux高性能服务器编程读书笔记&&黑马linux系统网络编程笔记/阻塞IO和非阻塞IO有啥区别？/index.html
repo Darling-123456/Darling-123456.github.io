@@ -1,0 +1,466 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Linux高性能服务器编程 阻塞与非阻塞系列问题 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1.阻塞IO和非阻塞IO有啥区别？ 概念定义 阻塞 IO（Blocking I&#x2F;O）： 当应用程序发起一个 I&#x2F;O 操作（如读取文件、接收网络数据等）时，在该操作完成之前，应用程序会被阻塞，即线程暂停执行，等待 I&#x2F;O 操作的完成。例如，在使用read函数从一个网络套接字读取数据时，如果没有数据可读，线程会一直等待，直到有数据到达并被成功读取。   非阻塞 IO（No">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux高性能服务器编程 阻塞与非阻塞系列问题">
+<meta property="og:url" content="https://darling-123456.github.io/2024/12/14/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/%E9%98%BB%E5%A1%9EIO%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E6%9C%89%E5%95%A5%E5%8C%BA%E5%88%AB%EF%BC%9F/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="1.阻塞IO和非阻塞IO有啥区别？ 概念定义 阻塞 IO（Blocking I&#x2F;O）： 当应用程序发起一个 I&#x2F;O 操作（如读取文件、接收网络数据等）时，在该操作完成之前，应用程序会被阻塞，即线程暂停执行，等待 I&#x2F;O 操作的完成。例如，在使用read函数从一个网络套接字读取数据时，如果没有数据可读，线程会一直等待，直到有数据到达并被成功读取。   非阻塞 IO（No">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/179.jpg">
+<meta property="article:published_time" content="2024-12-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-23T07:52:03.042Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="Linux高性能服务器编程">
+<meta property="article:tag" content="网络编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/179.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux高性能服务器编程 阻塞与非阻塞系列问题",
+  "url": "https://darling-123456.github.io/2024/12/14/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/%E9%98%BB%E5%A1%9EIO%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E6%9C%89%E5%95%A5%E5%8C%BA%E5%88%AB%EF%BC%9F/",
+  "image": "https://darling-123456.github.io/img/179.jpg",
+  "datePublished": "2024-12-13T16:00:00.000Z",
+  "dateModified": "2025-03-23T07:52:03.042Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/12/14/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/%E9%98%BB%E5%A1%9EIO%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E6%9C%89%E5%95%A5%E5%8C%BA%E5%88%AB%EF%BC%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux高性能服务器编程 阻塞与非阻塞系列问题',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">208</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/179.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">Linux高性能服务器编程 阻塞与非阻塞系列问题</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Linux高性能服务器编程 阻塞与非阻塞系列问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-13T16:00:00.000Z" title="发表于 2024-12-14 00:00:00">2024-12-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-23T07:52:03.042Z" title="更新于 2025-03-23 15:52:03">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B/">Linux高性能服务器编程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">6.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="1-阻塞IO和非阻塞IO有啥区别？"><a href="#1-阻塞IO和非阻塞IO有啥区别？" class="headerlink" title="1.阻塞IO和非阻塞IO有啥区别？"></a>1.阻塞IO和非阻塞IO有啥区别？</h2><ol>
+<li><strong>概念定义</strong><ul>
+<li>阻塞 IO（Blocking I&#x2F;O）：<ul>
+<li>当应用程序发起一个 I&#x2F;O 操作（如读取文件、接收网络数据等）时，在该操作完成之前，应用程序会被阻塞，即线程暂停执行，等待 I&#x2F;O 操作的完成。例如，在使用<code>read</code>函数从一个网络套接字读取数据时，如果没有数据可读，线程会一直等待，直到有数据到达并被成功读取。</li>
+</ul>
+</li>
+<li>非阻塞 IO（Non - Blocking I&#x2F;O）：<ul>
+<li>当应用程序发起一个 I&#x2F;O 操作时，如果操作不能立即完成（例如读取数据时缓冲区没有数据），函数会立即返回一个错误码（如在 Linux 系统中返回<code>EWOULDBLOCK</code>或<code>EAGAIN</code>），而不是阻塞线程等待操作完成。应用程序可以继续执行其他任务，之后可以通过轮询或者其他异步机制来检查 I&#x2F;O 操作是否可以继续进行。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>工作原理</strong><ul>
+<li>阻塞 IO：<ul>
+<li>以文件读取为例，当程序调用<code>read</code>函数读取文件内容时，操作系统会检查文件系统缓冲区。如果缓冲区中有数据且满足读取要求，就将数据返回给应用程序；如果缓冲区中没有足够的数据，操作系统会将调用<code>read</code>的线程阻塞，直到有足够的数据被读入缓冲区并可以满足读取要求。在网络通信中，接收数据时如果接收缓冲区为空，发送数据时如果发送缓冲区已满，也会出现类似的阻塞情况。</li>
+</ul>
+</li>
+<li>非阻塞 IO：<ul>
+<li>同样以文件读取为例，当调用非阻塞<code>read</code>函数时，如果文件系统缓冲区没有足够的数据满足读取要求，函数会立即返回错误码，而不是等待数据准备好。在网络通信中，当接收数据时缓冲区为空或者发送数据时缓冲区已满，<code>recv</code>或<code>send</code>函数也会立即返回错误码。应用程序可以选择暂时忽略这个 I&#x2F;O 操作，去处理其他事务，然后在合适的时候再次尝试调用 I&#x2F;O 操作函数来检查是否可以继续进行。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>性能特点</strong><ul>
+<li>阻塞 IO：<ul>
+<li>简单直观，编程模型相对简单。因为应用程序不需要处理复杂的异步 I&#x2F;O 机制，只需要按照顺序调用 I&#x2F;O 操作函数，等待操作完成即可。但是，在多任务环境下效率较低。由于线程在 I&#x2F;O 操作期间被阻塞，不能执行其他任务，这可能会导致资源浪费。例如，在一个多客户端的服务器中，如果服务器使用阻塞 IO 来处理客户端请求，当一个客户端的 I&#x2F;O 操作（如接收一个大数据块）耗时较长时，服务器在处理这个客户端的过程中不能处理其他客户端的请求，降低了服务器的并发处理能力。</li>
+</ul>
+</li>
+<li>非阻塞 IO：<ul>
+<li>能够提高程序的并发处理能力。在多任务环境下，可以同时处理多个 I&#x2F;O 操作，不会因为某个 I&#x2F;O 操作未完成而阻塞整个线程。不过，非阻塞 IO 的编程模型相对复杂。开发者需要处理 I&#x2F;O 操作可能返回的错误码，并且需要通过轮询或者其他异步机制（如<code>select</code>、<code>epoll</code>等）来管理 I&#x2F;O 操作的进度。例如，在使用非阻塞 IO 实现一个网络应用时，需要编写代码来不断地检查每个 I&#x2F;O 操作是否有数据可读或者可写，增加了编程的难度和复杂性。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>应用场景</strong><ul>
+<li>阻塞 IO：<ul>
+<li>适用于简单的、顺序执行的程序。例如，简单的命令行工具，只需要读取用户输入、执行一个操作（如文件复制）并输出结果，在这个过程中不需要同时处理其他任务，使用阻塞 IO 可以很方便地实现功能。再比如，简单的客户端 - 服务器通信场景，客户端发送一个请求，然后等待服务器响应，在等待响应的过程中，客户端没有其他任务需要执行，这种情况下使用阻塞 IO 比较合适。</li>
+</ul>
+</li>
+<li>非阻塞 IO：<ul>
+<li>适用于需要同时处理多个 I&#x2F;O 操作的场景，特别是在高性能服务器和网络应用中。例如，在一个支持大量并发客户端连接的服务器中，使用非阻塞 IO 可以让服务器在等待一个客户端的数据到达或者发送缓冲区空闲的过程中，去处理其他客户端的请求，提高服务器的并发性能。同时，在一些对响应时间要求较高的实时系统中，非阻塞 IO 也可以更好地利用系统资源，避免因为 I&#x2F;O 阻塞而导致系统响应延迟。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-阻塞socket和非阻塞socket有啥区别？"><a href="#2-阻塞socket和非阻塞socket有啥区别？" class="headerlink" title="2.阻塞socket和非阻塞socket有啥区别？"></a>2.阻塞socket和非阻塞socket有啥区别？</h2><ol>
+<li><strong>阻塞 Socket（Blocking Socket）</strong><ul>
+<li>定义：<ul>
+<li>当一个线程调用阻塞式 Socket 的 I&#x2F;O 操作（如<code>recv</code>接收数据或<code>send</code>发送数据）时，该线程会被挂起（暂停执行），直到这个 I&#x2F;O 操作完成。例如，在调用<code>recv</code>函数从网络接收数据时，如果没有数据到达，线程会一直等待，直到有数据到达并被接收完毕才会继续执行后续代码。</li>
+</ul>
+</li>
+<li>工作原理：<ul>
+<li>以接收数据为例，当程序调用<code>recv</code>函数读取 Socket 中的数据时，操作系统会检查 Socket 接收缓冲区。如果缓冲区中有数据，就把数据返回给应用程序；如果缓冲区为空，操作系统会将调用<code>recv</code>的线程阻塞，直到有数据被写入缓冲区。发送数据也是类似的情况，<code>send</code>函数会一直等待，直到数据全部成功发送到网络或者出现错误。</li>
+</ul>
+</li>
+<li>应用场景：<ul>
+<li>适用于简单的、顺序执行的程序。例如，简单的客户端 - 服务器通信场景，客户端发送一个请求，然后等待服务器响应，在等待响应的过程中，客户端没有其他任务需要执行，这种情况下使用阻塞 Socket 比较合适。比如一个简单的 HTTP 客户端，它发送一个网页请求后，就等待服务器返回网页内容，使用阻塞 Socket 可以很方便地实现这个功能。</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>编程模型相对简单。开发者不需要处理复杂的异步 I&#x2F;O 机制，只需要按照顺序调用 I&#x2F;O 操作函数，等待操作完成即可。例如，在简单的文件传输程序中，使用阻塞 Socket 发送文件，只需要循环调用<code>send</code>函数，直到文件发送完毕，代码逻辑比较直接。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>效率较低。因为线程在 I&#x2F;O 操作期间被阻塞，不能执行其他任务。在多任务环境下，这可能会导致资源浪费。例如，在一个多客户端的服务器中，如果服务器使用阻塞 Socket 来处理客户端请求，当一个客户端的 I&#x2F;O 操作（如接收一个大数据块）耗时较长时，服务器在处理这个客户端的过程中不能处理其他客户端的请求，降低了服务器的并发处理能力。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>非阻塞 Socket（Non - Blocking Socket）</strong><ul>
+<li>定义：<ul>
+<li>当一个线程调用非阻塞式 Socket 的 I&#x2F;O 操作时，如果操作不能立即完成（如接收数据时缓冲区没有数据，或者发送数据时缓冲区已满），函数会立即返回一个错误码（如<code>EWOULDBLOCK</code>或<code>EAGAIN</code>），而不是阻塞线程等待操作完成。线程可以继续执行其他任务，之后可以通过轮询或者其他异步机制来检查 I&#x2F;O 操作是否可以继续进行。</li>
+</ul>
+</li>
+<li>工作原理：<ul>
+<li>同样以接收数据为例，当调用非阻塞<code>recv</code>函数时，如果 Socket 接收缓冲区为空，函数不会等待，而是立即返回错误码。线程可以根据这个错误码选择暂时忽略这个 Socket，去处理其他任务，然后在合适的时候再次尝试调用<code>recv</code>函数来检查是否有数据可读。发送数据时，如果缓冲区已满，<code>send</code>函数也会立即返回错误码，而不是等待缓冲区有空间。</li>
+</ul>
+</li>
+<li>应用场景：<ul>
+<li>适用于需要同时处理多个 I&#x2F;O 操作的场景，特别是在高性能服务器和网络应用中。例如，在一个支持大量并发客户端连接的服务器中，使用非阻塞 Socket 可以让服务器在等待一个客户端的数据到达或者发送缓冲区空闲的过程中，去处理其他客户端的请求，提高服务器的并发性能。</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>能够提高程序的并发处理能力。在多任务环境下，可以同时处理多个 Socket 的 I&#x2F;O 操作，不会因为某个 Socket 的 I&#x2F;O 操作未完成而阻塞整个线程。例如，在一个即时通讯服务器中，使用非阻塞 Socket 可以高效地处理多个用户的消息发送和接收，提高服务器的响应速度和并发处理能力。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>编程模型相对复杂。开发者需要处理 I&#x2F;O 操作可能返回的错误码，并且需要通过轮询或者其他异步机制来管理 I&#x2F;O 操作的进度。例如，在使用非阻塞 Socket 实现一个网络应用时，需要编写代码来不断地检查每个 Socket 是否有数据可读或者可写，增加了编程的难度和复杂性。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-非阻塞socket示例"><a href="#4-非阻塞socket示例" class="headerlink" title="4.非阻塞socket示例"></a>4.非阻塞socket示例</h3><p>通过轮询来实现的</p>
+<p>以下是一个使用 C 语言编写的基于非阻塞套接字的简单服务器端示例代码，它可以同时处理多个客户端连接，展示了非阻塞套接字在网络编程中的应用方式以及如何处理相关的 I&#x2F;O 操作。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX_CLIENTS 5</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BUFFER_SIZE 1024</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置套接字为非阻塞模式</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">set_nonblocking</span><span class="params">(<span class="type">int</span> sockfd)</span> &#123;</span><br><span class="line">    <span class="type">int</span> flags = fcntl(sockfd, F_GETFL, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (flags == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;fcntl F_GETFL&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (fcntl(sockfd, F_SETFL, flags | O_NONBLOCK) == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;fcntl F_SETFL&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 创建服务器套接字</span></span><br><span class="line">    <span class="type">int</span> server_socket = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (server_socket == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;socket&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置端口复用</span></span><br><span class="line">    <span class="type">int</span> opt = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &amp;opt, <span class="keyword">sizeof</span>(opt)) == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;setsockopt&quot;</span>);</span><br><span class="line">        close(server_socket);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 绑定IP地址和端口</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_addr</span>;</span></span><br><span class="line">    server_addr.sin_family = AF_INET;</span><br><span class="line">    server_addr.sin_addr.sdn_addr = INADDR_ANY;</span><br><span class="line">    server_addr.sin_port = htons(<span class="number">8888</span>);</span><br><span class="line">    <span class="keyword">if</span> (bind(server_socket, (<span class="keyword">struct</span> sockaddr *)&amp;server_addr, <span class="keyword">sizeof</span>(server_addr)) == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;bind&quot;</span>);</span><br><span class="line">        close(server_socket);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 监听客户端连接</span></span><br><span class="line">    <span class="keyword">if</span> (listen(server_socket, MAX_CLIENTS) == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;listen&quot;</span>);</span><br><span class="line">        close(server_socket);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置服务器套接字为非阻塞模式</span></span><br><span class="line">    set_nonblocking(server_socket);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 用于存储客户端套接字的数组</span></span><br><span class="line">    <span class="type">int</span> client_sockets[MAX_CLIENTS];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CLIENTS; ++i) &#123;</span><br><span class="line">        client_sockets[i] = <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 主循环，不断处理客户端连接和数据收发</span></span><br><span class="line">    fd_set read_fds;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        FD_ZERO(&amp;read_fds);</span><br><span class="line">        FD_SET(server_socket, &amp;read_fds);</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> max_fd = server_socket;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CLIENTS; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (client_sockets[i]!= <span class="number">-1</span>) &#123;</span><br><span class="line">                FD_SET(client_sockets[i], &amp;read_fds);</span><br><span class="line">                <span class="keyword">if</span> (client_sockets[i] &gt; max_fd) &#123;</span><br><span class="line">                    max_fd = client_sockets[i];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用select监听可读事件</span></span><br><span class="line">        <span class="type">int</span> activity = select(max_fd + <span class="number">1</span>, &amp;read_fds, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="keyword">if</span> (activity == <span class="number">-1</span>) &#123;</span><br><span class="line">            perror(<span class="string">&quot;select&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (activity == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查服务器套接字是否可读，即是否有新客户端连接</span></span><br><span class="line">        <span class="keyword">if</span> (FD_ISSET(server_socket, &amp;read_fds)) &#123;</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">client_addr</span>;</span></span><br><span class="line">            <span class="type">socklen_t</span> client_addr_len = <span class="keyword">sizeof</span>(client_addr);</span><br><span class="line">            <span class="type">int</span> new_client_socket = accept(server_socket, (<span class="keyword">struct</span> sockaddr *)&amp;client_addr, &amp;client_addr_len);</span><br><span class="line">            <span class="keyword">if</span> (new_client_socket == <span class="number">-1</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (errno!= EWOULDBLOCK &amp;&amp; errno!= EAGAIN) &#123;</span><br><span class="line">                    perror(<span class="string">&quot;accept&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;新客户端连接：%s:%d\n&quot;</span>, inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));</span><br><span class="line">                set_nonblocking(new_client_socket);</span><br><span class="line">                <span class="comment">// 找到空闲位置添加新客户端套接字</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CLIENTS; ++i) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (client_sockets[i] == <span class="number">-1</span>) &#123;</span><br><span class="line">                        client_sockets[i] = new_client_socket;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查客户端套接字是否可读，处理客户端发送的数据</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CLIENTS; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (client_sockets[i]!= <span class="number">-1</span> &amp;&amp; FD_ISSET(client_sockets[i], &amp;read_fds)) &#123;</span><br><span class="line">                <span class="type">char</span> buffer[BUFFER_SIZE];</span><br><span class="line">                <span class="type">ssize_t</span> bytes_read = read(client_sockets[i], buffer, BUFFER_SIZE);</span><br><span class="line">                <span class="keyword">if</span> (bytes_read == <span class="number">-1</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (errno!= EWOULDBLOCK &amp;&amp; errno!= EAGAIN) &#123;</span><br><span class="line">                        perror(<span class="string">&quot;read&quot;</span>);</span><br><span class="line">                        close(client_sockets[i]);</span><br><span class="line">                        client_sockets[i] = <span class="number">-1</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (bytes_read == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="comment">// 客户端关闭连接</span></span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;客户端断开连接\n&quot;</span>);</span><br><span class="line">                    close(client_sockets[i]);</span><br><span class="line">                    client_sockets[i] = <span class="number">-1</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    buffer[bytes_read] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;从客户端收到数据：%s&quot;</span>, buffer);</span><br><span class="line">                    <span class="comment">// 这里可以添加对收到数据的处理逻辑，比如回复客户端等</span></span><br><span class="line">                    write(client_sockets[i], buffer, bytes_read);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭服务器套接字和所有客户端套接字</span></span><br><span class="line">    close(server_socket);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CLIENTS; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (client_sockets[i]!= <span class="number">-1</span>) &#123;</span><br><span class="line">            close(client_sockets[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下是对上述代码的详细解释：</p>
+<h4 id="1-函数和头文件引入"><a href="#1-函数和头文件引入" class="headerlink" title="1. 函数和头文件引入"></a>1. 函数和头文件引入</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>引入了必要的头文件，用于实现网络套接字相关操作、文件描述符操作、错误处理以及字符串和标准输入输出等功能。</p>
+<h4 id="2-set-nonblocking函数"><a href="#2-set-nonblocking函数" class="headerlink" title="2. set_nonblocking函数"></a>2. <code>set_nonblocking</code>函数</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置套接字为非阻塞模式</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">set_nonblocking</span><span class="params">(<span class="type">int</span> sockfd)</span> &#123;</span><br><span class="line">    <span class="type">int</span> flags = fcntl(sockfd, F_GETFL, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (flags == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;fcntl F_GETFL&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (fcntl(sockfd, F_SETFL, flags | O_NONBLOCK) == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;fcntl F_SETFL&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个函数用于将给定的套接字文件描述符<code>sockfd</code>设置为非阻塞模式。它首先通过<code>fcntl</code>函数获取当前文件描述符的标志位，然后使用按位或操作将<code>O_NONBLOCK</code>标志添加进去，再通过<code>fcntl</code>函数重新设置标志位，从而实现将套接字设置为非阻塞的目的。</p>
+<h4 id="3-main函数主体"><a href="#3-main函数主体" class="headerlink" title="3. main函数主体"></a>3. <code>main</code>函数主体</h4><ul>
+<li><strong>创建服务器套接字并进行基本设置</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> server_socket = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span> (server_socket == <span class="number">-1</span>) &#123;</span><br><span class="line">    perror(<span class="string">&quot;socket&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置端口复用</span></span><br><span class="line"><span class="type">int</span> opt = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &amp;opt, <span class="keyword">sizeof</span>(opt)) == <span class="number">-1</span>) &#123;</span><br><span class="line">    perror(<span class="string">&quot;setsockopt&quot;</span>);</span><br><span class="line">    close(server_socket);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绑定IP地址和端口</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_addr</span>;</span></span><br><span class="line">server_addr.sin_family = AF_INET;</span><br><span class="line">server_addr.sin_addr.sdn_addr = INADDR_ANY;</span><br><span class="line">server_addr.sin_port = htons(<span class="number">8888</span>);</span><br><span class="line"><span class="keyword">if</span> (bind(server_socket, (<span class="keyword">struct</span> sockaddr *)&amp;server_addr, <span class="keyword">sizeof</span>(server_addr)) == <span class="number">-1</span>) &#123;</span><br><span class="line">    perror(<span class="string">&quot;bind&quot;</span>);</span><br><span class="line">    close(server_socket);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听客户端连接</span></span><br><span class="line"><span class="keyword">if</span> (listen(server_socket, MAX_CLIENTS) == <span class="number">-1</span>) &#123;</span><br><span class="line">    perror(<span class="string">&quot;listen&quot;</span>);</span><br><span class="line">    close(server_socket);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置服务器套接字为非阻塞模式</span></span><br><span class="line">set_nonblocking(server_socket);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>首先使用<code>socket</code>函数创建一个基于 TCP 协议（<code>AF_INET</code>表示 IPv4 地址族，<code>SOCK_STREAM</code>表示 TCP 套接字类型）的服务器套接字。</li>
+<li>通过<code>setsockopt</code>函数设置套接字选项，使得端口可以复用，避免地址占用问题。</li>
+<li>然后将套接字绑定到本地所有可用 IP 地址（<code>INADDR_ANY</code>）的<code>8888</code>端口上，并开始监听客户端连接，允许的最大连接数设置为<code>MAX_CLIENTS</code>（这里定义为<code>5</code>）。</li>
+<li>最后调用<code>set_nonblocking</code>函数将服务器套接字设置为非阻塞模式。</li>
+<li><strong>初始化客户端套接字数组</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用于存储客户端套接字的数组</span></span><br><span class="line"><span class="type">int</span> client_sockets[MAX_CLIENTS];</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CLIENTS; ++i) &#123;</span><br><span class="line">    client_sockets[i] = <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建一个数组用于存储已连接的客户端套接字文件描述符，初始值都设为<code>-1</code>，表示空闲位置。</p>
+<ul>
+<li><strong>主循环部分</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">fd_set read_fds;</span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    FD_ZERO(&amp;read_fds);</span><br><span class="line">    FD_SET(server_socket, &amp;read_fds);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> max_fd = server_socket;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CLIENTS; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (client_sockets[i]!= <span class="number">-1</span>) &#123;</span><br><span class="line">            FD_SET(client_sockets[i], &amp;read_fds);</span><br><span class="line">            <span class="keyword">if</span> (client_sockets[i] &gt; max_fd) &#123;</span><br><span class="line">                max_fd = client_sockets[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用select监听可读事件</span></span><br><span class="line">    <span class="type">int</span> activity = select(max_fd + <span class="number">1</span>, &amp;read_fds, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> (activity == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;select&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (activity == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进入一个无限循环，在每次循环中，首先使用<code>FD_ZERO</code>函数清空文件描述符集合<code>read_fds</code>，然后使用<code>FD_SET</code>函数将服务器套接字添加到这个集合中，表示要监听服务器套接字的可读事件。接着遍历客户端套接字数组，将已连接的客户端套接字也添加到<code>read_fds</code>集合中，并记录最大的文件描述符值，用于<code>select</code>函数的参数。</li>
+<li>使用<code>select</code>函数监听这些套接字的可读事件，<code>select</code>会阻塞等待，直到有套接字可读或者发生错误等情况。如果<code>select</code>返回<code>-1</code>表示出现错误，直接跳出循环；如果返回<code>0</code>表示超时（这里没有设置超时时间，实际是没有超时情况发生），继续下一次循环。</li>
+<li><strong>处理新客户端连接</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 检查服务器套接字是否可读，即是否有新客户端连接</span></span><br><span class="line"><span class="keyword">if</span> (FD_ISSET(server_socket, &amp;read_fds)) &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">client_addr</span>;</span></span><br><span class="line">    <span class="type">socklen_t</span> client_addr_len = <span class="keyword">sizeof</span>(client_addr);</span><br><span class="line">    <span class="type">int</span> new_client_socket = accept(server_socket, (<span class="keyword">struct</span> sockaddr *)&amp;client_addr, &amp;client_addr_len);</span><br><span class="line">    <span class="keyword">if</span> (new_client_socket == <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (errno!= EWOULDBLOCK &amp;&amp; errno!= EAGAIN) &#123;</span><br><span class="line">            perror(<span class="string">&quot;accept&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;新客户端连接：%s:%d\n&quot;</span>, inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));</span><br><span class="line">        set_nonblocking(new_client_socket);</span><br><span class="line">        <span class="comment">// 找到空闲位置添加新客户端套接字</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CLIENTS; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (client_sockets[i] == <span class="number">-1</span>) &#123;</span><br><span class="line">                client_sockets[i] = new_client_socket;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当<code>select</code>返回后，通过<code>FD_ISSET</code>函数检查服务器套接字是否在可读集合中，如果是，则表示有新客户端尝试连接。调用<code>accept</code>函数接受新连接，获取新客户端的套接字文件描述符。如果<code>accept</code>返回<code>-1</code>，并且错误码不是<code>EWOULDBLOCK</code>或<code>EAGAIN</code>（这两个错误码在非阻塞模式下表示当前没有新连接可接受，属于正常情况），则打印错误信息；如果成功接受新连接，打印客户端的 IP 地址和端口信息，将新客户端套接字设置为非阻塞模式，然后将其添加到<code>client_sockets</code>数组的空闲位置中。</li>
+<li><strong>处理客户端发送的数据</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 检查客户端套接字是否可读，处理客户端发送的数据</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CLIENTS; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (client_sockets[i]!= <span class="number">-1</span> &amp;&amp; FD_ISSET(client_sockets[i], &amp;read_fds)) &#123;</span><br><span class="line">        <span class="type">char</span> buffer[BUFFER_SIZE];</span><br><span class="line">        <span class="type">ssize_t</span> bytes_read = read(client_sockets[i], buffer, BUFFER_SIZE);</span><br><span class="line">        <span class="keyword">if</span> (bytes_read == <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (errno!= EWOULDBLOCK &amp;&amp; errno!= EAGAIN) &#123;</span><br><span class="line">                perror(<span class="string">&quot;read&quot;</span>);</span><br><span class="line">                close(client_sockets[i]);</span><br><span class="line">                client_sockets[i] = <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (bytes_read == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 客户端关闭连接</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;客户端断开连接\n&quot;</span>);</span><br><span class="line">            close(client_sockets[i]);</span><br><span class="line">            client_sockets[i] = <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            buffer[bytes_read] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;从客户端收到数据：%s&quot;</span>, buffer);</span><br><span class="line">            <span class="comment">// 这里可以添加对收到数据的处理逻辑，比如回复客户端等</span></span><br><span class="line">            write(client_sockets[i], buffer, bytes_read);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>遍历客户端套接字数组，对于每个已连接且在可读集合中的客户端套接字，使用<code>read</code>函数尝试读取客户端发送的数据。如果<code>read</code>返回<code>-1</code>，并且错误码不是<code>EWOULDBLOCK</code>或<code>EAGAIN</code>（非阻塞模式下表示当前没有数据可读，属于正常情况），则打印错误信息，关闭该客户端套接字并将数组中对应的位置设为<code>-1</code>；如果<code>read</code>返回<code>0</code>，表示客户端关闭了连接，打印相应信息后关闭套接字并设置数组位置为<code>-1</code>；如果成功读取到数据，在终端打印收到的数据，同时可以在这里添加更复杂的对收到数据的处理逻辑（这里简单地将数据再写回客户端，实现回显功能）。</li>
+<li><strong>关闭套接字</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 关闭服务器套接字和所有客户端套接字</span></span><br><span class="line">close(server_socket);</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MAX_CLIENTS; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (client_sockets[i]!= <span class="number">-1</span>) &#123;</span><br><span class="line">        close(client_sockets[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在程序结束前，关闭服务器套接字以及所有已连接的客户端套接字，释放相关资源。</p>
+<p>通过这个示例代码，可以看到非阻塞套接字结合<code>select</code>机制在服务器端处理多个客户端连接和数据收发时的应用，它能够在不阻塞主线程的情况下，并发地处理多个客户端的情况，提高服务器的并发处理能力。</p>
+<p>你可以使用<code>telnet</code>等工具作为客户端连接到这个服务器进行测试，比如在命令行输入<code>telnet 127.0.0.1 8888</code>，然后输入一些字符发送给服务器，观察服务器端的输出情况。</p>
+<p>请注意，这只是一个简单示例，实际应用中可能需要根据具体需求进一步优化和扩展功能，比如处理更多的网络异常情况、优化数据处理逻辑等。</p>
+<h2 id="3-阻塞connect和非阻塞connect有啥区别？"><a href="#3-阻塞connect和非阻塞connect有啥区别？" class="headerlink" title="3.阻塞connect和非阻塞connect有啥区别？"></a>3.阻塞connect和非阻塞connect有啥区别？</h2><ol>
+<li><strong>阻塞状态方面</strong><ul>
+<li>阻塞 Connect：<ul>
+<li>当执行阻塞式<code>connect</code>操作时，调用线程会被阻塞。这意味着线程会暂停执行后续代码，一直等待连接操作完成，即等待 TCP 三次握手（针对 TCP 连接）成功或者出现错误。例如，在客户端与服务器建立连接的过程中，如果服务器响应较慢，比如由于网络拥塞或者服务器负载过高，线程会一直等待，直到握手过程结束或者连接超时。</li>
+</ul>
+</li>
+<li>非阻塞 Connect：<ul>
+<li>对于非阻塞式<code>connect</code>，它不会阻塞调用线程。如果连接不能立即建立，例如服务器没有立刻响应或者网络延迟，<code>connect</code>函数会立即返回一个错误码（通常是<code>EINPROGRESS</code>），线程可以继续执行其他任务。比如在图形界面的网络应用中，在等待连接建立的同时，程序可以继续响应用户的其他操作，如更新界面显示或者处理其他已经建立连接的通信。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>编程模型复杂程度</strong><ul>
+<li>阻塞 Connect：<ul>
+<li>编程模型相对简单。开发者只需要像调用普通函数一样调用<code>connect</code>，然后等待它返回结果即可。如果返回成功，就可以直接进行后续的数据发送和接收操作；如果返回失败，再根据错误码进行相应处理。这种方式比较符合线性的、顺序执行的编程思维，易于理解和实现。</li>
+</ul>
+</li>
+<li>非阻塞 Connect：<ul>
+<li>编程模型较为复杂。因为<code>connect</code>函数返回后并不代表连接已经建立成功，所以需要额外的机制来检查连接状态。通常会使用<code>select</code>、<code>epoll</code>等 I&#x2F;O 复用技术或者<code>getsockopt</code>函数来检查套接字状态，以确定连接是否真正建立或者发生错误。这就要求开发者对网络编程的底层机制有更深入的理解，并且要处理好各种可能的情况，代码的逻辑也更加复杂。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>并发处理能力</strong><ul>
+<li>阻塞 Connect：<ul>
+<li>在并发场景下效率较低。由于每个<code>connect</code>操作都会阻塞线程，当需要同时建立多个连接时，只能顺序地逐个进行连接操作。例如，一个程序需要同时连接多个服务器来获取数据，如果使用阻塞<code>connect</code>，就需要等待一个连接建立完成后才能开始下一个连接的建立，这会大大延长总的连接时间，降低程序的并发性能。</li>
+</ul>
+</li>
+<li>非阻塞 Connect：<ul>
+<li>具有较好的并发处理能力。因为它不会阻塞线程，所以可以同时发起多个连接操作。在等待这些连接建立的过程中，程序可以执行其他任务，如处理已经建立连接的通信或者发起新的连接。通过合理使用 I&#x2F;O 复用机制来检查连接状态，可以高效地管理多个并发连接的建立过程，提高程序在多连接场景下的效率。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>适用场景</strong><ul>
+<li>阻塞 Connect：<ul>
+<li>适用于简单的、对并发要求不高的网络应用场景。比如简单的命令行工具，只需要与一个服务器建立连接，获取数据后就结束程序。或者在一些简单的客户端 - 服务器通信场景中，客户端发起连接后主要就是等待服务器响应，期间不需要执行其他复杂任务。</li>
+</ul>
+</li>
+<li>非阻塞 Connect：<ul>
+<li>适用于对并发性能要求较高的场景。例如高性能的网络服务器或者客户端，需要同时与多个服务器建立连接，或者在连接建立过程中不能让线程被阻塞而影响其他操作的情况。像在网络爬虫程序中，需要同时连接多个网页服务器来抓取数据，使用非阻塞<code>connect</code>可以提高效率。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>阻塞 Connect 示例</strong></p>
+<p>想象你去一家餐厅吃饭，你告诉服务员你要点餐（相当于发起<code>connect</code>请求），然后你就坐在那里什么也不做，一直等服务员把菜端上来（也就是等待连接建立完成）。在这个过程中，你不能做其他事情，比如看手机或者和朋友聊天，直到服务员把菜给你（连接成功）或者告诉你餐厅没这个菜了（连接失败）。这就是阻塞<code>connect</code>，程序就像这个等待上菜的你一样，卡在那里一直等待连接操作完成。</p>
+<p><strong>非阻塞 Connect 示例</strong></p>
+<p>还是以去餐厅吃饭为例，你告诉服务员你要点餐（发起<code>connect</code>请求），但是你不会干等着。你可以先去餐厅的休息区看手机、和朋友聊天或者做其他事情（程序继续执行其他任务）。过一会儿，你会去问服务员菜好了没（通过其他机制检查连接是否建立）。如果好了，你就可以开始用餐（进行数据收发等操作）；如果没好，你就继续做其他事情，直到菜准备好或者被告知没这个菜了（连接失败）。</p>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h2><p>1.阻塞就是啥也不干就等着，不需要过去的其他操作，就阻塞等待就行</p>
+<p>2.非阻塞就是我去看看你来了没，你没来我继续干我自己的，你来了我去处理你</p>
+<p>我去看你，我得检查你来了没，没来的话我得判断你没来，你没来之后我还得有其他机制（比如轮询）保证你来了之后我能知道</p>
+<p><strong>比如，read函数读取非阻塞socket，读到的内容如果为空，会返回-1并且错误号是EAGAIN或EWOULDBLOCK，这种情况是正常的，之后进程就可以去read或者write别的socket，等再次轮询到它的时候，再次read，如果满足条件，返回值大于0就会开始读了</strong></p>
+<p>所以非阻塞比阻塞要难写一些</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/12/14/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/%E9%98%BB%E5%A1%9EIO%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E6%9C%89%E5%95%A5%E5%8C%BA%E5%88%AB%EF%BC%9F/">https://darling-123456.github.io/2024/12/14/linux高性能服务器编程读书笔记&amp;&amp;黑马linux系统网络编程笔记/阻塞IO和非阻塞IO有啥区别？/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B/">Linux高性能服务器编程</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div><div class="post-share"><div class="social-share" data-image="/img/179.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/12/14/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/%E4%B8%BB%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E7%82%B9%EF%BC%9Aread%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8&amp;&amp;%E4%BC%A0%E5%85%A5%E4%BC%A0%E5%87%BA%E5%8F%82%E6%95%B0/" title="Linux高性能服务器编程 重点注意 read系统调用和传入传出参数"><img class="cover" src="/img/200.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux高性能服务器编程 重点注意 read系统调用和传入传出参数</div></div><div class="info-2"><div class="info-item-1">1.read系统调用原型1ssize_t read(int fd, void *buf, size_t count);  参数 int fd：文件描述符，是一个指向要读取文件的指针或引用。通过打开文件或设备获得文件描述符。 void *buf：指向用户提供的缓冲区，该缓冲区用于存储从文件中读取的数据。该缓冲区应足够大，以容纳请求读取的字节数（由count参数指定）。 size_t...</div></div></div></a><a class="pagination-related" href="/2024/12/15/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/7.%20IO%20%E5%A4%8D%E7%94%A8/" title="Linux高性能服务器编程 7. I/O 复用"><img class="cover" src="/img/181.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux高性能服务器编程 7. I/O 复用</div></div><div class="info-2"><div class="info-item-1">7. I&#x2F;O 复用0.前情提要-IO多路转接服务器设计思路1.前情提要I&#x2F;O 复用使得程序能够同时监听多个文件描述符，从而提高程序的性能。I&#x2F;O 复用本身是阻塞的。Linux 下实现 I&#x2F;O 复用的系统调用主要有 select、poll 和 epoll。 IO复用和多路IO复用只是表述上不同，实际上指的是同一个东西。 Reactor 模型基本原理回顾  Reactor 模型是一种事件驱动的设计模式，主要包含事件分离器（Reactor）和事件处理器（Handler）。事件分离器负责监听 I&#x2F;O 事件，当事件发生时，将事件分发给相应的事件处理器进行处理。、  而本章的select，poll，epoll都是Reactor模型的一种实现方式。 select 是 Reactor 模型的一种实现方式  事件监听机制：select 函数充当事件分离器的角色。它可以同时监听多个文件描述符（包括套接字）的可读、可写和异常事件。程序将需要监听的文件描述符集合传递给 select 函数，select...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/12/19/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/12.%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" title="Linux高性能服务器编程 12. 多线程编程"><img class="cover" src="/img/191.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-19</div><div class="info-item-2">Linux高性能服务器编程 12. 多线程编程</div></div><div class="info-2"><div class="info-item-1">12. 多线程编程06-线程概念_哔哩哔哩_bilibili 早期Linux不支持线程，直到1996年，Xavier Leroy等人开发出第一个基本符合POSIX标准的线程库LinuxThreads，但LinuxThreads效率低且问题多，自内核2.6开始，Linux才开始提供内核级的线程支持，并有两个组织致力于编写新的线程库：NGPT（Next Generation POSIX Threads）和NPTL（Native POSIX Thread Library），但前者在2003年就放弃了，因此新的线程库就是NPTL。NPTL比LinuxThreads效率高，且更符合POSIX规范，所以它已经成为glibc的一部分，本书使用的线程库是NPTL。 本章要讨论的线程相关的内容都属于POSIX线程（简称 pthread）标准，不局限于NPTL实现，包括：  创建线程和结束线程； 读取和设置线程属性； POSIX线程同步方式：POSIX信号量、互斥锁和条件变量。  1.线程概念1.什么是线程**LWP:**light weight process...</div></div></div></a><a class="pagination-related" href="/2024/12/11/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/3.%20Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80API/" title="Linux高性能服务器编程 3.Linux网络编程基础API"><img class="cover" src="/img/173.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-11</div><div class="info-item-2">Linux高性能服务器编程 3.Linux网络编程基础API</div></div><div class="info-2"><div class="info-item-1">3. Linux网络编程基础API 1.主机字节序和网络字节序现代 CPU 的累加器一次都能装载（至少）4个字节(对于 32 位的机器)，即一个 int 类型。那么这4个字节在内存中排列的顺序将影响它被累加器装载的整数值，这就是字节序问题。 字节存储顺序主要分为大端序（Big-endian）和小端序（Little-endian），区别如下  Big-endian：高位字节存入低地址，低位字节存入高地址 Little-endian：低位字节存入低地址，高位字节存入高地址  例如，将12345678h写入1000h开始的内存中，以大端序和小端序模式存放结果如下：  现代 PC 大多采用小端字节序，因此小端字节序又称为主机字节序； 而在两台不同字节序的主机之间传递数据时，发送端总是把要发送的数据转化成大端字节序数据后再发送，因此大端字节序也被称为网络字节序。 网络字节顺序是TCP &#x2F; IP中规定好的一种数据表示格式，它与具体的CPU类型、操作系统等无关，从而可以保证数据在不同主机之间传输时能够被正确解释，网络字节顺序采用大端排序方式。  “大同小异 ”：大端字节序的...</div></div></div></a><a class="pagination-related" href="/2024/12/17/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/10.%20%E9%AB%98%E6%80%A7%E8%83%BDIO%E6%A1%86%E6%9E%B6%E5%BA%93Libevent/" title="Linux高性能服务器编程 10. 高性能I&#x2F;O框架库Libevent"><img class="cover" src="/img/185.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-17</div><div class="info-item-2">Linux高性能服务器编程 10. 高性能I&#x2F;O框架库Libevent</div></div><div class="info-2"><div class="info-item-1">10. 高性能I&#x2F;O框架库LibeventLinux服务器程序必须处理三类事件（I&#x2F;O、信号和定时事件），在处理这三类事件时需要考虑以下问题：  **统一事件源。**统一处理这三类事件既能使代码简单易懂，又能避免一些潜在的逻辑错误。实现统一事件源的一般方法：利用 I&#x2F;O复用系统调用来管理所有事件。 **可移植性。**不同的操作系统有不同的I&#x2F;O复用方式，如Solaris的dev&#x2F;poll文件、FreeBSD的kqueue机制、Linux的epoll系列系统调用。 **对并发编程的支持。**在多进程和多线程环境下，我们需要考虑各执行实体如何协同处理客户连接、信号、定时器，以避免竞态条件。  开源社区提供了很多优秀的开源I&#x2F;O框架库，它们不仅解决了以上问题，让开发者可以将精力完全放在程序的逻辑上，而且稳定性、性能等各方面都相当出色，如ACE、ASIO 和...</div></div></div></a><a class="pagination-related" href="/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/4.%20%E9%AB%98%E7%BA%A7%20IO%20%E5%87%BD%E6%95%B0/" title="Linux高性能服务器编程 4. 高级 I&#x2F;O 函数"><img class="cover" src="/img/174.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-12</div><div class="info-item-2">Linux高性能服务器编程 4. 高级 I&#x2F;O 函数</div></div><div class="info-2"><div class="info-item-1">4. 高级 I&#x2F;O 函数1.文件描述符文件描述符（File Descriptor, FD）是操作系统中用于访问文件的一个抽象概念。它是一个非负整数，通常由操作系统分配，用来标识被打开的文件或输入输出资源（如管道、网络连接等）。文件描述符在操作系统和应用程序之间充当桥梁，允许程序通过文件描述符来读取、写入文件或进行其他I&#x2F;O操作。 1.文件描述符的类型文件描述符通常分为三类标准描述符：  标准输入（Standard Input，FD 0）：   默认情况下与键盘关联，通常用于从用户那里接收输入数据。   标准输出（Standard Output，FD 1）：   默认情况下与终端窗口关联，通常用于向用户显示输出数据。   标准错误（Standard Error，FD 2）：   默认情况下也与终端窗口关联，但通常用于显示错误消息或诊断信息。  2.文件描述符的使用在UNIX和类UNIX操作系统中，文件描述符用于各种I&#x2F;O操作，包括：  打开文件：open() 系统调用返回一个文件描述符，表示已打开的文件。 读取文件：read()...</div></div></div></a><a class="pagination-related" href="/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/5.%20Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%E8%A7%84%E8%8C%83/" title="Linux高性能服务器编程 5. Linux服务器程序规范"><img class="cover" src="/img/175.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-12</div><div class="info-item-2">Linux高性能服务器编程 5. Linux服务器程序规范</div></div><div class="info-2"><div class="info-item-1">5. Linux服务器程序规范1.进程 PID进程的PID（Process ID）是操作系统中用于唯一标识一个进程的整数值。每个进程在创建时，操作系统都会分配一个唯一的PID，用来区分不同的进程。 PID的特点1.唯一性： 在操作系统运行的某一时刻，每个进程的PID都是唯一的。不同进程不会共享同一个PID。即使一个进程终止后，该PID可以被回收并分配给新创建的进程，但在同一时刻不会有两个进程拥有相同的PID。 2.进程生命周期： PID 的生命周期与进程的生命周期相对应。当一个进程被创建时，操作系统为它分配一个PID；当进程终止时，该PID被释放，并可能被分配给后续的新进程。 3.系统管理和调试： PID 在进程管理和调试中起着重要作用。系统管理员和开发者可以通过PID来监视、控制和调试进程。例如，使用 ps 命令可以查看系统中所有进程的PID，以及它们的状态、资源使用等信息。使用 kill 命令可以通过PID来终止指定的进程。 PID的分配PID 是由操作系统内核管理和分配的，通常是一个非负整数。PID...</div></div></div></a><a class="pagination-related" href="/2024/12/15/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/7.%20IO%20%E5%A4%8D%E7%94%A8/" title="Linux高性能服务器编程 7. I&#x2F;O 复用"><img class="cover" src="/img/181.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-15</div><div class="info-item-2">Linux高性能服务器编程 7. I&#x2F;O 复用</div></div><div class="info-2"><div class="info-item-1">7. I&#x2F;O 复用0.前情提要-IO多路转接服务器设计思路1.前情提要I&#x2F;O 复用使得程序能够同时监听多个文件描述符，从而提高程序的性能。I&#x2F;O 复用本身是阻塞的。Linux 下实现 I&#x2F;O 复用的系统调用主要有 select、poll 和 epoll。 IO复用和多路IO复用只是表述上不同，实际上指的是同一个东西。 Reactor 模型基本原理回顾  Reactor 模型是一种事件驱动的设计模式，主要包含事件分离器（Reactor）和事件处理器（Handler）。事件分离器负责监听 I&#x2F;O 事件，当事件发生时，将事件分发给相应的事件处理器进行处理。、  而本章的select，poll，epoll都是Reactor模型的一种实现方式。 select 是 Reactor 模型的一种实现方式  事件监听机制：select 函数充当事件分离器的角色。它可以同时监听多个文件描述符（包括套接字）的可读、可写和异常事件。程序将需要监听的文件描述符集合传递给 select 函数，select...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">208</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%98%BB%E5%A1%9EIO%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E6%9C%89%E5%95%A5%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">1.阻塞IO和非阻塞IO有啥区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%98%BB%E5%A1%9Esocket%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9Esocket%E6%9C%89%E5%95%A5%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">2.阻塞socket和非阻塞socket有啥区别？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%9D%9E%E9%98%BB%E5%A1%9Esocket%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">4.非阻塞socket示例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%87%BD%E6%95%B0%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BC%95%E5%85%A5"><span class="toc-number">2.1.1.</span> <span class="toc-text">1. 函数和头文件引入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-set-nonblocking%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.2.</span> <span class="toc-text">2. set_nonblocking函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-main%E5%87%BD%E6%95%B0%E4%B8%BB%E4%BD%93"><span class="toc-number">2.1.3.</span> <span class="toc-text">3. main函数主体</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%98%BB%E5%A1%9Econnect%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9Econnect%E6%9C%89%E5%95%A5%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">3.阻塞connect和非阻塞connect有啥区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">4.总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img src="/img/84.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly博客功能完善和美化（四）---博客上传"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传">hexo+butterfly博客功能完善和美化（四）---博客上传</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img src="/img/87.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly搭建博客网站总结篇"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇">hexo+butterfly搭建博客网站总结篇</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

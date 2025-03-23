@@ -1,0 +1,649 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Linux高性能服务器编程 7. I/O 复用 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="7. I&#x2F;O 复用0.前情提要-IO多路转接服务器设计思路1.前情提要I&#x2F;O 复用使得程序能够同时监听多个文件描述符，从而提高程序的性能。I&#x2F;O 复用本身是阻塞的。Linux 下实现 I&#x2F;O 复用的系统调用主要有 select、poll 和 epoll。 IO复用和多路IO复用只是表述上不同，实际上指的是同一个东西。 Reactor 模型基本原理回顾  Re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux高性能服务器编程 7. I&#x2F;O 复用">
+<meta property="og:url" content="https://darling-123456.github.io/2024/12/15/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/7.%20IO%20%E5%A4%8D%E7%94%A8/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="7. I&#x2F;O 复用0.前情提要-IO多路转接服务器设计思路1.前情提要I&#x2F;O 复用使得程序能够同时监听多个文件描述符，从而提高程序的性能。I&#x2F;O 复用本身是阻塞的。Linux 下实现 I&#x2F;O 复用的系统调用主要有 select、poll 和 epoll。 IO复用和多路IO复用只是表述上不同，实际上指的是同一个东西。 Reactor 模型基本原理回顾  Re">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/181.jpg">
+<meta property="article:published_time" content="2024-12-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-23T07:53:20.769Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="Linux高性能服务器编程">
+<meta property="article:tag" content="网络编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/181.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux高性能服务器编程 7. I/O 复用",
+  "url": "https://darling-123456.github.io/2024/12/15/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/7.%20IO%20%E5%A4%8D%E7%94%A8/",
+  "image": "https://darling-123456.github.io/img/181.jpg",
+  "datePublished": "2024-12-14T16:00:00.000Z",
+  "dateModified": "2025-03-23T07:53:20.769Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/12/15/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/7.%20IO%20%E5%A4%8D%E7%94%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux高性能服务器编程 7. I/O 复用',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">208</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/181.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">Linux高性能服务器编程 7. I/O 复用</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Linux高性能服务器编程 7. I/O 复用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-14T16:00:00.000Z" title="发表于 2024-12-15 00:00:00">2024-12-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-23T07:53:20.769Z" title="更新于 2025-03-23 15:53:20">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B/">Linux高性能服务器编程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">11.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>40分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="7-I-O-复用"><a href="#7-I-O-复用" class="headerlink" title="7. I&#x2F;O 复用"></a>7. I&#x2F;O 复用</h1><h2 id="0-前情提要-IO多路转接服务器设计思路"><a href="#0-前情提要-IO多路转接服务器设计思路" class="headerlink" title="0.前情提要-IO多路转接服务器设计思路"></a>0.前情提要-IO多路转接服务器设计思路</h2><h3 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1.前情提要"></a>1.前情提要</h3><p>I&#x2F;O 复用使得程序能够同时监听多个文件描述符，从而提高程序的<a target="_blank" rel="noopener" href="https://marketing.csdn.net/p/3127db09a98e0723b83b2914d9256174?pId=2782&utm_source=glcblog&spm=1001.2101.3001.7020">性能</a>。I&#x2F;O 复用本身是阻塞的。Linux 下实现 I&#x2F;O 复用的系统调用主要有 <code>select</code>、<code>poll</code> 和 <code>epoll</code>。</p>
+<p><strong>IO复用和多路IO复用只是表述上不同，实际上指的是同一个东西。</strong></p>
+<p><strong>Reactor 模型基本原理回顾</strong></p>
+<ul>
+<li>Reactor 模型是一种事件驱动的设计模式，主要包含事件分离器（Reactor）和事件处理器（Handler）。事件分离器负责监听 I&#x2F;O 事件，当事件发生时，将事件分发给相应的事件处理器进行处理。、</li>
+</ul>
+<p><code>而本章的select，poll，epoll都是Reactor模型的一种实现方式。</code></p>
+<p><strong>select 是 Reactor 模型的一种实现方式</strong></p>
+<ul>
+<li><strong>事件监听机制</strong>：select 函数充当事件分离器的角色。它可以同时监听多个文件描述符（包括套接字）的可读、可写和异常事件。程序将需要监听的文件描述符集合传递给 select 函数，select 会阻塞等待这些文件描述符上的事件发生。</li>
+<li><strong>事件分发处理</strong>：当 select 返回时，表示有事件发生。此时，程序需要遍历文件描述符集合，检查每个文件描述符的状态，以确定是哪个文件描述符发生了哪种事件（可读、可写或异常）。然后，根据事件类型调用相应的处理函数，这些处理函数就是事件处理器。例如，对于可读事件，可以调用接收数据的函数；对于可写事件，可以调用发送数据的函数。</li>
+</ul>
+<p><strong>poll 也是 Reactor 模型的实现方式</strong></p>
+<ul>
+<li><strong>与 select 类似的事件监听</strong>：poll 函数的功能和 select 类似，也是用于监听多个文件描述符的事件。它使用一个结构体数组来表示文件描述符及其等待的事件类型，通过不断地轮询这些文件描述符来检查事件是否发生。</li>
+<li><strong>事件分发处理机制相同</strong>：当 poll 返回后，程序同样需要遍历结构体数组来确定发生事件的文件描述符和事件类型，然后调用相应的处理函数进行处理。和 select 一样，它符合 Reactor 模型中事件分离器监听事件并将事件分发给事件处理器的基本架构。</li>
+</ul>
+<p><strong>epoll 是对 Reactor 模型更高效的实现</strong></p>
+<ul>
+<li><strong>事件监听的改进</strong>：epoll 在 Linux 系统中是一种高效的 I&#x2F;O 复用机制，也可以看作是 Reactor 模型的实现。epoll 通过在内核中维护一个事件表来管理文件描述符。程序可以向这个事件表中添加、删除或修改要监听的文件描述符及其事件类型。epoll_wait 函数用于等待事件的发生，它只会返回发生了事件的文件描述符，而不像 select 和 poll 那样需要遍历所有的文件描述符来确定事件发生的位置。</li>
+<li><strong>高效的事件分发处理</strong>：当 epoll_wait 返回后，程序直接获取了发生事件的文件描述符列表，然后针对这些文件描述符对应的事件进行处理，这使得事件的分发和处理更加高效。它同样遵循 Reactor 模型的基本思想，即由事件分离器（epoll 机制）监听事件，然后将事件分发给相应的事件处理器（处理函数）进行处理。</li>
+</ul>
+<h3 id="2-IO多路转接服务器设计思路"><a href="#2-IO多路转接服务器设计思路" class="headerlink" title="2.IO多路转接服务器设计思路"></a>2.IO多路转接服务器设计思路</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av75555742?vd_source=7831c5b97cfc5c745eb48ff04f6515e7&spm_id_from=333.788.videopod.episodes&p=52">10-多路IO转接服务器设计思路_哔哩哔哩_bilibili</a></p>
+<p>讲的比书上讲的好太多了，只能说没法比</p>
+<p>以select为例子</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241212192051846.png" alt="image-20241212192051846"></p>
+<p>服务器看做老板，select看做秘书，但是这个秘书不太聪明，她只知道有事情了（请求，读，写，异常）的话就去叫老板</p>
+<p><strong>下面来说一下客户c1，c2，c3连接服务器的过程</strong></p>
+<p>1.当前还没有任何客户连接</p>
+<p>2.c1请求连接</p>
+<p>3.select秘书通知老板srver有请求</p>
+<p>4.老板sever创建监听套接字lfd</p>
+<p>5.小秘书拿走lfd</p>
+<p>6.老板sever创建连接套接字cfd1</p>
+<p>7.小秘书拿走cfd1和c1建立联系，同时开始监听c1上的读，写，异常请求</p>
+<p>8.小秘书继续监听是否有请求，同时监听和c1建立的连接上是否有读，写，异常的请求，有的话再次通知老板处理读写请求</p>
+<p>9.c2请求，老板创建cfd2</p>
+<p>10.小秘书拿走cfd2和c2建立联系，同时开始监听c2上的读，写，异常请求</p>
+<p>11.小秘书继续监听是否有请求，同时监听cfd1，cfd2上是否有读，写，异常的请求，有的话再次通知老板处理读写请求</p>
+<p>12.c3请求，老板创建cfd3</p>
+<p>13.小秘书拿走cfd3和c3建立联系，同时开始监听c3上的读，写，异常请求</p>
+<p>14.小秘书继续监听是否有请求，同时监听cfd1，cfd2，cfd3上是否有读，写，异常的请求，有的话再次通知老板处理读写请求</p>
+<p>select此时掌管着四个socket，在没有任何请求的时候，老板sever该干啥干啥就行了。你有事你和我秘书说，秘书说了我来处理</p>
+<p><strong>而在没有这个秘书的情况下</strong></p>
+<p>老板sever只能阻塞等待，等着有请求的时候去连接，除此之外什么都干不了</p>
+<h2 id="1-select-系统调用"><a href="#1-select-系统调用" class="headerlink" title="1.select 系统调用"></a>1.select 系统调用</h2><h3 id="1-select-API"><a href="#1-select-API" class="headerlink" title="1.select API"></a>1.select API</h3><p><code>select</code>系统调用：在一段指定时间内，监听用户感兴趣的文件描述符上的可读、可写、<a target="_blank" rel="noopener" href="https://marketing.csdn.net/p/3127db09a98e0723b83b2914d9256174?pId=2782&utm_source=glcblog&spm=1001.2101.3001.7020">异常</a>事件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/select.h&gt;</span><br><span class="line">int select(int nfds, fd_set* readfds, fd_set* writefds, fd_set* exceptfds, struct timeval* timeout);</span><br></pre></td></tr></table></figure>
+
+<h4 id="参数："><a href="#参数：" class="headerlink" title="参数："></a>参数：</h4><ul>
+<li><p><code>nfds</code>：指定监听的文件描述符的总数，通常是<code>select</code>监听的所有文件描述符中的最大值+1。（因为文件描述符从 0 开始计数）。</p>
+</li>
+<li><p><code>readfds</code><strong>,</strong> <code>writefds</code><strong>,</strong> <code>exceptfds</code>：分别指向可读、可写、异常等事件对应文件描述符集合。应用调用<code>select</code>时，我们通过这3个参数传入自己感兴趣的文件描述符，当<code>select</code>函数返回时，内核将修改它们来通知应用进程哪些文件描述符已经就绪。<strong>都是传入传出参数，本质上是一个位图。</strong></p>
+<p>传入的时候比如 读事件集合是3,5,6, 写事件集合4,6 异常事件7</p>
+<p>传出的时候就只传出实际发出了请求的 比如3,5发出了读请求，6没有，那读事件集合传出的时候就只剩下3,5了</p>
+</li>
+<li><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241212194932191.png" alt="image-20241212194932191"></p>
+<p>传0就是轮询，就是非阻塞的那种状态</p>
+<p>NULL就是阻塞，只不过不是进程阻塞，而是select阻塞，这部分是由内核完成的</p>
+</li>
+<li><p><code>fd_set</code> 结构体：</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;typesizes.h&gt;</span><br><span class="line">#define __FD_SETSIZE 1024</span><br><span class="line"> </span><br><span class="line">#include &lt;sys/select.h&gt;</span><br><span class="line">#define FD_SETSIZE __FD_SETSIZE</span><br><span class="line">typedef long int __fd_mask;</span><br><span class="line">#undef  __NFDBITS</span><br><span class="line">#define __NFDBITS (8 * (int) sizeof(__fd_mask))</span><br><span class="line">typedef struct</span><br><span class="line">&#123;</span><br><span class="line">#ifdef __USE_XOPEN</span><br><span class="line">	__fd_mask fds_bits[__FD_SETSIZE / __NFDBITS];</span><br><span class="line">#define __FDS_BITS(set) ((set)-&gt;fds_bits);</span><br><span class="line">#else</span><br><span class="line">	__fd_mask __fds_bits[__FD_SETSIZE / __NFDBITS];</span><br><span class="line">#define __FDS_BITS(set) ((set)-&gt;__fds_bits);</span><br><span class="line">&#125; fd_set;</span><br></pre></td></tr></table></figure>
+
+<p><code>fd_set</code>能容纳的文件描述符数量由<code>FD_SETSIZE</code>指定</p>
+<ul>
+<li><code>timeout</code>：设置<code>select</code>函数的超时时间。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> timeval&#123;</span><br><span class="line">	<span class="built_in">long</span> tv_sec;	<span class="comment">//秒数</span></span><br><span class="line">	<span class="built_in">long</span> tv_usec;	<span class="comment">//微秒数</span></span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+<h4 id="返回值："><a href="#返回值：" class="headerlink" title="返回值："></a>返回值：</h4><p><code>select</code>成功时返回就绪（可读、可写、异常）文件描述符的总数，如果在超时时间内没有任何文件描述符就绪，<code>select</code>返回0。<code>select</code>失败返回会-1并设置<code>errno</code>，如果在<code>select</code>等待期间，程序收到信号，<code>select</code>立刻返回-1并设置<code>errno</code>为 <code>EINTR</code>。</p>
+<p><strong>监听集合对应函数</strong>：</p>
+<p><code>void FD_ZERO(fd_set *set); --清空一个文件描述符集合</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fd_set rset； <span class="built_in">FD_ZERO</span>(&amp;rset)； <span class="comment">//将rset集合清空</span></span><br></pre></td></tr></table></figure>
+
+<p><code>void FD_SET(int fd, fd_set *set); --将待监听的文件描述符添加到监听集合中</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">FD_SET</span>(<span class="number">3</span>,&amp;rset)；<span class="built_in">FD_SET</span>(<span class="number">5</span>,&amp;rset)； <span class="comment">//将文件描述符3和5加到rset集合中</span></span><br></pre></td></tr></table></figure>
+
+<p><code>void FD_CLR(int fd, fd_set *set); --将一个文件描述符从监听集合中移除</code></p>
+<p><code>int FD_ISSET(int fd, fd_set *set); --判断一个文件描述符是否在该集合中</code></p>
+<p><strong>返回1就在，0就不在</strong></p>
+<h3 id="2-文件描述符就绪条件"><a href="#2-文件描述符就绪条件" class="headerlink" title="2.文件描述符就绪条件"></a>2.文件描述符就绪条件</h3><p>哪些情况下文件描述符可以被认为是可读、可写或者出现异常：</p>
+<p><strong>下列情况socket可读</strong></p>
+<ol>
+<li>socket内核接收缓冲区字节数大于等于低水位标记 <code>SO_RCVLOWAT</code>；</li>
+<li>socket通信对方关闭连接，此时socket读操作返回0；</li>
+<li>监听socket上有新的连接请求；</li>
+<li>socket 上有未处理错误，可用<code>getsockopt</code>读取和清除错误。</li>
+</ol>
+<p><strong>下列情况socket可写</strong></p>
+<ol>
+<li>socket内核发送缓冲区可用字节数大于等于低水位标记 <code>SO_SNDLOWAT</code>；</li>
+<li>socket通信写操作被关闭，对写操作关闭的socket执行写操作会触发<code>SIGPIPE</code>信号；</li>
+<li>socket使用非阻塞<code>connect</code>连接成功或失败（超时）之后；</li>
+<li>socket上有未处理错误，可用<code>getsockopt</code>读取和清除错误。</li>
+</ol>
+<p><strong>socket能处理的异常</strong></p>
+<ol>
+<li>只有一种情况：socket接收到带外数据。</li>
+</ol>
+<h3 id="3-处理带外数据"><a href="#3-处理带外数据" class="headerlink" title="3.处理带外数据"></a>3.处理带外数据</h3><p>socket上接收到普通数据和带外数据都将使select<a target="_blank" rel="noopener" href="https://marketing.csdn.net/p/3127db09a98e0723b83b2914d9256174?pId=2782&utm_source=glcblog&spm=1001.2101.3001.7020">函数</a>返回，但 socket 处于不同的就绪状态：前者处于可读状态，后者处于异常状态。</p>
+<p>下面的代码清单描述了 <code>select</code> 如何同时处理二者：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">#include ...</span><br><span class="line">*/</span><br><span class="line"> </span><br><span class="line">int main(int argc, char *argv[]) &#123;</span><br><span class="line"> </span><br><span class="line">    // 省略其他操作</span><br><span class="line">    </span><br><span class="line">    while (1) &#123;</span><br><span class="line">        memset(buf, &#x27;\0&#x27;, sizeof(buf));</span><br><span class="line"> </span><br><span class="line">        // 设置fdset的位fd</span><br><span class="line">        FD_SET(connfd, &amp;read_fds);</span><br><span class="line">        FD_SET(connfd, &amp;exception_fds);</span><br><span class="line">        </span><br><span class="line">        ret = select(connfd + 1, &amp;read_fds, NULL, &amp;exception_fds, NULL);</span><br><span class="line">        </span><br><span class="line">        if (ret &lt; 0) &#123;</span><br><span class="line">            printf(&quot;selection failure\n&quot;);</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        // 可读事件，采用普通的recv函数读取数据</span><br><span class="line">        if (FD_ISSET(connfd, &amp;read_fds)) &#123;</span><br><span class="line">            ret = recv(connfd, buf, sizeof(buf) - 1, 0);</span><br><span class="line">            if (ret &lt;= 0) &#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            printf(&quot;get %d bytes of normal data: %s\n&quot;, ret, buf);</span><br><span class="line">        &#125; </span><br><span class="line">        // 异常事件，采用带MSG_OOB标志的recv函数读取带外数据</span><br><span class="line">        else if (FD_ISSET(connfd, &amp;exception_fds)) &#123;</span><br><span class="line">            ret = recv(connfd, buf, sizeof(buf) - 1, MSG_OOB);</span><br><span class="line">            if (ret &lt;= 0) &#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            printf(&quot;get %d bytes of oob data: %s\n&quot;, ret, buf);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    close(connfd);</span><br><span class="line">    close(listenfd);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于<code>accept</code>只调用了一次的原因</p>
+<ul>
+<li>代码中从始至终确实只调用了一次<code>accept</code>函数。</li>
+<li>原因是这段代码的主要目的是演示如何在一个已建立的连接上处理多个读事件（包括普通数据读取和带外数据读取），而不是处理多个连接的建立。如果要处理多个连接的建立，需要在<code>while</code>循环内添加<code>accept</code>函数调用，并对每个新连接进行相应的处理。例如，可以在<code>select</code>函数检测到监听套接字（<code>listenfd</code>）有可读事件时（表示有新的连接请求），调用<code>accept</code>函数接受新连接，并将新连接的套接字加入到<code>select</code>监听的文件描述符集合中。</li>
+</ul>
+<h4 id="select-调用同时接收普通数据和带外数据"><a href="#select-调用同时接收普通数据和带外数据" class="headerlink" title="select 调用同时接收普通数据和带外数据"></a>select 调用同时接收普通数据和带外数据</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;TCPServerSocket.h&quot;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;sys/select.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line"> </span><br><span class="line">#define BUFF_SIZE 1024</span><br><span class="line"> </span><br><span class="line">int main(int argc, char* argv[])&#123;</span><br><span class="line"> </span><br><span class="line">    if(argc &lt;= 2)&#123;</span><br><span class="line">        printf(&quot;Usage: %s ip_address port_number.\n&quot;, basename(argv[0]));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    const char* ip = argv[1]; // ip地址</span><br><span class="line">    int port = atoi(argv[2]); // 端口号</span><br><span class="line"> </span><br><span class="line">    TCPServerSocket server(ip, port);</span><br><span class="line"> </span><br><span class="line">    // 绑定socket到指定的地址和端口  </span><br><span class="line">    if (server.bindSocket() &lt; 0) &#123;  </span><br><span class="line">        throw std::runtime_error(&quot;Failed to bind socket&quot;);  </span><br><span class="line">    &#125;  </span><br><span class="line"> </span><br><span class="line">    // 开始监听连接，backlog参数指定了可以挂起（等待被accept）的连接数  </span><br><span class="line">    if (server.listenSocket(5) &lt; 0) &#123;  </span><br><span class="line">        throw std::runtime_error(&quot;Failed to listen on socket&quot;);  </span><br><span class="line">    &#125;  </span><br><span class="line">    </span><br><span class="line">    // 等待并接受一个客户端连接  </span><br><span class="line">    struct sockaddr_in client_addr;  </span><br><span class="line">    socklen_t client_addrlen = sizeof(client_addr);  </span><br><span class="line">    int client_sockfd = server.acceptConnection(&amp;client_addr, &amp;client_addrlen);  </span><br><span class="line"> </span><br><span class="line">    if (client_sockfd &lt; 0) &#123;  </span><br><span class="line">        throw std::runtime_error(&quot;Failed to accept connection&quot;);  </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    char buf[BUFF_SIZE];</span><br><span class="line">    fd_set read_fds;</span><br><span class="line">    fd_set exception_fds;</span><br><span class="line">    FD_ZERO(&amp;read_fds); /* 清除 fd_set 的所有位 */</span><br><span class="line">    FD_ZERO(&amp;exception_fds);</span><br><span class="line"> </span><br><span class="line">    while(1)</span><br><span class="line">    &#123;</span><br><span class="line">        memset(buf, &#x27;\0&#x27;, BUFF_SIZE);</span><br><span class="line">        /* 每次调用select之前都要重新设置文件描述符，因为事件发生之后，文件描述符集合会被内核修改 */</span><br><span class="line">        FD_SET(client_sockfd, &amp;read_fds);</span><br><span class="line">        FD_SET(client_sockfd, &amp;exception_fds);</span><br><span class="line">        int ret = select(client_sockfd + 1, &amp;read_fds, NULL, &amp;exception_fds, NULL);</span><br><span class="line">        if(ret &lt; 0) &#123;</span><br><span class="line">            printf(&quot;Selection failure.\n&quot;);</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        /* 处理可读事件，对于多个文件描述符，需要循环询问是否可读 */</span><br><span class="line">        if (FD_ISSET(client_sockfd, &amp;read_fds)) &#123;</span><br><span class="line">            ret = recv(client_sockfd, buf, BUFF_SIZE - 1, 0);</span><br><span class="line">            if(ret &lt;= 0 )&#123;</span><br><span class="line">                return 1;</span><br><span class="line">            &#125;</span><br><span class="line">            printf(&quot;Read: get %d bytes of normal data: %s\n&quot;, ret, buf);</span><br><span class="line">        &#125; </span><br><span class="line">        /* 处理异常事件, 采用带MSG_OOB标志的recv函数读取带外数据 */</span><br><span class="line">        else if (FD_ISSET(client_sockfd, &amp;exception_fds))&#123; </span><br><span class="line">            ret = recv(client_sockfd, buf, BUFF_SIZE - 1, MSG_OOB);</span><br><span class="line">            if(ret &lt;= 0 )&#123;</span><br><span class="line">                return 1;</span><br><span class="line">            &#125;</span><br><span class="line">            printf(&quot;Exception: get %d bytes of oob data: %s\n&quot;, ret, buf);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    close(client_sockfd);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -o select_server select.cpp</span><br></pre></td></tr></table></figure>
+
+<p>运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./select_server 127.0.0.1 12345		// 服务器端</span><br><span class="line">./client 127.0.0.1 12345			// 客户端</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/071094d23b2e49b4e7404a00b25a7c70.png" alt="img"></p>
+<p>这里大家发现了，服务器终端并没有显示接收到了带外数据，是什么原因导致的呢？我们在第五节测试的时候，明明 TCP 服务器终端是打印出了带外数据的（使用带 <code>MSG_OOB</code> 标志的 <code>recv</code> 函数），说明问题肯定没有出在数据的发送上（因为这两次数据发送使用的是同一个客户端程序）。</p>
+<p>那么数据接收出了什么问题呢？猜测可能是由于数据发送间隔太短，导致服务器没有时间处理带外数据。</p>
+<p>于是我们在 test_sned_oob.cpp 函数中加入延时：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0bcab58e22ea45a73ac8194087973f46.png" alt="img"></p>
+<p>重新编译运行，结果如下：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5df1754eb822f5b7d8bc79c7acbc0e65.png" alt="img"></p>
+<p>成功了！</p>
+<h3 id="4-select实现多路IO转接服务器"><a href="#4-select实现多路IO转接服务器" class="headerlink" title="4.select实现多路IO转接服务器"></a>4.select实现多路IO转接服务器</h3><p>读者转至笔者这篇博客学习</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_74795952/article/details/144436737?sharetype=blogdetail&sharerId=144436737&sharerefer=PC&sharesource=m0_74795952&spm=1011.2480.3001.8118">linux网络编程 | c | select实现IO多路转接服务器-CSDN博客</a></p>
+<h3 id="5-优缺点"><a href="#5-优缺点" class="headerlink" title="5.优缺点"></a>5.优缺点</h3><p><code>缺点：</code></p>
+<p>1.监听上限受限于文件描述符（一个进程也就1024个，如果我们有5000个客户端那还得用多进程）</p>
+<p>2.检测满足条件的fd的时候，它自身的内部只能去轮询文件描述符，效率较低（特别是遇到只有两个文件描述符一个3一个1023的时候效率最低），需要咱们自己去添加业务逻辑，提高了编码难度</p>
+<p><code>优点：</code></p>
+<p>跨平台</p>
+<h2 id="2-poll-系统调用"><a href="#2-poll-系统调用" class="headerlink" title="2.poll 系统调用"></a>2.poll 系统调用</h2><p>要求：能看懂看，看不懂也没啥大事，现在基本都用epoll代替了</p>
+<p>在指定时间内轮询一定数量的文件描述符，以测试其中是否有就绪者。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;poll.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">poll</span><span class="params">(<span class="keyword">struct</span> pollfd* fds, <span class="type">nfds_t</span> nfds, <span class="type">int</span> timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241212221318857.png"></p>
+<h3 id="参数：-1"><a href="#参数：-1" class="headerlink" title="参数："></a>参数：</h3><ul>
+<li><code>fds</code>：指定所有我们感兴趣的文件描述符上发生的可读、可写、异常事件。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct pollfd&#123;</span><br><span class="line">    int fd;			// 待监听的文件描述符</span><br><span class="line">    short events;	// 待监听的文件描述符对应的监听事件 events成员告诉poll函数监听fd成员上的哪些事件，它是一系列事件的按位或</span><br><span class="line">    short revents;	// 由内核修改，以通知应用程序fd上实际发生了哪些事件。传入的时候给0值，如果满足事件的话就返回那三个</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>就是传入的是events传出的是revents，比select做的改进就是把传入和传出的分开了，而select传入传出是一个，其实没太大作用</p>
+<ul>
+<li><code>nfds</code>：指定被监听事件集合<code>fds</code>参数数组的大小</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">long</span> <span class="type">int</span> <span class="type">nfds_t</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>timeout</code>：指定 <code>poll</code> 的超时值，单位是 ms。<code>timeout == -1</code>则<code>poll</code>调用会一直阻塞，直到某个事件发生；当<code>timeout == 0</code>，<code>poll</code>调用立刻返回。</li>
+</ul>
+<p><code>poll</code> 支持的事件类型：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9261ba032082a87fc2df5fa376fa45b5.png" alt="img"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/fff67c6bea78f4b5cb620af760a6c53d.png" alt="img"></p>
+<p>自Linux内核2.6.17开始，GNU为<code>poll</code>系统调用增加了<code>POLLRDHUP</code>事件，它在socket上接收到对方关闭连接的请求后触发。</p>
+<h3 id="返回值：-1"><a href="#返回值：-1" class="headerlink" title="返回值："></a>返回值：</h3><ul>
+<li>与 select 相同。</li>
+</ul>
+<p><code>select</code>成功时返回就绪（可读、可写、异常）文件描述符的总数，如果在超时时间内没有任何文件描述符就绪，<code>select</code>返回0。<code>select</code>失败返回会-1并设置<code>errno</code>，如果在<code>select</code>等待期间，程序收到信号，<code>select</code>立刻返回-1并设置<code>errno</code>为 <code>EINTR</code>。</p>
+<h3 id="poll实现多路IO转接服务器"><a href="#poll实现多路IO转接服务器" class="headerlink" title="poll实现多路IO转接服务器"></a>poll实现多路IO转接服务器</h3><h2 id="3-epoll-系列系统调用"><a href="#3-epoll-系列系统调用" class="headerlink" title="3.epoll 系列系统调用"></a>3.epoll 系列系统调用</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241213084531049.png" alt="image-20241213084531049"></p>
+<p>连接服务器的客户端很多，但是活跃的客户端很少，这种情况最适合epoll</p>
+<h3 id="内核事件表"><a href="#内核事件表" class="headerlink" title="内核事件表"></a>内核事件表</h3><p><code>epoll</code>函数是Linux特有的I&#x2F;O复用函数，它在实现和使用上与<code>select</code>、<code>poll</code>函数有很大差异：</p>
+<ul>
+<li><code>epoll</code>函数使用一组函数来完成任务，而非单个函数；</li>
+<li><code>epoll</code>函数把用户关心的文件描述符上的事件放在内核里的一个事件表中，从而无须像<code>select</code>和<code>poll</code>函数那样每次调用都要重复传入文件描述符集或事件集；</li>
+<li><code>epoll</code>需要使用一个额外的文件描述符，来唯一标识内核中的这个事件表，这个文件描述符使用<code>epoll_create</code>函数来创建（创建一颗监听红黑树）：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/epoll.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_create</span><span class="params">(<span class="type">int</span> size)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>该函数返回的文件描述符将用作其他所有<code>epoll</code>系统调用的第1个参数，以指定要访问的内核事件表，失败返回-1。</p>
+<p>底层是红黑树，我们传入的size是我们自己预计epoll要监听多少文件描述符，供内核参考，如果以后超过了这个值，内核会帮我们动态扩容。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241213082846695.png" alt="image-20241213082846695"></p>
+<h4 id="操作内核事件表-epoll-ctl："><a href="#操作内核事件表-epoll-ctl：" class="headerlink" title="操作内核事件表 epoll_ctl："></a>操作内核事件表 <code>epoll_ctl</code>：</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/epoll.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_ctl</span><span class="params">(<span class="type">int</span> epfd, <span class="type">int</span> op, <span class="type">int</span> fd， <span class="keyword">struct</span> epoll_event *event)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h6 id="参数：-2"><a href="#参数：-2" class="headerlink" title="参数："></a>参数：</h6><ul>
+<li><code>fd</code>：要操作的文件描述符。待监听的fd</li>
+<li><code>op</code>：指定操作类型。</li>
+</ul>
+<p>操作类型有如下三种：</p>
+<p><code>EPOLL_CTL_ADD</code>：往事件表中注册<code>fd</code>上的事件。添加fd到监听红黑树</p>
+<p><code>EPOLL_CTL_MOD</code>：修改<code>fd</code>上的注册事件。修改fd在监听红黑树上的监听事件 原来是读可以改为写，写也可以改成读之类的</p>
+<p><code>EPOLL_CTL_DEL</code>：删除<code>fd</code>上注册事件。将一个fd从红黑树上摘下</p>
+<ul>
+<li><p><code>event</code>：指定事件。本质是struct epoll_event 结构体的地址</p>
+<p>events：EPOLLIN&#x2F;EPOLLOUT&#x2F;EPOLLERR 读&#x2F;写&#x2F;异常</p>
+<p>data：是一个联合体</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">struct epoll_event&#123;</span><br><span class="line">	__uin32_t events;	// 表示epoll事件</span><br><span class="line">	epoll_data_t data;	// 用户数据</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>events</code> 成员描述事件类型，<code>epoll</code>函数支持的事件类型和<code>poll</code>函数基本相同，表示<code>epoll</code>事件类型的宏是在<code>poll</code>对应的宏前加上<code>E</code>，如<code>epoll</code>的数据可读事件是<code>EPOLLIN</code>，但<code>epoll</code>有两个额外的事件类型<code>EPOLLET</code>和<code>EPOLLONESHOT</code>。<code>epoll_data_t</code>定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef union epoll_data&#123;</span><br><span class="line">	void *ptr;</span><br><span class="line">	int fd;//对应监听事件的fd 和第二个参数是对应的</span><br><span class="line">	uint32_t u32;</span><br><span class="line">	uint64_t u64;</span><br><span class="line">&#125; epoll_data_t;</span><br></pre></td></tr></table></figure>
+
+<p><code>epoll_data_t</code>是一个联合体，其4个成员中使用最多的是<code>fd</code>成员，它指定事件所从属的文件描述符。<code>prt</code>成员是指向用户定义数据的指针，但由于<code>epoll_data_t</code>是一个联合体，我们不能同时使用其<code>ptr</code>成员和<code>fd</code>成员。</p>
+<h6 id="返回值：-2"><a href="#返回值：-2" class="headerlink" title="返回值："></a>返回值：</h6><p><code>epoll_ctl</code>函数成功时返回0，失败时返回-1并设置<code>errno</code>。</p>
+<h3 id="epoll-wait-函数"><a href="#epoll-wait-函数" class="headerlink" title="epoll_wait 函数"></a>epoll_wait 函数</h3><p><code>epoll</code>系列系统调用的主要接口是<code>epoll_wait</code>，它在一段超时时间内等待一组文件描述符上的事件：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/epoll.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_wait</span><span class="params">(<span class="type">int</span> epfd, <span class="keyword">struct</span> epoll_event* events, <span class="type">int</span> maxevents, <span class="type">int</span> timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h6 id="参数：-3"><a href="#参数：-3" class="headerlink" title="参数："></a>参数：</h6><ul>
+<li><p><code>timeout</code>：设置<code>epoll_wait</code>函数的超时时间。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241213084258685.png" alt="image-20241213084258685"></p>
+</li>
+<li><p><code>maxevents</code>：指定最多监听多少个事件，必须大于 0。就是数组元素的总个数</p>
+<p>比如这个例子中，就是传入1024</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">epoll_event</span> events[<span class="number">1024</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>events</code>：<code>epoll_wait</code>函数如果检测到事件，就将所有就绪的事件从内核事件表（由<code>epfd</code>参数指定）中复制到它的第二个参数<code>events</code>指向的数组中，这个数组只用于输出<code>epoll_wait</code>函数检测到的就绪事件，而不像<code>select</code>和<code>poll</code>函数的数组参数那样既用于传入用户注册的事件，又用于输出内核检测到的就绪事件，这样就极大地提高了应用进程索引就绪文件描述符的效率。</p>
+<p>一个典型的传出参数，传出的就是满足对应事件的文件描述符集合，是一个数组，存储的就是这些文件描述符，遍历的时候直接遍历这个数组就行。</p>
+</li>
+</ul>
+<p>例如，我们要索引 <code>poll</code> 返回的就绪文件描述符：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int ret = poll(fds, MAX_EVENT_NUMBER, -1);</span><br><span class="line"> </span><br><span class="line">// 遍历所有已注册文件描述符并找到其中的就绪者（当然可用ret来稍做优化）</span><br><span class="line">for (int i = 0; i &lt; MAX_EVENT_NUMBER; ++i) &#123;</span><br><span class="line">    if ( fds[i].revents &amp; POLLIN ) &#123;    // 判断第i个文件描述符是否就绪</span><br><span class="line">        int sockfd = fds[i].fd;</span><br><span class="line">        // 处理socket</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而索引 <code>epoll</code> 返回的就绪文件描述符：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int ret = epoll_wait(epollfd, events, MAX_EVENT_NUMBER, -1);</span><br><span class="line">// 仅遍历就绪的ret个文件描述符</span><br><span class="line">for (int i = 0; i &lt; ret; ++i) &#123;</span><br><span class="line">    int sockfd = events[i].data.fd;</span><br><span class="line">    // socketfd肯定就绪，直接处理</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="返回值：-3"><a href="#返回值：-3" class="headerlink" title="返回值："></a>返回值：</h6><p>成功时返回就绪的文件描述符个数（监听到的满足条件的文件数量，可以用作循环上限），失败时返回<code>-1</code>并设置<code>errno</code>。</p>
+<p>返回0的话说明没有满足条件的文件数量。</p>
+<h3 id="LT-模式和-ET-模式"><a href="#LT-模式和-ET-模式" class="headerlink" title="LT 模式和 ET 模式"></a>LT 模式和 ET 模式</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av75555742?vd_source=7831c5b97cfc5c745eb48ff04f6515e7&spm_id_from=333.788.videopod.episodes&p=74">10-ET和LT模_哔哩哔哩_bilibili</a></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241213092050204.png" alt="image-20241213092050204"></p>
+<p>ET模式客户端必须得有下一次动作才能把缓冲区剩余未读进去的 给读进去</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241213092107620.png" alt="image-20241213092107620"></p>
+<p><code>epoll</code>对文件描述符的操作有两种模式：LT（Level Trigger，电平触发）模式和ET（Edge Trigger，边沿触发）模式。</p>
+<p>LT模式是默认的工作模式，这种模式下<code>epoll</code>相当于一个效率较高的<code>poll</code>。当往<code>epoll</code>内核事件表中注册一个文件描述符上的<code>EPOLLET</code>事件时，<code>epoll</code>将以ET模式来操作该文件描述符。ET模式是<code>epoll</code>的高效工作模式。</p>
+<p>对于采用LT工作模式的文件描述符，当<code>epoll_wait</code>函数检测到其上有事件发生并将此事件通知应用进程后，应用进程可以不立即处理该事件，这样，当应用进程下次调用<code>epoll_wait</code>时，<code>epoll_wait</code>函数还会再次向应用进程通告此事件，直到该事件被处理。</p>
+<p>而对于采用ET工作模式的文件描述符，当<code>epoll_wait</code>函数检测到其上有事件发生并将此事件通知应用进程后，应用进程应立即处理该事件，因为后续的<code>epoll_wait</code>调用将不再向应用进程通知这一事件。可见ET模式降低了同一个<code>epoll</code>事件被重复触发的次数，因此效率比LT模式高。以下代码体现了LT和ET在工作方式上的差异（这里只给出了主要的代码段，想了解完整代码的请参阅 《Linux 高性能服务器编程》第九章 P154-157）：</p>
+<p>LT 模式的工作流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">void lt(epoll_event *events, int number, int epollfd, int listenfd) &#123;</span><br><span class="line">    char buf[BUFFER_SIZE];</span><br><span class="line">    for (int i = 0; i &lt; number; ++i) &#123;</span><br><span class="line">        int sockfd = events[i].data.fd;</span><br><span class="line">        if (sockfd == listenfd) &#123;</span><br><span class="line">            struct sockaddr_in client_address;</span><br><span class="line">            socklen_t client_addrlength = sizeof(client_address);</span><br><span class="line">            int connfd = accept(listenfd, (struct sockaddr *)&amp;client_address, &amp;client_addrlength);</span><br><span class="line">            addfd(epollfd, connfd, false);</span><br><span class="line">        &#125; else if (events[i].events &amp; EPOLLIN) &#123;</span><br><span class="line">            /* 只要socket读缓存中还有未读出的数据，这段代码就被触发 */</span><br><span class="line">            printf(&quot;event trigger once\n&quot;);</span><br><span class="line">            memset(buf, &#x27;\0&#x27;, BUFFER_SIZE);</span><br><span class="line">            int ret = recv(sockfd, buf, BUFFER_SIZE - 1, 0);</span><br><span class="line">            if (ret &lt;= 0) &#123;</span><br><span class="line">                close(sockfd);</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            printf(&quot;get %d bytes of content: %s\n&quot;, ret, buf);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            printf(&quot;something else happened\n&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ET 模式工作流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">void et(epoll_event *events, int number, int epollfd, int listenfd) &#123;</span><br><span class="line">    char buf[BUFFER_SIZE];</span><br><span class="line">    for (int i = 0; i &lt; number; ++i) &#123;</span><br><span class="line">        int sockfd = events[i].data.fd;</span><br><span class="line">        if (sockfd == listenfd) &#123;</span><br><span class="line">            struct sockaddr_in client_address;</span><br><span class="line">            socklen_t client_addrlength = sizeof(client_address);</span><br><span class="line">            int connfd = accept(listenfd, (struct sockaddr *)&amp;client_address, &amp;client_addrlength);</span><br><span class="line">            addfd(epollfd, connfd, true);</span><br><span class="line">        &#125; else if (events[i].events &amp; EPOLLIN) &#123;</span><br><span class="line">            // 这段代码不会被重复触发，所以需要循环读取数据</span><br><span class="line">            printf(&quot;event trigger once\n&quot;);</span><br><span class="line">            while (1) &#123;</span><br><span class="line">                memset(buf, &#x27;\0&#x27;, BUFFER_SIZE);</span><br><span class="line">                int ret = recv(sockfd, buf, BUFFER_SIZE - 1, 0);</span><br><span class="line">                if (ret &lt; 0) &#123;</span><br><span class="line">                    if ((errno == EAGAIN) || (errno == EWOULDBLOCK)) &#123;</span><br><span class="line">                        printf(&quot;read later\n&quot;);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                    close(sockfd);</span><br><span class="line">                    break;</span><br><span class="line">                &#125; else if (ret == 0) &#123;</span><br><span class="line">                    close(sockfd);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    printf(&quot;get %d bytes of content: %s\n&quot;, ret, buf);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            printf(&quot;something else happened\n&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ET模式下事件被触发的次数比LT模式下少很多。</p>
+<p>使用ET模式的文件描述符应该是非阻塞的。如果文件描述符是阻塞的，那么读或写操作将会因为没有后续事件而一直处于阻塞状态。</p>
+<p><code>重点：非阻塞socket+ET比LT要高效</code></p>
+<p><code>epoll的et模式下阻塞socket不能正常工作吗？</code></p>
+<ol>
+<li><code>epoll</code>的<code>ET</code>模式与阻塞套接字结合的问题<ul>
+<li>在<code>epoll</code>的<code>ET</code>模式下，阻塞套接字可以工作，但会出现一些问题，导致不能很好地发挥<code>ET</code>模式的优势，甚至可能导致数据丢失或程序逻辑异常。</li>
+<li>事件触发机制的冲突：<ul>
+<li><code>ET</code>模式是边缘触发模式，<code>epoll</code>只会在套接字状态发生变化的边缘（如从不可读到可读，从不可写到可写）触发事件通知。当<code>epoll</code>通知套接字可读后，如果是阻塞套接字，在<code>read</code>操作时可能会因为数据量较大等原因一直阻塞，等待读取所有数据。</li>
+<li>例如，假设客户端发送了一个较大的数据包，<code>epoll</code>检测到套接字可读并通知应用程序。应用程序使用阻塞套接字的<code>read</code>函数读取数据，由于数据量超过了一次读取的缓冲区大小，<code>read</code>函数会一直阻塞，等待读取剩余的数据。</li>
+</ul>
+</li>
+<li>数据丢失风险：<ul>
+<li>在上述阻塞读取的过程中，如果客户端又发送了新的数据，<code>epoll</code>不会再次通知套接字可读，因为在<code>ET</code>模式下，只有状态再次发生变化边缘时才会触发通知。这样，新到达的数据就可能因为程序阻塞在之前的<code>read</code>操作上而无法被及时处理，导致数据丢失。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>对比非阻塞套接字的优势<ul>
+<li>非阻塞套接字的高效处理：<ul>
+<li>非阻塞套接字在<code>epoll</code>的<code>ET</code>模式下可以更好地工作。当<code>epoll</code>通知套接字可读后，应用程序使用非阻塞套接字的<code>read</code>函数进行读取。如果数据没有读完，<code>read</code>函数会返回<code>EAGAIN</code>或<code>EWOULDBLOCK</code>，表示当前没有数据可读，但这不是错误情况。</li>
+<li>程序可以记录读取的进度，然后继续处理其他任务（如检查其他套接字的事件）。下一次<code>epoll</code>循环或者在合适的时机，程序可以再次对这个套接字进行<code>read</code>操作，继续读取剩余的数据，从而避免了数据丢失，并且可以高效地利用系统资源，实现对多个套接字的并发处理。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="重点-：数据丢失的例子："><a href="#重点-：数据丢失的例子：" class="headerlink" title="重点 ：数据丢失的例子："></a>重点 ：<code>数据丢失的例子：</code></h3><p>客户端一次输入10个字节</p>
+<p>依次输入5个a 5个b  （1）</p>
+<p>下一次输入 5个c 5个d  （2）</p>
+<p>服务器端一次读5个</p>
+<p>ET模式下+阻塞socket：</p>
+<p>第一次读5个a，第二次读5个b，如果后续没有读事件，那么5c和5d就丢失了</p>
+<p>LT模式下：</p>
+<p>第一次就能读出5a5b，第二次就能读出5c5d</p>
+<p>ET模式下+非阻塞socket：</p>
+<p>第一次读出5a后，程序会知道可能有数据没读完，继续尝试读取数据，所以5b会被读出</p>
+<p>第二次重复一样的过程，所以不会出现数据丢失的情况</p>
+<p><code>LT</code>模式：</p>
+<ul>
+<li>在<code>LT</code>模式下，只要缓冲区中有数据，<code>epoll</code>就会一直触发可读事件。所以如你所说，在这种模式下，第一次能读出 “5a5b”，第二次能读出 “5c5d”。因为当第一次读取部分数据后，由于缓冲区中还有剩余数据，<code>epoll</code>会持续通知套接字可读，直到所有数据被读完。</li>
+</ul>
+<p><code>ET</code>模式 + 阻塞套接字：</p>
+<ul>
+<li>你的分析正确。当服务器端使用阻塞套接字时，在<code>ET</code>模式下，第一次读取出 “5a” 后，由于是阻塞<code>read</code>，会继续读取直到把 “5b” 也读完。如果后续没有新的读事件触发（因为<code>ET</code>模式只有状态变化边缘才触发，而此时套接字状态没有新的从不可读到可读的变化），那么当客户端发送 “5c5d” 时，服务器端无法知晓，数据就会丢失。</li>
+</ul>
+<p><code>ET</code>模式 + 非阻塞套接字</p>
+<ul>
+<li><p>当服务器端使用<code>ET</code>模式和非阻塞套接字时，第一次<code>epoll</code>触发可读事件后，<code>read</code>操作会读取 “5a”，由于是非阻塞套接字，<code>read</code>不会阻塞等待更多数据。返回 “5a” 后，程序会知道可能还有数据没读完，会继续尝试读取，所以可以接着读取 “5b”。</p>
+</li>
+<li><p>当客户端发送下一批 “5c5d” 时，因为<code>ET</code>模式下，套接字状态从之前读完数据后的不可读到又有新数据可读，会再次触发<code>epoll</code>的可读事件。然后服务器端又可以通过非阻塞<code>read</code>操作读取这批新数据，所以不会出现数据丢失的情况。</p>
+</li>
+</ul>
+<h3 id="EPOLLONESHOT-事件"><a href="#EPOLLONESHOT-事件" class="headerlink" title="EPOLLONESHOT 事件"></a>EPOLLONESHOT 事件</h3><p>即使我们使用ET模式，一个socket上的某个事件还是可能被触发多次，这在并发程序中会引起问题，比如一个线程（或进程，下同）在读取完某个socket上的数据后开始处理这些数据，而在数据的处理过程中该socket上又有新数据可读（<code>EPOLLIN</code>再次被触发），此时另一个线程被唤醒来读取这些新数据，于是就出现了两个线程同时操作一个socket的局面，这不是我们所期望的，我们期望的是一个socket连接在任一时刻都只被一个线程处理，这可用<code>EPOLLONESHOT</code>事件实现。</p>
+<p>对于注册了<code>EPOLLONESHOT</code>事件的文件描述符，操作系统最多触发其上注册的一个可读、可写、异常事件，且只触发一次，除非我们使用<code>epoll_ctl</code>函数重置该文件描述符上注册的<code>EPOLLONESHOT</code>事件，这样，当一个线程在处理某个socket时，其他线程不可能有机会操作socket。注册了<code>EPOLLONESHOT</code>事件的socket一旦被某个线程处理完毕，该线程就应立即重置这个socket上的<code>EPOLLONESHOT</code>事件，以确保这个socket下次可读时，其<code>EPOLLIN</code>事件能触发，从而让其他线程有机会处理这个socket。</p>
+<p>以下代码展示了<code>EPOLLONESHOT</code>事件的使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">#include &lt;assert.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;sys/epoll.h&gt;</span><br><span class="line">#include &lt;pthread.h&gt;</span><br><span class="line"> </span><br><span class="line">#define MAX_EVENT_NUMBER 1024</span><br><span class="line">#define BUFFER_SIZE 1024</span><br><span class="line"> </span><br><span class="line">struct fds &#123;</span><br><span class="line">    int epollfd;</span><br><span class="line">    int sockfd;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">int setnonblocking(int fd) &#123;</span><br><span class="line">    int old_option = fcntl(fd, F_GETFL);</span><br><span class="line">    int new_option = old_option | O_NONBLOCK;</span><br><span class="line">    fcntl(fd, F_SETFL, new_option);</span><br><span class="line">    return old_option;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">// 将fd参数上的EPOLLIN和EPOLLET事件注册到epollfd参数指示的内核事件表中</span><br><span class="line">// 参数oneshot指定是否注册fd参数上的EPOLLONESHOT事件</span><br><span class="line">void addfd(int epollfd, int fd, bool oneshot) &#123;</span><br><span class="line">    epoll_event event;</span><br><span class="line">    event.data.fd = fd;</span><br><span class="line">    event.events = EPOLLIN | EPOLLET;</span><br><span class="line">    if (oneshot) &#123;</span><br><span class="line">        event.events |= EPOLLONESHOT;</span><br><span class="line">    &#125;</span><br><span class="line">    epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &amp;event);</span><br><span class="line">    setnonblocking(fd);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">// 重置fd参数上的事件，这样操作后，可以再次触发fd参数上的事件</span><br><span class="line">void reset_oneshot(int epollfd, int fd) &#123;</span><br><span class="line">    epoll_event event;</span><br><span class="line">    event.data.fd = fd;</span><br><span class="line">    event.events = EPOLLIN | EPOLLET | EPOLLONESHOT;</span><br><span class="line">    epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &amp;event);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">// 工作线程</span><br><span class="line">void *worker(void *arg) &#123;</span><br><span class="line">    int sockfd = ((fds *)arg)-&gt;sockfd;</span><br><span class="line">    int epollfd = ((fds *)arg)-&gt;epollfd;</span><br><span class="line">    printf(&quot;start new thread to receive data on fd: %d\n&quot;, sockfd);</span><br><span class="line">    char buf[BUFFER_SIZE];</span><br><span class="line">    memset(buf, &#x27;\0&#x27;, BUFFER_SIZE);</span><br><span class="line">    // 循环读取sockfd上的数据，直到遇到EAGAIN错误</span><br><span class="line">    while (1) &#123;</span><br><span class="line">        int ret = recv(sockfd, buf, BUFFER_SIZE - 1, 0);</span><br><span class="line">        if (ret == 0) &#123;</span><br><span class="line">            close(sockfd);</span><br><span class="line">            printf(&quot;foreiner closed the connection\n&quot;);</span><br><span class="line">            break;</span><br><span class="line">        &#125; else if (ret &lt; 0) &#123;</span><br><span class="line">            if (errno == EAGAIN) &#123;</span><br><span class="line">                reset_oneshot(epollfd, sockfd);</span><br><span class="line">                printf(&quot;read later\n&quot;);</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            printf(&quot;get content: %s\n&quot;, buf);</span><br><span class="line">            // 休眠5s，模拟数据处理过程</span><br><span class="line">            sleep(5);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    printf(&quot;end thread receiving data on fd: %d\n&quot;, sockfd);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int main(int argc, char *argv[]) &#123;</span><br><span class="line">    if (argc != 3) &#123;</span><br><span class="line">        printf(&quot;usage: %s ip_address port_number\n&quot;, basename(argv[0]));</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line">    const char *ip = argv[1];</span><br><span class="line">    int port = atoi(argv[2]);</span><br><span class="line"> </span><br><span class="line">    int ret = 0;</span><br><span class="line">    struct sockaddr_in address;</span><br><span class="line">    bzero(&amp;address, sizeof(address));</span><br><span class="line">    address.sin_family = AF_INET;</span><br><span class="line">    inet_pton(AF_INET, ip, &amp;address.sin_addr);</span><br><span class="line">    address.sin_port = htons(port);</span><br><span class="line"> </span><br><span class="line">    int listenfd = socket(PF_INET, SOCK_STREAM, 0);</span><br><span class="line">    assert(listenfd &gt;= 0);</span><br><span class="line"> </span><br><span class="line">    ret = bind(listenfd, (struct sockaddr *)&amp;address, sizeof(address));</span><br><span class="line">    assert(ret != -1);</span><br><span class="line"> </span><br><span class="line">    ret = listen(listenfd, 5);</span><br><span class="line">    assert(ret != -1);</span><br><span class="line"> </span><br><span class="line">    epoll_event events[MAX_EVENT_NUMBER];</span><br><span class="line">    int epollfd = epoll_create(5);</span><br><span class="line">    assert(epollfd != -1);</span><br><span class="line">    // 监听socket上不能注册EPOLLONESHOT事件，否则只能处理一个客户连接</span><br><span class="line">    // 后续的连接请求将不再触发listenfd上的EPOLLIN事件</span><br><span class="line">    addfd(epollfd, listenfd, false);</span><br><span class="line"> </span><br><span class="line">    while (1) &#123;</span><br><span class="line">        int ret = epoll_wait(epollfd, events, MAX_EVENT_NUMBER, -1);</span><br><span class="line">        if (ret &lt; 0) &#123;</span><br><span class="line">            printf(&quot;epoll failure\n&quot;);</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        for (int i = 0; i &lt; ret; ++i) &#123;</span><br><span class="line">            int sockfd = events[i].data.fd;</span><br><span class="line">            if (sockfd == listenfd) &#123;</span><br><span class="line">                struct sockaddr_in client_address;</span><br><span class="line">                socklen_t client_addrlength = sizeof(client_address);</span><br><span class="line">                int connfd = accept(listenfd, (struct sockaddr *)&amp;client_address,  &amp;client_addrlength);</span><br><span class="line">                // 对每个非监听文件描述符都注册EPOLLONESHOT事件</span><br><span class="line">                addfd(epollfd, connfd, true);</span><br><span class="line">            &#125; else if (events[i].events &amp; EPOLLIN) &#123;</span><br><span class="line">                pthread_t thread;</span><br><span class="line">                fds fds_for_new_worker;</span><br><span class="line">                fds_for_new_worker.epollfd = epollfd;</span><br><span class="line">                fds_for_new_worker.sockfd = sockfd;</span><br><span class="line">                // 对每个客户请求都启动一个工作线程为其服务</span><br><span class="line">                pthread_create(&amp;thread, NULL, worker, (void *)&amp;fds_for_new_worker);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                printf(&quot;something else happened\n&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    close(listenfd);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从工作线程函数<code>worker</code>来看，如果一个工作线程处理完某个socket上的一次请求（我们用休眠5秒来模拟此过程）之后，又接收到该socket上新的客户请求，则该线程将继续为这个socket服务，并且由于该socket上注册了<code>EPOLLONESHOT</code>事件，主线程中<code>epoll_wait</code>函数不会返回该描述符的可读事件，从而不会有其他线程读这个socket，如果工作线程等待5秒后仍没收到该socket上的下一批客户数据，则它将放弃为该socket服务，同时调用<code>reset_oneshot</code>来重置该socket上的注册事件，这将使<code>epoll</code>有机会再次检测到该socket上的<code>EPOLLIN</code>事件，进而使得其他线程有机会为该socket服务。</p>
+<p>有了<code>EPOLLONESHOT</code>，尽管一个socket在不同时间可能被不同的线程处理，但同一时刻肯定只有一个线程在为它服务，这就保证了连接的完整性，从而避免了很多可能的竞态条件。</p>
+<h3 id="EPOLLONSHOT和锁的比较"><a href="#EPOLLONSHOT和锁的比较" class="headerlink" title="EPOLLONSHOT和锁的比较"></a>EPOLLONSHOT和锁的比较</h3><ol>
+<li><code>EPOLLONESHOT</code>事件的作用原理<ul>
+<li><code>EPOLLONESHOT</code>是<code>epoll</code>事件机制中的一个标志位。当一个文件描述符（<code>fd</code>）被注册了<code>EPOLLONESHOT</code>事件后，在该文件描述符对应的事件触发并被处理一次后，内核会自动将该文件描述符从<code>epoll</code>的就绪事件列表中移除，并且之后不会再对这个文件描述符的相同事件进行通知，直到通过<code>epoll_ctl</code>函数重新设置这个文件描述符的事件。</li>
+</ul>
+</li>
+<li>与锁的相似之处<ul>
+<li>独占性和单次操作保障：<ul>
+<li>就像锁可以保证在某一时刻只有一个线程（或进程）能够访问被锁定的资源一样，<code>EPOLLONESHOT</code>在一定程度上保证了对于一个文件描述符的事件处理是独占性的单次操作。当一个线程（或进程）在处理该文件描述符的事件时，其他线程（或进程）不会收到相同事件的通知，避免了多个线程（或进程）同时处理同一个文件描述符事件可能导致的并发问题。</li>
+</ul>
+</li>
+<li>资源访问控制方面：<ul>
+<li>锁用于控制对共享资源的访问顺序和并发访问数量，<code>EPOLLONESHOT</code>可以控制对文件描述符事件的处理顺序和次数。例如，在多线程服务器环境下，如果多个线程共享一个<code>epoll</code>实例来处理客户端连接的事件，使用<code>EPOLLONESHOT</code>可以防止多个线程同时处理同一个客户端连接的可读事件，从而避免数据混乱。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>与锁的不同之处<ul>
+<li>作用范围和对象不同：<ul>
+<li>锁主要用于保护共享资源（如共享变量、共享数据结构等），它是在内存资源访问层面起作用。而<code>EPOLLONESHOT</code>主要是针对<code>epoll</code>事件通知机制，用于控制文件描述符事件的处理流程，作用对象是文件描述符及其相关的事件。</li>
+</ul>
+</li>
+<li>实现机制不同：<ul>
+<li>锁的实现通常基于操作系统提供的原子操作、互斥量等机制，通过阻塞或等待来控制资源访问。而<code>EPOLLONESHOT</code>是<code>epoll</code>内部的一种事件控制策略，通过内核自动调整文件描述符在<code>epoll</code>就绪事件列表中的状态来实现其功能，它不涉及像锁那样的阻塞等待其他线程释放资源的过程。</li>
+</ul>
+</li>
+<li>应用场景侧重点不同：<ul>
+<li>锁更多地用于解决多线程（或多进程）环境下的数据一致性和并发访问冲突问题，例如在多个线程同时读写共享数据时保证数据的正确性。<code>EPOLLONESHOT</code>主要用于优化<code>epoll</code>事件驱动的程序设计，确保每个文件描述符的事件在合适的时机被正确处理一次，更侧重于事件处理的顺序和完整性。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="epoll优缺点"><a href="#epoll优缺点" class="headerlink" title="epoll优缺点"></a>epoll优缺点</h3><p>优点：高效</p>
+<p>缺点：不能跨平台</p>
+<h3 id="epoll实现多路IO转接服务器"><a href="#epoll实现多路IO转接服务器" class="headerlink" title="epoll实现多路IO转接服务器"></a>epoll实现多路IO转接服务器</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_74795952/article/details/144444931?spm=1001.2014.3001.5502">linux网络编程 | c | epoll实现IO多路转接服务器-CSDN博客</a></p>
+<h2 id="4-三组-I-O-复用函数的比较"><a href="#4-三组-I-O-复用函数的比较" class="headerlink" title="4.三组 I&#x2F;O 复用函数的比较"></a>4.三组 I&#x2F;O 复用函数的比较</h2><h3 id="事件集"><a href="#事件集" class="headerlink" title="事件集"></a>事件集</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int select(int nfds, fd_set* readfds, fd_set* writefds, fd_set* exceptfds, struct timeval* timeout);</span><br></pre></td></tr></table></figure>
+
+<p><code>select</code>函数的参数类型<code>fd_set</code>没有将文件描述符和事件绑定，它仅仅是一个文件描述符集合，因此<code>select</code>函数需要3个<code>fd_set</code>类型参数来分别传入和输出可读、可写、异常事件，这使得<code>select</code>函数不能处理更多类型的事件，另一方面，由于内核对<code>fd_set</code>集合的修改，应用进程下次调用<code>select</code>前不得不重置这3个<code>fd_set</code>集合。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">poll</span><span class="params">(<span class="keyword">struct</span> pollfd* fds, <span class="type">nfds_t</span> nfds, <span class="type">int</span> timeout)</span></span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">pollfd</span>&#123;</span><br><span class="line">    <span class="type">int</span> fd;			<span class="comment">// 文件描述符</span></span><br><span class="line">    <span class="type">short</span> events;	<span class="comment">// events成员告诉poll函数监听fd成员上的哪些事件，它是一系列事件的按位或</span></span><br><span class="line">    <span class="type">short</span> revents;	<span class="comment">// 由内核修改，以通知应用程序fd上实际发生了哪些事件。</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>poll</code>函数的参数类型<code>pollfd</code>把文件描述符和事件都定义其中，任何事件都被统一处理，从而使得编程接口简洁地多，且内核每次修改的是<code>pollfd</code><a target="_blank" rel="noopener" href="https://marketing.csdn.net/p/3127db09a98e0723b83b2914d9256174?pId=2782&utm_source=glcblog&spm=1001.2101.3001.7020">结构体</a>的<code>revents</code>成员，而<code>events</code>成员保持不变，因此下次调用<code>poll</code>时应用进程无需重置<code>pollfd</code>类型的事件集参数。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">int</span> <span class="title">epoll_wait</span>(<span class="params"><span class="built_in">int</span> epfd, <span class="keyword">struct</span> epoll_event* events, <span class="built_in">int</span> maxevents, <span class="built_in">int</span> timeout</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>由于每次<code>select</code>和<code>poll</code>函数都返回整个用户注册的事件集合（包括就绪和未就绪的），所以应用索引就绪文件描述符的时间复杂度为<code>O(n)</code>。<code>epoll</code>则采用与<code>select</code>和<code>poll</code>函数不同的方式来管理用户注册的事件，它在内核中维护一个事件表，并提供一个独立的系统调用<code>epoll_ctl</code>来往内核事件表中添加、删除、修改事件，这样，每次<code>epoll_wait</code>调用都直接从内核表中取得用户注册的事件，而无须反复从用户空间读入这些事件，<code>epoll_wait</code>函数的<code>events</code>参数仅用来返回就绪的事件，这使得应用进程索引就绪文件描述符的时间复杂度达到<code>O(1)</code>。</p>
+<h3 id="最大支持的文件描述符数"><a href="#最大支持的文件描述符数" class="headerlink" title="最大支持的文件描述符数"></a>最大支持的文件描述符数</h3><p><code>poll</code>和<code>epoll_wait</code>函数分别用<code>nfds</code>和<code>maxevents</code>参数指定最多监听多少文件描述符和事件，这两个数值都能达到系统允许打开的最大文件描述符数目，即65535（cat &#x2F;proc&#x2F;sys&#x2F;fd&#x2F;file-max）。而<code>select</code>函数允许监听的最大文件描述符数量通常有限制，虽然用户可以修改这个限制，但这可能导致不可预期的后果。</p>
+<ol>
+<li><strong><code>epoll</code>内部机制并非简单的数组结构</strong><ul>
+<li><code>epoll</code>不受 1024 个文件描述符限制不是因为使用可以随意扩大的数组。实际上，<code>epoll</code>内部主要使用了红黑树和链表两种数据结构来管理文件描述符和事件。</li>
+<li>红黑树用于高效管理文件描述符：<ul>
+<li><code>epoll</code>使用红黑树来存储要监视的文件描述符及其相关的事件信息。红黑树是一种自平衡二叉搜索树，它的插入、删除和查找操作的时间复杂度都是 。这使得<code>epoll</code>在添加、删除和查找文件描述符时能够保持高效，无论文件描述符的数量有多少。</li>
+<li>例如，当通过<code>epoll_ctl</code>函数添加一个文件描述符到<code>epoll</code>实例中时，<code>epoll</code>会将这个文件描述符及其事件信息插入到红黑树中。红黑树会自动根据文件描述符的值进行排序和平衡，方便后续的查找和操作。这种结构不会像数组那样受到固定大小的限制，并且能够高效地处理大量的文件描述符。</li>
+</ul>
+</li>
+<li>链表用于事件通知：<ul>
+<li>当文件描述符对应的事件发生时，<code>epoll</code>会将这个文件描述符添加到一个就绪事件链表中。<code>epoll_wait</code>函数返回时，就是从这个就绪事件链表中获取已经发生事件的文件描述符列表。这样的设计使得<code>epoll</code>可以高效地通知应用程序哪些文件描述符发生了事件，而不需要像<code>select</code>那样遍历所有可能的文件描述符。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>与传统<code>select</code>基于数组的机制对比</strong><ul>
+<li><code>select</code>的限制：<ul>
+<li>在<code>select</code>模型中，使用固定大小的数组（以位图形式）来表示文件描述符集合。这个数组的大小通常是有限的，并且在许多系统中被限制为 1024 个文件描述符。这是因为<code>select</code>需要遍历这个数组来检查每个文件描述符是否有事件发生，当文件描述符数量过多时，遍历的效率会变得很低，并且固定大小的数组无法轻易扩展。</li>
+</ul>
+</li>
+<li><code>epoll</code>的优势：<ul>
+<li><code>epoll</code>通过红黑树和链表的组合，避免了<code>select</code>的这种限制。它能够动态地管理大量的文件描述符，并且在事件通知方面更加高效，不受固定大小的文件描述符集合的限制。无论是添加新的文件描述符、删除已有的文件描述符，还是等待和处理事件，<code>epoll</code>的机制都能够很好地适应不同规模的文件描述符数量。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h3><p><code>select</code>和<code>poll</code>函数只能工作在相对低效的LT模式，而<code>epoll</code>函数能工作在高效的ET模式，且<code>epoll</code>函数还支持<code>EPOLLONESHOT</code>事件，该事件能进一步减少可读、可写、异常事件触发的次数。</p>
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><p>从实现原理上说，<code>select</code>和<code>poll</code>函数采用的都是轮询方式，即每次调用都要扫描整个注册文件描述符集合，因此它们检测就绪事件的算法时间复杂度是<code>O(n)</code>。</p>
+<p>而<code>epoll_wait</code>函数采用回调的方式，内核检测到就绪的文件描述符时，将触发回调函数，回调函数将该文件描述符上对应的事件插入内核就绪事件队列，然后内核在适当的时机将该就绪事件队列中的内容拷贝到用户空间，因此<code>epoll_wait</code>函数无须轮询整个文件描述符集合来检测哪些事件已经就绪，其算法时间复杂度为<code>O(1)</code>。</p>
+<p>当活动连接比较多时，<code>epoll_wait</code> 的回调函数被触发的过于频繁，会导致 <code>epoll_wait</code> 的效率反而降低，因此 <code>epoll_wait</code> 适用于连接数量多，但是活动连接较少的情况。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4752124863d4519dee2790f2a34349fa.png" alt="img"></p>
+<h2 id="5-I-O-复用的高级应用一：非阻塞-connect"><a href="#5-I-O-复用的高级应用一：非阻塞-connect" class="headerlink" title="5.I&#x2F;O 复用的高级应用一：非阻塞 connect"></a>5.I&#x2F;O 复用的高级应用一：非阻塞 connect</h2><p><code>connect</code>系统调用的man手册中有如下一段内容：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/691f0202e82cd0c83c818a00fef11c15.png" alt="img"></p>
+<p>这段话描述了<code>connect</code>函数出错时的一种<code>errno</code>值（<code>EINPROGRESS</code>），这种错误发生在对非阻塞的socket调用<code>connect</code>，而连接又没有立即建立时，此时，我们可以调用<code>select</code>、<code>poll</code>等函数来监听这个连接失败的socket上的可写事件，当<code>select</code>、<code>poll</code>等函数返回后，再利用<code>getsockopt</code>函数来读取错误码并清除该socket上的错误，如果错误码是0，表示连接成功建立，否则连接建立失败。</p>
+<p>通过非阻塞<code>connect</code>，我们就能同时发起多个连接并一起等待。但是这种方法存在几处移植性问题。</p>
+<h2 id="6-I-O-复用的高级应用二：聊天室程序"><a href="#6-I-O-复用的高级应用二：聊天室程序" class="headerlink" title="6.I&#x2F;O 复用的高级应用二：聊天室程序"></a>6.I&#x2F;O 复用的高级应用二：聊天室程序</h2><p>像ssh这样的登录服务通常需要同时处理套接字描述符和用户输入输出描述符，这可用I&#x2F;O复用来实现，下面用<code>poll</code>函数为例实现一个简单的聊天室程序，该聊天室程序能让所有用户同时在线群聊，它分为客户端和服务器两部分。</p>
+<p>客户端有两个功能</p>
+<ul>
+<li>一是从标准输入终端读入用户数据，并将用户数据发送至服务器；</li>
+<li>二是往标准输出终端打印服务器发来的数据。</li>
+</ul>
+<p>服务器的功能是接收客户数据，并把客户数据发送给每个登录到该服务器上的客户端（数据发送者除外）。</p>
+<p>客户端程序使用<code>poll</code>函数同时监听用户输入和网络连接，并利用<code>splice</code>函数将用户输入内容直接定向到网络连接上发送，从而实现数据零拷贝，提高了程序执行效率。<a target="_blank" rel="noopener" href="https://www.yuque.com/u39624144/zvaea9/coklc3naf35zmiqs#PCkqm">splice函数</a></p>
+<p>服务器使用<code>poll</code>函数同时管理监听socket和连接socket，且使用牺牲空间换取事件的策略来提高服务器性能。</p>
+<h2 id="7-I-O-复用的高级应用三：同时处理-TCP-和-UDP-服务"><a href="#7-I-O-复用的高级应用三：同时处理-TCP-和-UDP-服务" class="headerlink" title="7.I&#x2F;O 复用的高级应用三：同时处理 TCP 和 UDP 服务"></a>7.I&#x2F;O 复用的高级应用三：同时处理 TCP 和 UDP 服务</h2><p>以上讨论的服务器程序只监听一个端口，实际应用中，有些服务器程序能同时监听多个端口，如超级服务器inetd和android的调试服务adbd。</p>
+<p>从<code>bind</code>系统调用的参数来看，一个socket只能与一个socket地址绑定，即一个socket只能用来监听一个端口，因此，如果服务器要同时监听多个端口，就必须创建多个socket，并将它们分别绑定到各个端口上，这样，服务器就需要同时管理多个监听socket，这可使用I&#x2F;O复用技术实现。另外，即使是同一个端口，如果服务器要同时处理该端口上的TCP和UDP请求，也需要创建两个不同的socket，一个是流socket，另一个是数据报socket，并将它们都绑定到该端口上。</p>
+<h2 id="8-超级服务-xinetd"><a href="#8-超级服务-xinetd" class="headerlink" title="8.超级服务 xinetd"></a>8.超级服务 xinetd</h2><p>Linux因特网服务inetd是超级服务，它同时管理着多个子服务，即监听多个端口，现在Linux上使用的inetd服务程序通常是其升级版本xinetd，xinetd程序的原理与inetd的相同，但增加了一些控制选项，并提高了安全性。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/12/15/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/7.%20IO%20%E5%A4%8D%E7%94%A8/">https://darling-123456.github.io/2024/12/15/linux高性能服务器编程读书笔记&amp;&amp;黑马linux系统网络编程笔记/7. IO 复用/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B/">Linux高性能服务器编程</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div><div class="post-share"><div class="social-share" data-image="/img/181.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/12/14/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/%E9%98%BB%E5%A1%9EIO%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E6%9C%89%E5%95%A5%E5%8C%BA%E5%88%AB%EF%BC%9F/" title="Linux高性能服务器编程 阻塞与非阻塞系列问题"><img class="cover" src="/img/179.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux高性能服务器编程 阻塞与非阻塞系列问题</div></div><div class="info-2"><div class="info-item-1">1.阻塞IO和非阻塞IO有啥区别？ 概念定义 阻塞 IO（Blocking I&#x2F;O）： 当应用程序发起一个 I&#x2F;O 操作（如读取文件、接收网络数据等）时，在该操作完成之前，应用程序会被阻塞，即线程暂停执行，等待 I&#x2F;O 操作的完成。例如，在使用read函数从一个网络套接字读取数据时，如果没有数据可读，线程会一直等待，直到有数据到达并被成功读取。   非阻塞 IO（Non - Blocking I&#x2F;O）： 当应用程序发起一个 I&#x2F;O 操作时，如果操作不能立即完成（例如读取数据时缓冲区没有数据），函数会立即返回一个错误码（如在 Linux 系统中返回EWOULDBLOCK或EAGAIN），而不是阻塞线程等待操作完成。应用程序可以继续执行其他任务，之后可以通过轮询或者其他异步机制来检查 I&#x2F;O 操作是否可以继续进行。     工作原理 阻塞...</div></div></div></a><a class="pagination-related" href="/2024/12/15/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/8.%20%E4%BF%A1%E5%8F%B7/" title="Linux高性能服务器编程 8. 信号"><img class="cover" src="/img/182.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux高性能服务器编程 8. 信号</div></div><div class="info-2"><div class="info-item-1">8. 信号信号是由用户、系统、进程发送给目标进程的信息，以通知目标进程某个状态的改变或系统异常。Linux信号可由以下条件产生：  对于前台进程，用户可通过输入特殊终端字符来给它发送信号，如输入Ctrl+C通常会给进程发送一个中断信号。 系统异常。如浮点异常或非法内存段访问。 系统状态变化。如alarm定时器到期将引起SIGALRM信号。 运行kill命令或调用kill函数。  服务器程序必须处理（或至少忽略）一些常见信号，以免异常终止。 1.Linux 信号概述0.全部信号1.信号的四要素信号使用前应确定它的四要素  编号 名称 事件 默认处理动作  2.信号的编号kill -l 获取全部信号  SIGHUP本信号在用户终端连接(正常或非正常)结束时发出, 通常是在终端的控制进程结束时, 通知同一session内的各个作业,...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/12/19/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/12.%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" title="Linux高性能服务器编程 12. 多线程编程"><img class="cover" src="/img/191.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-19</div><div class="info-item-2">Linux高性能服务器编程 12. 多线程编程</div></div><div class="info-2"><div class="info-item-1">12. 多线程编程06-线程概念_哔哩哔哩_bilibili 早期Linux不支持线程，直到1996年，Xavier Leroy等人开发出第一个基本符合POSIX标准的线程库LinuxThreads，但LinuxThreads效率低且问题多，自内核2.6开始，Linux才开始提供内核级的线程支持，并有两个组织致力于编写新的线程库：NGPT（Next Generation POSIX Threads）和NPTL（Native POSIX Thread Library），但前者在2003年就放弃了，因此新的线程库就是NPTL。NPTL比LinuxThreads效率高，且更符合POSIX规范，所以它已经成为glibc的一部分，本书使用的线程库是NPTL。 本章要讨论的线程相关的内容都属于POSIX线程（简称 pthread）标准，不局限于NPTL实现，包括：  创建线程和结束线程； 读取和设置线程属性； POSIX线程同步方式：POSIX信号量、互斥锁和条件变量。  1.线程概念1.什么是线程**LWP:**light weight process...</div></div></div></a><a class="pagination-related" href="/2024/12/11/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/3.%20Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80API/" title="Linux高性能服务器编程 3.Linux网络编程基础API"><img class="cover" src="/img/173.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-11</div><div class="info-item-2">Linux高性能服务器编程 3.Linux网络编程基础API</div></div><div class="info-2"><div class="info-item-1">3. Linux网络编程基础API 1.主机字节序和网络字节序现代 CPU 的累加器一次都能装载（至少）4个字节(对于 32 位的机器)，即一个 int 类型。那么这4个字节在内存中排列的顺序将影响它被累加器装载的整数值，这就是字节序问题。 字节存储顺序主要分为大端序（Big-endian）和小端序（Little-endian），区别如下  Big-endian：高位字节存入低地址，低位字节存入高地址 Little-endian：低位字节存入低地址，高位字节存入高地址  例如，将12345678h写入1000h开始的内存中，以大端序和小端序模式存放结果如下：  现代 PC 大多采用小端字节序，因此小端字节序又称为主机字节序； 而在两台不同字节序的主机之间传递数据时，发送端总是把要发送的数据转化成大端字节序数据后再发送，因此大端字节序也被称为网络字节序。 网络字节顺序是TCP &#x2F; IP中规定好的一种数据表示格式，它与具体的CPU类型、操作系统等无关，从而可以保证数据在不同主机之间传输时能够被正确解释，网络字节顺序采用大端排序方式。  “大同小异 ”：大端字节序的...</div></div></div></a><a class="pagination-related" href="/2024/12/17/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/10.%20%E9%AB%98%E6%80%A7%E8%83%BDIO%E6%A1%86%E6%9E%B6%E5%BA%93Libevent/" title="Linux高性能服务器编程 10. 高性能I&#x2F;O框架库Libevent"><img class="cover" src="/img/185.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-17</div><div class="info-item-2">Linux高性能服务器编程 10. 高性能I&#x2F;O框架库Libevent</div></div><div class="info-2"><div class="info-item-1">10. 高性能I&#x2F;O框架库LibeventLinux服务器程序必须处理三类事件（I&#x2F;O、信号和定时事件），在处理这三类事件时需要考虑以下问题：  **统一事件源。**统一处理这三类事件既能使代码简单易懂，又能避免一些潜在的逻辑错误。实现统一事件源的一般方法：利用 I&#x2F;O复用系统调用来管理所有事件。 **可移植性。**不同的操作系统有不同的I&#x2F;O复用方式，如Solaris的dev&#x2F;poll文件、FreeBSD的kqueue机制、Linux的epoll系列系统调用。 **对并发编程的支持。**在多进程和多线程环境下，我们需要考虑各执行实体如何协同处理客户连接、信号、定时器，以避免竞态条件。  开源社区提供了很多优秀的开源I&#x2F;O框架库，它们不仅解决了以上问题，让开发者可以将精力完全放在程序的逻辑上，而且稳定性、性能等各方面都相当出色，如ACE、ASIO 和...</div></div></div></a><a class="pagination-related" href="/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/4.%20%E9%AB%98%E7%BA%A7%20IO%20%E5%87%BD%E6%95%B0/" title="Linux高性能服务器编程 4. 高级 I&#x2F;O 函数"><img class="cover" src="/img/174.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-12</div><div class="info-item-2">Linux高性能服务器编程 4. 高级 I&#x2F;O 函数</div></div><div class="info-2"><div class="info-item-1">4. 高级 I&#x2F;O 函数1.文件描述符文件描述符（File Descriptor, FD）是操作系统中用于访问文件的一个抽象概念。它是一个非负整数，通常由操作系统分配，用来标识被打开的文件或输入输出资源（如管道、网络连接等）。文件描述符在操作系统和应用程序之间充当桥梁，允许程序通过文件描述符来读取、写入文件或进行其他I&#x2F;O操作。 1.文件描述符的类型文件描述符通常分为三类标准描述符：  标准输入（Standard Input，FD 0）：   默认情况下与键盘关联，通常用于从用户那里接收输入数据。   标准输出（Standard Output，FD 1）：   默认情况下与终端窗口关联，通常用于向用户显示输出数据。   标准错误（Standard Error，FD 2）：   默认情况下也与终端窗口关联，但通常用于显示错误消息或诊断信息。  2.文件描述符的使用在UNIX和类UNIX操作系统中，文件描述符用于各种I&#x2F;O操作，包括：  打开文件：open() 系统调用返回一个文件描述符，表示已打开的文件。 读取文件：read()...</div></div></div></a><a class="pagination-related" href="/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/5.%20Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%E8%A7%84%E8%8C%83/" title="Linux高性能服务器编程 5. Linux服务器程序规范"><img class="cover" src="/img/175.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-12</div><div class="info-item-2">Linux高性能服务器编程 5. Linux服务器程序规范</div></div><div class="info-2"><div class="info-item-1">5. Linux服务器程序规范1.进程 PID进程的PID（Process ID）是操作系统中用于唯一标识一个进程的整数值。每个进程在创建时，操作系统都会分配一个唯一的PID，用来区分不同的进程。 PID的特点1.唯一性： 在操作系统运行的某一时刻，每个进程的PID都是唯一的。不同进程不会共享同一个PID。即使一个进程终止后，该PID可以被回收并分配给新创建的进程，但在同一时刻不会有两个进程拥有相同的PID。 2.进程生命周期： PID 的生命周期与进程的生命周期相对应。当一个进程被创建时，操作系统为它分配一个PID；当进程终止时，该PID被释放，并可能被分配给后续的新进程。 3.系统管理和调试： PID 在进程管理和调试中起着重要作用。系统管理员和开发者可以通过PID来监视、控制和调试进程。例如，使用 ps 命令可以查看系统中所有进程的PID，以及它们的状态、资源使用等信息。使用 kill 命令可以通过PID来终止指定的进程。 PID的分配PID 是由操作系统内核管理和分配的，通常是一个非负整数。PID...</div></div></div></a><a class="pagination-related" href="/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/6.%20%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%E6%A1%86%E6%9E%B6/" title="Linux高性能服务器编程 6. 高性能服务器程序框架"><img class="cover" src="/img/176.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-12</div><div class="info-item-2">Linux高性能服务器编程 6. 高性能服务器程序框架</div></div><div class="info-2"><div class="info-item-1">6. 高性能服务器程序框架**《Linux 高性能服务器编程》**一书中，把这一章节作为全书的核心，同时作为后续章节的总览。这也意味着我们在经历了前置知识的学习后，正式进入了 Web 服务器项目的核心部分的学习  按照服务器程序的一般原理，服务器可以解构为三个主要模块：  **I&#x2F;O处理单元：**四种I&#x2F;O模型，两种高效事件处理模式。 **逻辑单元：**两种高效并发模式；逻辑处理方式——有限状态机。 **存储单元：**服务器程序的可选模块，其内容与网络编程本身无关。  1.服务器模型C&#x2F;S...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">208</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#7-I-O-%E5%A4%8D%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">7. I&#x2F;O 复用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-%E5%89%8D%E6%83%85%E6%8F%90%E8%A6%81-IO%E5%A4%9A%E8%B7%AF%E8%BD%AC%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.</span> <span class="toc-text">0.前情提要-IO多路转接服务器设计思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%89%8D%E6%83%85%E6%8F%90%E8%A6%81"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.前情提要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-IO%E5%A4%9A%E8%B7%AF%E8%BD%AC%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.IO多路转接服务器设计思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-select-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">1.select 系统调用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-select-API"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.select API</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%EF%BC%9A"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">参数：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%EF%BC%9A"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">返回值：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%E5%B0%B1%E7%BB%AA%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.文件描述符就绪条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%A4%84%E7%90%86%E5%B8%A6%E5%A4%96%E6%95%B0%E6%8D%AE"><span class="toc-number">1.2.3.</span> <span class="toc-text">3.处理带外数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#select-%E8%B0%83%E7%94%A8%E5%90%8C%E6%97%B6%E6%8E%A5%E6%94%B6%E6%99%AE%E9%80%9A%E6%95%B0%E6%8D%AE%E5%92%8C%E5%B8%A6%E5%A4%96%E6%95%B0%E6%8D%AE"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">select 调用同时接收普通数据和带外数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-select%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%B7%AFIO%E8%BD%AC%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.2.4.</span> <span class="toc-text">4.select实现多路IO转接服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.2.5.</span> <span class="toc-text">5.优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-poll-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">2.poll 系统调用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%EF%BC%9A-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">参数：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%EF%BC%9A-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">返回值：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#poll%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%B7%AFIO%E8%BD%AC%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">poll实现多路IO转接服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-epoll-%E7%B3%BB%E5%88%97%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">3.epoll 系列系统调用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E4%BA%8B%E4%BB%B6%E8%A1%A8"><span class="toc-number">1.4.1.</span> <span class="toc-text">内核事件表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%86%85%E6%A0%B8%E4%BA%8B%E4%BB%B6%E8%A1%A8-epoll-ctl%EF%BC%9A"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">操作内核事件表 epoll_ctl：</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%EF%BC%9A-2"><span class="toc-number">1.4.1.1.0.1.</span> <span class="toc-text">参数：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%EF%BC%9A-2"><span class="toc-number">1.4.1.1.0.2.</span> <span class="toc-text">返回值：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#epoll-wait-%E5%87%BD%E6%95%B0"><span class="toc-number">1.4.2.</span> <span class="toc-text">epoll_wait 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%EF%BC%9A-3"><span class="toc-number">1.4.2.0.0.1.</span> <span class="toc-text">参数：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%EF%BC%9A-3"><span class="toc-number">1.4.2.0.0.2.</span> <span class="toc-text">返回值：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LT-%E6%A8%A1%E5%BC%8F%E5%92%8C-ET-%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.3.</span> <span class="toc-text">LT 模式和 ET 模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E7%82%B9-%EF%BC%9A%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E7%9A%84%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="toc-number">1.4.4.</span> <span class="toc-text">重点 ：数据丢失的例子：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EPOLLONESHOT-%E4%BA%8B%E4%BB%B6"><span class="toc-number">1.4.5.</span> <span class="toc-text">EPOLLONESHOT 事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EPOLLONSHOT%E5%92%8C%E9%94%81%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">1.4.6.</span> <span class="toc-text">EPOLLONSHOT和锁的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#epoll%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.4.7.</span> <span class="toc-text">epoll优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#epoll%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%B7%AFIO%E8%BD%AC%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.4.8.</span> <span class="toc-text">epoll实现多路IO转接服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%B8%89%E7%BB%84-I-O-%E5%A4%8D%E7%94%A8%E5%87%BD%E6%95%B0%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">1.5.</span> <span class="toc-text">4.三组 I&#x2F;O 复用函数的比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E9%9B%86"><span class="toc-number">1.5.1.</span> <span class="toc-text">事件集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%A4%A7%E6%94%AF%E6%8C%81%E7%9A%84%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%E6%95%B0"><span class="toc-number">1.5.2.</span> <span class="toc-text">最大支持的文件描述符数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.5.3.</span> <span class="toc-text">工作模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.5.4.</span> <span class="toc-text">具体实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-I-O-%E5%A4%8D%E7%94%A8%E7%9A%84%E9%AB%98%E7%BA%A7%E5%BA%94%E7%94%A8%E4%B8%80%EF%BC%9A%E9%9D%9E%E9%98%BB%E5%A1%9E-connect"><span class="toc-number">1.6.</span> <span class="toc-text">5.I&#x2F;O 复用的高级应用一：非阻塞 connect</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-I-O-%E5%A4%8D%E7%94%A8%E7%9A%84%E9%AB%98%E7%BA%A7%E5%BA%94%E7%94%A8%E4%BA%8C%EF%BC%9A%E8%81%8A%E5%A4%A9%E5%AE%A4%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.7.</span> <span class="toc-text">6.I&#x2F;O 复用的高级应用二：聊天室程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-I-O-%E5%A4%8D%E7%94%A8%E7%9A%84%E9%AB%98%E7%BA%A7%E5%BA%94%E7%94%A8%E4%B8%89%EF%BC%9A%E5%90%8C%E6%97%B6%E5%A4%84%E7%90%86-TCP-%E5%92%8C-UDP-%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.8.</span> <span class="toc-text">7.I&#x2F;O 复用的高级应用三：同时处理 TCP 和 UDP 服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E8%B6%85%E7%BA%A7%E6%9C%8D%E5%8A%A1-xinetd"><span class="toc-number">1.9.</span> <span class="toc-text">8.超级服务 xinetd</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img src="/img/84.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly博客功能完善和美化（四）---博客上传"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传">hexo+butterfly博客功能完善和美化（四）---博客上传</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img src="/img/87.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly搭建博客网站总结篇"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇">hexo+butterfly搭建博客网站总结篇</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

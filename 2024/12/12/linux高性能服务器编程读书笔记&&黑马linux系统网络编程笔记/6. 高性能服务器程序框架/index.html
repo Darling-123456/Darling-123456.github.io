@@ -1,0 +1,497 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Linux高性能服务器编程 6. 高性能服务器程序框架 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="6. 高性能服务器程序框架**《Linux 高性能服务器编程》**一书中，把这一章节作为全书的核心，同时作为后续章节的总览。这也意味着我们在经历了前置知识的学习后，正式进入了 Web 服务器项目的核心部分的学习  按照服务器程序的一般原理，服务器可以解构为三个主要模块：  **I&#x2F;O处理单元：**四种I&#x2F;O模型，两种高效事件处理模式。 **逻辑单元：**两种高效并发模式；逻辑处">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux高性能服务器编程 6. 高性能服务器程序框架">
+<meta property="og:url" content="https://darling-123456.github.io/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/6.%20%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="6. 高性能服务器程序框架**《Linux 高性能服务器编程》**一书中，把这一章节作为全书的核心，同时作为后续章节的总览。这也意味着我们在经历了前置知识的学习后，正式进入了 Web 服务器项目的核心部分的学习  按照服务器程序的一般原理，服务器可以解构为三个主要模块：  **I&#x2F;O处理单元：**四种I&#x2F;O模型，两种高效事件处理模式。 **逻辑单元：**两种高效并发模式；逻辑处">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/176.jpg">
+<meta property="article:published_time" content="2024-12-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-23T07:49:55.162Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="Linux高性能服务器编程">
+<meta property="article:tag" content="网络编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/176.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux高性能服务器编程 6. 高性能服务器程序框架",
+  "url": "https://darling-123456.github.io/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/6.%20%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%E6%A1%86%E6%9E%B6/",
+  "image": "https://darling-123456.github.io/img/176.jpg",
+  "datePublished": "2024-12-11T16:00:00.000Z",
+  "dateModified": "2025-03-23T07:49:55.162Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/6.%20%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%E6%A1%86%E6%9E%B6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux高性能服务器编程 6. 高性能服务器程序框架',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">208</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/176.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">Linux高性能服务器编程 6. 高性能服务器程序框架</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Linux高性能服务器编程 6. 高性能服务器程序框架</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-11T16:00:00.000Z" title="发表于 2024-12-12 00:00:00">2024-12-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-23T07:49:55.162Z" title="更新于 2025-03-23 15:49:55">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B/">Linux高性能服务器编程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">12.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>37分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="6-高性能服务器程序框架"><a href="#6-高性能服务器程序框架" class="headerlink" title="6. 高性能服务器程序框架"></a>6. 高性能服务器程序框架</h1><p>**《Linux 高性能服务器编程》**一书中，把这一章节作为全书的核心，同时作为后续章节的总览。这也意味着我们在经历了前置知识的学习后，正式进入了 Web 服务器项目的核心部分的学习</p>
+<hr>
+<p>按照服务器程序的一般原理，服务器可以解构为三个主要模块：</p>
+<ul>
+<li>**I&#x2F;O处理单元：**四种I&#x2F;O模型，两种高效事件处理模式。</li>
+<li>**逻辑单元：**两种高效并发模式；逻辑处理方式——有限状态机。</li>
+<li>**存储单元：**服务器程序的可选模块，其内容与网络编程本身无关。</li>
+</ul>
+<h2 id="1-服务器模型"><a href="#1-服务器模型" class="headerlink" title="1.服务器模型"></a>1.服务器模型</h2><h3 id="C-S-模型"><a href="#C-S-模型" class="headerlink" title="C&#x2F;S 模型"></a>C&#x2F;S 模型</h3><p>TCP&#x2F;IP协议在设计和实现上没有客户端和服务器的概念，在通信过程中所有机器都是对等的。但由于资源（视频、新闻、<a target="_blank" rel="noopener" href="https://marketing.csdn.net/p/3127db09a98e0723b83b2914d9256174?pId=2782&utm_source=glcblog&spm=1001.2101.3001.7020">软件</a>等）被数据提供者所垄断，所以几乎所有网络应用程序都采用了下图所示的C&#x2F;S（客户端&#x2F;服务器）模型：所有客户端都通过访问服务器来获取所需资源：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0c415828d684a2af40082c8f78d11c3b.png" alt="img"></p>
+<p>采用C&#x2F;S模型的TCP服务器和客户端的工作流程：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c1ea83f46be97b90b4d229bff0a97643.png" alt="img"></p>
+<p>C&#x2F;S模型中，服务器启动后，首先创建一个或多个监听socket，并调用<code>bind</code>将其绑定到服务器感兴趣的端口上，然后调用<code>listen</code>等待客户连接，之后客户端就可以调用<code>connect</code>向服务器发起连接了。由于客户连接请求是随机到达的异步事件，服务器需要使用某种I&#x2F;O模型来监听这一事件。</p>
+<p>上图中，服务器使用的是I&#x2F;O复用技术（<code>select</code>系统调用），当监听到连接请求后，服务器就调用<code>accept</code>函数接受它，并分配一个逻辑单元来服务新的连接，逻辑单元可以是新创建的子进程、子线程或其他，上图中，服务器给客户端分配的逻辑单元是由<code>fork</code>系统调用创建的子进程。逻辑单元读取客户请求，处理该请求，然后将处理结果返回给客户端，客户端接收到服务器反馈的结果后，可以继续向服务器发送请求，也可以立即主动关闭连接。如果客户端主动关闭连接，则服务器执行被动关闭连接。至此，双方的通信结束。服务器在处理一个客户请求的同时还会继续监听其他客户请求，否则就变成了效率低下的串行服务器。</p>
+<p>C&#x2F;S模型适合资源相对集中的场合，且它的实现也很简单，但其缺点也很明显：服务器是通信的中心，当访问量过大时，可能所有客户都将得到很慢的响应。P2P模型解决了这个缺点。</p>
+<h3 id="P2P-模型"><a href="#P2P-模型" class="headerlink" title="P2P 模型"></a>P2P 模型</h3><p>P2P（Peer to Peer，点对点）模型比C&#x2F;S模型更符合网络通信的实际情况。</p>
+<ul>
+<li>所有主机地位对等，每台机器在消耗服务的同时，也给其他机器提供服务。</li>
+<li>资源能够更充分、自由地共享。</li>
+<li>缺点：当用户之间的传输请求过多时，网络的负载将加重。</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8d30ded11d7b722963eeb085f3a8f274.png" alt="img"></p>
+<p>上图 a) 所示的 P2P 模型存在一个问题：主机之间很难相互发现。所以P2P模型通常有一个发现服务器，如 b) 所示，专门用来提供查找服务（甚至可以提供内容服务），使得客户能够很快找到需要的资源。</p>
+<p>从编程角度讲，P2P模型可看作C&#x2F;S模型的扩展：每台主机既是客户端，又是服务器。</p>
+<p><strong>以下是一些应用 P2P 模型的 APP 及其相关功能：</strong></p>
+<p><code>迅雷</code></p>
+<ul>
+<li><strong>资源下载功能</strong>：迅雷的核心下载功能运用了 P2P 技术。当用户下载一个文件时，迅雷客户端不仅从服务器获取数据，还会搜索并连接其他正在下载或已下载该文件的用户（即 Peer），从这些 Peer 的设备上获取文件的不同部分，实现多点对多点的传输，从而大大提高下载速度。比如，当多个用户同时下载一部热门电影时，他们之间会互相共享已下载的片段，使得每个用户都能更快地获取完整的电影文件167.</li>
+</ul>
+<p><code>比特精灵</code></p>
+<ul>
+<li><strong>BT 下载功能</strong>：作为一款 BT 下载软件，其主要功能是基于 P2P 模型实现的。用户通过种子文件获取下载信息后，比特精灵会与其他拥有相同资源的用户建立连接，进行数据的上传和下载。它支持多任务同时运行和文件选择下载，能够充分利用 P2P 网络中多个 Peer 的资源，提高下载效率，同时，其磁盘缓存技术也能更好地保护硬盘在 P2P 数据传输过程中的稳定性7.</li>
+</ul>
+<p><code>百度贴吧</code></p>
+<ul>
+<li><strong>内容分享与传播功能</strong>：在百度贴吧中，用户发布的帖子、图片、视频等内容会被其他用户浏览和互动。当一个用户发布了热门内容后，其他感兴趣的用户可以直接从该用户的设备上获取相关数据，而无需全部通过百度的服务器进行中转。例如，某个用户分享了一组高清旅游照片，其他用户查看这些照片时，部分数据会直接从发布者的设备传输到查看者的设备上，实现了 P2P 模式下的内容快速传播和共享1.</li>
+</ul>
+<h2 id="2-服务器编程框架"><a href="#2-服务器编程框架" class="headerlink" title="2.服务器编程框架"></a>2.服务器编程框架</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/142772b25b621662291430b1862056e4.png" alt="img"></p>
+<p>上图既能用来描述一台服务器，也能用来描述一个服务器机群，两种情况下各个部件的含义和功能见下表：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a4b650e02842e7a15340bba89b30cac2.png" alt="img"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/df567c651a7efd7e065d30bcef062c7c.png" alt="img"></p>
+<p><strong>对于单个服务器程序来说：</strong></p>
+<ul>
+<li>I&#x2F;O处理单元是服务器管理客户连接的模块。它通常要完成以下工作：等待并接受新的客户连接，接收客户数据，将服务器响应数据返回给客户端。但是，数据的收发不一定在 I&#x2F;O处理单元中执行，也可能在逻辑单元中执行，具体在何处执行取决于事件处理模式(见后文)。</li>
+<li>一个逻辑单元通常是一个进程或线程。它分析并处理客户数据，然后将结果传递给I&#x2F;O处理单元或者直接发送给客户端(具体使用哪种方式取决于事件处理模式)。服务器通常拥有多个逻辑单元，以实现对多个客户任务的并行处理。</li>
+<li>网络存储单元可以是数据库、缓存和文件，甚至是一台独立的服务器。但它不是必须的，比如ssh、telnet等登录服务就不需要这个单元。</li>
+<li>请求队列是各单元之间的通信方式的抽象。I&#x2F;O处理单元接收到客户请求时，需要以某种方式通知一个逻辑单元来处理该请求。同样，多个逻辑单元同时访问一个存储单元时，也需要采用某种机制来协调处理竞态条件。请求队列通常被实现为池的一部分。</li>
+</ul>
+<p><strong>对于一个服务器机群来说：</strong></p>
+<ul>
+<li>I&#x2F;O处理单元是一个专门的接入服务器。它实现负载均衡，从所有逻辑服务器中选取负荷最小的一台来为新客户服务。</li>
+<li>一个逻辑单元本身就是一台逻辑服务器。</li>
+<li>对于服务器机群而言，请求队列是各台服务器之间预先建立的、静态的、永久的TCP连接。这种TCP连接能提高服务器之间交换数据的效率，因为它避免了动态建立TCP连接导致的额外的系统开销。</li>
+</ul>
+<p><code>补充 网络编程中请求队列和消息队列的概念，两者的区别与联系</code></p>
+<ol>
+<li><strong>请求队列的概念</strong><ul>
+<li><strong>定义</strong>：在网络编程中，请求队列主要用于存放客户端发送过来的请求。当服务器接收到多个客户端的请求时，这些请求会按照一定的顺序被放入请求队列中等待处理。例如，在一个基于 HTTP 协议的 Web 服务器中，当多个用户同时访问网站时，他们的 HTTP 请求（如获取网页内容、提交表单等）会被服务器放入请求队列。</li>
+<li><strong>工作方式</strong>：请求队列通常是先进先出（FIFO）的结构。服务器会按照请求进入队列的顺序依次处理它们。这种顺序处理的方式有助于保证公平性，避免某些请求长时间得不到处理。比如，在一个处理数据库查询请求的服务器中，先收到的查询请求会先进入队列，然后服务器从队列头部取出请求进行数据库查询操作，查询完成后再处理下一个请求。</li>
+<li><strong>应用场景</strong>：广泛应用于各种服务器端编程，如 Web 服务器、数据库服务器等。在高并发的场景下，请求队列可以有效地管理大量的客户端请求，防止服务器因为同时处理过多请求而崩溃。</li>
+</ul>
+</li>
+<li><strong>消息队列的概念</strong><ul>
+<li><strong>定义</strong>：消息队列是一种在分布式系统或多进程 &#x2F; 多线程环境中用于消息传递的机制。它允许不同的进程或线程之间通过发送和接收消息进行通信。消息可以包含各种数据，如文本信息、命令、事件通知等。例如，在一个微服务架构的系统中，不同的微服务之间可以通过消息队列传递业务信息，如订单处理微服务和库存管理微服务之间通过消息队列传递订单创建和库存更新的消息。</li>
+<li><strong>工作方式</strong>：消息队列提供了异步通信的方式。发送方将消息放入队列后，可以继续执行其他任务，而接收方在合适的时候从队列中获取消息并进行处理。消息队列可以保证消息的可靠传递，即使接收方暂时不可用，消息也会在队列中保存，直到被接收。例如，在一个消息驱动的架构中，一个生产者进程可以将消息放入消息队列，消费者进程可以在自己的节奏下从队列中取出消息进行处理，两者不需要同步等待对方。</li>
+<li><strong>应用场景</strong>：常用于分布式系统、异步任务处理、事件驱动架构等场景。它可以解耦不同的系统组件，提高系统的可扩展性和灵活性。例如，在一个大数据处理系统中，数据采集组件可以将采集到的原始数据放入消息队列，数据分析组件可以从消息队列中获取数据进行分析，这样两个组件可以独立开发和扩展。</li>
+</ul>
+</li>
+<li><strong>两者的区别</strong><ul>
+<li>用途差异：<ul>
+<li>请求队列主要用于处理客户端请求，重点在于对请求的顺序管理和处理，目的是为了提供高效的服务响应。例如，在 Web 服务器中，请求队列的存在是为了确保每个用户的网页请求能够有序地得到处理。</li>
+<li>消息队列侧重于在不同的系统组件（如进程、线程、微服务）之间进行消息传递，用于解耦组件之间的直接依赖关系，实现异步通信。例如，在一个电商系统中，消息队列用于在订单系统和物流系统之间传递订单信息和物流状态更新信息。</li>
+</ul>
+</li>
+<li>数据结构和操作重点不同：<ul>
+<li>请求队列通常比较关注请求的顺序，一般是简单的先进先出结构，操作主要围绕入队（将请求放入队列）和出队（从队列中取出请求进行处理）。例如，在一个简单的 TCP 服务器的请求队列中，新的连接请求按照到达的顺序入队，服务器按照顺序出队并处理这些请求。</li>
+<li>消息队列虽然也可以是先进先出的结构，但它可能还支持更多复杂的操作，如消息的优先级设置、消息的持久化（确保消息在系统故障后不会丢失）、消息的过滤（只接收符合特定条件的消息）等。例如，在一个企业级消息队列系统中，可以设置某些重要订单消息具有更高的优先级，让接收方先处理这些消息。</li>
+</ul>
+</li>
+<li>消息内容和处理方式：<ul>
+<li>请求队列中的请求通常是针对特定服务的操作请求，如获取资源、更新数据等，处理方式相对比较固定，一般是由服务器按照预定的业务逻辑进行处理。例如，在一个文件服务器的请求队列中，请求可能是下载文件或上传文件，服务器会根据请求类型进行相应的文件操作。</li>
+<li>消息队列中的消息内容更加多样化，可以是事件通知、业务数据、控制命令等，接收方对消息的处理方式也更加灵活，可以根据消息的类型和自身的业务规则进行不同的处理。例如，在一个物联网系统中，消息队列中的消息可能是传感器数据（如温度、湿度），也可能是设备控制命令，不同的接收设备会根据消息内容进行不同的处理，如存储数据或执行控制操作。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>两者的联系</strong><ul>
+<li><strong>队列的基本形式</strong>：它们都是基于队列这种数据结构来实现的，都有入队和出队的操作，并且在一定程度上都可以通过队列的长度等属性来控制流量。例如，当请求队列或消息队列长度过长时，可以采取限流措施，暂停接收新的请求或消息，以避免系统过载。</li>
+<li><strong>在系统中的协同作用</strong>：在复杂的网络编程场景中，请求队列和消息队列可以协同工作。例如，在一个大型的网络服务系统中，外部客户端的请求先进入请求队列，经过服务器的初步处理后，可能会产生一些内部消息（如需要更新数据库、通知其他服务等），这些消息可以放入消息队列，由系统内部的其他组件进行异步处理。这样，请求队列和消息队列共同构建了一个高效、灵活的网络服务架构。</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-I-O-模型"><a href="#3-I-O-模型" class="headerlink" title="3.I&#x2F;O 模型"></a>3.I&#x2F;O 模型</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_74795952/article/details/144410620?spm=1001.2014.3001.5502">Linux高性能服务器编程 | 读书笔记 | 3. Linux网络编程基础API-CSDN博客</a>提到，sockct在创建的时候默认是阻塞的。阻塞和非阻塞的概念能应用于所有文件描述符，而不仅仅是socket。我们称阻塞的文件描述符为阻塞 I&#x2F;O，称非阻塞的文件描述符为非阻塞 I&#x2F;O。</p>
+<p>针对阻塞 I&#x2F;O执行的系统调用可能因为无法立即完成而被操作系统挂起，直到等待的事件发生为止。比如，客户端通过<code>connect</code>向服务器发起连接时，<code>connect</code>将首先发送同步报文段给服务器，然后等待服务器返回确认报文段。如果服务器的确认报文段没有立即到达客户端，则 <code>connect</code>调用将被挂起，直到客户端收到确认报文段并唤醒<code>connect</code>调用。socket的基础API中，可能被阻塞的系统调用包括<code>accept</code>、<code>send</code>、<code>recv</code>和<code>connect</code>。</p>
+<p>针对非阻塞I&#x2F;O执行的系统调用则总是立即返回，而不管事件是否已经发生。如果事件没有立即发生，这些系统调用就返回<code>-1</code>，和出错的情况一样。此时我们必须根据<code>errno</code>来区分这两种情况。对<code>accept</code>、<code>send</code>和<code>recv</code>而言，事件未发生时 <code>errno</code>通常被设置成<code>EAGAIN</code>(意为“再来一次”)或者 <code>EWOULDBLOCK</code>(意为“期望阻塞”)；对<code>connect</code>而言，<code>errno</code> 则被设置成<code>EINPROGRESS</code>(意为“在处理中”)。</p>
+<p><strong>非阻塞 I&#x2F;O 通常要和其他 I&#x2F;O 通知机制一起使用，比如 I&#x2F;O 复用和 SIGIO 信号。</strong></p>
+<p>**I&#x2F;O 复用是最常使用的I&#x2F;O 通知机制。**它指的是，应用程序通过I&#x2F;O复用函数向内核注册一组事件，内核通过 I&#x2F;O 复用函数把其中就绪的事件通知给应用程序。Linux上常用的I&#x2F;O复用函数是 <code>select</code>、<code>poll</code> 和 <code>epoll_wait</code>。I&#x2F;O 复用函数本身是阻塞的，它们能提高程序效率的原因在于它们具有同时监听多个 I&#x2F;O事件的能力。</p>
+<p>**SIGIO信号也可以用来报告I&#x2F;O事件。**例如，我们可以为一个目标文件描述符指定宿主进程，那么被指定的宿主进程将捕获到SIGIO信号。这样，当目标文件描述符上有事件发生时，SIGIO信号的信号处理函数将被触发，我们也就可以在该信号处理函数中对目标文件描述符执行非阻塞 I&#x2F;O操作了。</p>
+<p>**从理论上说，阻塞 I&#x2F;O、I&#x2F;O复用和信号驱动I&#x2F;O都是同步I&#x2F;O模型。**因为在这三种I&#x2F;O模型中，I&#x2F;O的读写操作，都是在I&#x2F;O事件发生之后，由应用程序来完成的。而 POSIX 规范所定义的异步I&#x2F;O模型则不同。<strong>对异步I&#x2F;O而言，用户可以直接对 I&#x2F;O 执行读写操作，这些操作告诉内核用户读写缓冲区的位置，以及 I&#x2F;O 操作完成之后内核通知应用程序的方式。异步I&#x2F;O的读写操作总是立即返回，而不论 I&#x2F;O 是否是阻塞的，因为真正的读写操作已经由内核接管。</strong></p>
+<p>也就是说，同步 I&#x2F;O 模型要求用户代码自行执行 I&#x2F;O 操作(将数据从内核缓冲区读人用户缓冲区，或将数据从用户缓冲区写人内核缓冲区)，而异步 I&#x2F;O 机制则由内核来执行 I&#x2F;O 操作(数据在内核缓冲区和用户缓冲区之间的移动是由内核在“后台”完成的)。</p>
+<p>**同步 I&#x2F;O 向应用程序通知的是 I&#x2F;O 就绪事件，而异步 I&#x2F;O 向应用程序通知的是 I&#x2F;O 完成事件。**Linux环境下，<code>aio.h</code>头文件中定义的函数提供了对异步 I&#x2F;O 的支持。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d27e0501ba9b89a55a99c94695388433.png" alt="img"></p>
+<p><strong>大家没看太懂可以看以下的解释：</strong></p>
+<p><code>同步 IO（Synchronous I/O）</code></p>
+<ul>
+<li><strong>定义</strong>：同步 IO 是指在进行 I&#x2F;O 操作时，进程（或线程）会被阻塞，直到 I&#x2F;O 操作完成。也就是说，程序的执行流程会暂停在 I&#x2F;O 操作的调用处，等待数据传输完成后才继续执行后续的操作。</li>
+</ul>
+<p><code>异步 IO（Asynchronous I/O）</code></p>
+<ul>
+<li><strong>定义</strong>：异步 IO 是指进程（或线程）发起 I&#x2F;O 操作后，不会等待操作完成，而是可以继续执行其他任务。当 I&#x2F;O 操作完成时，操作系统会通过某种方式（如信号、回调函数等）通知进程。</li>
+<li>工作流程示例（以网络套接字接收数据为例）：<ul>
+<li>在一个网络服务器程序中，使用异步 IO 接收客户端数据。当服务器调用异步接收函数（假设存在这样的函数）接收客户端发送的数据时，函数会立即返回，服务器进程可以继续处理其他事务，如接受新的客户端连接或者处理其他已连接客户端的请求。</li>
+<li>当客户端的数据到达服务器的套接字缓冲区并且接收操作完成后，操作系统会触发一个预先注册的回调函数或者发送一个信号给服务器进程。在回调函数或者信号处理程序中，服务器才会处理接收到的数据。例如，在一些高级的网络编程库中，可能会有类似以下的伪代码：</li>
+</ul>
+</li>
+</ul>
+<p><code>I/O 复用（I/O Multiplexing）</code></p>
+<ul>
+<li><strong>定义</strong>：I&#x2F;O 复用是一种机制，允许一个进程（或线程）同时监听多个 I&#x2F;O 事件源，当其中任何一个或多个事件源有 I&#x2F;O 事件发生（如可读、可写等）时，能够及时得到通知并进行相应的处理。它主要是为了提高系统的并发处理能力，避免为每个 I&#x2F;O 事件源创建一个单独的进程或线程来处理。</li>
+</ul>
+<p><strong>I&#x2F;O 复用的本质是同步 I&#x2F;O</strong></p>
+<ul>
+<li><strong>定义回顾</strong>：同步 I&#x2F;O 是指进程（或线程）在进行 I&#x2F;O 操作时会被阻塞，直到 I&#x2F;O 操作完成。I&#x2F;O 复用虽然可以同时监听多个 I&#x2F;O 事件源，但当检测到某个事件源有 I&#x2F;O 事件发生后，在进行实际的 I&#x2F;O 操作（如读取数据、写入数据）时，仍然会导致进程（或线程）阻塞，直到这个具体的 I&#x2F;O 操作完成。</li>
+</ul>
+<h2 id="4-两种事件处理模式"><a href="#4-两种事件处理模式" class="headerlink" title="4.两种事件处理模式"></a>4.两种事件处理模式</h2><p>服务器程序通常需要处理三类事件：I&#x2F;O事件、信号及定时事件。这一节先从整体上介绍一下两种高效的事件处理模式：Reactor和Proactor.</p>
+<p>同步 I&#x2F;O 模型通常用于实现 Reactor 模式，异步 I&#x2F;O 模型则用于实现 Proactor 模式。不过后面我们将看到，如何使用同步 I&#x2F;O 方式模拟出 Proactor 模式。</p>
+<h3 id="Reactor-模式"><a href="#Reactor-模式" class="headerlink" title="Reactor 模式"></a>Reactor 模式</h3><p>Reactor 要求主线程( I&#x2F;O 处理单元，下同)只负责监听文件描述上是否有事件发生，有的话就立即将该事件通知工作线程(逻辑单元，下同)。除此之外，主线程不做任何其他实质性的工作。读写数据，接受新的连接，以及处理客户请求均在工作线程中完成。</p>
+<p>使用同步 I&#x2F;O 模型(以 epoll_wait 为例)实现的 Reactor 模式的工作流程是：</p>
+<ol>
+<li>主线程往 epoll 内核事件表中注册 socket 上的读就绪事件。</li>
+<li>主线程调用 epoll_wait 等待 socket 上有数据可读。</li>
+<li>当socket上有数据可读时， epoll_wait 通知主线程。主线程则将socket 可读事件放入请求队列。</li>
+<li>睡眠在请求队列上的某个工作线程被唤醒，它从socket读取数据，并处理客户请求然后往 epoll 内核事件表中注册该socket上的写就绪事件。</li>
+<li>主线程调用 epoll_wait 等待 socket 可写。</li>
+<li>当socket可写时， epoll_wait 通知主线程。主线程将socket可写事件放入请求队列。</li>
+<li>睡眠在请求队列上的某个工作线程被唤醒，它往socket上写入服务器处理客户请求的结果。</li>
+</ol>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/12d2c51f2212ad9296d61e84ab2ee94d.png" alt="img"></p>
+<h3 id="Proactor-模式"><a href="#Proactor-模式" class="headerlink" title="Proactor 模式"></a>Proactor 模式</h3><p>与Reactor模式不同，Proactor模式将所有I&#x2F;O操作都交给主线程和内核来处理，工作线程仅仅负责业务逻辑。因此，Proactor模式更符合图8-4所描述的服务器编程框架。使用异步 I&#x2F;O 模型(以 <code>aio_read</code> 和 <code>aio_write</code> 为例)实现的 Proactor 模式的工作流程是：</p>
+<ol>
+<li>主线程调用<code>aio_read</code>函数向内核注册socket上的读完成事件，并告诉内核用户读缓冲区的位置，以及读操作完成时如何通知应用程序(这里以信号为例)。</li>
+<li>主线程继续处理其他逻辑。</li>
+<li>当socket上的数据被读入用户缓冲区后，内核将向应用程序发送一个信号，以通知应用程序数据已经可用。</li>
+<li>应用程序预先定义好的信号处理函数选择一个工作线程来处理客户请求。工作线程处理完客户请求之后，调用<code>aio_write</code> 函数向内核注册socket上的写完成事件，并告诉内核用户写缓冲区的位置，以及写操作完成时如何通知应用程序(仍然以信号为例)。</li>
+<li>主线程继续处理其他逻辑。</li>
+<li>当用户缓冲区的数据被写入 socket之后，内核将向应用程序发送一个信号，以通知应用程序数据已经发送完毕。</li>
+<li>应用程序预先定义好的信号处理函数选择一个工作线程来做善后处理，比如决定是否关闭 socket。</li>
+</ol>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1c0d7b783aa16ac987773f626bb3cf6e.png" alt="img"></p>
+<p>在图8-6中，连接socket上的读写事件是通过 <code>aio_read</code>&#x2F;<code>aio_write</code>向内核注册的，因此内核将通过信号来向应用程序报告连接socket上的读写事件。所以，主线程中的 <code>epoll_wait</code> 调用仅能用来检测监听socket上的连接请求事件，而不能用来检测连接 socket 上的读写事件。</p>
+<h3 id="模拟-Proactor-模式"><a href="#模拟-Proactor-模式" class="headerlink" title="模拟 Proactor 模式"></a>模拟 Proactor 模式</h3><p>提到了使用同步 I&#x2F;O 方式模拟出 Proactor 模式的一种方法。其原理是：主线程执行数据读写操作，读写完成之后，主线程向工作线程通知这一“完成事件”。那么从工作线程的角度来看，它们就直接获得了数据读写的结果，接下来要做的只是对读写的结果进行逻辑处理。</p>
+<p>使用同步 I&#x2F;O 模型(仍然以<code>epoll_wait</code> 为例)模拟出的 Proactor 模式的工作流程如下：</p>
+<ol>
+<li>主线程往epoll 内核事件表中注册socket上的读就绪事件。</li>
+<li>主线程调用<code>epoll_wait</code>等待socket上有数据可读。</li>
+<li>当socket上有数据可读时，<code>epoll_wait</code>通知主线程。主线程从socket循环读取数据，直到没有更多数据可读，然后将读取到的数据封装成一个请求对象并插入请求队列。</li>
+<li>睡眠在请求队列上的某个工作线程被唤醒，它获得请求对象并处理客户请求，然后往epoll 内核事件表中注册socket上的写就绪事件。</li>
+<li>主线程调用<code>epoll_wait</code>等待 socket可写。</li>
+<li>当socket可写时，<code>epoll_wait</code>通知主线程。主线程往socket上写人服务器处理客户请求的结果。</li>
+</ol>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/546e0cad0f419320f066abfd8005a214.png" alt="img"></p>
+<h3 id="Reactor-模式和-Proactor-模式的区别"><a href="#Reactor-模式和-Proactor-模式的区别" class="headerlink" title="Reactor 模式和 Proactor 模式的区别"></a>Reactor 模式和 Proactor 模式的区别</h3><p>在计算机网络编程中，Reactor 模式和 Proactor 模式是两种常用的事件处理模式，它们都旨在有效地处理I&#x2F;O操作，尤其是在高<a target="_blank" rel="noopener" href="https://marketing.csdn.net/p/3127db09a98e0723b83b2914d9256174?pId=2782&utm_source=glcblog&spm=1001.2101.3001.7020">性能</a>网络服务器的设计中。</p>
+<h4 id="Reactor模式"><a href="#Reactor模式" class="headerlink" title="Reactor模式"></a>Reactor模式</h4><ol>
+<li><strong>基本原理</strong>：Reactor模式基于同步I&#x2F;O（Synchronous I&#x2F;O）。在这种模式下，应用程序首先注册感兴趣的事件（如读、写、连接、接受等）到一个中心调度器（通常称为reactor或事件循环），然后同步等待事件的发生。一旦事件发生，调度器通知相应的事件处理器进行处理。</li>
+<li><strong>事件处理</strong>：事件处理器（handlers）是事先定义好的，它们在事件发生时被同步调用。处理器需要快速完成工作，以避免阻塞整个事件循环。</li>
+<li><strong>主要用途</strong>：这种模式适用于处理大量小的、短时的请求，例如Web服务器中处理HTTP请求。它能高效地处理并发，因为不需要为每个请求创建新的线程或进程。</li>
+</ol>
+<h4 id="Proactor模式"><a href="#Proactor模式" class="headerlink" title="Proactor模式"></a>Proactor模式</h4><ol>
+<li><strong>基本原理</strong>：Proactor模式基于异步I&#x2F;O（Asynchronous I&#x2F;O）。在这种模式下，应用程序启动一个异步操作（如异步读或写），并立即返回，继续执行其他任务。当I&#x2F;O操作完成时，系统通过所谓的完成处理器（completion handler）通知应用程序。</li>
+<li><strong>事件处理</strong>：完成处理器在I&#x2F;O操作完成后被异步调用，这允许应用程序在等待I&#x2F;O完成时继续处理其他任务。这种方式非常适合于长时间运行的I&#x2F;O操作，如数据库操作或文件传输。</li>
+<li><strong>主要用途</strong>：Proactor模式更适合于需要处理复杂I&#x2F;O操作和长时间运行任务的应用程序，它可以提高程序的响应性和吞吐量。</li>
+</ol>
+<h4 id="关键区别"><a href="#关键区别" class="headerlink" title="关键区别"></a>关键区别</h4><ul>
+<li><strong>I&#x2F;O模型</strong>：Reactor使用同步I&#x2F;O，而Proactor使用异步I&#x2F;O。</li>
+<li><strong>阻塞方式</strong>：在Reactor模式中，调度器等待事件的发生可能会阻塞，而在Proactor模式中，应用程序启动异步操作后可以继续执行，不会阻塞。</li>
+<li><strong>性能和适用性</strong>：Reactor适合处理大量短暂的请求，Proactor适合处理持久的、耗时的I&#x2F;O操作。</li>
+</ul>
+<h2 id="5-两种高效的并发模式"><a href="#5-两种高效的并发模式" class="headerlink" title="5.两种高效的并发模式"></a>5.两种高效的并发模式</h2><p>对于计算密集型的程序，并发编程并没有优势，反而由于任务的切换使效率降低。但对于 I&#x2F;O密集型的程序，比如经常读写文件，访问数据库等。由于I&#x2F;O操作的速度远没有CPU的计算速度快，所以让程序阻塞于 I&#x2F;O操作将浪费大量的CPU时间。</p>
+<p>从实现上来说，并发编程主要有多进程和多线程两种方式。</p>
+<p>这一节先讨论并发模式。对应于图8-4，并发模式是指I&#x2F;O处理单元和多个逻辑单元之间协调完成任务的方法。</p>
+<p>服务器主要有两种并发编程模式：半同步&#x2F;半异步(half-sync&#x2F;half-async)模式和领导者&#x2F;追随者(Leader&#x2F;Followers)模式。</p>
+<h3 id="半同步-半异步模式"><a href="#半同步-半异步模式" class="headerlink" title="半同步 &#x2F; 半异步模式"></a>半同步 &#x2F; 半异步模式</h3><p>首先需要明确一点，半同步&#x2F;半异步模式中的“同步”和“异步”与前面讨论的I&#x2F;O模型中的“同步”和“异步”是完全不同的概念。</p>
+<p>在 I&#x2F;O模型中,“同步”和“异步”区分的是内核向应用程序通知的是何种IO事件(是就绪事件还是完成事件)，以及该由谁来完成I&#x2F;O读写(是应用程序还是内核)。</p>
+<p>在并发模式中,“同步”指的是程序完全按照代码序列的顺序执行；“异步”指的是程序的执行需要由系统事件来驱动。常见的系统事件包括中断、信号等。比如，图8-8 a)描述了同步的读操作，而图8-8 b)则描述了异步的读操作。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/cb5b6ecaf1e58c9b617b2a44e84dfdc2.png" alt="img"></p>
+<p>按照同步方式运行的线程称为同步线程，按照异步方式运行的线程称为异步线程。</p>
+<p>异步线程的执行效率高，实时性强。但程序相对复杂，难于调试和扩展，而且不适合于大量的并发。</p>
+<p>同步线程则相反，虽然效率相对较低，实时性较差，但逻辑简单。</p>
+<p>因此，对于像服务器这种既要求较好的实时性，又要求能同时处理多个客户请求的应用程序，我们就应该同时使用同步线程和异步线程来实现，即采用半同步&#x2F;半异步模式来实现。</p>
+<p>半同步&#x2F;半异步模式中，同步线程用于处理客户逻辑，相当于图8-4中的逻辑单元；异步线程用于处理I&#x2F;O事件，相当于图8-4中的I&#x2F;O处理单元。异步线程监听到客户请求后，来读取并处理该请求对象。具体选择哪个工作线程来为新的客户请求服务，则取决于请求队列的设计。比如最简单的轮流选取工作线程的Round Robin算法，也可以通过条件变量或信号量来随机地选择一个工作线程。</p>
+<p>在服务器程序中，如果结合考虑两种事件处理模式和几种 I&#x2F;O 模型，则半同步&#x2F;半异步模式就存在多种变体。其中有一种变体称为半同步&#x2F;半反应堆(half-sync&#x2F;half-reactive)模式，如图8-10所示。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/11a5748809cb954a4a479da8666f78f5.png" alt="img"></p>
+<p>图8-10中，异步线程只有一个，由主线程来充当。它负责监听所有socket上的事件。如果监听 socket 上有可读事件发生，即有新的连接请求到来，主线程就接受之以得到新的连接socket，然后往epoll 内核事件表中注册该socket上的读写事件。如果连接socket上有读写事件发生，即有新的客户请求到来或有数据要发送至客户端，主线程就将该连接socket插入请求队列中。所有工作线程都睡眠在请求队列上，当有任务到来时，它们将通过竞争(比如申请互斥锁)获得任务的接管权。这种竞争机制使得只有空闲的工作线程才有机会来处理新任务，这是很合理的。</p>
+<p>图8-10中，主线程插入请求队列中的任务是就绪的连接socket。这说明该图所示的半同步&#x2F;半反应堆模式采用的事件处理模式是Reactor模式：它要求工作线程自己从socket上读取客户请求和往 socket写入服务器应答。这就是该模式的名称中“half-reactive”的含义。实际上，半同步&#x2F;半反应堆模式也可以使用模拟的Proactor事件处理模式，即由主线程来完成数据的读写。在这种情况下，主线程一般会将应用程序数据、任务类型等信息封装为一个任务对象，然后将其(或者指向该任务对象的一个指针)插入请求队列。工作线程从请求队列中取得任务对象之后，即可直接处理之，而无须执行读写操作了。</p>
+<p>半同步&#x2F;半反应堆模式存在如下缺点:</p>
+<ul>
+<li>主线程和工作线程共享请求队列。主线程往请求队列中添加任务，或者工作线程从请求队列中取出任务，都需要对请求队列加锁保护，从而白白耗费CPU时间。</li>
+<li>每个工作线程在同一时间只能处理一个客户请求。如果客户数量较多，而工作线程较少，则请求队列中将堆积很多任务对象，客户端的响应速度将越来越慢。如果通过增加工作线程来解决这一问题，则工作线程的切换也将耗费大量 CPU 时间。</li>
+</ul>
+<p>图 8-11描述了一种相对高效的半同步&#x2F;半异步模式，它的每个工作线程都能同时处理多个客户连接。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/7eecc241ce678fa6ef32e9304518911e.png" alt="img"></p>
+<p>图8-11中，主线程只管理监听socket，连接socket由工作线程来管理。当有新的连接到来时，主线程就接受之并将新返回的连接socket派发给某个工作线程，此后该新socket 上的任何 I&#x2F;O操作都由被选中的工作线程来处理，直到客户关闭连接。主线程向工作线程派发socket的最简单的方式，是往它和工作线程之间的管道里写数据。工作线程检测到管道上有数据可读时，就分析是否是一个新的客户连接请求到来。如果是，则把该新socket上的读写事件注册到自己的 epoll内核事件表中。</p>
+<p>可见，图8-11中，每个线程(主线程和工作线程)都维持自己的事件循环，它们各自独立地监听不同的事件。因此，在这种高效的半同步&#x2F;半异步模式中，每个线程都工作在异步模式，所以它并非严格意义上的半同步&#x2F;半异步模式。</p>
+<h3 id="领导者-追随者模式"><a href="#领导者-追随者模式" class="headerlink" title="领导者 &#x2F; 追随者模式"></a>领导者 &#x2F; 追随者模式</h3><p>领导者&#x2F;追随者模式是多个工作线程轮流获得事件源集合，轮流监听、分发并处理事件的一种模式。在任意时间点，程序都仅有一个领导者线程，它负责监听 I&#x2F;O 事件。而其他线程则都是追随者，它们休眠在线程池中等待成为新的领导者。当前的领导者如果检测到I&#x2F;O 事件，首先要从线程池中推选出新的领导者线程，然后处理I&#x2F;O事件。此时，新的领导者等待新的 I&#x2F;O事件，而原来的领导者则处理 I&#x2F;O事件，二者实现了并发。</p>
+<p>领导者&#x2F;追随者模式包含如下几个组件：句柄集(HandleSet)、线程集(ThreadSet)、事件处理器(EventHandler)和具体的事件处理器(ConcreteEventHandler)。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9bf51729f4a8ed15fc0349b0f414e455.png" alt="img"></p>
+<h4 id="1-句柄集"><a href="#1-句柄集" class="headerlink" title="1.句柄集"></a>1.句柄集</h4><p>句柄(Handle)用于表示I&#x2F;O资源，在Linux下通常就是一个文件描述符。句柄集管理众多句柄，它使用<code>wait_for_event</code>方法来监听这些句柄上的I&#x2F;O事件，并将其中的就绪事件通知给领导者线程。领导者则调用绑定到Handle上的事件处理器来处理事件。</p>
+<h4 id="2-线程集"><a href="#2-线程集" class="headerlink" title="2.线程集"></a>2.线程集</h4><p>这个组件是所有工作线程(包括领导者线程和追随者线程)的管理者。它负责各线程之间的同步，以及新领导者线程的推选。线程集中的线程在任一时间必处于如下三种状态之一：</p>
+<ul>
+<li>**Leader：**线程当前处于领导者身份，负责等待句柄集上的 I&#x2F;O事件。</li>
+<li>**Processing：**线程正在处理事件。领导者检测到I&#x2F;O 事件之后，可以转移到Processing状态来处理该事件，并调用<code>promote_new_leader</code>方法推选新的领导者；也可以指定其他追随者来处理事件(Event Hando)，此时领导者的地位不变。当处于Processing状态的线程处理完事件之后，如果当前线程集中没有领导者，则它将成为新的领导者，否则它就直接转变为追随者。</li>
+<li>**Follower：**线程当前处于追随者身份，通过调用线程集的<code>join</code>方法等待成为新的领导者，也可能被当前的领导者指定来处理新的任务。</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c98e75c9dac6eb4218cad39c1ba0bc7a.png" alt="img"></p>
+<p>需要注意的是，领导者线程推选新的领导者和追随者等待成为新领导者这两个操作都将修改线程集，因此线程集提供一个成员<code>Synchronizcr</code> 来同步这两个操作，以避免竞态条件。</p>
+<h4 id="3-事件处理器和具体的事件处理器"><a href="#3-事件处理器和具体的事件处理器" class="headerlink" title="3.事件处理器和具体的事件处理器"></a>3.事件处理器和具体的事件处理器</h4><p>事件处理器通常包含一个或多个回调函数<code>handle_event</code>。这些回调函数用于处理事件对应的业务逻辑。事件处理器在使用前需要被绑定到某个句柄上，当该句柄上有事件发生时领导者就执行与之绑定的事件处理器中的回调函数。具体的事件处理器是事件处理器的派生类。它们必须重新实现基类的<code>handle_event</code>方法，以处理特定的任务。</p>
+<p>由于领导者线程自己监听I&#x2F;O事件并处理客户请求，因而领导者&#x2F;追随者式不需要在线程之间传递任何额外的数据，也无须像半同步&#x2F;半反应堆模式那样在线程之间同步对请求队列的访问。但领导者&#x2F;追随者的一个明显缺点是仅支持一个事件源集合，因此也无法像图8-11所示的那样，让每个工作线程独立地管理多个客户连接。</p>
+<h2 id="6-有限状态机"><a href="#6-有限状态机" class="headerlink" title="6.有限状态机"></a>6.有限状态机</h2><p>前面两节探讨的是服务器的I&#x2F;O处理单元、请求队列和逻辑单元之间协调完成任务的各种模式，这一节我们介绍逻辑单元内部的一种高效编程方法：有限状态机(fnite state machine)。</p>
+<p>有的应用层协议头部包含数据包类型字段，每种类型可以映射为逻辑单元的一种执行状态，服务器可以根据它来编写相应的处理逻辑。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">STATE_MACHINE() &#123;</span><br><span class="line">    State cur_State = type_A;</span><br><span class="line">    while (cur_State != type_C) &#123;</span><br><span class="line">        Package _pack = getNewPackage();</span><br><span class="line">        switch (cur_State) &#123;</span><br><span class="line">            case type_A:</span><br><span class="line">                process_package_state_A(_pack);</span><br><span class="line">                cur_State = type_B;</span><br><span class="line">                break;</span><br><span class="line">            case type_B:</span><br><span class="line">                process_package_state_B(_pack);</span><br><span class="line">                cur_State = type_C;</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-提高服务器性能的其他建议"><a href="#7-提高服务器性能的其他建议" class="headerlink" title="7.提高服务器性能的其他建议"></a>7.提高服务器性能的其他建议</h2><p>影响服务器性能的首要因素就是系统的<a target="_blank" rel="noopener" href="https://marketing.csdn.net/p/3127db09a98e0723b83b2914d9256174?pId=2782&utm_source=glcblog&spm=1001.2101.3001.7020">硬件</a>资源，比如CPU的个数、速度，内存的大小等。不过由于硬件技术的飞速发展，现代服务器都不缺乏硬件资源。因此，我们需要考虑的主要问题是如何从“软环境”来提升服务器的性能。服务器的“软环境”，一方面是指系统的软件资源，比如操作系统允许用户打开的最大文件描述符数量；另一方面指的就是服务器程序本身，即如何从编程的角度来确保服务器的性能，这是本节要讨论的问题。前面我们介绍了几种高效的事件处理模式和并发模式，以及高效的逻辑处理方式——有限状态机，它们都有助于提高服务器的整体性能。下面我们进一步分析高性能服务器需要注意的其他几个方面：池、数据复制、上下文切换和锁。</p>
+<h3 id="池"><a href="#池" class="headerlink" title="池"></a>池</h3><p>以空间换时间的方法。池(pool)是一组资源的集合，这组资源在服务器启动之初就被完全创建好并初始化，这称为静态资源分配。当服务器进入正式运行阶段，即开始处理客户请求的时候，如果它需要相关的资源，就可以直接从池中获取，无须动态分配。直接从池中取得所需资源比动态分配资源的速度要快得多，因为分配系统资源的系统调用都是很耗时的。当服务器处理完一个客户连接后，可以把相关的资源放回池中，无须执行系统调用来释放资源。从最终的效果来看，池相当于服务器管理系统资源的应用层设施，它避免了服务器对内核的频繁访问。</p>
+<p>不过，既然池中的资源是预先静态分配的，我们就无法预期应该分配多少资源。最简单的解决方案就是分配“足够多”的资源，即针对每个可能的客户连接都分配必要的资源。这通常会导致资源的浪费，因为任一时刻的客户数量都可能远远没有达到服务器能支持的最大客户数量。还有一种解决方案是预先分配一定的资源，此后如果发现资源不够用，就再动态分配一些并加入池中。根据不同的资源类型，池可分为多种，常见的有内存池、进程池、线程池和连接池。</p>
+<ul>
+<li><strong>内存池</strong>通常用于socket的接收缓存和发送缓存。对于某些长度有限的客户请求，比如HTTP请求，预先分配一个大小足够(比如5000字节)的接收缓存区是很合理的。当客户请求的长度超过接收缓冲区的大小时，我们可以选择丢弃请求或者动态扩大接收缓冲区。</li>
+<li><strong>进程池和线程池</strong>都是并发编程常用的“伎俩”。当我们需要一个工作进程或工作线程来处理新到来的客户请求时，我们可以直接从进程池或线程池中取得一个执行实体，而无须动态地调用<code>fork</code>或<code>pthread_create</code>等函数来创建进程和线程。</li>
+<li><strong>连接池</strong>通常用于服务器或服务器机群的内部永久连接。图8-4中，每个逻辑单元可能都需要频繁地访问本地的某个数据库。简单的做法是：逻辑单元每次需要访问数据库的时候，就向数据库程序发起连接，而访问完毕后释放连接。这种做法的效率太低。一种解决方案是使用连接池。连接池是服务器预先和数据库程序建立的一组连接的集合。当某个逻辑单元需要访问数据库时，它可以直接从连接池中取得一个连接的实体并使用之。待完成数据库的访问之后，逻辑单元再将该连接返还给连接池。</li>
+</ul>
+<h3 id="数据复制"><a href="#数据复制" class="headerlink" title="数据复制"></a>数据复制</h3><p>高性能服务器应该避免不必要的数据复制，尤其是当数据复制发生在用户代码和内核之间的时候。如果内核可以直接处理从socket或者文件读入的数据，则应用程序就没必要将这些数据从内核缓冲区复制到应用程序缓冲区中。</p>
+<p>比如 ftp 服务器，当客户请求一个文件时，服务器只需要检测目标文件是否存在，以及客户是否有读取它的权限，而绝对不会关心文件的具体内容。这样的话，ftp 服务器就无须把目标文件的内容完整地读入到应用程序缓冲区中并调用<code>send</code>函数来发送，而是可以使用“零拷贝”函数 <code>sendfile</code> 直接将其发送给客户端。</p>
+<p>此外，用户代码内部(不访问内核)的数据复制也是应该避免的。举例来说，当两个工作进程之间要传递大量的数据时，我们就应该考虑使用共享内存来在它们之间直接共享这些数据，而不是使用管道或者消息队列来传递。</p>
+<h3 id="上下文切换和锁"><a href="#上下文切换和锁" class="headerlink" title="上下文切换和锁"></a>上下文切换和锁</h3><p>并发程序必须考虑上下文切换(context switch)的问题，即进程切换或线程切换导致的的系统开销。即使是 I&#x2F;O 密集型的服务器，也不应该使用过多的工作线程(或工作进程，下同)，否则线程间的切换将占用大量的CPU时间，服务器真正用于处理业务逻辑的CPU时间的比重就显得不足了。因此，为每个客户连接都创建一个工作线程的服务器模型是不可取的。图8-11所描述的半同步&#x2F;半异步模式是一种比较合理的解决方案，它允许一个线程同时处理多个客户连接。此外，多线程服务器的一个优点是不同的线程可以同时运行在不同的 CPU 上。当线程的数量不大于CPU的数目时，上下文的切换就不是问题了。</p>
+<p>并发程序需要考虑的另外一个问题是共享资源的加锁保护。锁通常被认为是导致服务器效率低下的一个因素，因为由它引入的代码不仅不处理任何业务逻辑，而且需要访问内核资源。因此，服务器如果有更好的解决方案，就应该避免使用锁。如果服务器必须使用“锁”，则可以考虑减小锁的粒度，比如使用读写锁。当所有工作线程都只读取一块共享内存的内容时，读写锁并不会增加系统的额外开销。只有当其中某一个工作线程需要写这块内存时，系统才必须去锁住这块区域。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/6.%20%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%E6%A1%86%E6%9E%B6/">https://darling-123456.github.io/2024/12/12/linux高性能服务器编程读书笔记&amp;&amp;黑马linux系统网络编程笔记/6. 高性能服务器程序框架/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B/">Linux高性能服务器编程</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></div><div class="post-share"><div class="social-share" data-image="/img/176.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/5.%20Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%E8%A7%84%E8%8C%83/" title="Linux高性能服务器编程 5. Linux服务器程序规范"><img class="cover" src="/img/175.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux高性能服务器编程 5. Linux服务器程序规范</div></div><div class="info-2"><div class="info-item-1">5. Linux服务器程序规范1.进程 PID进程的PID（Process ID）是操作系统中用于唯一标识一个进程的整数值。每个进程在创建时，操作系统都会分配一个唯一的PID，用来区分不同的进程。 PID的特点1.唯一性： 在操作系统运行的某一时刻，每个进程的PID都是唯一的。不同进程不会共享同一个PID。即使一个进程终止后，该PID可以被回收并分配给新创建的进程，但在同一时刻不会有两个进程拥有相同的PID。 2.进程生命周期： PID 的生命周期与进程的生命周期相对应。当一个进程被创建时，操作系统为它分配一个PID；当进程终止时，该PID被释放，并可能被分配给后续的新进程。 3.系统管理和调试： PID 在进程管理和调试中起着重要作用。系统管理员和开发者可以通过PID来监视、控制和调试进程。例如，使用 ps 命令可以查看系统中所有进程的PID，以及它们的状态、资源使用等信息。使用 kill 命令可以通过PID来终止指定的进程。 PID的分配PID 是由操作系统内核管理和分配的，通常是一个非负整数。PID...</div></div></div></a><a class="pagination-related" href="/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&amp;&amp;%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="Linux高性能服务器编程 多线程并发服务器"><img class="cover" src="/img/203.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux高性能服务器编程 多线程并发服务器</div></div><div class="info-2"><div class="info-item-1">多线程并发服务器基于该视频完成 12-多线程并发服务器分析_哔哩哔哩_bilibili 通过的是非阻塞忙轮询的方式实现的 和阻塞等待的区别就是，阻塞是真的阻塞了，而这个方式是一直在问有没有请求有没有请求 linux | c | 多进程并发服务器实现-CSDN博客 可以先看看这篇博客，思路和功能都一样 1.核心思路&amp;功能实现一个服务器可以连接多个客户端，每当accept函数等待到客户端进行连接时 就创建一个子进程; 核心思路：让accept循环阻塞等待客户端，每当有客户端连接时就fork子进程，让子进程去和客户端进行通信，父进程用于监听并使用信号捕捉回收子进程；(子进程关闭用于监听的套接字lfd，父进程关闭用于通信的cfd) **功能：**客户端输入小写字符串，服务器转成大写返回给客户端 2.代码实现warp.h12345678910111213141516171819202122232425262728293031323334353637383940414243#ifndef __WRAP_H_#define...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/12/19/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/12.%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" title="Linux高性能服务器编程 12. 多线程编程"><img class="cover" src="/img/191.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-19</div><div class="info-item-2">Linux高性能服务器编程 12. 多线程编程</div></div><div class="info-2"><div class="info-item-1">12. 多线程编程06-线程概念_哔哩哔哩_bilibili 早期Linux不支持线程，直到1996年，Xavier Leroy等人开发出第一个基本符合POSIX标准的线程库LinuxThreads，但LinuxThreads效率低且问题多，自内核2.6开始，Linux才开始提供内核级的线程支持，并有两个组织致力于编写新的线程库：NGPT（Next Generation POSIX Threads）和NPTL（Native POSIX Thread Library），但前者在2003年就放弃了，因此新的线程库就是NPTL。NPTL比LinuxThreads效率高，且更符合POSIX规范，所以它已经成为glibc的一部分，本书使用的线程库是NPTL。 本章要讨论的线程相关的内容都属于POSIX线程（简称 pthread）标准，不局限于NPTL实现，包括：  创建线程和结束线程； 读取和设置线程属性； POSIX线程同步方式：POSIX信号量、互斥锁和条件变量。  1.线程概念1.什么是线程**LWP:**light weight process...</div></div></div></a><a class="pagination-related" href="/2024/12/11/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/3.%20Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80API/" title="Linux高性能服务器编程 3.Linux网络编程基础API"><img class="cover" src="/img/173.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-11</div><div class="info-item-2">Linux高性能服务器编程 3.Linux网络编程基础API</div></div><div class="info-2"><div class="info-item-1">3. Linux网络编程基础API 1.主机字节序和网络字节序现代 CPU 的累加器一次都能装载（至少）4个字节(对于 32 位的机器)，即一个 int 类型。那么这4个字节在内存中排列的顺序将影响它被累加器装载的整数值，这就是字节序问题。 字节存储顺序主要分为大端序（Big-endian）和小端序（Little-endian），区别如下  Big-endian：高位字节存入低地址，低位字节存入高地址 Little-endian：低位字节存入低地址，高位字节存入高地址  例如，将12345678h写入1000h开始的内存中，以大端序和小端序模式存放结果如下：  现代 PC 大多采用小端字节序，因此小端字节序又称为主机字节序； 而在两台不同字节序的主机之间传递数据时，发送端总是把要发送的数据转化成大端字节序数据后再发送，因此大端字节序也被称为网络字节序。 网络字节顺序是TCP &#x2F; IP中规定好的一种数据表示格式，它与具体的CPU类型、操作系统等无关，从而可以保证数据在不同主机之间传输时能够被正确解释，网络字节顺序采用大端排序方式。  “大同小异 ”：大端字节序的...</div></div></div></a><a class="pagination-related" href="/2024/12/17/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/10.%20%E9%AB%98%E6%80%A7%E8%83%BDIO%E6%A1%86%E6%9E%B6%E5%BA%93Libevent/" title="Linux高性能服务器编程 10. 高性能I&#x2F;O框架库Libevent"><img class="cover" src="/img/185.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-17</div><div class="info-item-2">Linux高性能服务器编程 10. 高性能I&#x2F;O框架库Libevent</div></div><div class="info-2"><div class="info-item-1">10. 高性能I&#x2F;O框架库LibeventLinux服务器程序必须处理三类事件（I&#x2F;O、信号和定时事件），在处理这三类事件时需要考虑以下问题：  **统一事件源。**统一处理这三类事件既能使代码简单易懂，又能避免一些潜在的逻辑错误。实现统一事件源的一般方法：利用 I&#x2F;O复用系统调用来管理所有事件。 **可移植性。**不同的操作系统有不同的I&#x2F;O复用方式，如Solaris的dev&#x2F;poll文件、FreeBSD的kqueue机制、Linux的epoll系列系统调用。 **对并发编程的支持。**在多进程和多线程环境下，我们需要考虑各执行实体如何协同处理客户连接、信号、定时器，以避免竞态条件。  开源社区提供了很多优秀的开源I&#x2F;O框架库，它们不仅解决了以上问题，让开发者可以将精力完全放在程序的逻辑上，而且稳定性、性能等各方面都相当出色，如ACE、ASIO 和...</div></div></div></a><a class="pagination-related" href="/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/4.%20%E9%AB%98%E7%BA%A7%20IO%20%E5%87%BD%E6%95%B0/" title="Linux高性能服务器编程 4. 高级 I&#x2F;O 函数"><img class="cover" src="/img/174.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-12</div><div class="info-item-2">Linux高性能服务器编程 4. 高级 I&#x2F;O 函数</div></div><div class="info-2"><div class="info-item-1">4. 高级 I&#x2F;O 函数1.文件描述符文件描述符（File Descriptor, FD）是操作系统中用于访问文件的一个抽象概念。它是一个非负整数，通常由操作系统分配，用来标识被打开的文件或输入输出资源（如管道、网络连接等）。文件描述符在操作系统和应用程序之间充当桥梁，允许程序通过文件描述符来读取、写入文件或进行其他I&#x2F;O操作。 1.文件描述符的类型文件描述符通常分为三类标准描述符：  标准输入（Standard Input，FD 0）：   默认情况下与键盘关联，通常用于从用户那里接收输入数据。   标准输出（Standard Output，FD 1）：   默认情况下与终端窗口关联，通常用于向用户显示输出数据。   标准错误（Standard Error，FD 2）：   默认情况下也与终端窗口关联，但通常用于显示错误消息或诊断信息。  2.文件描述符的使用在UNIX和类UNIX操作系统中，文件描述符用于各种I&#x2F;O操作，包括：  打开文件：open() 系统调用返回一个文件描述符，表示已打开的文件。 读取文件：read()...</div></div></div></a><a class="pagination-related" href="/2024/12/12/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/5.%20Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%E8%A7%84%E8%8C%83/" title="Linux高性能服务器编程 5. Linux服务器程序规范"><img class="cover" src="/img/175.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-12</div><div class="info-item-2">Linux高性能服务器编程 5. Linux服务器程序规范</div></div><div class="info-2"><div class="info-item-1">5. Linux服务器程序规范1.进程 PID进程的PID（Process ID）是操作系统中用于唯一标识一个进程的整数值。每个进程在创建时，操作系统都会分配一个唯一的PID，用来区分不同的进程。 PID的特点1.唯一性： 在操作系统运行的某一时刻，每个进程的PID都是唯一的。不同进程不会共享同一个PID。即使一个进程终止后，该PID可以被回收并分配给新创建的进程，但在同一时刻不会有两个进程拥有相同的PID。 2.进程生命周期： PID 的生命周期与进程的生命周期相对应。当一个进程被创建时，操作系统为它分配一个PID；当进程终止时，该PID被释放，并可能被分配给后续的新进程。 3.系统管理和调试： PID 在进程管理和调试中起着重要作用。系统管理员和开发者可以通过PID来监视、控制和调试进程。例如，使用 ps 命令可以查看系统中所有进程的PID，以及它们的状态、资源使用等信息。使用 kill 命令可以通过PID来终止指定的进程。 PID的分配PID 是由操作系统内核管理和分配的，通常是一个非负整数。PID...</div></div></div></a><a class="pagination-related" href="/2024/12/15/linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0&&%E9%BB%91%E9%A9%AClinux%E7%B3%BB%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/7.%20IO%20%E5%A4%8D%E7%94%A8/" title="Linux高性能服务器编程 7. I&#x2F;O 复用"><img class="cover" src="/img/181.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-15</div><div class="info-item-2">Linux高性能服务器编程 7. I&#x2F;O 复用</div></div><div class="info-2"><div class="info-item-1">7. I&#x2F;O 复用0.前情提要-IO多路转接服务器设计思路1.前情提要I&#x2F;O 复用使得程序能够同时监听多个文件描述符，从而提高程序的性能。I&#x2F;O 复用本身是阻塞的。Linux 下实现 I&#x2F;O 复用的系统调用主要有 select、poll 和 epoll。 IO复用和多路IO复用只是表述上不同，实际上指的是同一个东西。 Reactor 模型基本原理回顾  Reactor 模型是一种事件驱动的设计模式，主要包含事件分离器（Reactor）和事件处理器（Handler）。事件分离器负责监听 I&#x2F;O 事件，当事件发生时，将事件分发给相应的事件处理器进行处理。、  而本章的select，poll，epoll都是Reactor模型的一种实现方式。 select 是 Reactor 模型的一种实现方式  事件监听机制：select 函数充当事件分离器的角色。它可以同时监听多个文件描述符（包括套接字）的可读、可写和异常事件。程序将需要监听的文件描述符集合传递给 select 函数，select...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">208</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A8%8B%E5%BA%8F%E6%A1%86%E6%9E%B6"><span class="toc-number">1.</span> <span class="toc-text">6. 高性能服务器程序框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1.服务器模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#C-S-%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">C&#x2F;S 模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#P2P-%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">P2P 模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E6%A1%86%E6%9E%B6"><span class="toc-number">1.2.</span> <span class="toc-text">2.服务器编程框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-I-O-%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">3.I&#x2F;O 模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%B8%A4%E7%A7%8D%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">4.两种事件处理模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Reactor-%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.1.</span> <span class="toc-text">Reactor 模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Proactor-%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.2.</span> <span class="toc-text">Proactor 模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F-Proactor-%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.3.</span> <span class="toc-text">模拟 Proactor 模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reactor-%E6%A8%A1%E5%BC%8F%E5%92%8C-Proactor-%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.4.4.</span> <span class="toc-text">Reactor 模式和 Proactor 模式的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Reactor%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.4.1.</span> <span class="toc-text">Reactor模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Proactor%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.4.2.</span> <span class="toc-text">Proactor模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%8C%BA%E5%88%AB"><span class="toc-number">1.4.4.3.</span> <span class="toc-text">关键区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%B8%A4%E7%A7%8D%E9%AB%98%E6%95%88%E7%9A%84%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.5.</span> <span class="toc-text">5.两种高效的并发模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8A%E5%90%8C%E6%AD%A5-%E5%8D%8A%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.5.1.</span> <span class="toc-text">半同步 &#x2F; 半异步模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%86%E5%AF%BC%E8%80%85-%E8%BF%BD%E9%9A%8F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.5.2.</span> <span class="toc-text">领导者 &#x2F; 追随者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8F%A5%E6%9F%84%E9%9B%86"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">1.句柄集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BA%BF%E7%A8%8B%E9%9B%86"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">2.线程集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%99%A8%E5%92%8C%E5%85%B7%E4%BD%93%E7%9A%84%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">1.5.2.3.</span> <span class="toc-text">3.事件处理器和具体的事件处理器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-number">1.6.</span> <span class="toc-text">6.有限状态机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%8F%90%E9%AB%98%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%A7%E8%83%BD%E7%9A%84%E5%85%B6%E4%BB%96%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.7.</span> <span class="toc-text">7.提高服务器性能的其他建议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%A0"><span class="toc-number">1.7.1.</span> <span class="toc-text">池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6"><span class="toc-number">1.7.2.</span> <span class="toc-text">数据复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2%E5%92%8C%E9%94%81"><span class="toc-number">1.7.3.</span> <span class="toc-text">上下文切换和锁</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img src="/img/84.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly博客功能完善和美化（四）---博客上传"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传">hexo+butterfly博客功能完善和美化（四）---博客上传</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img src="/img/87.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly搭建博客网站总结篇"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇">hexo+butterfly搭建博客网站总结篇</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
