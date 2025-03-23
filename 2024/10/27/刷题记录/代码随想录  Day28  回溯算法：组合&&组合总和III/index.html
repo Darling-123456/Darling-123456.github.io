@@ -1,0 +1,341 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Day28 | 回溯算法 组合&amp;&amp;组合总和III | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="代码随想录 | Day28 | 回溯算法：组合&amp;&amp;组合总和III关于这个章节，大家最好是对递归函数的理解要比较到位，听着b站视频课可能呢才舒服点，可以先去搜一搜关于递归函数的讲解，理解，再开始这个章节会比较好一些 我觉得回溯就是对传入递归函数的参数加加减减，加了的减掉，减了的加上 主要学习内容： 组合题目的模板 77.组合77. 组合 - 力扣（LeetCode） 解法思路：首先，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day28 | 回溯算法 组合&amp;&amp;组合总和III">
+<meta property="og:url" content="https://darling-123456.github.io/2024/10/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day28%20%20%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%EF%BC%9A%E7%BB%84%E5%90%88&&%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8CIII/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="代码随想录 | Day28 | 回溯算法：组合&amp;&amp;组合总和III关于这个章节，大家最好是对递归函数的理解要比较到位，听着b站视频课可能呢才舒服点，可以先去搜一搜关于递归函数的讲解，理解，再开始这个章节会比较好一些 我觉得回溯就是对传入递归函数的参数加加减减，加了的减掉，减了的加上 主要学习内容： 组合题目的模板 77.组合77. 组合 - 力扣（LeetCode） 解法思路：首先，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/238.jpg">
+<meta property="article:published_time" content="2024-10-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-23T08:45:01.422Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="刷题记录">
+<meta property="article:tag" content="回溯算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/238.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Day28 | 回溯算法 组合&&组合总和III",
+  "url": "https://darling-123456.github.io/2024/10/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day28%20%20%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%EF%BC%9A%E7%BB%84%E5%90%88&&%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8CIII/",
+  "image": "https://darling-123456.github.io/img/238.jpg",
+  "datePublished": "2024-10-26T16:00:00.000Z",
+  "dateModified": "2025-03-23T08:45:01.422Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/10/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day28%20%20%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%EF%BC%9A%E7%BB%84%E5%90%88&amp;&amp;%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8CIII/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Day28 | 回溯算法 组合&&组合总和III',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">267</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">43</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/238.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">Day28 | 回溯算法 组合&amp;&amp;组合总和III</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Day28 | 回溯算法 组合&amp;&amp;组合总和III</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-10-26T16:00:00.000Z" title="发表于 2024-10-27 00:00:00">2024-10-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-23T08:45:01.422Z" title="更新于 2025-03-23 16:45:01">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="代码随想录-Day28-回溯算法：组合-组合总和III"><a href="#代码随想录-Day28-回溯算法：组合-组合总和III" class="headerlink" title="代码随想录 | Day28 | 回溯算法：组合&amp;&amp;组合总和III"></a>代码随想录 | Day28 | 回溯算法：组合&amp;&amp;组合总和III</h1><p>关于这个章节，大家最好是对递归函数的理解要比较到位，听着b站视频课可能呢才舒服点，可以先去搜一搜关于递归函数的讲解，理解，再开始这个章节会比较好一些</p>
+<p>我觉得回溯就是对传入递归函数的参数加加减减，加了的减掉，减了的加上</p>
+<p>主要学习内容：</p>
+<p>组合题目的模板</p>
+<h2 id="77-组合"><a href="#77-组合" class="headerlink" title="77.组合"></a>77.组合</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/description/"><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combinations/description/">77. 组合 - 力扣（LeetCode）</a></a></p>
+<h4 id="解法思路："><a href="#解法思路：" class="headerlink" title="解法思路："></a>解法思路：</h4><p>首先，把问题转换为树形结构，树的每一层的各个结点都是由本层逻辑的for循环产生的，树的深度是由我们所求集合的大小决定的。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/20201123195223940.png" alt="20201123195223940"></p>
+<p>我们在第一层取出一个数字，第一层就是 1 ，2 ，3 ，4</p>
+<p>第二层从剩余的集合中取出一个数字，那就是 [1,2]  [1,3]  [1,4] ….</p>
+<p>而我们集合大小为2，那么就只有这两层，树的深度也就这两层</p>
+<p>而我们选完[1,2]怎么返回[1]的时候去选择[1,3]呢？</p>
+<p>这时候就是回溯算法，回溯就是恢复你选择之前的状态，让你去选择另外一个，本质上是穷举的思想</p>
+<p><strong>1.函数参数和返回值</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res; </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(vector&lt;<span class="type">int</span>&gt; path,<span class="type">int</span> n,<span class="type">int</span> k,<span class="type">int</span> index)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>res存放结果，path是当前已经收集的组合，n，k不必说，index表示我们已经选到哪个数字了，防止出现重复的组合</p>
+<p><strong>2.终止条件</strong></p>
+<p>我们当前收集的集合大小等于要求的大小就收集到最后的结果集中，然后返回，这也是能够控制树的深度只有两层的原因</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(path.<span class="built_in">size</span>()==k)</span><br><span class="line">&#123;</span><br><span class="line">	res.<span class="built_in">push_back</span>(path);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.本层代码逻辑</strong></p>
+<p>其实最难理解的就是for循环部分。</p>
+<p>由于题目要求的是组合，我们只要防止重复，所以引入index，让index之前的已经选过的数不再出现，比如第一层选了2之后，index会让1和2不再出现，只会出现3,4，不会同时出现[1,2]和[2,1]这两个组合了</p>
+<p>对for的理解可以脑补一下，举例比如选了1之后，本层的递归函数index是1</p>
+<p>进入for循环，传入的先是2，在树的下一层，产生了[1,2]组合，大小满足2，结束递归返回上层，上层将2弹出，继续下一次循环，传入的就是3，产生了[1,3]，以此类推</p>
+<p>需要注意的是不要写成index+1，这个是错误的，会出现：在你选完第一层的数字后，不管你第一层选的数是多少，第二层都是从2开始的</p>
+<p>错误案例</p>
+<p>n&#x3D;4，k&#x3D;2</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241006172301826.png" alt="image-20241006172301826"></p>
+<p>最后递归函数返回来以后，把咱压入的元素再弹出就好</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=index;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">	path.<span class="built_in">push_back</span>(i);</span><br><span class="line">	<span class="built_in">backtracking</span>(path,n,k,i<span class="number">+1</span>);<span class="comment">//注意不是index+1</span></span><br><span class="line">	path.<span class="built_in">pop_back</span>();<span class="comment">//回溯，恢复现场</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>完整代码：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res; </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(vector&lt;<span class="type">int</span>&gt; path,<span class="type">int</span> n,<span class="type">int</span> k,<span class="type">int</span> index)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(path.<span class="built_in">size</span>()==k)</span><br><span class="line">        &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=index;i&lt;=n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            path.<span class="built_in">push_back</span>(i);</span><br><span class="line">            <span class="built_in">backtracking</span>(path,n,k,i<span class="number">+1</span>);<span class="comment">//注意不是index+1</span></span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">combine</span>(<span class="type">int</span> n, <span class="type">int</span> k) &#123;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line">        <span class="built_in">backtracking</span>(path,n,k,<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p>注意代码中i，就是for循环里选择的起始位置，可以循环的次数少一点。（大家可以看代码随想录中的）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = startIndex; i &lt;= n; i++) &#123;</span><br></pre></td></tr></table></figure>
+
+<p>接下来看一下优化过程如下：</p>
+<ol>
+<li>已经选择的元素个数：path.size();</li>
+<li>所需需要的元素个数为: k - path.size();</li>
+<li>列表中剩余元素（n-i） &gt;&#x3D; 所需需要的元素个数（k - path.size()）</li>
+<li>在集合n中至多要从该起始位置 : i &lt;&#x3D; n - (k - path.size()) + 1，开始遍历</li>
+</ol>
+<p>为什么有个+1呢，因为包括起始位置，我们要是一个左闭的集合。</p>
+<p>举个例子，n &#x3D; 4，k &#x3D; 3， 目前已经选取的元素为0（path.size为0），n - (k - 0) + 1 即 4 - ( 3 - 0) + 1 &#x3D; 2。</p>
+<p>从2开始搜索都是合理的，可以是组合[2, 3, 4]。</p>
+<p>所以优化之后的for循环是：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = startIndex; i &lt;= n - (k - path.<span class="built_in">size</span>()) + <span class="number">1</span>; i++) <span class="comment">// i为本次搜索的起始位置</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="216-组合总和III"><a href="#216-组合总和III" class="headerlink" title="216.组合总和III"></a>216.组合总和III</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combination-sum-iii/description/">216. 组合总和 III - 力扣（LeetCode）</a></p>
+<h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><p>思路和上一题一模一样，就是上一题给定的n换成了9，然后多了一个加和的操作</p>
+<p>加和的操作你可以等到有3个数以后再加起来进行比较，也可以在递归的过程中累加并且比较</p>
+<p><strong>1.函数返回值和参数</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(vector&lt;<span class="type">int</span>&gt; path,<span class="type">int</span> k,<span class="type">int</span> sum,<span class="type">int</span> n,<span class="type">int</span> index)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>res记录结果</p>
+<p>path收集当前组合</p>
+<p>k组合大小</p>
+<p>n总和值</p>
+<p>sum当前集合的总和</p>
+<p>index从哪个数开始</p>
+<p><strong>2.终止条件</strong></p>
+<p>当前总和已经大于n了，没必要再递归了</p>
+<p>如果大小等于k并且加起来等于n，收集结果，不等于n直接返回</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(sum&gt;n)</span><br><span class="line">	<span class="keyword">return</span> ;</span><br><span class="line"><span class="keyword">if</span>(path.<span class="built_in">size</span>()==k)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(sum==n)</span><br><span class="line">		res.<span class="built_in">push_back</span>(path);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.本层逻辑</strong></p>
+<p>优化的思路一样的直接套用了</p>
+<p>和上一题不一样的就是多加了一个总和值sum</p>
+<p>让sum加上我们压入path的值i传入下层即可，下层函数会在终止条件进行比较。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=index;i&lt;=<span class="number">9</span>-(k-path.<span class="built_in">size</span>())<span class="number">+1</span>;i++)</span><br><span class="line">&#123;</span><br><span class="line">	path.<span class="built_in">push_back</span>(i);</span><br><span class="line">	<span class="built_in">backtracking</span>(path,k,sum+i,n,i<span class="number">+1</span>);<span class="comment">//也可以写成 递归函数前写sum+=i,递归函数后写sum-=i,也可以写在递归函数参数中，比如我这样的</span></span><br><span class="line">	path.<span class="built_in">pop_back</span>();<span class="comment">//回溯过程</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>完整代码：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(vector&lt;<span class="type">int</span>&gt; path,<span class="type">int</span> k,<span class="type">int</span> sum,<span class="type">int</span> n,<span class="type">int</span> index)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(sum&gt;n)</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        <span class="keyword">if</span>(path.<span class="built_in">size</span>()==k)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(sum==n)</span><br><span class="line">                res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=index;i&lt;=<span class="number">9</span>-(k-path.<span class="built_in">size</span>())<span class="number">+1</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            path.<span class="built_in">push_back</span>(i);</span><br><span class="line">            <span class="built_in">backtracking</span>(path,k,sum+i,n,i<span class="number">+1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">combinationSum3</span>(<span class="type">int</span> k, <span class="type">int</span> n) &#123;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line">        <span class="built_in">backtracking</span>(path,k,<span class="number">0</span>,n,<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/10/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day28%20%20%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%EF%BC%9A%E7%BB%84%E5%90%88&amp;&amp;%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8CIII/">https://darling-123456.github.io/2024/10/27/刷题记录/代码随想录  Day28  回溯算法：组合&amp;&amp;组合总和III/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a><a class="post-meta__tags" href="/tags/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">回溯算法</a></div><div class="post-share"><div class="social-share" data-image="/img/238.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/10/27/%E4%B8%AD%E7%BA%A7%E9%A1%B9%E7%9B%AE/%E5%89%96%E6%9E%90Nginx%E7%9A%84%E5%86%85%E5%AD%98%E6%B1%A0%E6%BA%90%E7%A0%81/" title="剖析Nginx的内存池源码"><img class="cover" src="/img/107.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">剖析Nginx的内存池源码</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a><a class="pagination-related" href="/2024/10/28/C++/Effective%20C++%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/" title="Effective C++读书笔记博客汇总"><img class="cover" src="/img/31.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Effective C++读书笔记博客汇总</div></div><div class="info-2"><div class="info-item-1">Effective C++读书笔记博客汇总这是csdn链接，大家感兴趣可以去看看 Effective C++ | 读书笔记 （一）-CSDN博客 Effective C++ | 读书笔记 （二）-CSDN博客 Effective C++ | 读书笔记 （三）-CSDN博客 Effective C++ | 读书笔记 （四）-CSDN博客 个人阅读感受： 我是第一次读到一半就没读了，觉得看不懂，读起来也比较枯燥 做过两个项目以后，第二次读才写的博客，有一些地方确实在项目中会运用到，但其他的还是有不少不太理解的，之后再做做别的项目进行第三次阅读之后再进行补充 </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/11/01/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day32%20%20%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%EF%BC%9A%E6%8E%92%E5%88%97%E9%97%AE%E9%A2%98/" title="Day32 | 回溯算法：排列问题"><img class="cover" src="/img/234.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-01</div><div class="info-item-2">Day32 | 回溯算法：排列问题</div></div><div class="info-2"><div class="info-item-1">代码随想录 | Day32 | 回溯算法：排列问题主要学习内容： 1.复习树枝去重 2.复习树层去重 46.全排列46. 全排列 - 力扣（LeetCode） 解法思路：首先通过前面的学习，我们知道，每层递归函数的for循环是用来形成树形结构这一层的所有结点（比如main里面的递归函数的for循环形成了树形结构的第二层，剩下的结点都是递归得来的） 这道题的全排列，和组合问题最大的区别就是 1.[1,2,3]和[1,3,2]不是一个东西 2.因为[2,1,3]这种结果的存在，使得选了2以后要继续选1，说明每层递归函数的for循环的i都要从0开始而不是index，并且由于选了2了不能重复选择，在下面的函数里面碰到了2要跳过 由此可见，我们还需要一个used来记录我们已经选过的值（这就是树枝去重） 1.函数参数和返回值 12vector&lt;vector&lt;int&gt;&gt; res;void backtracking(vector&lt;int&gt;&amp; nums,vector&lt;int&gt; path,vector&lt;bool&gt;...</div></div></div></a><a class="pagination-related" href="/2024/10/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day31%20%20%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%EF%BC%9A%E5%AD%90%E9%9B%86%E9%97%AE%E9%A2%98/" title="Day31 | 回溯算法 子集问题"><img class="cover" src="/img/235.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-30</div><div class="info-item-2">Day31 | 回溯算法 子集问题</div></div><div class="info-2"><div class="info-item-1">代码随想录 | Day31 | 回溯算法：子集问题主要学习内容： 1.子集问题 2.复习树层去重 90.子集II90. 子集 II - 力扣（LeetCode） 解法思路：这个是数层间去重，不是树枝去重，即如图所示这样 树枝去重我们传入的参数index赋值为i+1而不是i就已经防止了树枝去重，而在树层去重，是在同一层不能选重复的，我们之前说过，一个for循环可以产生一层的结点。现在要在同一层不能选重复的，那说明，在for循环里面选择过的数（比如在i&#x3D;0时压入了path），在本层函数的for循环其他时候不能压入path。 1.函数参数和返回值 12vector&lt;vector&lt;int&gt;&gt; res;void backtracking(vector&lt;int&gt; path,int index,vector&lt;int&gt; nums,vector&lt;bool&gt;...</div></div></div></a><a class="pagination-related" href="/2024/10/28/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day29%20%20%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%EF%BC%9A%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88&&%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" title="Day29 | 回溯算法 电话号码的字母组合&amp;&amp;组合总和"><img class="cover" src="/img/237.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-28</div><div class="info-item-2">Day29 | 回溯算法 电话号码的字母组合&amp;&amp;组合总和</div></div><div class="info-2"><div class="info-item-1">代码随想录 | Day29 | 回溯算法：电话号码的字母组合&amp;&amp;组合总和主要学习内容： 组合题目的模板 17.电话号码的字母组合17. 电话号码的字母组合 - 力扣（LeetCode） 解法思路：这道题其实主要的难点是要搞清楚模板里面的for循环到底在干些什么事情 树的每个分支其实就是每一次for循环产生的，每一层递归函数的for循环可以整整产生一层节点，比如第一层递归函数的for产生的就是要分别取a，b，c，一共循环三次，取出来三个数，所以第一层有三个节点 第二层也是类似，分别选了def，才有了ad，ae，af三个结果，所以有3*3&#x3D;9个结果 而第一层的abc是数字2的集合，第二层的def是数字3的集合，所以每一层递归函数都是在遍历一个不同的数的集合，我们要做的就是让递归函数知道他这一层要遍历哪个数字的集合 1.函数参数和返回值 123vector&lt;string&gt; res;vector&lt;string&gt;...</div></div></div></a><a class="pagination-related" href="/2024/10/29/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day30%20%20%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%EF%BC%9A%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8CII&&%E5%88%87%E5%89%B2%E9%97%AE%E9%A2%98/" title="Day30 | 回溯算法 组合总和II&amp;&amp;切割问题"><img class="cover" src="/img/236.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-29</div><div class="info-item-2">Day30 | 回溯算法 组合总和II&amp;&amp;切割问题</div></div><div class="info-2"><div class="info-item-1">代码随想录 | Day30 | 回溯算法：组合总和II&amp;&amp;切割问题主要学习内容： 树枝树层去重以及切割问题解法，模板总结 40.组合总和II40. 组合总和 II - 力扣（LeetCode） 解法思路： 这个是数层间去重，不是树枝去重，即如图所示这样 树枝去重我们传入的参数index赋值为i+1而不是i就已经防止了树枝去重，而在树层去重，是在同一层不能选重复的，我们之前说过，一个for循环可以产生一层的结点。现在要在同一层不能选重复的，那说明，在for循环里面选择过的数（比如在i&#x3D;0时压入了path），在本层函数的for循环其他时候不能压入path。 1.函数参数和返回值 12vector&lt;vector&lt;int&gt;&gt; res;void backtracking(vector&lt;int&gt; path,int sum,int index,vector&lt;int&gt; candidates,int...</div></div></div></a><a class="pagination-related" href="/2024/11/02/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day33%20%20%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%EF%BC%9A%E6%A3%8B%E7%9B%98%E9%97%AE%E9%A2%98/" title="Day33 | 回溯算法 棋盘问题"><img class="cover" src="/img/233.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-02</div><div class="info-item-2">Day33 | 回溯算法 棋盘问题</div></div><div class="info-2"><div class="info-item-1">代码随想录 | Day33 | 回溯算法：棋盘问题主要学习内容： 1.棋盘问题就和组合问题差不多 2.多维的回溯就和一维的思路想法差不多，只是遍历方式不同 51.N皇后51. N 皇后 - 力扣（LeetCode） 解法思路：遍历思路 如下图所示，我们在树的每一层按照列遍历，因为在上一层的列（比如第4列）放过的，在这一层的前面的列还是有可能放皇后（4之前的第1,2,列），所以我们应该在每一层都从0开始遍历 通过传入的参数i控制该第几行了 合法性判断 如果同一行同一列同一斜线放过的话就不能放了，因为我们通过i控制行，树的每层本身也就只会放一个，所以同一行不用查，只用查同一列和斜线。  1.函数参数和返回值 12vector&lt;vector&lt;string&gt;&gt; res;void backtracking(vector&lt;string&gt; path,int i,int...</div></div></div></a><a class="pagination-related" href="/2024/11/08/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day39%20%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20%EF%BC%9A%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85%E5%BA%94%E7%94%A8%20%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2&&%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2II/" title="Day39 | 动态规划 完全背包应用 零钱兑换&amp;&amp;零钱兑换II"><img class="cover" src="/img/227.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-08</div><div class="info-item-2">Day39 | 动态规划 完全背包应用 零钱兑换&amp;&amp;零钱兑换II</div></div><div class="info-2"><div class="info-item-1">Day39 | 动态规划 ：完全背包应用 零钱兑换&amp;&amp;零钱兑换II动态规划应该如何学习？-CSDN博客 01背包模板 | 学习总结-CSDN博客 完全背包模板总结-CSDN博客 难点： 代码都不难写，如何想到完全背包并把具体问题抽象为完全背包才是关键@[toc] 322.零钱兑换322. 零钱兑换 - 力扣（LeetCode） 思路分析：完全背包模板总结-CSDN博客 322. 零钱兑换 -...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">267</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">43</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95-Day28-%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%EF%BC%9A%E7%BB%84%E5%90%88-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8CIII"><span class="toc-number">1.</span> <span class="toc-text">代码随想录 | Day28 | 回溯算法：组合&amp;&amp;组合总和III</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#77-%E7%BB%84%E5%90%88"><span class="toc-number">1.1.</span> <span class="toc-text">77.组合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E6%80%9D%E8%B7%AF%EF%BC%9A"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">解法思路：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">1.1.1.</span> <span class="toc-text">优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#216-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8CIII"><span class="toc-number">1.2.</span> <span class="toc-text">216.组合总和III</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%EF%BC%9A"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">思路：</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img src="/img/84.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly博客功能完善和美化（四）---博客上传"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传">hexo+butterfly博客功能完善和美化（四）---博客上传</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img src="/img/87.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly搭建博客网站总结篇"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇">hexo+butterfly搭建博客网站总结篇</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

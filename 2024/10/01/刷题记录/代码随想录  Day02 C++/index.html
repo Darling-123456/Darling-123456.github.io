@@ -1,0 +1,309 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Day02  |C++ | 数组 移除元素&amp;&amp;删除有序数组中的重复项&amp;&amp;移动零&amp;&amp;比较含退格的字符串 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="##代码随想录 | 刷题记录 | Day02 |C++ | 数组 移除元素&amp;&amp;删除有序数组中的重复项&amp;&amp;移动零&amp;&amp;比较含退格的字符串 27.移除元素27. 移除元素 - 力扣（LeetCode） 解题思路一：暴力解法碰到val就一个一个挨着移动到val将val覆盖 1234567891011121314151617181920212223242526">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day02  |C++ | 数组 移除元素&amp;&amp;删除有序数组中的重复项&amp;&amp;移动零&amp;&amp;比较含退格的字符串">
+<meta property="og:url" content="https://darling-123456.github.io/2024/10/01/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day02%20C++/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="##代码随想录 | 刷题记录 | Day02 |C++ | 数组 移除元素&amp;&amp;删除有序数组中的重复项&amp;&amp;移动零&amp;&amp;比较含退格的字符串 27.移除元素27. 移除元素 - 力扣（LeetCode） 解题思路一：暴力解法碰到val就一个一个挨着移动到val将val覆盖 1234567891011121314151617181920212223242526">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/264.jpg">
+<meta property="article:published_time" content="2024-09-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-23T08:57:08.762Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="刷题记录">
+<meta property="article:tag" content="数组">
+<meta property="article:tag" content="双指针">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/264.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Day02  |C++ | 数组 移除元素&&删除有序数组中的重复项&&移动零&&比较含退格的字符串",
+  "url": "https://darling-123456.github.io/2024/10/01/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day02%20C++/",
+  "image": "https://darling-123456.github.io/img/264.jpg",
+  "datePublished": "2024-09-30T16:00:00.000Z",
+  "dateModified": "2025-03-23T08:57:08.762Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2024/10/01/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day02%20C++/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Day02  |C++ | 数组 移除元素&&删除有序数组中的重复项&&移动零&&比较含退格的字符串',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">267</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">43</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/264.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">Day02  |C++ | 数组 移除元素&amp;&amp;删除有序数组中的重复项&amp;&amp;移动零&amp;&amp;比较含退格的字符串</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Day02  |C++ | 数组 移除元素&amp;&amp;删除有序数组中的重复项&amp;&amp;移动零&amp;&amp;比较含退格的字符串</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-30T16:00:00.000Z" title="发表于 2024-10-01 00:00:00">2024-10-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-23T08:57:08.762Z" title="更新于 2025-03-23 16:57:08">2025-03-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>##代码随想录 | 刷题记录 | Day02 |C++ | 数组 移除元素&amp;&amp;删除有序数组中的重复项&amp;&amp;移动零&amp;&amp;比较含退格的字符串</p>
+<h3 id="27-移除元素"><a href="#27-移除元素" class="headerlink" title="27.移除元素"></a>27.移除元素</h3><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-element/description/">27. 移除元素 - 力扣（LeetCode）</a></p>
+<h4 id="解题思路一：暴力解法"><a href="#解题思路一：暴力解法" class="headerlink" title="解题思路一：暴力解法"></a>解题思路一：暴力解法</h4><p>碰到val就一个一个挨着移动到val将val覆盖</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">removeElement</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> res=<span class="number">0</span>;<span class="comment">//记录val数量</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>()-res;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]==val)<span class="comment">//发现一样的</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> j=i<span class="number">+1</span>;j&lt;nums.<span class="built_in">size</span>();j++)<span class="comment">//向前移动 </span></span><br><span class="line">                    nums[j<span class="number">-1</span>]=nums[j];</span><br><span class="line">                res++;</span><br><span class="line">                i--;<span class="comment">//循环中的i++会让循环跳过一个数，要进行i--</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums.<span class="built_in">size</span>()-res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*class Solution &#123;</span></span><br><span class="line"><span class="comment">public:</span></span><br><span class="line"><span class="comment">    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;</span></span><br><span class="line"><span class="comment">        int size = nums.size();</span></span><br><span class="line"><span class="comment">        for (int i = 0; i &lt; size; i++) &#123;</span></span><br><span class="line"><span class="comment">            if (nums[i] == val) &#123; </span></span><br><span class="line"><span class="comment">                for (int j = i + 1; j &lt; size; j++) &#123;</span></span><br><span class="line"><span class="comment">                    nums[j - 1] = nums[j];</span></span><br><span class="line"><span class="comment">                &#125;</span></span><br><span class="line"><span class="comment">                i--; </span></span><br><span class="line"><span class="comment">                size--; </span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        return size;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&#125;;*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>需要注意的点：</p>
+<p>1.每次覆盖完以后循环的i++会让循环跳过一个数字，所以需要i–（一刷错误所在）</p>
+<p>2.每次覆盖完以后每次有用的数组长度其实只有nums.size()-res，故循环条件为此；（没有这个条件会超时）</p>
+<h4 id="解题思路二：双指针法"><a href="#解题思路二：双指针法" class="headerlink" title="解题思路二：双指针法"></a>解题思路二：双指针法</h4><p>首先要搞清楚快慢指针的定义：</p>
+<p>快指针是原数组的下标</p>
+<p>慢指针是新数组的下标</p>
+<p>思路：用快指针遍历原数组，只不要碰到val，说明原数组和新数组下标一致，两者的数也是一样的，碰到val后，快指针移动慢指针暂停，用快指针的值代替慢指针，然后继续移动</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/27.%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95.gif" alt="27.移除元素-双指针法"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">removeElement</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> s=<span class="number">0</span>;<span class="comment">//慢指针</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> f=<span class="number">0</span>;f&lt;nums.<span class="built_in">size</span>();f++)<span class="comment">//快指针</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[f]!=val)</span><br><span class="line">            &#123;</span><br><span class="line">                nums[s]=nums[f];<span class="comment">//得到新数组的过程</span></span><br><span class="line">                s++;<span class="comment">//没有碰到val时s才会++</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="keyword">return</span> s;<span class="comment">//s表示的是新数组下标需要++才是数量</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>注意点：</p>
+<p>1.只有没碰到val慢指针才会往前走</p>
+<p>2.巧妙地覆盖过程得到了新数组</p>
+<h3 id="相关题目"><a href="#相关题目" class="headerlink" title="相关题目"></a>相关题目</h3><h3 id="26-删除有序数组中的重复项"><a href="#26-删除有序数组中的重复项" class="headerlink" title="26.删除有序数组中的重复项"></a>26.删除有序数组中的重复项</h3><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/description/">26. 删除有序数组中的重复项 - 力扣（LeetCode）</a></p>
+<h4 id="解法：双指针"><a href="#解法：双指针" class="headerlink" title="解法：双指针"></a>解法：双指针</h4><p>快慢指针定义：</p>
+<p>快：原数组下标</p>
+<p>慢：新数组下标</p>
+<p>初始化：快慢指针都从1开始，因为重复项需要和前一项进行比较而不是固定值val</p>
+<p>思路：</p>
+<p>快指针遍历原数组，只有当快指针和其前一项所指向的数不同时慢指针才会进行覆盖和++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">removeDuplicates</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">       	<span class="type">int</span> s=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> f=<span class="number">1</span>;f&lt;nums.<span class="built_in">size</span>();f++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[f]!=nums[f<span class="number">-1</span>])<span class="comment">//说明这一项不是重复项</span></span><br><span class="line">            &#123;</span><br><span class="line">                nums[s]=nums[f];<span class="comment">//放入新数组</span></span><br><span class="line">                s++;<span class="comment">//新数组下标++</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>关键点：考虑if中的条件和快慢指针的初始化</p>
+<h3 id="283-移动零"><a href="#283-移动零" class="headerlink" title="283.移动零"></a>283.移动零</h3><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/move-zeroes/description/">283. 移动零 - 力扣（LeetCode）</a></p>
+<h4 id="解法：双指针-1"><a href="#解法：双指针-1" class="headerlink" title="解法：双指针"></a>解法：双指针</h4><p>快慢指针定义：</p>
+<p>依旧是原数组和新数组下标</p>
+<p>思路：</p>
+<p>其实就把元素0移除（和27一样的操作），然后把新数组之后的都赋值成0即可</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">moveZeroes</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> s=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> f=<span class="number">0</span>;f&lt;nums.<span class="built_in">size</span>();f++)<span class="comment">//移除元素0的过程</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[f]!=<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                nums[s]=nums[f];</span><br><span class="line">                s++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=s;i&lt;nums.<span class="built_in">size</span>();i++)<span class="comment">//赋值成0的过程，注意是从s开始，s就是新数组的下一个数</span></span><br><span class="line">            nums[i]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="844-比较含退格的字符串"><a href="#844-比较含退格的字符串" class="headerlink" title="844.比较含退格的字符串"></a>844.比较含退格的字符串</h3><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/backspace-string-compare/description/">844. 比较含退格的字符串 - 力扣（LeetCode）</a></p>
+<h4 id="解法一：栈思想"><a href="#解法一：栈思想" class="headerlink" title="解法一：栈思想"></a>解法一：栈思想</h4><p>思路：遇到#就pop栈顶元素并且直接到下一个，不是#就入栈</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">backspaceCompare</span><span class="params">(string S, string T)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">build</span>(S) == <span class="built_in">build</span>(T);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">string <span class="title">build</span><span class="params">(string s)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        string str;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> c:s)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(c!=<span class="string">&#x27;#&#x27;</span>)</span><br><span class="line">                str.<span class="built_in">push_back</span>(c);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(!str.<span class="built_in">empty</span>())</span><br><span class="line">                str.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> str;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="解法二：双指针（本题不太会看了题解的，复习时多加注意）"><a href="#解法二：双指针（本题不太会看了题解的，复习时多加注意）" class="headerlink" title="解法二：双指针（本题不太会看了题解的，复习时多加注意）"></a>解法二：双指针（本题不太会看了题解的，复习时多加注意）</h4><p>快慢指针定义：<br>快：原数组下标</p>
+<p>慢：新数组下标</p>
+<p>思路：也是和移除元素差不多，遇到#就回退，表现为新数组下标s–，即新数组的内容少了一个，当然前提是s要大于0，如果没有遇到就赋值给新数组</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">backspaceCompare</span><span class="params">(string S, string T)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">build</span>(S) == <span class="built_in">build</span>(T);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">string <span class="title">build</span><span class="params">(string str)</span><span class="comment">//处理字符串</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="type">int</span> s=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> f=<span class="number">0</span>;f&lt;str.<span class="built_in">size</span>();f++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(str[f]!=<span class="string">&#x27;#&#x27;</span>)<span class="comment">//没有碰到就赋值给新的数组</span></span><br><span class="line">            &#123;</span><br><span class="line">                str[s]=str[f];</span><br><span class="line">                s++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(s&gt;<span class="number">0</span>)<span class="comment">//碰到了且s大于0</span></span><br><span class="line">                s--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">string</span>(str.<span class="built_in">begin</span>(),str.<span class="built_in">begin</span>()+s);<span class="comment">//返回新数组部分</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/10/01/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day02%20C++/">https://darling-123456.github.io/2024/10/01/刷题记录/代码随想录  Day02 C++/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E7%BB%84/">数组</a><a class="post-meta__tags" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a></div><div class="post-share"><div class="social-share" data-image="/img/264.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/09/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day01%20C++/" title="Day01  |C++ | 二分查找 二分查找&amp;&amp;搜索插入位置&amp;&amp;在排序数组中查找元素的第一个和最后一个位置&amp;&amp;x的平方根&amp;&amp;有效的完全平方数"><img class="cover" src="/img/265.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Day01  |C++ | 二分查找 二分查找&&搜索插入位置&&在排序数组中查找元素的第一个和最后一个位置&&x的平方根&&有效的完全平方数</div></div><div class="info-2"><div class="info-item-1">代码随想录 | Day01 |C++二分查找####1 找到就行 适用于没有重复数 123456789/*关键点：1.while(l&lt;r) or while(l&lt;=r)2.r or l == mid+1 or mid-1 or mid3.如果为了防止mid太大的话可以选择 mid=l+(r-l)/2;主要取决于边界，分为两种第一种是左闭右闭，第二种是左闭右开*/  1234567891011121314151617181920212223242526272829//第一种//左闭右闭 区间 l&lt;=r 因为r==l时 [l,r]是合法的，只有一个数字 eg:[1,1] 区间内有一个元素为1//判断是等于mid+1或者-1要看到底是不是l和r在你接下来搜索的区间内//这个如果有重复元素的话有随机性，可能找到左边界可能找到右边界可能找到左右边界中间的某个数int search(vector&lt;int&gt;&amp; nums, int target) &#123;        int l=0,r=nums.size()-1;       ...</div></div></div></a><a class="pagination-related" href="/2024/10/02/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day03%20%20%E6%95%B0%E7%BB%84%EF%BC%9A%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E5%B9%B3%E6%96%B9&amp;&amp;%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84/" title="Day03 | 数组 有序数组的平方&amp;&amp;长度最小的子数组"><img class="cover" src="/img/263.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Day03 | 数组 有序数组的平方&&长度最小的子数组</div></div><div class="info-2"><div class="info-item-1">##代码随想录 | Day03 | 数组：有序数组的平方&amp;&amp;长度最小的子数组 主要学习内容： 1.双指针对数组进行操作 2.滑动窗口的一些关键点： ​			窗口前端后移的情况和条件 977.有序数组的平方977. 有序数组的平方 - 力扣（LeetCode） 当然要使用全都平方再sort的方法啦（bushi 解法：双指针可以按照三个指针来理解 快慢指针定义： 快指针r：指向正数最大值 慢指针s：指向负数绝对值最大值 第三个指针是循环变量i，是新数组的下标 思路：快指针指向末尾元素，即正数最大值，慢指针指向首元素，即负数绝对值最大的，快指针所指向的和慢指针所指向的作比较，更大的填写到i所指向的位置，选择了那个指针的值，则那个指针进行移动，另外一个则不动  123456789101112131415161718192021class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt;&amp; nums) &#123;        int...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/10/02/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day03%20%20%E6%95%B0%E7%BB%84%EF%BC%9A%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E5%B9%B3%E6%96%B9&&%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84/" title="Day03 | 数组 有序数组的平方&amp;&amp;长度最小的子数组"><img class="cover" src="/img/263.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-02</div><div class="info-item-2">Day03 | 数组 有序数组的平方&amp;&amp;长度最小的子数组</div></div><div class="info-2"><div class="info-item-1">##代码随想录 | Day03 | 数组：有序数组的平方&amp;&amp;长度最小的子数组 主要学习内容： 1.双指针对数组进行操作 2.滑动窗口的一些关键点： ​			窗口前端后移的情况和条件 977.有序数组的平方977. 有序数组的平方 - 力扣（LeetCode） 当然要使用全都平方再sort的方法啦（bushi 解法：双指针可以按照三个指针来理解 快慢指针定义： 快指针r：指向正数最大值 慢指针s：指向负数绝对值最大值 第三个指针是循环变量i，是新数组的下标 思路：快指针指向末尾元素，即正数最大值，慢指针指向首元素，即负数绝对值最大的，快指针所指向的和慢指针所指向的作比较，更大的填写到i所指向的位置，选择了那个指针的值，则那个指针进行移动，另外一个则不动  123456789101112131415161718192021class Solution &#123;public:    vector&lt;int&gt; sortedSquares(vector&lt;int&gt;&amp; nums) &#123;        int...</div></div></div></a><a class="pagination-related" href="/2024/09/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day01%20C++/" title="Day01  |C++ | 二分查找 二分查找&amp;&amp;搜索插入位置&amp;&amp;在排序数组中查找元素的第一个和最后一个位置&amp;&amp;x的平方根&amp;&amp;有效的完全平方数"><img class="cover" src="/img/265.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-30</div><div class="info-item-2">Day01  |C++ | 二分查找 二分查找&amp;&amp;搜索插入位置&amp;&amp;在排序数组中查找元素的第一个和最后一个位置&amp;&amp;x的平方根&amp;&amp;有效的完全平方数</div></div><div class="info-2"><div class="info-item-1">代码随想录 | Day01 |C++二分查找####1 找到就行 适用于没有重复数 123456789/*关键点：1.while(l&lt;r) or while(l&lt;=r)2.r or l == mid+1 or mid-1 or mid3.如果为了防止mid太大的话可以选择 mid=l+(r-l)/2;主要取决于边界，分为两种第一种是左闭右闭，第二种是左闭右开*/  1234567891011121314151617181920212223242526272829//第一种//左闭右闭 区间 l&lt;=r 因为r==l时 [l,r]是合法的，只有一个数字 eg:[1,1] 区间内有一个元素为1//判断是等于mid+1或者-1要看到底是不是l和r在你接下来搜索的区间内//这个如果有重复元素的话有随机性，可能找到左边界可能找到右边界可能找到左右边界中间的某个数int search(vector&lt;int&gt;&amp; nums, int target) &#123;        int l=0,r=nums.size()-1;       ...</div></div></div></a><a class="pagination-related" href="/2024/10/03/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/%E4%BB%A3%E7%A0%81%E9%9A%8F%E6%83%B3%E5%BD%95%20%20Day04%20%20%E6%95%B0%E7%BB%84%EF%BC%9A%E8%9E%BA%E6%97%8B%E7%9F%A9%E9%98%B5II%E5%92%8CI&&%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93&&/" title="Day04 | 数组 螺旋矩阵II和I&amp;&amp;146.螺旋遍历二维数组&amp;&amp;数组总结"><img class="cover" src="/img/262.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-03</div><div class="info-item-2">Day04 | 数组 螺旋矩阵II和I&amp;&amp;146.螺旋遍历二维数组&amp;&amp;数组总结</div></div><div class="info-2"><div class="info-item-1">代码随想录 | Day04 | 数组：螺旋矩阵II和I&amp;&amp;146.螺旋遍历二维数组&amp;&amp;数组总结主要学习内容： 螺旋遍历二维数组 59.螺旋矩阵II59. 螺旋矩阵 II - 力扣（LeetCode） 解法一：找规律（代码随想录的方法，使用左闭右开）思路：选定一条边每次遍历多少，选定左开右闭（每次不遍历一条边第一个），选定左闭右开（每次不遍历一条边最后一个），两种思路都可以完成遍历。 找规律就是会发现：1.每次转的一共的圈数是n&#x2F;2 2.每条边每次转圈会有不需要遍历的块，交给下一条边来完成，这个数量把它叫做偏移量offset，初始化为1，表示转第一圈每条边都不需要遍历最后一个块（左闭右开） 3.每一圈的起始位置相比上一圈的横纵坐标都会+1 4.n为奇数的话最后一圈只有一个数且是n&#x2F;2+1圈，故可以拿出来单独处理 下图就是左闭右开  123456789101112131415161718192021222324252627282930class Solution &#123;public:   ...</div></div></div></a><a class="pagination-related" href="/2024/11/08/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day39%20%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20%EF%BC%9A%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85%E5%BA%94%E7%94%A8%20%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2&&%E9%9B%B6%E9%92%B1%E5%85%91%E6%8D%A2II/" title="Day39 | 动态规划 完全背包应用 零钱兑换&amp;&amp;零钱兑换II"><img class="cover" src="/img/227.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-08</div><div class="info-item-2">Day39 | 动态规划 完全背包应用 零钱兑换&amp;&amp;零钱兑换II</div></div><div class="info-2"><div class="info-item-1">Day39 | 动态规划 ：完全背包应用 零钱兑换&amp;&amp;零钱兑换II动态规划应该如何学习？-CSDN博客 01背包模板 | 学习总结-CSDN博客 完全背包模板总结-CSDN博客 难点： 代码都不难写，如何想到完全背包并把具体问题抽象为完全背包才是关键@[toc] 322.零钱兑换322. 零钱兑换 - 力扣（LeetCode） 思路分析：完全背包模板总结-CSDN博客 322. 零钱兑换 -...</div></div></div></a><a class="pagination-related" href="/2024/11/10/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day41%20%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20%EF%BC%9A%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85%E5%BA%94%E7%94%A8%20%E5%AE%8C%E5%85%A8%E5%B9%B3%E6%96%B9%E6%95%B0&&%E5%8D%95%E8%AF%8D%E6%8B%86%E5%88%86%EF%BC%88%E7%B1%BB%E6%AF%94%E7%88%AC%E6%A5%BC%E6%A2%AF%EF%BC%89/" title="Day41 | 动态规划 完全背包应用 完全平方数&amp;&amp;单词拆分（类比爬楼梯）"><img class="cover" src="/img/225.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-10</div><div class="info-item-2">Day41 | 动态规划 完全背包应用 完全平方数&amp;&amp;单词拆分（类比爬楼梯）</div></div><div class="info-2"><div class="info-item-1">Day41 | 动态规划 ：完全背包应用 完全平方数&amp;&amp;单词拆分（类比爬楼梯）动态规划应该如何学习？-CSDN博客 01背包模板 | 学习总结-CSDN博客 完全背包模板总结-CSDN博客 难点： 代码都不难写，如何想到完全背包并把具体问题抽象为完全背包才是关键 279.完全平方数279. 完全平方数 - 力扣（LeetCode） 思路分析：dfs(i,c)的含义是从前i个数里面选，能凑够容量c的完全平方数的最少数量 直观想法： n是背包的容量，物品就是1到n这些数字 w重量数组为{1,2,3,4…..n}。由于根号n*根号n&#x3D;n，我们加的时候还是加的这些数字的平方数而不是它本身，所以w其实就是{1,2,3….根号n}到根号n就行了，后面的数平方一下肯定比n大，也没必要加了 v价值数组全都为1，因为选一个数只能给数量加1 那就和322. 零钱兑换 -...</div></div></div></a><a class="pagination-related" href="/2024/11/09/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day40%20%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20%EF%BC%9A%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85%E5%BA%94%E7%94%A8%20%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8CIV%EF%BC%88%E7%B1%BB%E6%AF%94%E7%88%AC%E6%A5%BC%E6%A2%AF%EF%BC%89/" title="Day40 | 动态规划 完全背包应用 组合总和IV（类比爬楼梯）"><img class="cover" src="/img/226.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-09</div><div class="info-item-2">Day40 | 动态规划 完全背包应用 组合总和IV（类比爬楼梯）</div></div><div class="info-2"><div class="info-item-1">Day40 | 动态规划 ：完全背包应用 组合总和IV（类比爬楼梯）动态规划应该如何学习？-CSDN博客 01背包模板 | 学习总结-CSDN博客 完全背包模板总结-CSDN博客 难点： 代码都不难写，如何想到完全背包并把具体问题抽象为完全背包才是关键 377.组合总和IV377. 组合总和 Ⅳ - 力扣（LeetCode） 思路分析：虽然说是组合，但本质是求的排列，要考虑元素的顺序 代码随想录只是说了一下遍历顺序不同，可以分别求出排列数量和组合数量，但大家肯定还是不太清楚。还是看看灵神的题解怎么说吧。 本题其实就是 70. 爬楼梯，我们每次从 nums 中选一个数，作为往上爬的台阶数，问爬 target 个台阶有多少种方案。70 那题可以看作 nums&#x3D;[1,2]，因为每次只能爬 1 个或 2...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">为什么学习这么难!</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">267</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">43</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋，更新笔者的学习笔记，联系方式：2214050255@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#27-%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0"><span class="toc-number">1.</span> <span class="toc-text">27.移除元素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF%E4%B8%80%EF%BC%9A%E6%9A%B4%E5%8A%9B%E8%A7%A3%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">解题思路一：暴力解法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF%E4%BA%8C%EF%BC%9A%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">解题思路二：双指针法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE"><span class="toc-number">2.</span> <span class="toc-text">相关题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#26-%E5%88%A0%E9%99%A4%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9"><span class="toc-number">3.</span> <span class="toc-text">26.删除有序数组中的重复项</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%EF%BC%9A%E5%8F%8C%E6%8C%87%E9%92%88"><span class="toc-number">3.1.</span> <span class="toc-text">解法：双指针</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#283-%E7%A7%BB%E5%8A%A8%E9%9B%B6"><span class="toc-number">4.</span> <span class="toc-text">283.移动零</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%EF%BC%9A%E5%8F%8C%E6%8C%87%E9%92%88-1"><span class="toc-number">4.1.</span> <span class="toc-text">解法：双指针</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#844-%E6%AF%94%E8%BE%83%E5%90%AB%E9%80%80%E6%A0%BC%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">5.</span> <span class="toc-text">844.比较含退格的字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80%EF%BC%9A%E6%A0%88%E6%80%9D%E6%83%B3"><span class="toc-number">5.1.</span> <span class="toc-text">解法一：栈思想</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C%EF%BC%9A%E5%8F%8C%E6%8C%87%E9%92%88%EF%BC%88%E6%9C%AC%E9%A2%98%E4%B8%8D%E5%A4%AA%E4%BC%9A%E7%9C%8B%E4%BA%86%E9%A2%98%E8%A7%A3%E7%9A%84%EF%BC%8C%E5%A4%8D%E4%B9%A0%E6%97%B6%E5%A4%9A%E5%8A%A0%E6%B3%A8%E6%84%8F%EF%BC%89"><span class="toc-number">5.2.</span> <span class="toc-text">解法二：双指针（本题不太会看了题解的，复习时多加注意）</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传"><img src="/img/84.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly博客功能完善和美化（四）---博客上传"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E5%AE%8C%E5%96%84%E5%92%8C%E7%BE%8E%E5%8C%96%EF%BC%88%E5%9B%9B%EF%BC%89---%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0/" title="hexo+butterfly博客功能完善和美化（四）---博客上传">hexo+butterfly博客功能完善和美化（四）---博客上传</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇"><img src="/img/87.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="hexo+butterfly搭建博客网站总结篇"/></a><div class="content"><a class="title" href="/2025/03/22/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo+butterfly%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93%E7%AF%87/" title="hexo+butterfly搭建博客网站总结篇">hexo+butterfly搭建博客网站总结篇</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序"><img src="/img/51.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Bulk Rename Utility（BRU）——大批量重命名实用程序"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%B7%A5%E5%85%B7/Bulk%20Rename%20Utility%EF%BC%88BRU%EF%BC%89%E2%80%94%E2%80%94%E5%A4%A7%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/" title="Bulk Rename Utility（BRU）——大批量重命名实用程序">Bulk Rename Utility（BRU）——大批量重命名实用程序</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间"><img src="/img/1.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day70 | 灵神 | 二分查找：完成旅途的最少时间"/></a><div class="content"><a class="title" href="/2025/03/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day70%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E5%AE%8C%E6%88%90%E6%97%85%E9%80%94%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/" title="Day70 | 灵神 | 二分查找：完成旅途的最少时间">Day70 | 灵神 | 二分查找：完成旅途的最少时间</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img src="/img/2.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"/></a><div class="content"><a class="title" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</a><time datetime="2025-03-21T01:16:25.000Z" title="发表于 2025-03-21 09:16:25">2025-03-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
