@@ -794,8 +794,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -822,8 +820,6 @@
         <tags>
             
             <tag> 集群聊天服务器项目 </tag>
-            
-            <tag> 工具 </tag>
             
         </tags>
       
@@ -852,8 +848,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -880,8 +874,6 @@
         <tags>
             
             <tag> 集群聊天服务器项目 </tag>
-            
-            <tag> 工具 </tag>
             
         </tags>
       
@@ -910,8 +902,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -938,8 +928,6 @@
         <tags>
             
             <tag> 集群聊天服务器项目 </tag>
-            
-            <tag> 工具 </tag>
             
         </tags>
       
@@ -968,8 +956,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -996,8 +982,6 @@
         <tags>
             
             <tag> 集群聊天服务器项目 </tag>
-            
-            <tag> 工具 </tag>
             
         </tags>
       
@@ -1026,8 +1010,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -1054,8 +1036,6 @@
         <tags>
             
             <tag> 集群聊天服务器项目 </tag>
-            
-            <tag> 工具 </tag>
             
         </tags>
       
@@ -1084,8 +1064,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -1112,8 +1090,6 @@
         <tags>
             
             <tag> 集群聊天服务器项目 </tag>
-            
-            <tag> 工具 </tag>
             
         </tags>
       
@@ -1142,8 +1118,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -1155,7 +1129,7 @@
       <link href="/2025/01/18/%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%A1%B9%E7%9B%AE/C++%E9%A1%B9%E7%9B%AE%20%20%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%20%20MYSQL%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BB%A3%E7%A0%81%E5%B0%81%E8%A3%85/"/>
       <url>/2025/01/18/%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%A1%B9%E7%9B%AE/C++%E9%A1%B9%E7%9B%AE%20%20%E9%9B%86%E7%BE%A4%E8%81%8A%E5%A4%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%20%20MYSQL%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BB%A3%E7%A0%81%E5%B0%81%E8%A3%85/</url>
       
-        <content type="html"><![CDATA[<h1 id="C-项目-集群聊天服务器-MYSQL数据库代码封装"><a href="#C-项目-集群聊天服务器-MYSQL数据库代码封装" class="headerlink" title="C++项目 | 集群聊天服务器 | MYSQL数据库代码封装"></a>C++项目 | 集群聊天服务器 | MYSQL数据库代码封装</h1><p><code>本篇博客介绍如何把MYSQL相关代码整合到项目中来</code></p><p>数据层和业务层也要解耦合，就像网络层和业务层一样</p><p>业务层不要出现任何的mysql的增删改查</p><p>要在业务层和数据层中间加入一层中间层，完成对sql语句的封装</p><p>对于业务层要看到的直接操作对象，而不是sql语句</p><p>数据层封装了数据库所有的操作</p><h2 id="1-检查有没有相应动态库"><a href="#1-检查有没有相应动态库" class="headerlink" title="1.检查有没有相应动态库"></a>1.检查有没有相应动态库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo find /usr -name &quot;libmysqlclient*&quot;</span><br></pre></td></tr></table></figure><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250118175935632.png" alt="image-20250118175935632"></p><p>没有的话说明只是装了mysql server，没装开发包，执行这个命令安装即可</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev</span><br></pre></td></tr></table></figure><h2 id="2-MYSQL相关代码"><a href="#2-MYSQL相关代码" class="headerlink" title="2.MYSQL相关代码"></a>2.MYSQL相关代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//db.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> DB_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BD_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;mysql/mysql.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据库操作类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MySQL</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 初始化数据库连接</span></span><br><span class="line">    <span class="built_in">MySQL</span>();</span><br><span class="line">    <span class="comment">// 释放数据库连接资源</span></span><br><span class="line">    ~<span class="built_in">MySQL</span>();</span><br><span class="line">    <span class="comment">// 连接数据库</span></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">connect</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">// 更新操作</span></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">update</span><span class="params">(string sql)</span></span>;</span><br><span class="line">    <span class="comment">// 查询操作</span></span><br><span class="line">    <span class="function">MYSQL_RES *<span class="title">query</span><span class="params">(string sql)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    MYSQL *_conn;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//db.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;db.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;muduo/base/Logging.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据库配置信息</span></span><br><span class="line"><span class="type">static</span> string server = <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line"><span class="type">static</span> string user = <span class="string">&quot;root&quot;</span>;</span><br><span class="line"><span class="type">static</span> string password = <span class="string">&quot;123456&quot;</span>;</span><br><span class="line"><span class="type">static</span> string dbname = <span class="string">&quot;chat&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化数据库连接</span></span><br><span class="line">MySQL::<span class="built_in">MySQL</span>()</span><br><span class="line">&#123;</span><br><span class="line">    _conn = <span class="built_in">mysql_init</span>(<span class="literal">nullptr</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 释放数据库连接资源</span></span><br><span class="line">MySQL::~<span class="built_in">MySQL</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_conn != <span class="literal">nullptr</span>)</span><br><span class="line">        <span class="built_in">mysql_close</span>(_conn);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 连接数据库</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">MySQL::connect</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MYSQL *p = <span class="built_in">mysql_real_connect</span>(_conn, server.<span class="built_in">c_str</span>(), user.<span class="built_in">c_str</span>(),</span><br><span class="line">                                  password.<span class="built_in">c_str</span>(), dbname.<span class="built_in">c_str</span>(), <span class="number">3306</span>, <span class="literal">nullptr</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (p != <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// C和C++代码默认的编码字符是ASCLL，如果不设置的话，中文就是乱码</span></span><br><span class="line">        <span class="built_in">mysql_query</span>(_conn, <span class="string">&quot;set names gbk&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 更新操作</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">MySQL::update</span><span class="params">(string sql)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">mysql_query</span>(_conn, sql.<span class="built_in">c_str</span>()))</span><br><span class="line">    &#123;</span><br><span class="line">        LOG_INFO &lt;&lt; __FILE__ &lt;&lt; <span class="string">&quot;:&quot;</span> &lt;&lt; __LINE__ &lt;&lt; <span class="string">&quot;:&quot;</span></span><br><span class="line">                 &lt;&lt; sql &lt;&lt; <span class="string">&quot;更新失败!&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 查询操作</span></span><br><span class="line"><span class="function">MYSQL_RES *<span class="title">MySQL::query</span><span class="params">(string sql)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">mysql_query</span>(_conn, sql.<span class="built_in">c_str</span>()))</span><br><span class="line">    &#123;</span><br><span class="line">        LOG_INFO &lt;&lt; __FILE__ &lt;&lt; <span class="string">&quot;:&quot;</span> &lt;&lt; __LINE__ &lt;&lt; <span class="string">&quot;:&quot;</span></span><br><span class="line">                 &lt;&lt; sql &lt;&lt; <span class="string">&quot;查询失败!&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">mysql_use_result</span>(_conn);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="3-CMake修改"><a href="#3-CMake修改" class="headerlink" title="3.CMake修改"></a>3.CMake修改</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//顶级CMake</span><br><span class="line"><span class="comment"># 项目所需cmake的最低版本</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.0</span>)</span><br><span class="line"><span class="comment">#项目的名称</span></span><br><span class="line"><span class="keyword">project</span>(chat)</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置编译选项 对应第2项</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="variable">$&#123;CMAKE_CXX_FLAGS&#125;</span> -g)</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置可执行文件最终存储的路径 PROJECT_SOURCE_DIR是工程的根目录</span></span><br><span class="line"><span class="keyword">set</span>(EXECUTABLE_OUTPUT_PATH <span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/bin)</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置头文件搜索路径 </span></span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="keyword">include</span>)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="keyword">include</span>/server)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="keyword">include</span>/server/db)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="keyword">include</span>/client)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/thirdparty)</span><br><span class="line"></span><br><span class="line"><span class="comment">#加载子目录</span></span><br><span class="line"><span class="keyword">add_subdirectory</span>(src)</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>将db也加入到了头文件搜索路径</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//src/server的cmake</span><br><span class="line"><span class="comment">#定义了一个SRC_LIST变量，包含了该目录下所有的源文件</span></span><br><span class="line"><span class="keyword">aux_source_directory</span>(. SRC_LIST)</span><br><span class="line"><span class="keyword">aux_source_directory</span>(./db DB_LIST)</span><br><span class="line"></span><br><span class="line"><span class="comment">#指定生成可执行文件</span></span><br><span class="line"><span class="keyword">add_executable</span>(ChatServer <span class="variable">$&#123;SRC_LIST&#125;</span> <span class="variable">$&#123;DB_LIST&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#指定可执行文件链接时需要依赖的库文件</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(ChatServer muduo_net muduo_base mysqlclient pthread)</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>将mysqlclient也加入了要链接的动态库</p><h2 id="4-项目结构图"><a href="#4-项目结构图" class="headerlink" title="4.项目结构图"></a>4.项目结构图</h2><p>这是项目目前的目录结构</p><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250118182054612.png" alt="image-20250118182054612"></p>]]></content>
+        <content type="html"><![CDATA[<h1 id="C-项目-集群聊天服务器-MYSQL数据库代码封装"><a href="#C-项目-集群聊天服务器-MYSQL数据库代码封装" class="headerlink" title="C++项目 | 集群聊天服务器 | MYSQL数据库代码封装"></a>C++项目 | 集群聊天服务器 | MYSQL数据库代码封装</h1><p><code>本篇博客介绍如何把MYSQL相关代码整合到项目中来</code></p><p>数据层和业务层也要解耦合，就像网络层和业务层一样</p><p>业务层不要出现任何的mysql的增删改查</p><p>要在业务层和数据层中间加入一层中间层，完成对sql语句的封装</p><p>对于业务层要看到的直接操作对象，而不是sql语句</p><p>数据层封装了数据库所有的操作</p><h2 id="1-检查有没有相应动态库"><a href="#1-检查有没有相应动态库" class="headerlink" title="1.检查有没有相应动态库"></a>1.检查有没有相应动态库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo find /usr -name &quot;libmysqlclient*&quot;</span><br></pre></td></tr></table></figure><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250118175935632.png" alt="image-20250118175935632"></p><p>没有的话说明只是装了mysql server，没装开发包，执行这个命令安装即可</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev</span><br></pre></td></tr></table></figure><h2 id="2-MYSQL相关代码"><a href="#2-MYSQL相关代码" class="headerlink" title="2.MYSQL相关代码"></a>2.MYSQL相关代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//db.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> DB_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BD_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;mysql/mysql.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据库操作类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MySQL</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 初始化数据库连接</span></span><br><span class="line">    <span class="built_in">MySQL</span>();</span><br><span class="line">    <span class="comment">// 释放数据库连接资源</span></span><br><span class="line">    ~<span class="built_in">MySQL</span>();</span><br><span class="line">    <span class="comment">// 连接数据库</span></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">connect</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">// 更新操作</span></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">update</span><span class="params">(string sql)</span></span>;</span><br><span class="line">    <span class="comment">// 查询操作</span></span><br><span class="line">    <span class="function">MYSQL_RES *<span class="title">query</span><span class="params">(string sql)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    MYSQL *_conn;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//db.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;db.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;muduo/base/Logging.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据库配置信息</span></span><br><span class="line"><span class="type">static</span> string server = <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line"><span class="type">static</span> string user = <span class="string">&quot;root&quot;</span>;</span><br><span class="line"><span class="type">static</span> string password = <span class="string">&quot;123456&quot;</span>;</span><br><span class="line"><span class="type">static</span> string dbname = <span class="string">&quot;chat&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化数据库连接</span></span><br><span class="line">MySQL::<span class="built_in">MySQL</span>()</span><br><span class="line">&#123;</span><br><span class="line">    _conn = <span class="built_in">mysql_init</span>(<span class="literal">nullptr</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 释放数据库连接资源</span></span><br><span class="line">MySQL::~<span class="built_in">MySQL</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_conn != <span class="literal">nullptr</span>)</span><br><span class="line">        <span class="built_in">mysql_close</span>(_conn);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 连接数据库</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">MySQL::connect</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MYSQL *p = <span class="built_in">mysql_real_connect</span>(_conn, server.<span class="built_in">c_str</span>(), user.<span class="built_in">c_str</span>(),</span><br><span class="line">                                  password.<span class="built_in">c_str</span>(), dbname.<span class="built_in">c_str</span>(), <span class="number">3306</span>, <span class="literal">nullptr</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (p != <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// C和C++代码默认的编码字符是ASCLL，如果不设置的话，中文就是乱码</span></span><br><span class="line">        <span class="built_in">mysql_query</span>(_conn, <span class="string">&quot;set names gbk&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 更新操作</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">MySQL::update</span><span class="params">(string sql)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">mysql_query</span>(_conn, sql.<span class="built_in">c_str</span>()))</span><br><span class="line">    &#123;</span><br><span class="line">        LOG_INFO &lt;&lt; __FILE__ &lt;&lt; <span class="string">&quot;:&quot;</span> &lt;&lt; __LINE__ &lt;&lt; <span class="string">&quot;:&quot;</span></span><br><span class="line">                 &lt;&lt; sql &lt;&lt; <span class="string">&quot;更新失败!&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 查询操作</span></span><br><span class="line"><span class="function">MYSQL_RES *<span class="title">MySQL::query</span><span class="params">(string sql)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">mysql_query</span>(_conn, sql.<span class="built_in">c_str</span>()))</span><br><span class="line">    &#123;</span><br><span class="line">        LOG_INFO &lt;&lt; __FILE__ &lt;&lt; <span class="string">&quot;:&quot;</span> &lt;&lt; __LINE__ &lt;&lt; <span class="string">&quot;:&quot;</span></span><br><span class="line">                 &lt;&lt; sql &lt;&lt; <span class="string">&quot;查询失败!&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">mysql_use_result</span>(_conn);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="3-CMake修改"><a href="#3-CMake修改" class="headerlink" title="3.CMake修改"></a>3.CMake修改</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//顶级CMake</span><br><span class="line"><span class="comment"># 项目所需cmake的最低版本</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.0</span>)</span><br><span class="line"><span class="comment">#项目的名称</span></span><br><span class="line"><span class="keyword">project</span>(chat)</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置编译选项 对应第2项</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_FLAGS <span class="variable">$&#123;CMAKE_CXX_FLAGS&#125;</span> -g)</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置可执行文件最终存储的路径 PROJECT_SOURCE_DIR是工程的根目录</span></span><br><span class="line"><span class="keyword">set</span>(EXECUTABLE_OUTPUT_PATH <span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/bin)</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置头文件搜索路径 </span></span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="keyword">include</span>)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="keyword">include</span>/server)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="keyword">include</span>/server/db)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="keyword">include</span>/client)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/thirdparty)</span><br><span class="line"></span><br><span class="line"><span class="comment">#加载子目录</span></span><br><span class="line"><span class="keyword">add_subdirectory</span>(src)</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>将db也加入到了头文件搜索路径</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//src/server的cmake</span><br><span class="line"><span class="comment">#定义了一个SRC_LIST变量，包含了该目录下所有的源文件</span></span><br><span class="line"><span class="keyword">aux_source_directory</span>(. SRC_LIST)</span><br><span class="line"><span class="keyword">aux_source_directory</span>(./db DB_LIST)</span><br><span class="line"></span><br><span class="line"><span class="comment">#指定生成可执行文件</span></span><br><span class="line"><span class="keyword">add_executable</span>(ChatServer <span class="variable">$&#123;SRC_LIST&#125;</span> <span class="variable">$&#123;DB_LIST&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#指定可执行文件链接时需要依赖的库文件</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(ChatServer muduo_net muduo_base mysqlclient pthread)</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>将mysqlclient也加入了要链接的动态库</p><h2 id="4-项目结构图"><a href="#4-项目结构图" class="headerlink" title="4.项目结构图"></a>4.项目结构图</h2><p>这是项目目前的目录结构</p><p>![image-20250118182054612](<a href="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250118182054612.png">https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250118182054612.png</a></p>]]></content>
       
       
       <categories>
@@ -1170,8 +1144,6 @@
         <tags>
             
             <tag> 集群聊天服务器项目 </tag>
-            
-            <tag> 工具 </tag>
             
         </tags>
       
@@ -1200,8 +1172,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -1228,8 +1198,6 @@
         <tags>
             
             <tag> 集群聊天服务器项目 </tag>
-            
-            <tag> 工具 </tag>
             
         </tags>
       
@@ -1258,8 +1226,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -1286,8 +1252,6 @@
         <tags>
             
             <tag> 集群聊天服务器项目 </tag>
-            
-            <tag> 工具 </tag>
             
         </tags>
       
@@ -1316,8 +1280,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -1345,8 +1307,6 @@
             
             <tag> 集群聊天服务器项目 </tag>
             
-            <tag> 工具 </tag>
-            
         </tags>
       
     </entry>
@@ -1373,8 +1333,6 @@
         <tags>
             
             <tag> 集群聊天服务器项目 </tag>
-            
-            <tag> 工具 </tag>
             
         </tags>
       
@@ -1888,9 +1846,9 @@
       
         <tags>
             
-            <tag> 集群聊天服务器项目 </tag>
+            <tag> 好用工具 </tag>
             
-            <tag> 工具 </tag>
+            <tag> 集群聊天服务器项目 </tag>
             
         </tags>
       
@@ -1917,9 +1875,9 @@
       
         <tags>
             
-            <tag> 集群聊天服务器项目 </tag>
+            <tag> 好用工具 </tag>
             
-            <tag> 工具 </tag>
+            <tag> 集群聊天服务器项目 </tag>
             
         </tags>
       
@@ -1946,9 +1904,9 @@
       
         <tags>
             
-            <tag> 集群聊天服务器项目 </tag>
+            <tag> 好用工具 </tag>
             
-            <tag> 工具 </tag>
+            <tag> 集群聊天服务器项目 </tag>
             
         </tags>
       
@@ -1975,9 +1933,9 @@
       
         <tags>
             
-            <tag> 集群聊天服务器项目 </tag>
+            <tag> 好用工具 </tag>
             
-            <tag> 工具 </tag>
+            <tag> 集群聊天服务器项目 </tag>
             
         </tags>
       
@@ -2004,9 +1962,9 @@
       
         <tags>
             
-            <tag> 集群聊天服务器项目 </tag>
+            <tag> 好用工具 </tag>
             
-            <tag> 工具 </tag>
+            <tag> 集群聊天服务器项目 </tag>
             
         </tags>
       
