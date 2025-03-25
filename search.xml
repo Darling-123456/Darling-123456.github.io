@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Day72 | 灵神 | 二分查找 礼盒的最大甜蜜度</title>
+      <link href="/2025/03/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-25-Day72--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E7%A4%BC%E7%9B%92%E7%9A%84%E6%9C%80%E5%A4%A7%E7%94%9C%E8%9C%9C%E5%BA%A6/"/>
+      <url>/2025/03/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-25-Day72--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E7%A4%BC%E7%9B%92%E7%9A%84%E6%9C%80%E5%A4%A7%E7%94%9C%E8%9C%9C%E5%BA%A6/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Day72-灵神-二分查找-礼盒的最大甜蜜度"><a href="#Day72-灵神-二分查找-礼盒的最大甜蜜度" class="headerlink" title="Day72 | 灵神 | 二分查找 礼盒的最大甜蜜度"></a>Day72 | 灵神 | 二分查找 礼盒的最大甜蜜度</h1><h2 id="2517-礼盒的最大甜蜜度"><a href="#2517-礼盒的最大甜蜜度" class="headerlink" title="2517.礼盒的最大甜蜜度"></a>2517.礼盒的最大甜蜜度</h2><p><a href="https://leetcode.cn/problems/maximum-tastiness-of-candy-basket/description/">2517. 礼盒的最大甜蜜度 - 力扣（LeetCode）</a></p><p>昨天说：灵神说看到最小化最大值就肯定是二分查找，这点要记住</p><p>今天就碰到了最大化最小值，这个也是二分</p><p><code>思路：</code></p><p>还是老套路，先看二分的是什么，这道题求的是甜蜜度，那么二分的是甜蜜度，而不是原数组</p><p>那么二分区间即甜蜜度的区间是多少呢？最大值肯定就是max(price)-min(price)&#x3D;r了，最小值那肯定就是0了，即数组数字都一样，区间就是[0,r]，笔者用的左闭右开，那就是[0,r+1)</p><p>然后套路模板就可以写了</p><p>接下来就是找判断条件，即写出check函数了</p><p>我觉得这个是最难的</p><p>说实话我这个不太会写，看了灵神的也还是不太理解</p><p><a href="https://leetcode.cn/problems/maximum-tastiness-of-candy-basket/solutions/2031994/er-fen-da-an-by-endlesscheng-r418/">2517. 礼盒的最大甜蜜度 - 力扣（LeetCode）</a></p><p>大家可以去看看，懂了的话可以来教教博主</p><p><code>灵神代码：</code></p><p>灵神用的左开右开区间</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumTastiness</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; price, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> f = [&amp;](<span class="type">int</span> d) -&gt; <span class="type">int</span> &#123;</span><br><span class="line">            <span class="type">int</span> cnt = <span class="number">1</span>, pre = price[<span class="number">0</span>]; <span class="comment">// 先选一个最小的甜蜜度</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> p : price) &#123;</span><br><span class="line">                <span class="keyword">if</span> (p &gt;= pre + d) &#123; <span class="comment">// 可以选</span></span><br><span class="line">                    cnt++;</span><br><span class="line">                    pre = p; <span class="comment">// 上一个选的甜蜜度</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> cnt;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        ranges::<span class="built_in">sort</span>(price);</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> right = (price.<span class="built_in">back</span>() - price[<span class="number">0</span>]) / (k - <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left + <span class="number">1</span> &lt; right) &#123; <span class="comment">// 开区间不为空</span></span><br><span class="line">            <span class="comment">// 循环不变量：</span></span><br><span class="line">            <span class="comment">// f(left) &gt;= k</span></span><br><span class="line">            <span class="comment">// f(right) &lt; k</span></span><br><span class="line">            <span class="type">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">            (<span class="built_in">f</span>(mid) &gt;= k ? left : right) = mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> left; <span class="comment">// 最大的满足 f(left) &gt;= k 的数</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 刷题记录 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 刷题记录 </tag>
+            
+            <tag> 二分查找 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Day71 | 灵神 | 二分查找 最小化数组中的最大值</title>
       <link href="/2025/03/24/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-24-Day71--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E6%9C%80%E5%B0%8F%E5%8C%96%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC/"/>
       <url>/2025/03/24/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-24-Day71--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E6%9C%80%E5%B0%8F%E5%8C%96%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC/</url>
