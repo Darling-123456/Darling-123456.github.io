@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II 需复习 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II154.寻找旋转排序数组中的最小值II154. 寻找旋转排序数组中的最小值 II - 力扣（LeetCode） 思路： 直接去看灵神的题解吧，笔者往后复习这道题的时候再回来看吧 154. 寻找旋转排序数组中的最小值 II - 力扣（LeetCode） 完整代码： 1234567891011121314151617cla">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II 需复习">
+<meta property="og:url" content="https://darling-123456.github.io/2025/03/29/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-29-Day76--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BCII-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BCII-[%E9%9C%80%E5%A4%8D%E4%B9%A0]/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II154.寻找旋转排序数组中的最小值II154. 寻找旋转排序数组中的最小值 II - 力扣（LeetCode） 思路： 直接去看灵神的题解吧，笔者往后复习这道题的时候再回来看吧 154. 寻找旋转排序数组中的最小值 II - 力扣（LeetCode） 完整代码： 1234567891011121314151617cla">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/284.jpg">
+<meta property="article:published_time" content="2025-03-29T04:50:20.000Z">
+<meta property="article:modified_time" content="2025-03-29T07:53:34.800Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="刷题记录">
+<meta property="article:tag" content="二分查找">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/284.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II 需复习",
+  "url": "https://darling-123456.github.io/2025/03/29/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-29-Day76--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BCII-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BCII-[%E9%9C%80%E5%A4%8D%E4%B9%A0]/",
+  "image": "https://darling-123456.github.io/img/284.jpg",
+  "datePublished": "2025-03-29T04:50:20.000Z",
+  "dateModified": "2025-03-29T07:53:34.800Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2025/03/29/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-29-Day76--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BCII-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BCII-[%E9%9C%80%E5%A4%8D%E4%B9%A0]/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II 需复习',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">278</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">45</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/284.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II 需复习</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II 需复习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-29T04:50:20.000Z" title="发表于 2025-03-29 12:50:20">2025-03-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-29T07:53:34.800Z" title="更新于 2025-03-29 15:53:34">2025-03-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">318</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="Day76-灵神-二分查找-寻找旋转排序数组中的最小值II-寻找峰值II"><a href="#Day76-灵神-二分查找-寻找旋转排序数组中的最小值II-寻找峰值II" class="headerlink" title="Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II"></a>Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II</h1><h2 id="154-寻找旋转排序数组中的最小值II"><a href="#154-寻找旋转排序数组中的最小值II" class="headerlink" title="154.寻找旋转排序数组中的最小值II"></a>154.寻找旋转排序数组中的最小值II</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/description/">154. 寻找旋转排序数组中的最小值 II - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>直接去看灵神的题解吧，笔者往后复习这道题的时候再回来看吧</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/solutions/2131553/zhi-yao-ni-hui-153-jiu-neng-kan-dong-pyt-qqc6/">154. 寻找旋转排序数组中的最小值 II - 力扣（LeetCode）</a></p>
+<p><code>完整代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">findMin</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> l=<span class="number">0</span>,r=nums.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span>(l&lt;r)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> mid=l+(r-l)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[mid]==nums[r])</span><br><span class="line">                r--;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid]&lt;nums[r])</span><br><span class="line">                r=mid;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                l=mid<span class="number">+1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums[r];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1901-寻找峰值II"><a href="#1901-寻找峰值II" class="headerlink" title="1901.寻找峰值II"></a>1901.寻找峰值II</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-a-peak-element-ii/description/">1901. 寻找峰值 II - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>太难了，笔者鸽了，大家看灵神的吧，等多做做题再说吧</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-a-peak-element-ii/solutions/2571587/tu-jie-li-yong-xing-zui-da-zhi-pan-duan-r4e0n/">1901. 寻找峰值 II - 力扣（LeetCode）</a></p>
+<p><code>完整代码：</code></p>
+<p>左闭右开</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">indexOfMax</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ranges::<span class="built_in">max_element</span>(a) - a.<span class="built_in">begin</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">findPeakGrid</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; &amp;mat)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>, right = mat.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="type">int</span> i = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">            <span class="type">int</span> j = <span class="built_in">indexOfMax</span>(mat[i]);</span><br><span class="line">            <span class="keyword">if</span> (mat[i][j] &gt; mat[i + <span class="number">1</span>][j]) &#123;</span><br><span class="line">                right = i; <span class="comment">// 峰顶行号 &lt;= i</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                left = i + <span class="number">1</span>; <span class="comment">// 峰顶行号 &gt; i</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;left, <span class="built_in">indexOfMax</span>(mat[left])&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2025/03/29/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-29-Day76--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BCII-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BCII-[%E9%9C%80%E5%A4%8D%E4%B9%A0]/">https://darling-123456.github.io/2025/03/29/刷题记录/2025-3-29-Day76--灵神--二分查找-寻找旋转排序数组中的最小值II-寻找峰值II-[需复习]/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">刷题记录</a><a class="post-meta__tags" href="/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">二分查找</a></div><div class="post-share"><div class="social-share" data-image="/img/284.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/03/28/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day75%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%20%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC%20%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/" title="Day75 | 灵神 | 二分查找 寻找旋转排序数组中的最小值 搜索旋转排序数组"><img class="cover" src="/img/283.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Day75 | 灵神 | 二分查找 寻找旋转排序数组中的最小值 搜索旋转排序数组</div></div><div class="info-2"><div class="info-item-1">Day75 | 灵神 | 二分查找 寻找旋转排序数组中的最小值 搜索旋转排序数组153.寻找旋转排序数组中的最小值153. 寻找旋转排序数组中的最小值 - 力扣（LeetCode） 思路： 思路就是如何判断nums[mid]是在最小值的左侧还是右侧 这道题第一次做还是没啥思路，看到灵神说和最后一个数a进行比较就懂了 不管旋转没有旋转，只要nums[mid]&lt;&#x3D;a，那说明最小值肯定在[l,mid]之中 只要nums[mid]&gt;a，那说明最小值肯定在[mid,r)之中 具体看灵神怎么说： 我们需要判断 x 和数组最小值的位置关系，谁在左边，谁在右边？ 把 x 与最后一个数 nums[n−1] 比大小： 如果 x&gt;nums[n−1]，那么可以推出以下结论：1.nums 一定被分成左右两个递增段；2.第一段的所有元素均大于第二段的所有元素；3.x 在第一段。4.最小值在第二段。所以 x 一定在最小值的左边。如果 x≤nums[n−1]，那么 x 一定在第二段。（或者 nums 就是递增数组，此时只有一段。）x 要么是最小值，要么在最小值右边。所以，只需要比较...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/03/24/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-24-Day71--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E6%9C%80%E5%B0%8F%E5%8C%96%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC/" title="Day71 | 灵神 | 二分查找 最小化数组中的最大值"><img class="cover" src="/img/274.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-24</div><div class="info-item-2">Day71 | 灵神 | 二分查找 最小化数组中的最大值</div></div><div class="info-2"><div class="info-item-1">Day71 | 灵神 | 二分查找 最小化数组中的最大值2439.最小化数组中的最大值2439. 最小化数组中的最大值 -...</div></div></div></a><a class="pagination-related" href="/2025/03/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-26-Day73--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E6%9C%80%E5%A4%A7%E5%90%88%E9%87%91%E6%95%B0/" title="Day73 | 灵神 | 二分查找 最大合金数"><img class="cover" src="/img/278.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-26</div><div class="info-item-2">Day73 | 灵神 | 二分查找 最大合金数</div></div><div class="info-2"><div class="info-item-1">Day73 | 灵神 | 二分查找 最大合金数2861.最大合金数2861. 最大合金数 -...</div></div></div></a><a class="pagination-related" href="/2025/03/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-25-Day72--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E7%A4%BC%E7%9B%92%E7%9A%84%E6%9C%80%E5%A4%A7%E7%94%9C%E8%9C%9C%E5%BA%A6/" title="Day72 | 灵神 | 二分查找 礼盒的最大甜蜜度"><img class="cover" src="/img/277.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-25</div><div class="info-item-2">Day72 | 灵神 | 二分查找 礼盒的最大甜蜜度</div></div><div class="info-2"><div class="info-item-1">#Day72 | 灵神 | 二分查找 礼盒的最大甜蜜度 2517.礼盒的最大甜蜜度2517. 礼盒的最大甜蜜度 - 力扣（LeetCode） 昨天说：灵神说看到最小化最大值就肯定是二分查找，这点要记住 今天就碰到了最大化最小值，这个也是二分 思路： 还是老套路，先看二分的是什么，这道题求的是甜蜜度，那么二分的是甜蜜度，而不是原数组 那么二分区间即甜蜜度的区间是多少呢？最大值肯定就是max(price)-min(price)&#x3D;r了，最小值那肯定就是0了，即数组数字都一样，区间就是[0,r]，笔者用的左闭右开，那就是[0,r+1) 然后套路模板就可以写了 接下来就是找判断条件，即写出check函数了 我觉得这个是最难的 说实话我这个不太会写，看了灵神的，可以理解灵神的写法，但是自己想一点都想不出来，可能还是刷的少了 2517. 礼盒的最大甜蜜度 - 力扣（LeetCode） 灵神代码： 灵神用的左开右开区间 123456789101112131415161718192021222324252627class Solution &#123;public:    int...</div></div></div></a><a class="pagination-related" href="/2025/03/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-27-Day74--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BC/" title="Day74 | 灵神 | 二分查找 寻找峰值"><img class="cover" src="/img/282.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-27</div><div class="info-item-2">Day74 | 灵神 | 二分查找 寻找峰值</div></div><div class="info-2"><div class="info-item-1">Day74 | 灵神 | 二分查找 寻找峰值162.寻找峰值162. 寻找峰值 - 力扣（LeetCode） 思路： 这道题笔者完全没有思路，不知道怎么用二分，实在有点想不通，诶，多刷吧，下面说说笔者的理解 大家可以先看一下这个视频 数组峰值 搜索旋转排序数组【基础算法精讲 05】_哔哩哔哩_bilibili 第一个难点有点云里雾里是吧，再去看看灵神的题解，主要去看为什么    如果 i&lt;*n*−1 且 *nums*[*i*]&gt;nums[i+1]，那么在 [0,i] 中一定存在至少一个峰值。 162. 寻找峰值 - 力扣（LeetCode） 灵神使用反证法说明了  如果 i&lt;*n*−1 且 *nums*[*i*]&gt;nums[i+1]，那么在 [0,i]...</div></div></div></a><a class="pagination-related" href="/2025/03/19/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day67%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%BB%9F%E8%AE%A1%E5%85%AC%E5%B9%B3%E6%95%B0%E5%AF%B9%E7%9A%84%E6%95%B0%E7%9B%AE/" title="Day67 | 灵神 | 二分查找：统计公平数对的数目"><img class="cover" src="/img/4.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-19</div><div class="info-item-2">Day67 | 灵神 | 二分查找：统计公平数对的数目</div></div><div class="info-2"><div class="info-item-1">Day67 | 灵神 | 二分查找：统计公平数对的数目2563.统计公平数对的数目2563. 统计公平数对的数目 - 力扣（LeetCode） 思路先说一下为什么排序不会影响本道题目的结果，因为本质上是从数组中选择两个数，满足0&lt;i&lt;j&lt;n，lower &lt;&#x3D; nums[i] + nums[j] &lt;&#x3D; upper的条件。就算你排序之后，那两个数还是那两个数，无非就是从[1,4]变成了[4,1]而已。 先来说一说错误的，希望大家不要和笔者一样 想的是在二分查找过程中把对数给统计了，check函数也是传入的nums[l],nums[r],lower,upper，按照题目给的条件去比较，然后判断符合条件不符合条件 这时候就发现，我符合条件以后我该往哪边收缩呢？不管往那边收缩都会漏掉情况，往左收缩会漏掉往右的情况，往右收缩会漏掉左边的，同时收缩更不用说了 所以这个时候就该发现自己的思路出了问题 123456789101112131415161718192021222324252627282930class Solution...</div></div></div></a><a class="pagination-related" href="/2025/03/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day69%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%9A%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82/" title="Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂"><img class="cover" src="/img/2.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-21</div><div class="info-item-2">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂</div></div><div class="info-2"><div class="info-item-1">Day69 | 灵神 | 二分查找：爱吃香蕉的珂珂875.爱吃香蕉的珂珂875. 爱吃香蕉的珂珂 - 力扣（LeetCode） 笔者关键点记录：怎么想到的要二分k而不是原来区间呢？可以看到灵神的题解： 看示例 1，piles&#x3D;[3,6,7,11], h&#x3D;8。 如果珂珂能用 k&#x3D;4 的速度吃掉所有香蕉，那么也能用更快的速度 k&#x3D;5,6,⋯ 吃掉所有香蕉。如果珂珂不能用 k&#x3D;3 的速度吃掉所有香蕉，那么也不能用更慢的速度 k&#x3D;2,1,⋯ 吃掉所有香蕉。这种单调性意味着我们像 二分查找 那样，把答案 k 猜出来。 我感觉也可以理解为题目让求啥我们就二分什么东西 思路有了昨天的H指数II，这道题只能说是 so...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">278</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">45</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是Darlingの妙妙屋,更新笔者的学习笔记、实验和项目实战.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Day76-%E7%81%B5%E7%A5%9E-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BCII-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BCII"><span class="toc-text">Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#154-%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BCII"><span class="toc-text">154.寻找旋转排序数组中的最小值II</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1901-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BCII"><span class="toc-text">1901.寻找峰值II</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/03/29/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-29-Day76--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BCII-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BCII-%5B%E9%9C%80%E5%A4%8D%E4%B9%A0%5D/" title="Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II 需复习"><img src="/img/284.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II 需复习"/></a><div class="content"><a class="title" href="/2025/03/29/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-29-Day76--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BCII-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BCII-%5B%E9%9C%80%E5%A4%8D%E4%B9%A0%5D/" title="Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II 需复习">Day76 | 灵神 | 二分查找 寻找旋转排序数组中的最小值II 寻找峰值II 需复习</a><time datetime="2025-03-29T04:50:20.000Z" title="发表于 2025-03-29 12:50:20">2025-03-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/28/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day75%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%20%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC%20%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/" title="Day75 | 灵神 | 二分查找 寻找旋转排序数组中的最小值 搜索旋转排序数组"><img src="/img/283.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day75 | 灵神 | 二分查找 寻找旋转排序数组中的最小值 搜索旋转排序数组"/></a><div class="content"><a class="title" href="/2025/03/28/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day75%20%20%E7%81%B5%E7%A5%9E%20%20%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%20%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC%20%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/" title="Day75 | 灵神 | 二分查找 寻找旋转排序数组中的最小值 搜索旋转排序数组">Day75 | 灵神 | 二分查找 寻找旋转排序数组中的最小值 搜索旋转排序数组</a><time datetime="2025-03-28T02:50:20.000Z" title="发表于 2025-03-28 10:50:20">2025-03-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-27-Day74--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BC/" title="Day74 | 灵神 | 二分查找 寻找峰值"><img src="/img/282.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day74 | 灵神 | 二分查找 寻找峰值"/></a><div class="content"><a class="title" href="/2025/03/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-3-27-Day74--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BC/" title="Day74 | 灵神 | 二分查找 寻找峰值">Day74 | 灵神 | 二分查找 寻找峰值</a><time datetime="2025-03-27T02:40:20.000Z" title="发表于 2025-03-27 10:40:20">2025-03-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/26/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="26考研 | 王道 | 数据结构 | 第二章 线性表"><img src="/img/281.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 数据结构 | 第二章 线性表"/></a><div class="content"><a class="title" href="/2025/03/26/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="26考研 | 王道 | 数据结构 | 第二章 线性表">26考研 | 王道 | 数据结构 | 第二章 线性表</a><time datetime="2025-03-26T12:30:15.000Z" title="发表于 2025-03-26 20:30:15">2025-03-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/26/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E5%A5%97%E8%B7%AF%E6%A8%A1%E6%9D%BF/" title="二分查找 二分答案 套路模板"><img src="/img/279.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="二分查找 二分答案 套路模板"/></a><div class="content"><a class="title" href="/2025/03/26/%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E5%A5%97%E8%B7%AF%E6%A8%A1%E6%9D%BF/" title="二分查找 二分答案 套路模板">二分查找 二分答案 套路模板</a><time datetime="2025-03-26T03:30:10.000Z" title="发表于 2025-03-26 11:30:10">2025-03-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+  © 2024-<script>document.write(new Date().getFullYear())</script> 
+  <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
+  | 已运行 <span id="days">0</span> 天
+  <script>
+    const start = new Date('2024-12-12');
+    const now = new Date();
+    document.getElementById('days').innerHTML = 
+      Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  </script>
+</div>
+</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Never,ever,ever,give,up" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
