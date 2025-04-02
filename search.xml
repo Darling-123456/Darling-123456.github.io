@@ -48653,7 +48653,7 @@ $&#123;&#125;
   </entry>
   <entry>
     <title>Day79 | 灵神 | 反转链表 两数相加 两数相加II</title>
-    <url>/2025/05/01/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-31-Day79--%E7%81%B5%E7%A5%9E--%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0II/</url>
+    <url>/2025/04/01/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-31-Day79--%E7%81%B5%E7%A5%9E--%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0II/</url>
     <content><![CDATA[<h1 id="Day79-灵神-反转链表-两数相加-两数相加II"><a href="#Day79-灵神-反转链表-两数相加-两数相加II" class="headerlink" title="Day79 | 灵神 | 反转链表 两数相加 两数相加II"></a>Day79 | 灵神 | 反转链表 两数相加 两数相加II</h1><h2 id="2-两数相加"><a href="#2-两数相加" class="headerlink" title="2.两数相加"></a>2.两数相加</h2><p><a href="https://leetcode.cn/problems/add-two-numbers/description/">2. 两数相加 - 力扣（LeetCode）</a></p>
 <p><code>思路：</code></p>
 <p>笔者一开始想的是在原数组上面进行改动，但是那个不知道两个链表长度就很麻烦，一个链表结束后还得遍历另外一个链表，并且最后返回结果也只能返回长的链表，这真的很麻烦</p>
@@ -48807,6 +48807,28 @@ $&#123;&#125;
         <tag>学习笔记</tag>
         <tag>数据结构</tag>
         <tag>考研</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day80 | 灵神 | 反转链表 翻倍以链表形式表示的数字</title>
+    <url>/2025/04/02/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-02-Day80--%E7%81%B5%E7%A5%9E--%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8-%E7%BF%BB%E5%80%8D%E4%BB%A5%E9%93%BE%E8%A1%A8%E5%BD%A2%E5%BC%8F%E8%A1%A8%E7%A4%BA%E7%9A%84%E6%95%B0%E5%AD%97/</url>
+    <content><![CDATA[<h1 id="Day80-灵神-反转链表-翻倍以链表形式表示的数字"><a href="#Day80-灵神-反转链表-翻倍以链表形式表示的数字" class="headerlink" title="Day80 | 灵神 | 反转链表 翻倍以链表形式表示的数字"></a>Day80 | 灵神 | 反转链表 翻倍以链表形式表示的数字</h1><h2 id="2816-翻倍以链表形式表示的数字"><a href="#2816-翻倍以链表形式表示的数字" class="headerlink" title="2816.翻倍以链表形式表示的数字"></a>2816.翻倍以链表形式表示的数字</h2><p><a href="https://leetcode.cn/problems/double-a-number-represented-as-a-linked-list/description/">2816. 翻倍以链表形式表示的数字 - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>看做是两个head相加就直接转变为昨天写的两数相加II了</p>
+<p><a href="https://leetcode.cn/problems/add-two-numbers/description/">2. 两数相加 - 力扣（LeetCode）</a></p>
+<p><a href="https://leetcode.cn/problems/add-two-numbers-ii/description/">445. 两数相加 II - 力扣（LeetCode）</a></p>
+<p><a href="https://darling-123456.github.io/2025/05/01/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-31-Day79--%E7%81%B5%E7%A5%9E--%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0II/">Day79 | 灵神 | 反转链表 两数相加 两数相加II | Darlingの妙妙屋</a></p>
+<p><a href="https://blog.csdn.net/m0_74795952/article/details/146897647?spm=1001.2014.3001.5501">Day79 | 灵神 | 反转链表 两数相加 两数相加II-CSDN博客</a></p>
+<p><code>完整代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//反转链表</span></span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        ListNode *p=head;</span><br><span class="line">        ListNode *pre=<span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">while</span>(p!=<span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ListNode* q=p-&gt;next;</span><br><span class="line">            p-&gt;next=pre;</span><br><span class="line">            pre=p;</span><br><span class="line">            p=q;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pre;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//两数相加的代码</span></span><br><span class="line">    <span class="function">ListNode* <span class="title">addtwo</span><span class="params">(ListNode* l1, ListNode* l2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//建立虚拟头结点</span></span><br><span class="line">        ListNode res;</span><br><span class="line">        ListNode *cur=&amp;res;</span><br><span class="line">        <span class="comment">//记录进位</span></span><br><span class="line">        <span class="type">int</span> carry=<span class="number">0</span>;</span><br><span class="line">        <span class="comment">//只要l1 l2 或者carry有一个不为0 那就是要继续循环</span></span><br><span class="line">        <span class="keyword">while</span>(l1 || l2 || carry)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//l1不为空 加上l1的值</span></span><br><span class="line">            <span class="keyword">if</span>(l1)</span><br><span class="line">            &#123;</span><br><span class="line">                carry+=l1-&gt;val;</span><br><span class="line">                l1=l1-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//l2不为空 加上l2的值</span></span><br><span class="line">            <span class="keyword">if</span>(l2)</span><br><span class="line">            &#123;</span><br><span class="line">                carry+=l2-&gt;val;</span><br><span class="line">                l2=l2-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">   			<span class="comment">//在创建为下一个结点</span></span><br><span class="line">            cur-&gt;next=<span class="keyword">new</span> <span class="built_in">ListNode</span>(carry%<span class="number">10</span>);</span><br><span class="line">            cur=cur-&gt;next;</span><br><span class="line">            <span class="comment">//新的进位 大于10就是1，小于10就是0</span></span><br><span class="line">            carry/=<span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//反转链表+两数相加=两数相加II</span></span><br><span class="line">    <span class="function">ListNode* <span class="title">doubleIt</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> l1=<span class="built_in">reverseList</span>(head);</span><br><span class="line">        <span class="keyword">auto</span> l2=<span class="built_in">addtwo</span>(l1,l1);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">reverseList</span>(l2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>刷题记录</tag>
+        <tag>链表</tag>
       </tags>
   </entry>
 </search>
