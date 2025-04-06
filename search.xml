@@ -49498,8 +49498,11 @@ $&#123;&#125;
 <p><strong>构造哈夫曼树的注意事项：</strong></p>
 <ul>
 <li>每个初始结点最终都成为叶结点，且权值越小的结点到根结点的路径长度越大</li>
-<li>哈夫曼树的结点总数为2n - 1</li>
-<li>哈夫曼树中不存在度为1的结点。</li>
+<li>哈夫曼树的结点总数为2n - 1<ul>
+<li>叶子结点为n，非叶子节点为n-1个，叶子结点比非叶子节点多一个</li>
+</ul>
+</li>
+<li>哈夫曼树中不存在度为1的结点</li>
 <li>哈夫曼树并不唯一，但WPL必然相同且为最优</li>
 </ul>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8527ef3d5792d68d5967754d7a30b193.png" alt="image-20210926174150209"></p>
@@ -49518,6 +49521,11 @@ $&#123;&#125;
 <p>曼树得到哈夫曼编码–字符集中的每个字符作为一个叶子结点，各个字符出现的频度作为结点的权值，根据之前介绍的方法构造哈夫曼树 。</p>
 <p>因为哈夫曼树不唯一，所以哈夫曼编码也不唯一</p>
 <p>哈夫曼编码还可以用于数据的压缩</p>
+<p><code>重点：</code></p>
+<p>哈夫曼树并非只有下图这个形状，要严格构造出来一颗子树后要严格按照取集合中的最小值来构造</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250406225005948.png" alt="image-20250406225005948"></p>
+<p>还可以是下面这种的，还可以是别的各种形状的，不要刻板印象了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250406225128861.png" alt="image-20250406225128861"></p>
 <h4 id="5-5-2-并查集"><a href="#5-5-2-并查集" class="headerlink" title="5.5.2 并查集"></a>5.5.2 并查集</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250406182211998.png" alt="image-20250406182211998"></p>
 <p><code>并查集：</code>一种简单的集合表示，它支持以下三种操作</p>
 <p>1.IniTial(S):将集合s中的每个元素都初始化为只有一个单元素的子集合</p>
