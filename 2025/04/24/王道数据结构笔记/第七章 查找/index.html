@@ -1,0 +1,691 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>26考研 | 王道 | 数据结构 | 第七章 查找 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="第七章 查找7.1 查找概念  **查找：**在数据集合中寻找满足某种条件的数据元素的过程称为查找。  **查找表(查找结构)：**用于查找的数据集合称为查找表，它由同一类型的数据元素 (或记录)组成。  **关键字：**数据元素中唯一标识该元素的某个数据项的值，使用基于关键字的查找，查找结果应该是唯一的。  对查找表的常⻅操作：  查找符合条件的数据元素 插⼊、删除某个数据元素   只需要进行操">
+<meta property="og:type" content="article">
+<meta property="og:title" content="26考研 | 王道 | 数据结构 | 第七章 查找">
+<meta property="og:url" content="https://darling-123456.github.io/2025/04/24/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9F%A5%E6%89%BE/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="第七章 查找7.1 查找概念  **查找：**在数据集合中寻找满足某种条件的数据元素的过程称为查找。  **查找表(查找结构)：**用于查找的数据集合称为查找表，它由同一类型的数据元素 (或记录)组成。  **关键字：**数据元素中唯一标识该元素的某个数据项的值，使用基于关键字的查找，查找结果应该是唯一的。  对查找表的常⻅操作：  查找符合条件的数据元素 插⼊、删除某个数据元素   只需要进行操">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/319.jpg">
+<meta property="article:published_time" content="2025-04-24T10:47:15.000Z">
+<meta property="article:modified_time" content="2025-04-24T12:01:01.373Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="考研">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/319.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "26考研 | 王道 | 数据结构 | 第七章 查找",
+  "url": "https://darling-123456.github.io/2025/04/24/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9F%A5%E6%89%BE/",
+  "image": "https://darling-123456.github.io/img/319.jpg",
+  "datePublished": "2025-04-24T10:47:15.000Z",
+  "dateModified": "2025-04-24T12:01:01.373Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2025/04/24/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9F%A5%E6%89%BE/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '26考研 | 王道 | 数据结构 | 第七章 查找',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">313</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">45</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/319.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">26考研 | 王道 | 数据结构 | 第七章 查找</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">26考研 | 王道 | 数据结构 | 第七章 查找</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-24T10:47:15.000Z" title="发表于 2025-04-24 18:47:15">2025-04-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-24T12:01:01.373Z" title="更新于 2025-04-24 20:01:01">2025-04-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">5.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>18分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="第七章-查找"><a href="#第七章-查找" class="headerlink" title="第七章 查找"></a>第七章 查找</h2><h3 id="7-1-查找概念"><a href="#7-1-查找概念" class="headerlink" title="7.1 查找概念"></a>7.1 查找概念</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414205525321.png" alt="image-20250414205525321"></p>
+<ul>
+<li><p>**查找：**在数据集合中寻找满足某种条件的数据元素的过程称为查找。</p>
+</li>
+<li><p>**查找表(查找结构)：**用于查找的数据集合称为查找表，它由同一类型的数据元素 (或记录)组成。</p>
+</li>
+<li><p>**关键字：**数据元素中唯一标识该元素的某个数据项的值，使用基于关键字的查找，查找结果应该是唯一的。</p>
+</li>
+<li><p>对查找表的常⻅操作：</p>
+<ol>
+<li>查找符合条件的数据元素</li>
+<li>插⼊、删除某个数据元素</li>
+</ol>
+<ul>
+<li>只需要进行操作1的是静态查找表</li>
+<li>1和2都需要进行的是动态查找表</li>
+</ul>
+</li>
+<li><p>**查找长度：**在查找运算中，需要对比关键字的次数称为查找长度。</p>
+</li>
+<li><p><strong>平均查找长度(ASL，Average Search Length)：</strong> 所有查找过程中进行关键字的比较次数的平均值。</p>
+</li>
+<li><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414205448529.png" alt="image-20250414205448529"></p>
+</li>
+<li><p>ASL的数量级反应了查找算法时间复杂度</p>
+</li>
+</ul>
+<h3 id="7-2-顺序查找"><a href="#7-2-顺序查找" class="headerlink" title="7.2 顺序查找"></a>7.2 顺序查找</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414210554363.png" alt="image-20250414210554363"></p>
+<ul>
+<li>**顺序查找，**又叫“线性查找”，通常用于线性表算法。</li>
+<li>**思想：**从头到尾遍历</li>
+</ul>
+<p><em>代码实现：</em> </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;				<span class="comment">//查找表的数据结构（顺序表）</span></span><br><span class="line">    ElemType *elem;			<span class="comment">//动态数组基址</span></span><br><span class="line">    <span class="type">int</span> TableLen;			<span class="comment">//表的长度</span></span><br><span class="line">&#125;SSTable;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//顺序查找</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Search_Seq</span><span class="params">(SSTable ST,ElemType key)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;ST.TableLen &amp;&amp; ST.elem[i]!=key;++i);</span><br><span class="line">    <span class="comment">// 查找成功返回数组下标，否则返回-1</span></span><br><span class="line">    	<span class="keyword">return</span> i=ST.TableLen? <span class="number">-1</span> : i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>哨兵方式代码实现：</em></p>
+<p><code>思想：</code>顺序表从下表1开始存储，把key存储在下标为0的地方，从后往前遍历，只要找到key就退出循环。</p>
+<p>查找失败的的话那么返回的i值为0，表示查找失败</p>
+<p>查找成功则返回对应的下标值</p>
+<p>优点是无需判断是否越界，因为遍历到下标为0的时候，它本身肯定和它本身相同，肯定就退出了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414205802326.png" alt="image-20250414205802326"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;				<span class="comment">//查找表的数据结构（顺序表）</span></span><br><span class="line">    ElemType *elem;			<span class="comment">//动态数组基址</span></span><br><span class="line">    <span class="type">int</span> TableLen;			<span class="comment">//表的长度</span></span><br><span class="line">&#125;SSTable;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//顺序查找</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Search_Seq</span><span class="params">(SSTable ST,ElemType key)</span></span>&#123;</span><br><span class="line">    ST.elem[<span class="number">0</span>]=key;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i=ST.TableLen;ST.elem[i]!=key;--i)</span><br><span class="line">    <span class="comment">// 查找成功返回数组下标，否则返回0</span></span><br><span class="line">	    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414210220695.png" alt="image-20250414210220695"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414210408961.png" alt="image-20250414210408961"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414210428755.png" alt="image-20250414210428755"></p>
+<p>圆形是成功，方格是失败</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414210528308.png" alt="image-20250414210528308"></p>
+<p>优化要根据具体情况具体分析</p>
+<h3 id="7-3-折半查找"><a href="#7-3-折半查找" class="headerlink" title="7.3 折半查找"></a>7.3 折半查找</h3><p>如果是左闭右闭区间的话，查找失败循环结束时left&#x3D;right+1</p>
+<p>而如果是左闭右开区间的话，查找失败循环结束时是left&#x3D;right</p>
+<p>除了有序这个条件还必须是顺序存储</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414211713916.png" alt="image-20250414211713916"></p>
+<ul>
+<li>折半查找，又称“二分查找”，仅适用于有序的顺序表</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414210847095.png" alt="image-20250414210847095"></p>
+<p><em>折半查找代码实现：</em> </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</span><br><span class="line">    ElemType *elem;</span><br><span class="line">    <span class="type">int</span> TableLen;</span><br><span class="line">&#125;SSTable;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 折半查找</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Binary_Search</span><span class="params">(SSTable L,ElemType key)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> low=<span class="number">0</span>,high=L.TableLen,mid;</span><br><span class="line">    <span class="keyword">while</span>(low&lt;=high)&#123;</span><br><span class="line">        mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(L.elem[mid]==key)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(L.elem[mid]&gt;key)</span><br><span class="line">            high=mid<span class="number">-1</span>;					<span class="comment">//从前半部分继续查找</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            low=mid<span class="number">+1</span>;					<span class="comment">//从后半部分继续查找</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414211153245.png" alt="image-20250414211153245"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414211318959.png" alt="image-20250414211318959"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414211500468.png" alt="image-20250414211500468"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414211540390.png" alt="image-20250414211540390"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414211638772.png" alt="image-20250414211638772"></p>
+<p>如果mid是向上取整，那就是左子树比右子树多一个或者0个结点了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414211826261.png" alt="image-20250414211826261"></p>
+<p><code>注:</code>折半查找一般都比顺序查找更优秀。但不是一定比顺序查找更优秀。</p>
+<h3 id="7-4-分块查找"><a href="#7-4-分块查找" class="headerlink" title="7.4 分块查找"></a>7.4 分块查找</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414214104363.png" alt="image-20250414214104363"></p>
+<p><strong>分块查找所针对的情况</strong>：块内无序、块间有序。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414212213748.png" alt="image-20250414212213748"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414212729917.png" alt="image-20250414212729917"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414212905039.png" alt="image-20250414212905039"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414213135312.png" alt="image-20250414213135312"></p>
+<p>这个太复杂了，会模拟就行，一般不会考，考也就是少量的数据</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414213554998.png" alt="image-20250414213554998"></p>
+<p>如果每个块中的元素数量都相同 的话就比较有规律，如上图所示（注：n&#x3D;sb,b&#x3D;n&#x2F;s带入ASL算出最后的表达式求极值的得到最小值）</p>
+<p>最后的结果是，每个块内如果是根号n个元素，那么一共有根号n个块，那么就会得到最小的ASL</p>
+<p>如果n&#x3D;10000，则ASL最小为根号n+1&#x3D;100+1&#x3D;101</p>
+<p>也就是平均值需要对比101次关键字就可以查找到我们想要的关键字</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414214001661.png" alt="image-20250414214001661"></p>
+<p>如果使用折半查找查找块的话，asl如上图所示，有个印象就行不是很重要</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250414214233957.png" alt="image-20250414214233957"></p>
+<p>这个例子说明了，要具体问题具体分析,删除插入频繁就不用数组而是用链表了</p>
+<h3 id="7-5-二叉排序树"><a href="#7-5-二叉排序树" class="headerlink" title="7.5 二叉排序树"></a>7.5 二叉排序树</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422142851755.png" alt="image-20250422142851755"></p>
+<p>**二又排序树，**又称二叉查找树(BST，Binary Search Tree)棵二叉树或者是空二叉树，或者是具有如下性质的二叉树:</p>
+<ol>
+<li>左子树上所有结点的关键字均小于根结点的关键字；</li>
+<li>右子树上所有结点的关键字均大于根结点的关键字；</li>
+<li>左子树和右子树又各是一棵二叉排序树；</li>
+<li>左子树结点值&lt; 根结点值&lt; 右子树结点值；</li>
+<li>进行中序遍历，可以得到一个递增的有序序列。</li>
+</ol>
+<p><strong>【二叉排序树的查找】</strong></p>
+<ol>
+<li>若树非空，目标值与根结点的值比较；</li>
+<li>若相等，则查找成功；</li>
+<li>若小于根结点，则在左子树上查找；</li>
+<li>否则在右子树上查找；</li>
+<li>查找成功，返回结点指针;查找失败返回NULL 。</li>
+</ol>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422141659049.png" alt="image-20250422141659049"></p>
+<p>非递归实现最坏空间复杂度为O(1)，递归实现最坏空间复杂度为O(h)，为树的高度</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">BSTNode</span>&#123;</span><br><span class="line">   <span class="type">int</span> key;</span><br><span class="line">   <span class="keyword">struct</span> <span class="title class_">BSTNode</span> *lchild, *rchild;</span><br><span class="line">&#125;BSTNode, *BSTree;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//在二叉排序树中查找值为key的结点（非递归）</span></span><br><span class="line"><span class="comment">//最坏空间复杂度：O(1)</span></span><br><span class="line"><span class="function">BSTNode *<span class="title">BST_Search</span><span class="params">(BSTree T, <span class="type">int</span> key)</span></span>&#123;</span><br><span class="line">   <span class="keyword">while</span>(T!=<span class="literal">NULL</span> &amp;&amp; key!=T-&gt;key)&#123;        <span class="comment">//若树空或等于跟结点值，则结束循环</span></span><br><span class="line">      <span class="keyword">if</span>(key&lt;T-&gt;key)       <span class="comment">//值小于根结点值，在左子树上查找</span></span><br><span class="line">         T = T-&gt;lchild;</span><br><span class="line">      <span class="keyword">else</span>                  <span class="comment">//值大于根结点值，在右子树上查找</span></span><br><span class="line">         T = T-&gt;rchild;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//在二叉排序树中查找值为key的结点（递归）</span></span><br><span class="line"><span class="comment">//最坏空间复杂度：O(h) h为树的高度</span></span><br><span class="line"><span class="function">BSTNode *<span class="title">BSTSearch</span><span class="params">(BSTree T, <span class="type">int</span> key)</span></span>&#123;</span><br><span class="line">   <span class="keyword">if</span>(T == <span class="literal">NULL</span>)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">   <span class="keyword">if</span>(Kry == T-&gt;key)</span><br><span class="line">      <span class="keyword">return</span> T;</span><br><span class="line">   <span class="keyword">else</span> <span class="keyword">if</span>(key &lt; T-&gt;key)</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">BSTSearch</span>(T-&gt;lchild, key);</span><br><span class="line">   <span class="keyword">else</span> </span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">BSTSearch</span>(T-&gt;rchild, key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>【二叉排序树的插入操作】</strong></p>
+<ol>
+<li>若原二叉排序树为空，则直接插入结点;否则；</li>
+<li>若关键字k小于根结点值，则插入到左子树；</li>
+<li>若关键字k大于根结点值，则插入到右子树。</li>
+</ol>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422142031329.png" alt="image-20250422142031329"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在二叉排序树中插入关键字为k的新结点（递归）</span></span><br><span class="line"><span class="comment">//最坏空间复杂度：O(h)</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">BST_Insert</span><span class="params">(BSTree &amp;T, <span class="type">int</span> k)</span></span>&#123;</span><br><span class="line">   <span class="keyword">if</span>(T==<span class="literal">NULL</span>)&#123;           <span class="comment">//原树为空，新插入的结点为根结点</span></span><br><span class="line">      T = (BSTree)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(BSTNode));</span><br><span class="line">      T-&gt;key = k;</span><br><span class="line">      T-&gt;lchild = T-&gt;rchild = <span class="literal">NULL</span>;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">1</span>;                       <span class="comment">//插入成功</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">else</span> <span class="keyword">if</span>(K == T-&gt;key)               <span class="comment">//树中存在相同关键字的结点，插入失败</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">   <span class="keyword">else</span> <span class="keyword">if</span>(k &lt; T-&gt;key)                 </span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">BST_Insert</span>(T-&gt;lchild,k);</span><br><span class="line">   <span class="keyword">else</span> </span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">BST_Insert</span>(T-&gt;rchild,k);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>【二叉排序树的构造】</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422142117443.png" alt="image-20250422142117443"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//按照str[]中的关键字序列建立二叉排序树</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Crear_BST</span><span class="params">(BSTree &amp;T, <span class="type">int</span> str[], <span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">   T = <span class="literal">NULL</span>;                     <span class="comment">//初始时T为空树</span></span><br><span class="line">   <span class="type">int</span> i=<span class="number">0</span>;</span><br><span class="line">   <span class="keyword">while</span>(i&lt;n)&#123;</span><br><span class="line">      <span class="built_in">BST_Insert</span>(T,str[i]);     <span class="comment">//依次将每个关键字插入到二叉排序树中</span></span><br><span class="line">      i++;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>【二叉排序树的删除】</strong></p>
+<p>先搜索找到目标结点:</p>
+<ol>
+<li>若被删除结点z是叶结点则直接删除，不会破坏二叉排序树的性质；</li>
+<li>若结点z只有一棵左子树或右子树，则让z的子树成为z父结点的子树，替代z的位置；</li>
+<li>若结点z有左、右两棵子树，则令z的直接后继 (或直接前驱) 替代z，然后从二叉排序树中删去这个直接后继(或直接前驱)，这样就转换成了第一或第二种情况。<ul>
+<li>直接前驱就是中序遍历二叉排序树的要删除结点的前一个结点，即该节点的左子树的最右下的节点</li>
+<li>直接后继就是中序遍历二叉排序树的要删除结点的后一个结点，即该节点的右子树的最左下的节点</li>
+</ul>
+</li>
+</ol>
+<p>**查找长度：**在查找运算中，需要对比关键字的次数称为查找长度，反映了查找操作时间复杂度</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422142721038.png" alt="image-20250422142721038"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422142833994.png" alt="image-20250422142833994"></p>
+<h3 id="7-6-平衡二叉树"><a href="#7-6-平衡二叉树" class="headerlink" title="7.6 平衡二叉树"></a>7.6 平衡二叉树</h3><h4 id="平衡二叉树的插入"><a href="#平衡二叉树的插入" class="headerlink" title="平衡二叉树的插入"></a>平衡二叉树的插入</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422153037947.png" alt="image-20250422153037947"></p>
+<p>**平衡二叉树(Balanced Binary Tree)，**简称平衡树(AVL树)–上任一结点的左子树和右子树的高度之差不超过1。<br>结点的平衡因子 &#x3D; 左子树高 - 右子树高</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422143053777.png" alt="image-20250422143053777"></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//平衡二叉树结点</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="built_in">AVLNode</span>&#123;</span><br><span class="line">   <span class="type">int</span> key;         <span class="comment">//数据域</span></span><br><span class="line">   <span class="type">int</span> balance;     <span class="comment">//平衡因子</span></span><br><span class="line">   <span class="keyword">struct</span> <span class="built_in">AVLNode</span> *lchild; *rchild; </span><br><span class="line">&#125;<span class="built_in">AVLNode</span>, *<span class="built_in">AVLTree</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>平衡二叉树的插入</strong></p>
+<ul>
+<li>每次调整的对象都是“最小不平衡子树“</li>
+<li>在插入操作中，只要将最小不平衡子树调整平衡，则其他祖先结点都会恢复平衡。</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422143409443.png" alt="image-20250422143409443"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422143424910.png" alt="image-20250422143424910"></p>
+<p><strong>调整最小不平衡子树（LL）：</strong><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422144345086.png" alt="image-20250422144345086"></p>
+<p><strong>调整最小不平衡子树（RR）：</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422144506332.png" alt="image-20250422144506332"></p>
+<p><code>左旋右旋的的代码思路：</code></p>
+<p>其实就还是链表的操作，这个指针指到这边，那个指针指到那边，唯一要注意的就是改完指针之后不要忘记还要连接原来的二叉树，即gf的操作</p>
+<p><strong>调整最小不平衡子树（LR）</strong>：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422145102790.png" alt="image-20250422145102790"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422151114839.png" alt="image-20250422151114839"></p>
+<p><strong>调整最小不平衡子树（RL）</strong>：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422151142425.png" alt="image-20250422151142425"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422151206768.png" alt="image-20250422151206768"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422151232220.png" alt="image-20250422151232220"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422152607697.png" alt="image-20250422152607697"></p>
+<p>n3&#x3D;4，n4&#x3D;7，n5&#x3D;12,n6&#x3D;20</p>
+<p>4层7个节点</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424091837177.png" alt="image-20250424091837177" style="zoom:33%;" />
+
+<p>5层12结点</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424092421576.png" alt="image-20250424092421576" style="zoom:50%;" />
+
+<p>做题所得结论（五颗星）：当你用上面的递推公式推出来一个深度为h的最小节点数量nh，深度为h的二叉平衡树只有nh个节点的话，那么所有的非叶子节点的平衡因子都是1或-1，反过来也成立。</p>
+<h4 id="平衡二叉树的删除"><a href="#平衡二叉树的删除" class="headerlink" title="平衡二叉树的删除"></a>平衡二叉树的删除</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422190619260.png" alt="image-20250422190619260"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422153755214.png" alt="image-20250422153755214"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422153829454.png" alt="image-20250422153829454"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422153907176.png" alt="image-20250422153907176"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422153952128.png" alt="image-20250422153952128"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422154007218.png" alt="image-20250422154007218"></p>
+<p>对最小不平衡子树的旋转可能导致树变矮，从而导致上层祖先不平衡（不平衡向上传递）</p>
+<h3 id="7-7-红黑树"><a href="#7-7-红黑树" class="headerlink" title="7.7 红黑树"></a>7.7 红黑树</h3><p>可能的考法</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422191157258.png" alt="image-20250422191157258"></p>
+<h4 id="7-7-1-为什么要发明红黑树？"><a href="#7-7-1-为什么要发明红黑树？" class="headerlink" title="7.7.1 为什么要发明红黑树？"></a>7.7.1 为什么要发明红黑树？</h4><p>红黑树是适度平衡的二叉排序树</p>
+<p>平衡二叉树是高度平衡的二叉排序树</p>
+<p>所以一般相同结点的话，平衡二叉树的性能会更优秀</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422190931356.png" alt="image-20250422190931356"></p>
+<h4 id="7-7-2-红黑树的定义和性质"><a href="#7-7-2-红黑树的定义和性质" class="headerlink" title="7.7.2 红黑树的定义和性质"></a>7.7.2 红黑树的定义和性质</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/348189943d7f3a7660a091f7000a8470.png" alt="img"></p>
+<p><code>定义：</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422191404415.png" alt="image-20250422191404415"></p>
+<p>叶节点，失败节点，null节点说的是一个东西。也就是说红黑树里面的叶子节点并不是最下面一层</p>
+<p>左根右，根叶黑，不红红，黑路同</p>
+<p>是二叉排序树，左子树小于根小于右子树，根节点和叶节点都是黑的，不可以有两个相连红色，从一个节点出发到达叶节点的路径上的黑色节点数量一定相同</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422191505339.png" alt="image-20250422191505339"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422192253029.png" alt="image-20250422192253029"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422194858820.png" alt="image-20250422194858820"></p>
+<p><code>性质：</code></p>
+<p>红色节点数目最大可以是黑节点数目的两倍</p>
+<p>若红黑树所有节点都是黑色的，那肯定是一颗满二叉树（因为根节点到叶节点的所有路径上的黑色节点数量必须相同）</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422192440517.png" alt="image-20250422192440517"></p>
+<p><code>查找：</code></p>
+<p>和BST,AVL一样，从根出发，左小右大，若查找到一个空叶节点，则查找失败</p>
+<h4 id="7-7-3-红黑树的插入和删除"><a href="#7-7-3-红黑树的插入和删除" class="headerlink" title="7.7.3 红黑树的插入和删除"></a>7.7.3 红黑树的插入和删除</h4><h5 id="插入"><a href="#插入" class="headerlink" title="插入"></a><code>插入</code></h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422192913122.png" alt="image-20250422192913122"></p>
+<p>1.如果插入的新结点不是根，为什么要染成红色呢？因为要保证黑路同，如果染成黑色，那必然导致新增加节点的；路径上的黑色节点数量比其他路径多</p>
+<p>2.判断LL还是RR还是其他型都是通过爷节点来判断的而不是父节点</p>
+<p>3.图中的染色的意思其实就是取反，只要涉及到x换y的，那么x和y的颜色都要取反，黑的变红的，红的变黑的</p>
+<p>4.爷变为新结点是把爷结点看做新结点重新走一遍上述的流程，看爷节点作为新结点有没有破坏红黑树特性，比如：如果爷结点此时是红的，还是根节点，那必然要被染成黑色</p>
+<p>5.其实每次插入的如果不是根节点，那么破坏的基本都是不红红这个特性</p>
+<p>重点：所以每次插入的如果是非根节点就直接看有没有违背不红红就行，不用管其它特性有没有被违背，因为一定不会被违背</p>
+<p><code>具体的例子</code></p>
+<p>插入20,10,5</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422195650709.png" alt="image-20250422195650709"></p>
+<p>插入30</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422195741471.png" alt="image-20250422195741471"></p>
+<p>插入40</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422195829483.png" alt="image-20250422195829483"></p>
+<p>插入57</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422195854645.png" alt="image-20250422195854645"></p>
+<p>插入3</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422195935302.png" alt="image-20250422195935302"></p>
+<p>插入2</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200029240.png" alt="image-20250422200029240"></p>
+<p>插入4</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200104634.png" alt="image-20250422200104634"></p>
+<p>插入35,25,18都没有违反不红红，直接插入就好</p>
+<p>其实当红黑树越来越大的时候插入很多时间都是直接插入的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200241645.png" alt="image-20250422200241645"></p>
+<p>插入22</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200401443.png" alt="image-20250422200401443"></p>
+<p>插入23</p>
+<p>第一步违反了不红红且叔叔是黑的，判断为LR型</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200538634.png" alt="image-20250422200538634"></p>
+<p>第二步左旋</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200520750.png" alt="image-20250422200520750"></p>
+<p>第三步右旋</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200633690.png" alt="image-20250422200633690"></p>
+<p>第四步 儿子和爷染色</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200656364.png" alt="image-20250422200656364"></p>
+<p>插入24</p>
+<p>破坏不红红，且是红叔，则染色，爷变为新结点</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200829961.png" alt="image-20250422200829961"></p>
+<p>爷变为新结点后发现违反了不红红，则继续进行之前的对应步骤</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200849495.png" alt="image-20250422200849495"></p>
+<p>左旋</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422200951262.png" alt="image-20250422200951262"></p>
+<p>右旋</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422201008985.png" alt="image-20250422201008985"></p>
+<p>染色</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422201030722.png" alt="image-20250422201030722"></p>
+<p>插入19,18</p>
+<p>19没有破坏不红红直接插入，而红黑树中已经有18这个关键字了，那么18插入到哪里就看自己的算法 是如何设计的了，可以在18左孩子，也可以去18右孩子</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422201202501.png" alt="image-20250422201202501"></p>
+<p>右旋</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422201218898.png" alt="image-20250422201218898"></p>
+<p>左旋</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422201231362.png" alt="image-20250422201231362"></p>
+<p>染色</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422201246717.png" alt="image-20250422201246717"></p>
+<p>到此为止插入完成</p>
+<h5 id="删除"><a href="#删除" class="headerlink" title="删除"></a><code>删除</code></h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422195257552.png" alt="image-20250422195257552"></p>
+<p>23,24届考察概率不大，25不好说，还是看看吧</p>
+<h3 id="7-8-B树和B-树"><a href="#7-8-B树和B-树" class="headerlink" title="7.8 B树和B+树"></a>7.8 B树和B+树</h3><h4 id="7-8-1-B树"><a href="#7-8-1-B树" class="headerlink" title="7.8.1 B树"></a>7.8.1 B树</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422203601494.png" alt="image-20250422203601494"></p>
+<p><strong>如果每个节点的的关键字太少，比如变成1个的话，那就退化为二叉查找树了，所以才要保证节点的最少分叉和最少关键字的数量</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422203920661.png" alt="image-20250422203920661"></p>
+<p>如果可以保证每个节点关键字不少，并且所有子树高度都相同，那这个其实就是一个b树</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422204227018.png" alt="image-20250422204227018"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422204311972.png" alt="image-20250422204311972"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422204337345.png"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422204618300.png" alt="image-20250422204618300"></p>
+<p>每个节点最多m-1个关键字，第一层1个节点第二层最多m个节点……最多就是1+….m的h-1次方个节点，就是上面这个公式</p>
+<p>求最大高度的方法1：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422205014124.png" alt="image-20250422205014124"></p>
+<p>b树的叶子节点代表失败节点，有n个关键字就肯定有n+1个失败的区间，那么就是n+1个叶子</p>
+<p>求最大高度的方法2</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422205313373.png" alt="image-20250422205313373"></p>
+<p>k是一个节点内最少的分叉数量，减去1就是最少的关键字的数量</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422205435003.png" alt="image-20250422205435003"></p>
+<h4 id="7-8-2-B树的基本操作"><a href="#7-8-2-B树的基本操作" class="headerlink" title="7.8.2 B树的基本操作"></a>7.8.2 B树的基本操作</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a12a740d1018c8bcd104e0716c142723.png" alt="img"></p>
+<p><strong>B树的查找</strong>：</p>
+<ul>
+<li>B树的查找操作与二叉查找树类似。</li>
+<li>B树的查找包含两个基本操作：① 在B树中找结点；② 在结点中找关键字。B树常存储在磁盘上，因此前一个查找操作在磁盘上进行，后一个查找操作在内存中进行。在B树中查找到某个结点后，先在有序表中进行查找，若找到则查找成功，否则按照对应指针信息到所指的子树中去查找。查找到叶子结点（对应指针为空指针），则说明树中没有对应的关键字，查找失败。</li>
+</ul>
+<p><strong>B树的插入：</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422210353801.png" alt="image-20250422210353801"></p>
+<p>具体的例子：</p>
+<p>1.在一个节点已经满了的情况下再插入一个关键字</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422210509706.png" alt="image-20250422210509706"></p>
+<p>2.把中间的关键字提出来作为左右的父节点</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422210549198.png" alt="image-20250422210549198"></p>
+<p>3.继续插入新的关键字，而新的关键字一定是插入到最底层的终端节点，用查找来确定插入的位置</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422210653593.png" alt="image-20250422210653593" style="zoom:50%;" />
+
+<p>4.当插满之后继续分裂，分裂时需要把结点的中间的关键字提到父节点中，注意保持父节点有序性</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422210718837.png" alt="image-20250422210718837" style="zoom:50%;" />
+
+<p>5.重复上述过程，直到父节点也满了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422210750657.png" alt="image-20250422210750657"></p>
+<p>6.分裂父节点，把中间节点作为新的父节点</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422210924278.png" alt="image-20250422210924278" style="zoom:50%;" />
+
+<p><strong>B树的删除：</strong></p>
+<p>删除操作一定会导致叶节点的变化。如果删除的是叶节点，那么必然导致叶节点变化。如果不是叶节点的话，则要先将被删除的节点和它的前驱或者后继交换，最终转换为删除叶节点，还是导致叶节点发生了变化</p>
+<p>也可以更简单的说，n个关键字有n+1个叶子，而n-1个关键字只有n个叶子，那么肯定会有叶子被删除的</p>
+<p><code>综述：</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422211646546.png" alt="image-20250422211646546"></p>
+<p><code>具体的例子</code></p>
+<p>情况1：如果删除的关键字在终端节点并且删除关键字之后，该节点还满足最低的关键字数量要求的话，那就直接删除该关键字就行</p>
+<p>情况2：如果删除的额关键字在非终端节点的话，则使用当前关键字的直接前驱或者直接后继进行替代</p>
+<p>比如要删除80，就可以用77和82来代替他，注意要看把77或者82移走之后原来的节点还够不够最低的标准</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422212008688.png" alt="image-20250422212008688"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422212110421.png" alt="image-20250422212110421"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422212133644.png" alt="image-20250422212133644">情况3：假如删除一个非终端节点的关键字以后，该节点不满足b树要求的话。但是兄弟结点借给该节点之后，自己的节点数量还可以满足b树要求</p>
+<p>比如下图删除38，先把49拉下来，再把70给填到父节点</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422212231527.png" alt="image-20250422212231527"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422212400688.png" alt="image-20250422212400688"></p>
+<p>左兄弟同理，只是变成找前驱而已</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422212423003.png" alt="image-20250422212423003"></p>
+<p>情况4：删除49.即兄弟结点不够借</p>
+<p>先把父节点的关键字拉下来一起和左右兄弟合并</p>
+<p>再看父节点是否满足b树要求，如果不满足再去分析是情况三还是情况4，这个例子是情况4</p>
+<p>也就是说还得再进行一次合并</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422212638213.png" alt="image-20250422212638213"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422212654055.png" alt="image-20250422212654055"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250422212804879.png" alt="image-20250422212804879"></p>
+<h4 id="7-8-3-B-树"><a href="#7-8-3-B-树" class="headerlink" title="7.8.3 B+树"></a>7.8.3 B+树</h4><p><code>定义：</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423101043459.png" alt="image-20250423101043459"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423100606142.png" alt="image-20250423100606142"></p>
+<p>这里说的非叶根节点的意思是，当根节点不是叶子节点的时候，那么当前的根节点最少要有两颗子树</p>
+<p><code>查找</code></p>
+<p>查找方式1：从上到下依次查找，和二叉排序树类似</p>
+<p>在分支节点中找到的并不是最后结果，一定得下降到叶子结点才能找到对应的记录或者信息</p>
+<p>而在叶子结点中找到才是真的找到，如果分支节点中没有该关键字，但是却可以确定是哪个叶子结点的话，那还要遍历该叶子节点的值才可以确定有没有找得到</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423101329224.png" alt="image-20250423101329224"></p>
+<p>也就是说在B+树中，无论查找成功与否，最终一定都要走到最下面一层结点</p>
+<p>而b树却可以停在任何一层</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423101707826.png" alt="image-20250423101707826"></p>
+<p>查找方式2：顺序查找 利用p指针遍历叶子节点就好</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423101909585.png" alt="image-20250423101909585"></p>
+<h4 id="7-8-4-B树和B-树的比较"><a href="#7-8-4-B树和B-树的比较" class="headerlink" title="7.8.4 B树和B+树的比较"></a>7.8.4 B树和B+树的比较</h4><p>1.关键字对应子树数量</p>
+<p>m阶B树：结点中的n个关键字对应n+1棵子树</p>
+<p>m阶B+树：结点中的n个关键字对应n棵子树。</p>
+<p>2.结点关键字数量</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423102634411.png" alt="image-20250423102634411"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423102703051.png" alt="image-20250423102703051"></p>
+<p>3.关键字是否重复</p>
+<p>m阶B树：在B树中，各结点中包含的关键字是不重复的</p>
+<p>m阶B+树：在B+树中，叶结点包含全部关键字非叶结点中出现过的关键字也会出现在叶结点中。</p>
+<p>4.关键字是否存储对应记录的地址</p>
+<p>m阶B树：B树的结点中都包含了关键字对应的记录的存储地址</p>
+<p>m阶B+树：在B+树中，叶结点包含信息，所有非叶结点仅起<code>索引作用</code>，非叶结点中的每个索引项只含有对应子树的最大关键字和指向该子树的指针，不含有该关键字对应记录的存储地址</p>
+<p>5.查找方式</p>
+<p>b树只支持随机查找，不支持顺序查找</p>
+<p>而b+树两个都可以</p>
+<p>6.b树和B+树都可以用于文件索引结构，但是b+树更合适，因为它的磁盘读写代价更低</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423102552877.png" alt="image-20250423102552877"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/bbb8bbfa42359bb1e3f0a43edc0e0fcb.png" alt="img"></p>
+<h3 id="7-9-散列查找及其性能分析"><a href="#7-9-散列查找及其性能分析" class="headerlink" title="7.9 散列查找及其性能分析"></a>7.9 散列查找及其性能分析</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e0572babf4b128d02b0768ca7606c782.png" alt="img"></p>
+<h4 id="7-9-1-散列表的基本概念"><a href="#7-9-1-散列表的基本概念" class="headerlink" title="7.9.1 散列表的基本概念"></a>7.9.1 散列表的基本概念</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423103407332.png" alt="image-20250423103407332"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423103121651.png" alt="image-20250423103121651"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423103224671.png" alt="image-20250423103224671"></p>
+<p>如何减少冲突？</p>
+<p><strong>构造更合适的散列函数</strong></p>
+<h4 id="7-9-2-散列函数的构造方法"><a href="#7-9-2-散列函数的构造方法" class="headerlink" title="7.9.2 散列函数的构造方法"></a>7.9.2 散列函数的构造方法</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423104555684.png" alt="image-20250423104555684"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423103632319.png" alt="image-20250423103632319"></p>
+<h5 id="1-除留余数法"><a href="#1-除留余数法" class="headerlink" title="1.除留余数法"></a>1.除留余数法</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423104131420.png" alt="image-20250423104131420"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423104228158.png" alt="image-20250423104228158"></p>
+<h5 id="2-直接定址法"><a href="#2-直接定址法" class="headerlink" title="2.直接定址法"></a>2.直接定址法</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423104320370.png" alt="image-20250423104320370"></p>
+<h5 id="3-数字分析法"><a href="#3-数字分析法" class="headerlink" title="3.数字分析法"></a>3.数字分析法</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423104414852.png" alt="image-20250423104414852"></p>
+<h5 id="4-平方取中法"><a href="#4-平方取中法" class="headerlink" title="4.平方取中法"></a>4.平方取中法</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423104529007.png" alt="image-20250423104529007"></p>
+<h4 id="7-9-3-处理冲突的方法"><a href="#7-9-3-处理冲突的方法" class="headerlink" title="7.9.3 处理冲突的方法"></a>7.9.3 处理冲突的方法</h4><h5 id="1-拉链法"><a href="#1-拉链法" class="headerlink" title="1.拉链法"></a>1.拉链法</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423105332839.png" alt="image-20250423105332839"></p>
+<p><code>插入操作：</code>题目如果没有说明的话，那么默认使用头插法</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423104821162.png" alt="image-20250423104821162"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423104924133.png" alt="image-20250423104924133"></p>
+<p><code>查找操作：</code></p>
+<p>1.根据散列函数找到对应链表</p>
+<p>2.遍历链表找到关键字</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423105151104.png" alt="image-20250423105151104" style="zoom:50%;" />
+
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423105122300.png" alt="image-20250423105122300" style="zoom:50%;" />
+
+<p><code>删除操作：</code></p>
+<p>先查找，找到关键字，把它删除，没找到就是删除失败</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423105439123.png" alt="image-20250423105439123"></p>
+<h5 id="2-开放地址法"><a href="#2-开放地址法" class="headerlink" title="2.开放地址法"></a>2.开放地址法</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423111825970.png" alt="image-20250423111825970"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423105545892.png" alt="image-20250423105545892"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423105745448.png" alt="image-20250423105745448"></p>
+<p>每个探测序列的第一个d0都是0，是因为第0次发生冲突的散列地址就是它本身，其实就是第一次往一个位置插入的时候的理解吧算是</p>
+<p><code>插入和查找操作</code></p>
+<p>插入就按照对应的规则插入</p>
+<p>查找也按照对应的规则查找，如果找到空，那么就是没找到答案</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423110152367.png" alt="image-20250423110152367"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423110548267.png" alt="image-20250423110548267"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423110759612.png" alt="image-20250423110759612"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423110937976.png" alt="image-20250423110937976"></p>
+<p>伪随机序列是人为设置的</p>
+<p><code>删除操作</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423111110773.png" alt="image-20250423111110773"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423111758306.png" alt="image-20250423111758306"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423111603477.png" alt="image-20250423111603477"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423111630131.png" alt="image-20250423111630131"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423111728606.png" alt="image-20250423111728606"></p>
+<p><code>探测覆盖率：</code>了解就好，不考</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423112146562.png" alt="image-20250423112146562"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423112049791.png" alt="image-20250423112049791"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423112222225.png" alt="image-20250423112222225"></p>
+<p>说明：m为质数，表长m和小于它本身的数一定是互质的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423112332631.png" alt="image-20250423112332631"></p>
+<h4 id="7-9-4-散列查找及性能分析"><a href="#7-9-4-散列查找及性能分析" class="headerlink" title="7.9.4 散列查找及性能分析"></a>7.9.4 散列查找及性能分析</h4><p>装填因子，散列函数，冲突解决策略略都会影响ASL</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423113916970.png" alt="image-20250423113916970"></p>
+<p>以线性探测为例</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423112737543.png" alt="image-20250423112737543"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423112929108.png" alt="image-20250423112929108"></p>
+<p>查找失败的13,12，11,10怎么来的？因为第一个元素查找失败那就得看后面所有元素等不等于当前要找的元素，因为后面元素都有可能是因为冲突而被线性探测法弄到后面去的</p>
+<p>还有经典的错误是，表长虽然为16，但是散列函数取值只有13</p>
+<p>1是因为h(key)&#x3D;0是空，查找一次就知道查找失败了</p>
+<p>而第二个是13而不是12的原因是，要知道h(key)&#x3D;1查找失败除了需要对比1-12以外，还要去看第13个位置，看了第13个位置发现是空的，这样才不会继续对比，那么就是13次而不是只对比1-12就可以了的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423113213240.png" alt="image-20250423113213240"></p>
+<p>注意是逻辑删除而不是真的删除，计算查找次数的时候不要以为到了7就停了，如果线性探测的时候还往后走了，那么现在也要继续往后查找</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423113452878.png" alt="image-20250423113452878"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423113630628.png" alt="image-20250423113630628"></p>
+<p>如何减轻聚集现象呢？</p>
+<p>使用平方探测法或者 设计合理的双散列法 或者 设计合理的伪随机序列法都可以减轻</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423113814054.png" alt="image-20250423113814054"></p>
+<p><strong>ASL成功&#x3D;(1+1&#x2F;(1-装填因子))&#x2F;2</strong></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2025/04/24/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9F%A5%E6%89%BE/">https://darling-123456.github.io/2025/04/24/王道数据结构笔记/第七章 查找/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a></div><div class="post-share"><div class="social-share" data-image="/img/319.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/04/24/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-24-Day100--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E5%8D%95%E5%80%BC%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day100 | 灵神 | 二叉树 单值二叉树"><img class="cover" src="/img/318.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Day100 | 灵神 | 二叉树 单值二叉树</div></div><div class="info-2"><div class="info-item-1">Day100 | 灵神 | 二叉树 单值二叉树965.单值二叉树965. 单值二叉树 - 力扣（LeetCode） 思路： 笔者的思路是后序遍历传入两参数，一个是节点另一个是单值的值，只要一样就是true，不一样就是false，缺点是如果当然节点已经不满足条件了，还是会处理完左右子树再来处理根节点 也可以先序遍历，就是先判断是不是是不是val，是的话就不处理下面的左右子树了 完整代码： 12345678910111213141516class Solution &#123;public:    bool tra(TreeNode *t,int val)    &#123;        if(t==nullptr)            return true;        bool l=tra(t-&gt;left,val);        bool r=tra(t-&gt;right,val);        if(val!=t-&gt;val)            return false;        return l&amp;&amp;r;    &#125; ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/02/26/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%20%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%BB%AA%E8%AE%BA/" title="26考研 | 王道 | 数据结构 | 第一章 数据结构绪论"><img class="cover" src="/img/280.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-26</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第一章 数据结构绪论</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 数据结构 | 第一章 数据结构绪论 1.1 数据结构的基本概念 数据：数据是信息的载体，符号的集合、所有能输入到计算机中并能被计算机程序处理的符号的集合，数据是计算机程序加工的原料。 数据元素：数据的基本单位，通常作为一个整体进行考虑和处理。一个数据元素可由若干数据项组成。 数据项：构成数据元素的不可分割的最小单位。 数据对象：数据对象是具有相同性值的数据元素的集合，是数据的一个子集。 数据结构：数据结构是相互之间存在一种或多种特定关系的数据元素的集合。   举例需要理解几点:   学校里的好多类型的表：数据 单独的一张成绩单表：数据对象 成绩单中每一行有姓名、课程、班级、成绩：数据元素 成绩单中每一行的每一个表格姓名等都是一个个的数据项  1.2 数据结构的三要素1.2.1...</div></div></div></a><a class="pagination-related" href="/2025/03/26/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="26考研 | 王道 | 数据结构 | 第二章 线性表"><img class="cover" src="/img/281.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-26</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第二章 线性表</div></div><div class="info-2"><div class="info-item-1">第二章 线性表2.1 线性表的定义和基本操作 2.1.1 线性表的定义 线性表是具有相同数据类型的n(n&gt;0)个数据元素的有限序列。(其中n为表长，当n&#x3D;0时线性表是一个空表。若用L命名线性表，则其一般表示为)    特点： 1.存在惟一的第一个元素2.存在惟一的最后一个元素3.除第一个元素之外，每个元素均只有一个直接前驱4.除最后一个元素之外，每个元素均只有一个直接后继  几个概念: 1.ai是线性表中的“第i个”元素线性表中的位序。2.a1是表头元素;an是表尾元素。3.除第一个元素外，每个元素有且仅有一个直接前驱:除最后一个元素外，每个元素有且仅有一个直接后继。  存储结构： 1.顺序存储结构：顺序表 2.链式存储结构：链表   2.1.2 线性表的基础操作 InitList(&amp;L)：初始化表。构造一个空的线性表L，分配内存空间。 DestroyList(&amp;L)： 销毁操作。销毁线性表，并释放线性表L所占用的内存空间。 ListInsert(&L;i,e)：插入操作。在表L中的第i个位置上插入指定元素e。...</div></div></div></a><a class="pagination-related" href="/2025/03/31/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" title="26考研 | 王道 | 数据结构 | 第三章 栈和队列"><img class="cover" src="/img/288.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-31</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第三章 栈和队列</div></div><div class="info-2"><div class="info-item-1">第三章 栈和队列栈和队列有相同的逻辑结构，即都是线性结构 3.1. 栈注：卡特兰数要记住  本小节完整代码栈的顺序存储123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293#include&lt;iostream&gt;using namespace std;const int MAXSIZE = 10;/*1. * *InitStack(&amp;S)：初始化栈。构造一个空栈 S，分配内存空间。 * *2. * *DestroyStack(&amp;S)：销毁栈。销毁并释放栈 S 所占用的内存空间。 * *3. * *Push(&amp;S, x)：进栈。若栈 S 未满，则将 x 加入使其成为新的栈顶元素。 * *4. * *Pop(&amp;S, &amp;x)：出栈。若栈 S...</div></div></div></a><a class="pagination-related" href="/2025/04/01/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/2025-04-01-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84--%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E4%B8%B2/" title="26考研 | 王道 | 数据结构 | 第四章 串"><img class="cover" src="/img/290.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-01</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第四章 串</div></div><div class="info-2"><div class="info-item-1">第四章...</div></div></div></a><a class="pagination-related" href="/2025/04/06/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%A0%91/" title="26考研 | 王道 | 数据结构 | 第五章 树"><img class="cover" src="/img/295.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-06</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第五章 树</div></div><div class="info-2"><div class="info-item-1">第五章 树 5.1. 树的概念5.1.1. 树的基本定义树:n(n&gt;&#x3D;0)个节点的有限集合，是一种逻辑结构，当n&#x3D;0时为空树，且非空树满足:  有且仅有一个特定的称为根的节点 当n&gt;1时，其余结点可分为m (m &gt;0) 个互不相交的有限集合，其中每个集合本身又是一棵树，并且称为根结点的子树  互不相交就是仅有一个前驱 树是一种递归的数据结构 非空树特点：  有且仅有一个根节点 没有后继的结点称为“叶子结点”（或终端节点） 有后继的结点称为“分支结点” (或非终端结点) 除了根节点外，任何一个结点都有且仅有一个前驱 每个结点可以有0个或多个后继  基本术语   祖先结点：从自己出发走到根结点的最短路这条路径上的所有节点都是祖先节点 子孙结点：自己的之下都是子孙节点 双亲结点 (父节点)...</div></div></div></a><a class="pagination-related" href="/2025/04/13/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E5%9B%BE/" title="26考研 | 王道 | 数据结构 | 第六章 图"><img class="cover" src="/img/306.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-13</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第六章 图</div></div><div class="info-2"><div class="info-item-1">第六章 图6.1....</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">313</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">45</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-%E6%9F%A5%E6%89%BE"><span class="toc-text">第七章 查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E6%9F%A5%E6%89%BE%E6%A6%82%E5%BF%B5"><span class="toc-text">7.1 查找概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E9%A1%BA%E5%BA%8F%E6%9F%A5%E6%89%BE"><span class="toc-text">7.2 顺序查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E6%8A%98%E5%8D%8A%E6%9F%A5%E6%89%BE"><span class="toc-text">7.3 折半查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E5%88%86%E5%9D%97%E6%9F%A5%E6%89%BE"><span class="toc-text">7.4 分块查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5-%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91"><span class="toc-text">7.5 二叉排序树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-6-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">7.6 平衡二叉树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5"><span class="toc-text">平衡二叉树的插入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%88%A0%E9%99%A4"><span class="toc-text">平衡二叉树的删除</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-7-%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="toc-text">7.7 红黑树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-7-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%8F%91%E6%98%8E%E7%BA%A2%E9%BB%91%E6%A0%91%EF%BC%9F"><span class="toc-text">7.7.1 为什么要发明红黑树？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-7-2-%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E6%80%A7%E8%B4%A8"><span class="toc-text">7.7.2 红黑树的定义和性质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-7-3-%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5%E5%92%8C%E5%88%A0%E9%99%A4"><span class="toc-text">7.7.3 红黑树的插入和删除</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%92%E5%85%A5"><span class="toc-text">插入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A0%E9%99%A4"><span class="toc-text">删除</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-8-B%E6%A0%91%E5%92%8CB-%E6%A0%91"><span class="toc-text">7.8 B树和B+树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-8-1-B%E6%A0%91"><span class="toc-text">7.8.1 B树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-8-2-B%E6%A0%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">7.8.2 B树的基本操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-8-3-B-%E6%A0%91"><span class="toc-text">7.8.3 B+树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-8-4-B%E6%A0%91%E5%92%8CB-%E6%A0%91%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">7.8.4 B树和B+树的比较</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-9-%E6%95%A3%E5%88%97%E6%9F%A5%E6%89%BE%E5%8F%8A%E5%85%B6%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="toc-text">7.9 散列查找及其性能分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-9-1-%E6%95%A3%E5%88%97%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">7.9.1 散列表的基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-9-2-%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-text">7.9.2 散列函数的构造方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E9%99%A4%E7%95%99%E4%BD%99%E6%95%B0%E6%B3%95"><span class="toc-text">1.除留余数法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E7%9B%B4%E6%8E%A5%E5%AE%9A%E5%9D%80%E6%B3%95"><span class="toc-text">2.直接定址法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E6%95%B0%E5%AD%97%E5%88%86%E6%9E%90%E6%B3%95"><span class="toc-text">3.数字分析法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E5%B9%B3%E6%96%B9%E5%8F%96%E4%B8%AD%E6%B3%95"><span class="toc-text">4.平方取中法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-9-3-%E5%A4%84%E7%90%86%E5%86%B2%E7%AA%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">7.9.3 处理冲突的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%8B%89%E9%93%BE%E6%B3%95"><span class="toc-text">1.拉链法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%BC%80%E6%94%BE%E5%9C%B0%E5%9D%80%E6%B3%95"><span class="toc-text">2.开放地址法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-9-4-%E6%95%A3%E5%88%97%E6%9F%A5%E6%89%BE%E5%8F%8A%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="toc-text">7.9.4 散列查找及性能分析</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/24/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9F%A5%E6%89%BE/" title="26考研 | 王道 | 数据结构 | 第七章 查找"><img src="/img/319.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 数据结构 | 第七章 查找"/></a><div class="content"><a class="title" href="/2025/04/24/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9F%A5%E6%89%BE/" title="26考研 | 王道 | 数据结构 | 第七章 查找">26考研 | 王道 | 数据结构 | 第七章 查找</a><time datetime="2025-04-24T10:47:15.000Z" title="发表于 2025-04-24 18:47:15">2025-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/24/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-24-Day100--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E5%8D%95%E5%80%BC%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day100 | 灵神 | 二叉树 单值二叉树"><img src="/img/318.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day100 | 灵神 | 二叉树 单值二叉树"/></a><div class="content"><a class="title" href="/2025/04/24/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-24-Day100--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E5%8D%95%E5%80%BC%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day100 | 灵神 | 二叉树 单值二叉树">Day100 | 灵神 | 二叉树 单值二叉树</a><time datetime="2025-04-24T00:30:20.000Z" title="发表于 2025-04-24 08:30:20">2025-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/23/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-23-Day99--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%8F%B3%E8%A7%86%E5%9B%BE/" title="Day99 | 灵神 | 二叉树 二叉树的右视图"><img src="/img/317.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day99 | 灵神 | 二叉树 二叉树的右视图"/></a><div class="content"><a class="title" href="/2025/04/23/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-23-Day99--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%8F%B3%E8%A7%86%E5%9B%BE/" title="Day99 | 灵神 | 二叉树 二叉树的右视图">Day99 | 灵神 | 二叉树 二叉树的右视图</a><time datetime="2025-04-23T00:30:20.000Z" title="发表于 2025-04-23 08:30:20">2025-04-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-22-Day98--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day98 | 灵神 | 二叉树 平衡二叉树"><img src="/img/316.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day98 | 灵神 | 二叉树 平衡二叉树"/></a><div class="content"><a class="title" href="/2025/04/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-22-Day98--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day98 | 灵神 | 二叉树 平衡二叉树">Day98 | 灵神 | 二叉树 平衡二叉树</a><time datetime="2025-04-22T09:30:20.000Z" title="发表于 2025-04-22 17:30:20">2025-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-21-Day97--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E5%AF%B9%E7%A7%B0%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day97 | 灵神 | 二叉树 对称二叉树"><img src="/img/315.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day97 | 灵神 | 二叉树 对称二叉树"/></a><div class="content"><a class="title" href="/2025/04/21/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-21-Day97--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E5%AF%B9%E7%A7%B0%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day97 | 灵神 | 二叉树 对称二叉树">Day97 | 灵神 | 二叉树 对称二叉树</a><time datetime="2025-04-21T00:17:20.000Z" title="发表于 2025-04-21 08:17:20">2025-04-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+  © 2024-<script>document.write(new Date().getFullYear())</script> 
+  <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
+  | 已运行 <span id="days">0</span> 天
+  <script>
+    const start = new Date('2024-12-12');
+    const now = new Date();
+    document.getElementById('days').innerHTML = 
+      Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  </script>
+</div>
+</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Never,ever,ever,give,up" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
