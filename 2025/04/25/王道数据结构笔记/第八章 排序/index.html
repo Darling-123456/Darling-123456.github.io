@@ -1,0 +1,675 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>26考研 | 王道 | 数据结构 | 第八章 排序 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="第八章 排序8.1 排序的基本概念  排序算法的评价指标：时间复杂度、空间复杂度、稳定性   8.2 插入排序 8.2.1 直接插入排序 算法思想：每次将一个待排序的记录按其关键字大小，插入到前面已经排好序的子序列中，直到全部记录插入完成。 该算法是稳定的  代码实现（不带哨兵）:  123456789101112&#x2F;&#x2F; 对A[]数组中共n个元素进行插入排序void InsertSort(int A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="26考研 | 王道 | 数据结构 | 第八章 排序">
+<meta property="og:url" content="https://darling-123456.github.io/2025/04/25/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="第八章 排序8.1 排序的基本概念  排序算法的评价指标：时间复杂度、空间复杂度、稳定性   8.2 插入排序 8.2.1 直接插入排序 算法思想：每次将一个待排序的记录按其关键字大小，插入到前面已经排好序的子序列中，直到全部记录插入完成。 该算法是稳定的  代码实现（不带哨兵）:  123456789101112&#x2F;&#x2F; 对A[]数组中共n个元素进行插入排序void InsertSort(int A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/321.jpg">
+<meta property="article:published_time" content="2025-04-25T11:15:15.000Z">
+<meta property="article:modified_time" content="2025-04-25T11:19:37.060Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="考研">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/321.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "26考研 | 王道 | 数据结构 | 第八章 排序",
+  "url": "https://darling-123456.github.io/2025/04/25/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%8E%92%E5%BA%8F/",
+  "image": "https://darling-123456.github.io/img/321.jpg",
+  "datePublished": "2025-04-25T11:15:15.000Z",
+  "dateModified": "2025-04-25T11:19:37.060Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2025/04/25/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%8E%92%E5%BA%8F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '26考研 | 王道 | 数据结构 | 第八章 排序',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">315</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">45</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/321.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">26考研 | 王道 | 数据结构 | 第八章 排序</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">26考研 | 王道 | 数据结构 | 第八章 排序</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-25T11:15:15.000Z" title="发表于 2025-04-25 19:15:15">2025-04-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-25T11:19:37.060Z" title="更新于 2025-04-25 19:19:37">2025-04-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">6.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="第八章-排序"><a href="#第八章-排序" class="headerlink" title="第八章 排序"></a>第八章 排序</h2><h3 id="8-1-排序的基本概念"><a href="#8-1-排序的基本概念" class="headerlink" title="8.1 排序的基本概念"></a><strong>8.1</strong> 排序的基本概念</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423151139250.png" alt="image-20250423151139250"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423150821514.png" alt="image-20250423150821514"></p>
+<p><code>排序算法的评价指标：</code>时间复杂度、空间复杂度、稳定性</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423150938250.png" alt="image-20250423150938250"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423151116734.png" alt="image-20250423151116734"></p>
+<h3 id="8-2-插入排序"><a href="#8-2-插入排序" class="headerlink" title="8.2 插入排序"></a><strong>8.2 插入排序</strong></h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423152900664.png" alt="image-20250423152900664"></p>
+<h4 id="8-2-1-直接插入排序"><a href="#8-2-1-直接插入排序" class="headerlink" title="8.2.1 直接插入排序"></a><strong>8.2.1 直接插入排序</strong></h4><ul>
+<li>算法思想：每次将一个待排序的记录按其关键字大小，插入到前面已经排好序的子序列中，直到全部记录插入完成。</li>
+<li>该算法是稳定的</li>
+</ul>
+<p><em>代码实现（不带哨兵）:</em> </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对A[]数组中共n个元素进行插入排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(<span class="type">int</span> A[],<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> i,j,temp;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>; i&lt;n; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(A[i]&lt;A[i<span class="number">-1</span>])&#123;    	<span class="comment">//如果A[i]关键字小于前驱</span></span><br><span class="line">            temp=A[i];  </span><br><span class="line">            <span class="keyword">for</span>(j=i<span class="number">-1</span>; j&gt;=<span class="number">0</span> &amp;&amp; A[j]&gt;temp; --j)</span><br><span class="line">                A[j<span class="number">+1</span>]=A[j];    <span class="comment">//所有大于temp的元素都向后挪</span></span><br><span class="line">            A[j<span class="number">+1</span>]=temp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>代码实现（带哨兵）：</em></p>
+<p>不如没有哨兵的逻辑清晰</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对A[]数组中共n个元素进行插入排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> i,j;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">2</span>; i&lt;=n; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(A[i]&lt;A[i<span class="number">-1</span>])&#123;</span><br><span class="line">            A[<span class="number">0</span>]=A[i];     	<span class="comment">//复制为哨兵，A[0]不放元素</span></span><br><span class="line">            <span class="keyword">for</span>(j=i<span class="number">-1</span>; A[<span class="number">0</span>]&lt;A[j]; --j)</span><br><span class="line">                A[j<span class="number">+1</span>]=A[j];</span><br><span class="line">            A[j<span class="number">+1</span>]=A[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423152035907.png" alt="image-20250423152035907" style="zoom: 50%;" />
+
+<p><em>对链表进行插入排序代码实现：</em></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对链表L进行插入排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(LinkList &amp;L)</span></span>&#123;</span><br><span class="line">    LNode *p=L-&gt;next, *pre;</span><br><span class="line">    LNode *r=p-&gt;next;</span><br><span class="line">    p-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">    p=r;</span><br><span class="line">    <span class="keyword">while</span>(p!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">        r=p-&gt;next;</span><br><span class="line">        pre=L;</span><br><span class="line">        <span class="keyword">while</span>(pre-&gt;next!=<span class="literal">NULL</span> &amp;&amp; pre-&gt;next-&gt;data&lt;p-&gt;data)</span><br><span class="line">            pre=pre-&gt;next;</span><br><span class="line">        p-&gt;next=pre-&gt;next;</span><br><span class="line">        pre-&gt;next=p;</span><br><span class="line">        p=r;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-2-2-折半插入排序"><a href="#8-2-2-折半插入排序" class="headerlink" title="8.2.2 折半插入排序"></a><strong>8.2.2 折半插入排序</strong></h4><ul>
+<li><strong>算法思路：</strong> 每次将一个待排序的记录按其关键字大小，使用折半查找找到前面子序列中应该插入的位置并插入，直到全部记录插入完成。</li>
+<li>和直接插入排序就是多了一个折半查找的过程，其他的都一样</li>
+<li>**注意：**一直到low&gt;high 时才停止折半查找。当mid所指元秦等于当前元素时，应继续令low&#x3D;mid+1，以保证“稳定性”。最终应将当前元素插入到low 所指位置 (即 high+1)</li>
+<li>最后结束位置是low&#x3D;hight+1时推出了循环，而low就是元素应该插入的位置，所以要将[low,i-1]的元素全部右移</li>
+</ul>
+<p><em>代码实现：</em></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对A[]数组中共n个元素进行折半插入排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> n)</span></span>&#123; </span><br><span class="line">    <span class="type">int</span> i,j,low,high,mid;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">2</span>; i&lt;=n; i++)&#123;</span><br><span class="line">        A[<span class="number">0</span>]=A[i];    		     	 <span class="comment">//将A[i]暂存到A[0]</span></span><br><span class="line">            low=<span class="number">1</span>; high=i<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span>(low&lt;=high)&#123;            <span class="comment">//折半查找</span></span><br><span class="line">            mid=(low+high)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(A[mid]&gt;A[<span class="number">0</span>])</span><br><span class="line">                high=mid<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                low=mid<span class="number">+1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(j=i<span class="number">-1</span>; j&gt;high<span class="number">+1</span>; --j)</span><br><span class="line">            A[j<span class="number">+1</span>]=A[j];</span><br><span class="line">        A[high<span class="number">+1</span>]=A[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>与直接插入排序相比，比较关键字的次数减少了，但是移动元素的次数没有变。时间复杂度仍为 O(n²)。</li>
+</ul>
+<h4 id="8-2-3-希尔排序"><a href="#8-2-3-希尔排序" class="headerlink" title="8.2.3 希尔排序"></a><strong>8.2.3 希尔排序</strong></h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/480bad616172fabe1176ee6300230c71.png" alt="img"></p>
+<p>希尔排序：先追求表中元素部分有序，再逐渐逼近全局有序</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423204909227.png" alt="image-20250423204909227"></p>
+<p>但是考试中可能会遇到各种各样的增量</p>
+<p><code>具体的例子执行过程：</code></p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423205759297.png" alt="image-20250423205759297" style="zoom:50%;" />
+
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423205818760.png" alt="image-20250423205818760" style="zoom:50%;" />
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423205837074.png" alt="image-20250423205837074"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423205901933.png" alt="image-20250423205901933"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423205917655.png" alt="image-20250423205917655"></p>
+<p><code>代码实现：</code></p>
+<p>1.代码逻辑一开始会让 i指向第一个子表的第二个元素，方便和第一个元素进行比较,76&gt;49,不需要处理</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423210034981.png" alt="image-20250423210034981"></p>
+<p>2.处理第二个子表 最里层的for循环是把子表中大于A[i]的元素往后移动，只是每次都移动的是d的距离，是j+d，而不是j+1，因为处理的是子表而不是整个表</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423210134082.png" alt="image-20250423210134082"></p>
+<p>3.第三个第四个子表也是同样的处理，然后第一趟就结束了，就是中间的for循环结束了</p>
+<p>4.第二趟的处理，现在d&#x3D;2，处理第一个子表</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423210529018.png" alt="image-20250423210529018"></p>
+<p>5.处理完27后，本来我们应该去处理76的，但是代码逻辑并不是那样，i++之后是49，是去处理第二个子表的第二个元素49</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423210603598.png" alt="image-20250423210603598"></p>
+<p>6.处理完49后又切换回了第一个子表的第三个元素76</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423210655897.png" alt="image-20250423210655897"></p>
+<p>后面的38,65,97也是一样的过程</p>
+<p>7.而等到第三趟的时候，d&#x3D;1，就是直接对整个表进行插入排序了</p>
+<p><em>希尔排序代码实现：</em> </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对A[]数组共n个元素进行希尔排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ShellSort</span><span class="params">(ElemType A[], <span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> d,i,j;</span><br><span class="line">    <span class="keyword">for</span>(d=n/<span class="number">2</span>; d&gt;=<span class="number">1</span>; d=d/<span class="number">2</span>)&#123;  	<span class="comment">//步长d递减</span></span><br><span class="line">        <span class="keyword">for</span>(i=d<span class="number">+1</span>; i&lt;=n; ++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(A[i]&lt;A[i-d])&#123;</span><br><span class="line">                A[<span class="number">0</span>]=A[i];		<span class="comment">//A[0]做暂存单元，不是哨兵</span></span><br><span class="line">                <span class="keyword">for</span>(j=i-d; j&gt;<span class="number">0</span> &amp;&amp; A[<span class="number">0</span>]&lt;A[j]; j-=d)</span><br><span class="line">                    A[j+d]=A[j];</span><br><span class="line">                A[j+d]=A[<span class="number">0</span>];</span><br><span class="line">            &#125;</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>性能分析</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423205632912.png" alt="image-20250423205632912"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423205700103.png" alt="image-20250423205700103"></p>
+<p>不能用于链表是因为希尔排序需要数组的随机访问的特性才可以</p>
+<h3 id="8-3-交换排序"><a href="#8-3-交换排序" class="headerlink" title="8.3 交换排序"></a>8.3 交换排序</h3><h4 id="8-3-1-冒泡排序"><a href="#8-3-1-冒泡排序" class="headerlink" title="8.3.1 冒泡排序"></a>8.3.1 冒泡排序</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423211731578.png" alt="image-20250423211731578"></p>
+<ul>
+<li>**算法思路：**从后往前（或从前往后）两两比较相邻元素的值，若为逆序（即 A [ i − 1 ] &gt; A [ i ]) ，则交换它们，直到序列比较完。如此重复最多 n-1 次冒泡就能将所有元素排好序。为保证稳定性，关键字相同的元素不交换。</li>
+</ul>
+<p>其实就是每次都是在没有排过序的元素中选一个最小的放到了最前面</p>
+<p><em>冒泡排序代码实现：</em></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 交换a和b的值</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(<span class="type">int</span> &amp;a, <span class="type">int</span> &amp;b)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> temp=a;</span><br><span class="line">    a=b;</span><br><span class="line">    b=temp;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 对A[]数组共n个元素进行冒泡排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BubbleSort</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n<span class="number">-1</span>; i++)&#123;</span><br><span class="line">        <span class="type">bool</span> flag = <span class="literal">false</span>; 			<span class="comment">//标识本趟冒泡是否发生交换</span></span><br><span class="line">        <span class="comment">//i所指位置之前的元素都是已经排好序的元素</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=n<span class="number">-1</span>; j&gt;i; j--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(A[j<span class="number">-1</span>]&gt;A[j])&#123;</span><br><span class="line">                <span class="built_in">swap</span>(A[j<span class="number">-1</span>],A[j]);</span><br><span class="line">                flag=<span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(flag==<span class="literal">false</span>)</span><br><span class="line">            <span class="keyword">return</span>;       <span class="comment">//若本趟遍历没有发生交换，说明已经有序</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423211612965.png" alt="image-20250423211612965"></p>
+<p>每次只有大于的时候才会交换，所以算法是稳定的</p>
+<p><strong>冒泡排序还可以用于链表</strong></p>
+<h4 id="8-3-2-快速排序"><a href="#8-3-2-快速排序" class="headerlink" title="8.3.2 快速排序"></a>8.3.2 快速排序</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423214810490.png" alt="image-20250423214810490"></p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423211858159.png" alt="image-20250423211858159" style="zoom:50%;" />
+
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423214940640.png" alt="image-20250423214940640" style="zoom:50%;" />
+
+<p><code>算法执行过程：</code></p>
+<p>1.分别用low和high指向要处理的序列的头和尾的两个位置</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423212749334.png" alt="image-20250423212749334"></p>
+<p>2.选low作为基准元素，然后扫描剩下的所有元素，小于49的都放在low的左边，大于等于49的都放在high的右边</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423212826100.png" alt="image-20250423212826100"></p>
+<p>3.一开始low指的地方是空，先让high移动，一开始high是49，大于等于49，所以high–，high–后使得49在high的右侧了就</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423213047147.png" alt="image-20250423213047147"></p>
+<p>4.high–后，high指向27,27小于49，所以必须放在low的左边，所以就把27移动到low的位置然后让low++</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423213129201.png" alt="image-20250423213129201"></p>
+<p>5.low++后指向65,65大于49，把65放到high的位置然后high–</p>
+<p>6.重复上述过程直到low&#x3D;&#x3D;high，那么49就会放在low和high所指的地方，同时49左边都会比49小，49右边都会比49大</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423213233736.png" alt="image-20250423213233736"></p>
+<p>7.通过49把数组划分为左右两个子区间，然后对两个子区间进行同样的过程即可</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423213356281.png" alt="image-20250423213356281" style="zoom:50%;" />
+
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423213424997.png" alt="image-20250423213424997" style="zoom:50%;" />
+
+<p>8.得到最终的结果</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423213506180.png" alt="image-20250423213506180" style="zoom:50%;" />
+
+<ul>
+<li>快速排序是所有内部排序算法中性能最优的排序算法</li>
+<li>快速排序是所有内部排序算法中考察频率最高的算法</li>
+<li>在快速排序算法中每一趟都会将枢轴元素放到其最终位置上（可用来判断进行了几趟快速排序）</li>
+<li>快速排序可以看作数组中n个元素组织成二叉树，每趟处理的枢轴是二叉树的根节点，递归调用的层数是二叉树的层数</li>
+</ul>
+<p><em>快速排序代码实现：</em></p>
+<p>注：返回值是low和high，作为下一次划分子表的依据</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423212344099.png" alt="image-20250423212344099"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用第一个元素将数组A[]划分为两个部分</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Partition</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> low, <span class="type">int</span> high)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> pivot = A[low];</span><br><span class="line">    <span class="keyword">while</span>(low&lt;high)&#123;</span><br><span class="line">        <span class="keyword">while</span>(low&lt;high &amp;&amp; A[high]&gt;=pivot)</span><br><span class="line">            --high;</span><br><span class="line">        A[low] = A[high];</span><br><span class="line">        <span class="keyword">while</span>(low&lt;high &amp;&amp; A[low]&lt;=pivot) </span><br><span class="line">            ++low;</span><br><span class="line">        A[high] = A[low];</span><br><span class="line">    &#125;</span><br><span class="line">    A[low] = pivot;</span><br><span class="line">    <span class="keyword">return</span> low;</span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line"><span class="comment">// 对A[]数组的low到high进行快速排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">QuickSort</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> low, <span class="type">int</span> high)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">        <span class="type">int</span> pivotpos = <span class="built_in">Partition</span>(A, low, high);  <span class="comment">//划分</span></span><br><span class="line">        <span class="built_in">QuickSort</span>(A, low, pivotpos - <span class="number">1</span>);</span><br><span class="line">        <span class="built_in">QuickSort</span>(A, pivotpos + <span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>性能分析</code></p>
+<p><strong>稳定性：不稳定</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423214620570.png" alt="image-20250423214620570"></p>
+<p>在平常的使用中，平均时间复杂度更加接近最好的时间复杂度而不是最坏，所以才是内部排序中最优的排序算法</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423213736542.png" alt="image-20250423213736542"></p>
+<p>空间复杂度&#x3D;O(递归深度)</p>
+<p><code>递归深度：</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423213936043.png" alt="image-20250423213936043"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423214004513.png" alt="image-20250423214004513"></p>
+<p>最好时间复杂度就是每次选取的枢轴元素可以把元素分为两个差不多均匀地区间，那这样就可以尽量减小二叉树深度，也就是减少递归深度从而降低时间复杂度</p>
+<p>所以优化思路就是途中的，<code>尽量选取可以把数据中分的枢轴元素</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423214121275.png" alt="image-20250423214121275"></p>
+<p>最坏的情况是本来有序的情况，如果原来有序或者逆序的话，每次选择的枢轴都是靠边的元素，划分的区间就是1和n-1，那二叉树就只有左子树或者右子树了，变成链表了，递归深度就高了，自然时间复杂度就高了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423214240746.png" alt="image-20250423214240746"></p>
+<h3 id="8-4-选择排序"><a href="#8-4-选择排序" class="headerlink" title="8.4 选择排序"></a>8.4 选择排序</h3><ul>
+<li>选择排序思想： 每一趟在待排序元素中选取关键字最小（或最大）的元素加入有序子序列。</li>
+</ul>
+<h4 id="8-4-1-简单选择排序"><a href="#8-4-1-简单选择排序" class="headerlink" title="8.4.1 简单选择排序"></a>8.4.1 简单选择排序</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423215654793.png" alt="image-20250423215654793"></p>
+<ul>
+<li>**算法思路：**每一趟在待排序元素中选取关键字最小的元素与待排序元素中的第一个元素交换位置</li>
+</ul>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423215210100.png" alt="image-20250423215210100" style="zoom:50%;" />
+
+<p>如图所示，在剩下的6个元素中找到最小的49把它和65换位置即可</p>
+<p><em>简单选择排序代码实现：</em></p>
+<p>注：调用一次封装的swap函数一共移动了3次元素</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 交换a和b的值  </span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(<span class="type">int</span> &amp;a, <span class="type">int</span> &amp;b)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> temp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = temp;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 对A[]数组共n个元素进行选择排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SelectSort</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n<span class="number">-1</span>; i++)&#123;          	<span class="comment">//一共进行n-1趟，i指向待排序序列中第一个元素</span></span><br><span class="line">        <span class="type">int</span> min = i;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=i<span class="number">+1</span>; j&lt;n; j++)&#123;		<span class="comment">//在A[i...n-1]中选择最小的元素</span></span><br><span class="line">            <span class="keyword">if</span>(A[j]&lt;A[min])</span><br><span class="line">                min = j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(min!=i)                     </span><br><span class="line">            <span class="built_in">swap</span>(A[i], A[min]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>算法效率分析：</code></p>
+<p>简单选择排序不管怎么样都得对比n(n-1)&#x2F;2这么多次，和序列的初始状态无关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423215516331.png" alt="image-20250423215516331"></p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423215623351.png" alt="image-20250423215623351" style="zoom: 50%;" />
+
+<p><strong>适用于链表和数组</strong></p>
+<p><em>对链表进行简单选择排序：</em></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">selectSort</span><span class="params">(LinkList &amp;L)</span></span>&#123;</span><br><span class="line">    LNode *h=L,*p,*q,*r,*s;</span><br><span class="line">    L=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">while</span>(h!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">        p=s=h; q=r=<span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">while</span>(p!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(p-&gt;data&gt;s-&gt;data)&#123;</span><br><span class="line">                s=p; r=q;</span><br><span class="line">            &#125;</span><br><span class="line">            q=p; p=p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(s==h)</span><br><span class="line">            h=h-&gt;next;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            r-&gt;next=s-&gt;next;</span><br><span class="line">        s-&gt;next=L; L=s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-4-2-堆排序"><a href="#8-4-2-堆排序" class="headerlink" title="8.4.2 堆排序"></a>8.4.2 堆排序</h4><p><code>重点：</code></p>
+<p>1.给定序列调整成大根堆和给定序列和空堆依次按照序列插入的结果是不同的，最终得到的根的形式也不同，因为可能会在插入过程中进行根的调整</p>
+<p>2.大根堆中的最小值在[n&#x2F;2下取整]+1到n之间</p>
+<p>小根堆中的最大值也是如此</p>
+<p>3.堆是顺序存储的完全二叉树，因此高度小于等于节点数相同的二叉排序树</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424204252135.png" alt="image-20250424204252135"></p>
+<h5 id="堆的概念："><a href="#堆的概念：" class="headerlink" title="堆的概念："></a>堆的概念：</h5><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423224103012.png" alt="image-20250423224103012" style="zoom:50%;" />
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423224617272.png" alt="image-20250423224617272"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423224442809.png" alt="image-20250423224442809"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423224500317.png" alt="image-20250423224500317"></p>
+<p>可以看出来，如果我们要进行排序，那么利用大根堆或者小根堆会很方便，因为最大最小值就在数组前面</p>
+<p>那么如果把一个序列变成大根堆或者小根堆呢，即如何建立大根堆或者小根堆呢？</p>
+<p>1.从n&#x2F;2下取整的编号倒着往前检查，那么例子中就是9</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423225531615.png" alt="image-20250423225531615"></p>
+<p>2.看9和它的左右孩子的的大小，如果比9大的话，就把孩子中更大的孩子和9互换就行，孩子是2i和2i+1,32和45</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423230128407.png" alt="image-20250423230128407"></p>
+<p>3.处理完9的话就i–，处理78,78的2i和2i+1是65和87</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423230251079.png" alt="image-20250423230251079"></p>
+<p>4.重复这个过程，直到根节点，也就是第一个结点</p>
+<p>5.根节点的是45和87，于是把87放到根节点</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423230337078.png" alt="image-20250423230337078"></p>
+<p>6.发现 53下去之后破坏了下一级的堆，所以要继续换，当小元素无法继续下坠的时候就调整结束了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423230441376.png" alt="image-20250423230441376"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250423230558289.png" alt="image-20250423230558289"></p>
+<h5 id="建立大根堆的代码"><a href="#建立大根堆的代码" class="headerlink" title="建立大根堆的代码"></a>建立大根堆的代码</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424200935325.png" alt="image-20250424200935325"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对初始序列建立大根堆</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BuildMaxHeap</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> len)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=len/<span class="number">2</span>; i&gt;<span class="number">0</span>; i--) 		<span class="comment">//从后往前调整所有非终端结点</span></span><br><span class="line">        <span class="built_in">HeadAdjust</span>(A, i, len);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 将以k为根的子树调整为大根堆</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HeadAdjust</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> k, <span class="type">int</span> len)</span></span>&#123;</span><br><span class="line">    A[<span class="number">0</span>] = A[k];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>*k; i&lt;=len; i*=<span class="number">2</span>)&#123;	<span class="comment">//沿k较大的子结点向下调整</span></span><br><span class="line">        <span class="comment">//这个if就是在选左右孩子里面较大的孩子，因为一会交换也是把大的孩子放上去而不是把小的孩子放上去，所以如果右孩子更大就选右孩子了</span></span><br><span class="line">        <span class="keyword">if</span>(i&lt;len &amp;&amp; A[i]&lt;A[i<span class="number">+1</span>])	</span><br><span class="line">            i++;</span><br><span class="line">        <span class="keyword">if</span>(A[<span class="number">0</span>] &gt;= A[i])</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            A[k] = A[i];			<span class="comment">//将A[i]调整至双亲结点上</span></span><br><span class="line">            k=i;					<span class="comment">//修改k值，以便继续向下筛选</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    A[k] = A[<span class="number">0</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以处理53这个结点为例子，第一个if，87笔45更大，所以我们选择走87这边</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424201608123.png" alt="image-20250424201608123" style="zoom: 33%;" />
+
+<p>走到第二个if发现53比87小，那么就把87放到53的位置（其实现在87的位置还是87，只是为了方便讲解才画成空的），然后把k赋值为i，这就是继续去找87原来的左右子树，也就是在找53实际上应该在的位置，也就是进入第二层循环</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424201737332.png" alt="image-20250424201737332" style="zoom: 33%;" />
+
+<p>第二轮循环开始，很明显78大于65，我们走78这边，而78也比53大，说明87的位置不是53去的地方，那么还是父子交换，就把78放过来变成图中这样</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424202005310.png" alt="image-20250424202005310" style="zoom:33%;" />
+
+<p>最后i大于len退出了循环，k所在的位置就是i应该在的位置</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424202121456.png" alt="image-20250424202121456" style="zoom:33%;" />
+
+<h5 id="堆排序算法思想"><a href="#堆排序算法思想" class="headerlink" title="堆排序算法思想"></a>堆排序算法思想</h5><p>选择排序就是每一趟在待排序元素中选取关键字最大的元素加入有序序列</p>
+<p>堆排序就是每一趟将堆顶元素加入有序子序列（与待排序序列中的最后一个元素互换）</p>
+<p>因为堆顶元素一定是数组中最大的，而最末尾的位置就是最大元素的位置</p>
+<p><code>具体例子：</code></p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424202439911.png" alt="image-20250424202439911" style="zoom: 33%;" />
+
+<p>第一步把87移到最后，也就是和最后一个元素9做一个交换，然后就相当于87已经不在堆内，然后把剩下的数看做一个堆，然后重新进行调整，因为交换过后很有可能已经不是大根堆了</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424202723125.png" alt="image-20250424202723125" style="zoom:33%;" />
+
+<p>下图就是处理不包括87的大根堆，到此为止，完成了第一趟的处理</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424202926164.png" alt="image-20250424202926164" style="zoom:33%;" />
+
+<p>接下来把堆顶元素78和待排序序列的最后一个元素53交换，那么78,87就已经是一个已经排好序的序列了</p>
+<p>然后在调整除了78,87其他的数组成的大根堆，重复这个过程直到全都排序完成</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424203036917.png" alt="image-20250424203036917" style="zoom:33%;" />
+
+<p>经过n-1趟处理后，就可以得到一个递增的序列了(如果是小根堆，那就是递减序列)</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424203332722.png" alt="image-20250424203332722"></p>
+<p><em>堆排序代码实现：</em></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 交换a和b的值</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(<span class="type">int</span> &amp;a, <span class="type">int</span> &amp;b)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> temp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = temp;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 对长为len的数组A[]进行堆排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">HeapSort</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> len)</span></span>&#123;</span><br><span class="line">    <span class="built_in">BuildMaxHeap</span>(A, len);         	<span class="comment">//初始建立大根堆</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=len; i&gt;<span class="number">1</span>; i--)&#123;      	<span class="comment">//n-1趟的交换和建堆过程</span></span><br><span class="line">        <span class="built_in">swap</span>(A[i], A[<span class="number">1</span>]);<span class="comment">//交换堆顶和待排序序列的最后一个元素交换</span></span><br><span class="line">        <span class="built_in">HeadAdjust</span>(A,<span class="number">1</span>,i<span class="number">-1</span>);<span class="comment">//调整不包含已经排过序的数的大根堆</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>算法性能分析</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424203939771.png" alt="image-20250424203939771"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424204048725.png" alt="image-20250424204048725"></p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424204135603.png" alt="image-20250424204135603" style="zoom:50%;" />
+
+<p><code>稳定性：</code>不稳定的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424204403698.png" alt="image-20250424204403698"></p>
+<h5 id="堆的插入和删除"><a href="#堆的插入和删除" class="headerlink" title="堆的插入和删除"></a>堆的插入和删除</h5><p>注意下调整时候的关键字对比次数，要考的</p>
+<p>插入和删除的复杂度都是log2的n</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424205803863.png" alt="image-20250424205803863"></p>
+<p><code>插入</code>：就一开始先把13放在最末尾，然后调整堆，让这个堆满足小根堆的要求，其实本质就是让新插入的元素不断的上升找到属于自己的位置。如果一插入进去就满足小根堆的要求，那就不需要调整</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424204720961.png" alt="image-20250424204720961" style="zoom: 33%;" />
+
+<p>一共进行了3次关键字对比</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424204939124.png" alt="image-20250424204939124" style="zoom:33%;" />
+
+<p><code>删除</code></p>
+<p>直接删除该元素，然后用末尾元素代替他，然后调整这个元素，让它到自己应该取得位置即可。也有可能末尾元素放到这里刚刚好，那就不用调整，但是关键字对比次数并不是0，因为一定是和子树对比之后才知道需不需要调整</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424205130073.png" alt="image-20250424205130073" style="zoom: 33%;" />
+
+<p>比如要把13删掉，那就用末尾元素46代替他，然后调整这个元素46，让它到自己应该取得位置即可</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424205200081.png" alt="image-20250424205200081" style="zoom:33%;" />
+
+<p>一共对比了4次关键字</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424205326030.png" alt="image-20250424205326030" style="zoom:33%;" />
+
+<p>比如删除65，然后46放到这里，一共有两次关键字对比，第一次是78和87对比，选一个更小的，第二次是46和78比，所以有两次关键字对比</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424205645688.png" alt="image-20250424205645688"></p>
+<h3 id="8-5-1-归并排序"><a href="#8-5-1-归并排序" class="headerlink" title="8.5.1 归并排序"></a>8.5.1 归并排序</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424211624897.png" alt="image-20250424211624897"></p>
+<p><strong>归并（Merge）</strong>：把两个或多个已经有序的序列合并成一个新的有序表。k路归并每选出一个元素，需对比关键字k-1次。</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424210051628.png" alt="image-20250424210051628" style="zoom:33%;" />
+
+<p>两个有序数组就是二路归并，四个有序数组就是四路归并</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424210200105.png" alt="image-20250424210200105" style="zoom:33%;" />
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424210445033.png" alt="image-20250424210445033"></p>
+<p>**算法思想：**先将数组进行拆分，每次拆成两份，然后继续拆分直到一组有两个元素为止，然后再进行两两整合排序，重复两两整合排序直至数组元素排序完成 </p>
+<p>代码实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 辅助数组B</span></span><br><span class="line"><span class="type">int</span> *B=(<span class="type">int</span> *)<span class="built_in">malloc</span>(n*<span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br><span class="line"><span class="comment">// A[low,...,mid]，A[mid+1,...,high]各自有序，将这两个部分归并</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Merge</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> low, <span class="type">int</span> mid, <span class="type">int</span> high)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> i,j,k;</span><br><span class="line">    <span class="keyword">for</span>(k=low; k&lt;=high; k++)</span><br><span class="line">        B[k]=A[k];</span><br><span class="line">    <span class="keyword">for</span>(i=low, j=mid<span class="number">+1</span>, k=i; i&lt;=mid &amp;&amp; j&lt;= high; k++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(B[i]&lt;=B[j])</span><br><span class="line">            A[k]=B[i++];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            A[k]=B[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)</span><br><span class="line">        A[k++]=B[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=high) </span><br><span class="line">        A[k++]=B[j++];</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 递归操作</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MergeSort</span><span class="params">(<span class="type">int</span> A[], <span class="type">int</span> low, <span class="type">int</span> high)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(low&lt;high)&#123;</span><br><span class="line">        <span class="type">int</span> mid = (low+high)/<span class="number">2</span>;</span><br><span class="line">        <span class="built_in">MergeSort</span>(A, low, mid);</span><br><span class="line">        <span class="built_in">MergeSort</span>(A, mid<span class="number">+1</span>, high);</span><br><span class="line">        <span class="built_in">Merge</span>(A,low,mid,high);     <span class="comment">//归并</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>算法效率分析</code></p>
+<p>趟数等于树高h-1</p>
+<p>稳定性：稳定（我们在代码实现中，如果是两个元素相同的情况，会把第一个序列的元素放在前面，这样保证了稳定性）</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424211458028.png" alt="image-20250424211458028"></p>
+<h3 id="8-5-2-基数排序"><a href="#8-5-2-基数排序" class="headerlink" title="8.5.2 基数排序"></a>8.5.2 基数排序</h3><p>考试中一般都是链式存储进行考察的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424214322247.png" alt="image-20250424214322247"></p>
+<p>r称为基数，其实就是你的关键字位的取值的情况数量，比如下面的例子中，就可以取0-9，一共10种情况，那么r就等于10</p>
+<p>d就是需要几趟，也就是需要几次分配，就是关键字可以拆分为几个部分，显然下图需要分成个位十位百位，那么就是3次分配，那么d就等于3</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424212403302.png" alt="image-20250424212403302"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424212439818.png" alt="image-20250424212439818"></p>
+<p><code>例子：</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0f33d6482f13ba0c629680e6234f71b1.png" alt="img"></p>
+<p><code>算法效率分析</code></p>
+<p><code>稳定性：</code>稳定</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424213157457.png" alt="image-20250424213157457"></p>
+<p>一趟收集为什么是O(r)？</p>
+<p>因为我们已经有了队头的指针，而队内是有序的，把队头的指针直接接到链表里面去就是了，那么一共是r个队列，所以是O(r)</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424213608927.png" alt="image-20250424213608927"></p>
+<p>基数排序擅长处理的问题：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424214132955.png" alt="image-20250424214132955"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424214301929.png" alt="image-20250424214301929"></p>
+<h3 id="8-5-3-计数排序（考纲没有做个了解吧）"><a href="#8-5-3-计数排序（考纲没有做个了解吧）" class="headerlink" title="8.5 3 计数排序（考纲没有做个了解吧）"></a>8.5 3 计数排序（考纲没有做个了解吧）</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424215041306.png" alt="image-20250424215041306"></p>
+<p>第二步其实就是求一下辅助函数的前缀和</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424215414272.png" alt="image-20250424215414272"></p>
+<p>第三步是倒数遍历a数组然后把对应的数字填写到b数组去</p>
+<p>倒着遍历A数组是为了保持算法的稳定性</p>
+<p>复习的时候可以看一下代码，看不懂的话就去看视频吧（大概在10:00处-14:00）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C[A[i]]=C[A[i]]<span class="number">-1</span>相当于C[A[i]]--</span><br><span class="line">    然后C[A[i]]就是A[i]这个数在B数组中存放的位置</span><br><span class="line">    所以才有下面的B[C[A[i]]]=A[i]</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424215454138.png" alt="image-20250424215454138"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424222015204.png" alt="image-20250424222015204"></p>
+<h3 id="8-6-内部排序算法总结"><a href="#8-6-内部排序算法总结" class="headerlink" title="8.6 内部排序算法总结"></a>8.6 内部排序算法总结</h3><p>1.元素如果基本有序的话，效率最高的是直接插入排序</p>
+<p>2.快排比较好的情况是每次选择的元素可以把区间均匀地划分开</p>
+<p>3.冒泡，快排，选择排序，堆排序一趟结束后，至少有一个元素在它的最终位置上。而插入排序则不一定，也就是一趟下来可能所有元素都不在最后的位置上面</p>
+<p>4.快排在要排序数组基本有序情况下不利于发挥其长处</p>
+<p>5.就平均性能而言，内部算法中最好的是快排</p>
+<p>6.排序趟数和有元素要发生交换的躺数不同</p>
+<p>排序躺数还要多一轮没有任何元素发生交换的一趟</p>
+<p>7.快排每一趟可以确定一个元素，所以如果一个序列经历了两趟快排，那至少有两个元素的最终位置是确定的</p>
+<h4 id="8-6-1-内部排序算法比较"><a href="#8-6-1-内部排序算法比较" class="headerlink" title="8.6.1 内部排序算法比较"></a>8.6.1 内部排序算法比较</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424223656087.png" alt="image-20250424223656087"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424223717982.png" alt="image-20250424223717982"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424222832810.png" alt="image-20250424222832810"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424223748438.png" alt="image-20250424223748438"></p>
+<h4 id="8-6-2-内部排序算法的应用"><a href="#8-6-2-内部排序算法的应用" class="headerlink" title="8.6.2 内部排序算法的应用"></a>8.6.2 内部排序算法的应用</h4><p><code>选取排序方法需要考虑的因素：</code></p>
+<ol>
+<li>待排序的元素数目n。</li>
+<li>元素本身信息量的大小。</li>
+<li>关键字的结构及其分布情况。</li>
+<li>稳定性的要求。</li>
+<li>语言工具的条件，存储结构及辅助空间的大小等。</li>
+</ol>
+<p><code>排序算法的选择：</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424223536204.png" alt="image-20250424223536204"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250424223546826.png" alt="image-20250424223546826"></p>
+<h3 id="8-7-外部排序"><a href="#8-7-外部排序" class="headerlink" title="8.7 外部排序"></a>8.7 外部排序</h3><p><code>外存和内存之间的数据交换</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425103021862.png" alt="image-20250425103021862"></p>
+<h4 id="8-7-1-外部排序的基本概念和方法"><a href="#8-7-1-外部排序的基本概念和方法" class="headerlink" title="8.7.1 外部排序的基本概念和方法"></a>8.7.1 外部排序的基本概念和方法</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425112234228.png" alt="image-20250425112234228"></p>
+<p>外部排序：对大文件进行排序时，因为文件中的记录很多、信息量庞大，无法将整个文件复制进内存中进行排序。因此需要将待排序的记录存储在外存上，排序时再把数据一部分一部分地调入内存进行排序，在排序过程中需要多次进行内存和外存之间的交换。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425103201818.png" alt="image-20250425103201818"></p>
+<p>1.将数据块读入内存的输入缓冲区</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425103255063.png" alt="image-20250425103255063"></p>
+<p>2.对数据块内的数据进行内部排序，然后将排好序的数据块放入输出缓冲区</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425103308659.png" alt="image-20250425103308659"></p>
+<ol start="3">
+<li>写回磁盘，得到了一个有序的归并段</li>
+</ol>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425103321936.png" alt="image-20250425103321936"></p>
+<p>4.重复上述步骤，直到所有的数据块排完序，一共进行了16次读和16次写，一共32次读写磁盘操作</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425103626346.png" alt="image-20250425103626346"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425103926348.png" alt="image-20250425103926348"></p>
+<p>5.挑选两个归并段中小的那个数据块放到两个输入缓冲区</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425103950879.png" alt="image-20250425103950879"></p>
+<p>6.然后和归并排序一样，挑选两个输入缓冲区里面小的放入输出缓冲区</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425104006964.png" alt="image-20250425104006964"></p>
+<p>7.输出缓冲区满了就写回磁盘</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425104023368.png" alt="image-20250425104023368"></p>
+<p>8.继续给输出缓冲区输入25,26，此时缓冲区1空了，立刻用归并段1的给补上，这样才能保证接下来输入给输出缓冲区的数据是最小的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425104036702.png" alt="image-20250425104036702"></p>
+<p>8.满了就写回磁盘，空了就补上</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425104052333.png" alt="image-20250425104052333"></p>
+<p>9.到此为止组成一个更大的有序序列</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425104107556.png" alt="image-20250425104107556"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425104119950.png" alt="image-20250425104119950"></p>
+<p>10.对其他的数据块做相同的处理</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425104454427.png" alt="image-20250425104454427"></p>
+<p>11.进行第二趟归并</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425104530232.png" alt="image-20250425104530232"></p>
+<p>12.第三次归并，结束后整个文件就有序了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425104601959.png" alt="image-20250425104601959"></p>
+<p><code>时间开销分析</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425104812479.png" alt="image-20250425104812479"></p>
+<p>外部排序时间开销 &#x3D; 读写外存的时间 + 内部排序所需时间＋内部归并所需时间，其中读写外存时间占大头、</p>
+<p>优化方向：优化读写磁盘的次数，尽量减少。这个取决于文件总块数和归并的趟数，文件总块数基本是不可改变的，所以我们主要优化的是归并的趟数</p>
+<p><code>优化1：</code>多路归并</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425105304900.png" alt="image-20250425105304900"></p>
+<p>多路归并的路数k并不是越大越好，会带来负面影响</p>
+<p><code>优化2：</code>减少归并段数量</p>
+<p>生成的初始归并段越少，那我们需要读写磁盘的次数也就越少</p>
+<p>要想生成的初始归并段越少，那生成初识归并段的内存工作区就得大，这样才能生成更长的初始归并段</p>
+<p>归并段越长，而文件大小是一定的，所以归并段数量肯定越少</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425105421067.png" alt="image-20250425105421067"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425105459543.png" alt="image-20250425105459543"></p>
+<h4 id="8-7-2-败者树"><a href="#8-7-2-败者树" class="headerlink" title="8.7.2 败者树"></a>8.7.2 败者树</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425112110889.png" alt="image-20250425112110889"></p>
+<p>路数更大那么每趟关键字对比的次数会增加导致内部排序的时间增加，而败者树可以优化这个问题</p>
+<p>也就是可以让我们从k个关键字中选出最小关键字的时间变短</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425105945308.png" alt="image-20250425105945308"></p>
+<p>1.叶子结点分别对应归并段，两个结点比大小，小的可以继续往上走</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425110630036.png" alt="image-20250425110630036"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425110724071.png" alt="image-20250425110724071"></p>
+<p>2.但是非叶结点记录的是获胜的节点来自哪个归并段，而不是具体的节点值，这个结果说明了，归并段3的元素最小，那就把第三个叶子节点的1输出出去</p>
+<p>这是我们第一次构建败者树，需要k-1次也就是7次关键字对比</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425110814178.png" alt="image-20250425110814178"></p>
+<p>3.接下来把1输出后，把归并段3的下一个元素6放在1原来的位置，然后再次进行关键字对比，这时我们发现只需要对比3次就知道下一个输出的元素该是谁了，对比次数就和除了最上面的蓝色节点的树的高度是一样的，其实就是log以二为底k上取整。然后重复这个过程就是了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425111124083.png" alt="image-20250425111124083"></p>
+<p><code>代码实现思路</code></p>
+<p>节点其实就和完全二叉树对应(不包含蓝色的，也就is[0])，叶子节点是虚拟的，是脑补的，每个叶子节点就是i和i+1的归并段的大小比较，小的那个是第几个归并段，is[i]就是几</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425111714299.png" alt="image-20250425111714299"></p>
+<h4 id="8-7-3-置换-选择排序（生成初始归并段）"><a href="#8-7-3-置换-选择排序（生成初始归并段）" class="headerlink" title="8.7.3 置换-选择排序（生成初始归并段）"></a>8.7.3 置换-选择排序（生成初始归并段）</h4><p><code>置换-选择排序：</code><strong>产生更长的初始归并段，从而减少初始归并段数量。</strong></p>
+<p>之前外部排序的办法构造的初始归并段长度由内存工作区的大小决定的</p>
+<p>而如何构造更大的初始归并段，是由置换选择排序来解决的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425115413071.png" alt="image-20250425115413071"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425120533761.png" alt="image-20250425120533761"></p>
+<p>例子：</p>
+<p>1.先把开头三个元素放到内存工作区，先后把最小的元素4放到输出文件FO，其实是都放到输出缓冲区，等到输出缓冲区满了一次性写出去。然后把下一个元素7给放进来，然后输出最小的6.重复这样的过程</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425120800611.png" alt="image-20250425120800611"></p>
+<p>2.然后到10的时候发现，归并段末尾的元素是13，但是10小于13，所以10就被标红，不被放到归并段1</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425121238561.png" alt="image-20250425121238561"></p>
+<p>3.当内存工作区的元素都不可以加入归并段的时候，那么这个归并段就在这个地方停止，开始构建下一个归并段</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425121553925.png" alt="image-20250425121553925"></p>
+<p>4.重复一样的步骤直到待排序文件的元素都加入内存工作区之后，就把内容工作区的元素按照大小放到最后一个归并段</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425121724844.png" alt="image-20250425121724844"></p>
+<p>5.通过这种方法就让初始归并段长度可以超过内存工作区大小的限制了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425121916814.png" alt="image-20250425121916814"></p>
+<h4 id="8-7-4-最佳归并树"><a href="#8-7-4-最佳归并树" class="headerlink" title="8.7.4 最佳归并树"></a>8.7.4 最佳归并树</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425150131507.png" alt="image-20250425150131507"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425144826122.png" alt="image-20250425144826122"></p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425144945279.png" alt="image-20250425144945279" style="zoom: 50%;" />
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425145026377.png" alt="image-20250425145026377"></p>
+<p>多路的最佳归并树和二路的并没有什么区别，二路的是选两个最小的，多路的就是选多个最小的组成新节点</p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425145126690.png" alt="image-20250425145126690" style="zoom:50%;" />
+
+<p>如果把30给删掉，那只剩下8个节点了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425145401607.png" alt="image-20250425145401607"></p>
+<p>继续按照老方法构造最佳归并树，构造出来的就不对了，因为最后并不会是三个数一起归并，而只有两个树，得到的就不是最佳归并树了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425145455234.png" alt="image-20250425145455234"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425145617173.png" alt="image-20250425145617173"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425145646297.png" alt="image-20250425145646297"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250425150111707.png" alt="image-20250425150111707"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2025/04/25/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%8E%92%E5%BA%8F/">https://darling-123456.github.io/2025/04/25/王道数据结构笔记/第八章 排序/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a></div><div class="post-share"><div class="social-share" data-image="/img/321.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/04/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-25-Day101--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E7%BF%BB%E8%BD%AC%E7%AD%89%E4%BB%B7%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day101 | 灵神 | 二叉树 翻转等价二叉树"><img class="cover" src="/img/320.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Day101 | 灵神 | 二叉树 翻转等价二叉树</div></div><div class="info-2"><div class="info-item-1">Day101 | 灵神 | 二叉树 翻转等价二叉树951.翻转等价二叉树951. 翻转等价二叉树 - 力扣（LeetCode） 思路： 一开始笔者的思路就是判断完当前结点相不相等以后再去判断左右子树相不相等，不相等的话用swap翻转之后再次比较，这样太麻烦了，而且写的时候难免出错 笔者就去评论区找大佬了 大佬的思路是：反正是有限次数的翻转，那么只会有两种情况 情况1：不需要翻转，也就是root1的左子树和root2的左子树相同，右子树和右子树相同 情况2：需要翻转，也就是没有翻转之前root1的左子树和root2的右子树相同，root1的右子树和root2的左子树相同 那我还翻转什么了，直接把这两种情况都递归一下，第一次比较左左和右右，第二次比较左右和右左，只要有一次可以比较成功那就是可以翻转，根本不用什么swap 完整代码： 笔者代码：觉得看着复杂可以看下面的等价代码 1234567891011121314class Solution &#123;public:    bool flipEquiv(TreeNode* root1, TreeNode* root2)...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/02/26/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%20%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%BB%AA%E8%AE%BA/" title="26考研 | 王道 | 数据结构 | 第一章 数据结构绪论"><img class="cover" src="/img/280.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-26</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第一章 数据结构绪论</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 数据结构 | 第一章 数据结构绪论 1.1 数据结构的基本概念 数据：数据是信息的载体，符号的集合、所有能输入到计算机中并能被计算机程序处理的符号的集合，数据是计算机程序加工的原料。 数据元素：数据的基本单位，通常作为一个整体进行考虑和处理。一个数据元素可由若干数据项组成。 数据项：构成数据元素的不可分割的最小单位。 数据对象：数据对象是具有相同性值的数据元素的集合，是数据的一个子集。 数据结构：数据结构是相互之间存在一种或多种特定关系的数据元素的集合。   举例需要理解几点:   学校里的好多类型的表：数据 单独的一张成绩单表：数据对象 成绩单中每一行有姓名、课程、班级、成绩：数据元素 成绩单中每一行的每一个表格姓名等都是一个个的数据项  1.2 数据结构的三要素1.2.1...</div></div></div></a><a class="pagination-related" href="/2025/03/26/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="26考研 | 王道 | 数据结构 | 第二章 线性表"><img class="cover" src="/img/281.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-26</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第二章 线性表</div></div><div class="info-2"><div class="info-item-1">第二章 线性表2.1 线性表的定义和基本操作 2.1.1 线性表的定义 线性表是具有相同数据类型的n(n&gt;0)个数据元素的有限序列。(其中n为表长，当n&#x3D;0时线性表是一个空表。若用L命名线性表，则其一般表示为)    特点： 1.存在惟一的第一个元素2.存在惟一的最后一个元素3.除第一个元素之外，每个元素均只有一个直接前驱4.除最后一个元素之外，每个元素均只有一个直接后继  几个概念: 1.ai是线性表中的“第i个”元素线性表中的位序。2.a1是表头元素;an是表尾元素。3.除第一个元素外，每个元素有且仅有一个直接前驱:除最后一个元素外，每个元素有且仅有一个直接后继。  存储结构： 1.顺序存储结构：顺序表 2.链式存储结构：链表   2.1.2 线性表的基础操作 InitList(&amp;L)：初始化表。构造一个空的线性表L，分配内存空间。 DestroyList(&amp;L)： 销毁操作。销毁线性表，并释放线性表L所占用的内存空间。 ListInsert(&L;i,e)：插入操作。在表L中的第i个位置上插入指定元素e。...</div></div></div></a><a class="pagination-related" href="/2025/03/31/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" title="26考研 | 王道 | 数据结构 | 第三章 栈和队列"><img class="cover" src="/img/288.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-31</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第三章 栈和队列</div></div><div class="info-2"><div class="info-item-1">第三章 栈和队列栈和队列有相同的逻辑结构，即都是线性结构 3.1. 栈注：卡特兰数要记住  本小节完整代码栈的顺序存储123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293#include&lt;iostream&gt;using namespace std;const int MAXSIZE = 10;/*1. * *InitStack(&amp;S)：初始化栈。构造一个空栈 S，分配内存空间。 * *2. * *DestroyStack(&amp;S)：销毁栈。销毁并释放栈 S 所占用的内存空间。 * *3. * *Push(&amp;S, x)：进栈。若栈 S 未满，则将 x 加入使其成为新的栈顶元素。 * *4. * *Pop(&amp;S, &amp;x)：出栈。若栈 S...</div></div></div></a><a class="pagination-related" href="/2025/04/01/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/2025-04-01-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84--%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E4%B8%B2/" title="26考研 | 王道 | 数据结构 | 第四章 串"><img class="cover" src="/img/290.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-01</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第四章 串</div></div><div class="info-2"><div class="info-item-1">第四章...</div></div></div></a><a class="pagination-related" href="/2025/04/06/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%A0%91/" title="26考研 | 王道 | 数据结构 | 第五章 树"><img class="cover" src="/img/295.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-06</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第五章 树</div></div><div class="info-2"><div class="info-item-1">第五章 树 5.1. 树的概念5.1.1. 树的基本定义树:n(n&gt;&#x3D;0)个节点的有限集合，是一种逻辑结构，当n&#x3D;0时为空树，且非空树满足:  有且仅有一个特定的称为根的节点 当n&gt;1时，其余结点可分为m (m &gt;0) 个互不相交的有限集合，其中每个集合本身又是一棵树，并且称为根结点的子树  互不相交就是仅有一个前驱 树是一种递归的数据结构 非空树特点：  有且仅有一个根节点 没有后继的结点称为“叶子结点”（或终端节点） 有后继的结点称为“分支结点” (或非终端结点) 除了根节点外，任何一个结点都有且仅有一个前驱 每个结点可以有0个或多个后继  基本术语   祖先结点：从自己出发走到根结点的最短路这条路径上的所有节点都是祖先节点 子孙结点：自己的之下都是子孙节点 双亲结点 (父节点)...</div></div></div></a><a class="pagination-related" href="/2025/04/13/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E5%9B%BE/" title="26考研 | 王道 | 数据结构 | 第六章 图"><img class="cover" src="/img/306.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-13</div><div class="info-item-2">26考研 | 王道 | 数据结构 | 第六章 图</div></div><div class="info-2"><div class="info-item-1">第六章 图6.1....</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">315</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">45</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AB%E7%AB%A0-%E6%8E%92%E5%BA%8F"><span class="toc-text">第八章 排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E6%8E%92%E5%BA%8F%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">8.1 排序的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-text">8.2 插入排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-1-%E7%9B%B4%E6%8E%A5%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-text">8.2.1 直接插入排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-2-%E6%8A%98%E5%8D%8A%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-text">8.2.2 折半插入排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-3-%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="toc-text">8.2.3 希尔排序</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-%E4%BA%A4%E6%8D%A2%E6%8E%92%E5%BA%8F"><span class="toc-text">8.3 交换排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-1-%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-text">8.3.1 冒泡排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-2-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-text">8.3.2 快速排序</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-text">8.4 选择排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4-1-%E7%AE%80%E5%8D%95%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-text">8.4.1 简单选择排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4-2-%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-text">8.4.2 堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A0%86%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">堆的概念：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E5%A4%A7%E6%A0%B9%E5%A0%86%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-text">建立大根堆的代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3"><span class="toc-text">堆排序算法思想</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A0%86%E7%9A%84%E6%8F%92%E5%85%A5%E5%92%8C%E5%88%A0%E9%99%A4"><span class="toc-text">堆的插入和删除</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-5-1-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-text">8.5.1 归并排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-5-2-%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="toc-text">8.5.2 基数排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-5-3-%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F%EF%BC%88%E8%80%83%E7%BA%B2%E6%B2%A1%E6%9C%89%E5%81%9A%E4%B8%AA%E4%BA%86%E8%A7%A3%E5%90%A7%EF%BC%89"><span class="toc-text">8.5 3 计数排序（考纲没有做个了解吧）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-6-%E5%86%85%E9%83%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93"><span class="toc-text">8.6 内部排序算法总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-6-1-%E5%86%85%E9%83%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%AF%94%E8%BE%83"><span class="toc-text">8.6.1 内部排序算法比较</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-6-2-%E5%86%85%E9%83%A8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">8.6.2 内部排序算法的应用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-7-%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F"><span class="toc-text">8.7 外部排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-7-1-%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%92%8C%E6%96%B9%E6%B3%95"><span class="toc-text">8.7.1 外部排序的基本概念和方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-7-2-%E8%B4%A5%E8%80%85%E6%A0%91"><span class="toc-text">8.7.2 败者树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-7-3-%E7%BD%AE%E6%8D%A2-%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%EF%BC%88%E7%94%9F%E6%88%90%E5%88%9D%E5%A7%8B%E5%BD%92%E5%B9%B6%E6%AE%B5%EF%BC%89"><span class="toc-text">8.7.3 置换-选择排序（生成初始归并段）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-7-4-%E6%9C%80%E4%BD%B3%E5%BD%92%E5%B9%B6%E6%A0%91"><span class="toc-text">8.7.4 最佳归并树</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/25/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%8E%92%E5%BA%8F/" title="26考研 | 王道 | 数据结构 | 第八章 排序"><img src="/img/321.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 数据结构 | 第八章 排序"/></a><div class="content"><a class="title" href="/2025/04/25/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E6%8E%92%E5%BA%8F/" title="26考研 | 王道 | 数据结构 | 第八章 排序">26考研 | 王道 | 数据结构 | 第八章 排序</a><time datetime="2025-04-25T11:15:15.000Z" title="发表于 2025-04-25 19:15:15">2025-04-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-25-Day101--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E7%BF%BB%E8%BD%AC%E7%AD%89%E4%BB%B7%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day101 | 灵神 | 二叉树 翻转等价二叉树"><img src="/img/320.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day101 | 灵神 | 二叉树 翻转等价二叉树"/></a><div class="content"><a class="title" href="/2025/04/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-25-Day101--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E7%BF%BB%E8%BD%AC%E7%AD%89%E4%BB%B7%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day101 | 灵神 | 二叉树 翻转等价二叉树">Day101 | 灵神 | 二叉树 翻转等价二叉树</a><time datetime="2025-04-25T00:30:20.000Z" title="发表于 2025-04-25 08:30:20">2025-04-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/24/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9F%A5%E6%89%BE/" title="26考研 | 王道 | 数据结构 | 第七章 查找"><img src="/img/319.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 数据结构 | 第七章 查找"/></a><div class="content"><a class="title" href="/2025/04/24/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9F%A5%E6%89%BE/" title="26考研 | 王道 | 数据结构 | 第七章 查找">26考研 | 王道 | 数据结构 | 第七章 查找</a><time datetime="2025-04-24T10:47:15.000Z" title="发表于 2025-04-24 18:47:15">2025-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/24/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-24-Day100--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E5%8D%95%E5%80%BC%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day100 | 灵神 | 二叉树 单值二叉树"><img src="/img/318.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day100 | 灵神 | 二叉树 单值二叉树"/></a><div class="content"><a class="title" href="/2025/04/24/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-24-Day100--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E5%8D%95%E5%80%BC%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Day100 | 灵神 | 二叉树 单值二叉树">Day100 | 灵神 | 二叉树 单值二叉树</a><time datetime="2025-04-24T00:30:20.000Z" title="发表于 2025-04-24 08:30:20">2025-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/23/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-23-Day99--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%8F%B3%E8%A7%86%E5%9B%BE/" title="Day99 | 灵神 | 二叉树 二叉树的右视图"><img src="/img/317.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day99 | 灵神 | 二叉树 二叉树的右视图"/></a><div class="content"><a class="title" href="/2025/04/23/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-23-Day99--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%8F%B3%E8%A7%86%E5%9B%BE/" title="Day99 | 灵神 | 二叉树 二叉树的右视图">Day99 | 灵神 | 二叉树 二叉树的右视图</a><time datetime="2025-04-23T00:30:20.000Z" title="发表于 2025-04-23 08:30:20">2025-04-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+  © 2024-<script>document.write(new Date().getFullYear())</script> 
+  <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
+  | 已运行 <span id="days">0</span> 天
+  <script>
+    const start = new Date('2024-12-12');
+    const now = new Date();
+    document.getElementById('days').innerHTML = 
+      Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  </script>
+</div>
+</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Never,ever,ever,give,up" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
