@@ -52734,4 +52734,907 @@ $&#123;&#125;
         <tag>刷题记录</tag>
       </tags>
   </entry>
+  <entry>
+    <title>26考研 | 计算机网络 | 对计网考研中的信道、传输时延、传播时延的理解</title>
+    <url>/2025/05/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%AF%B9%E8%AE%A1%E7%BD%91%E8%80%83%E7%A0%94%E4%B8%AD%E7%9A%84%E4%BF%A1%E9%81%93%E3%80%81%E4%BC%A0%E8%BE%93%E6%97%B6%E5%BB%B6%E3%80%81%E4%BC%A0%E6%92%AD%E6%97%B6%E5%BB%B6%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<h1 id="对计网考研中的信道、传输时延、传播时延的理解"><a href="#对计网考研中的信道、传输时延、传播时延的理解" class="headerlink" title="对计网考研中的信道、传输时延、传播时延的理解"></a>对计网考研中的信道、传输时延、传播时延的理解</h1><p>在学习数据链路层流量控制和可靠传输那一节的三个协议的最大信道利用率时产生的疑惑</p>
+<p><code>情景：</code></p>
+<p>假如A主机和B主机通过集线器连接，A和集线器是光纤连接，B和集线器也是光纤连接，A给B发送帧</p>
+<p><code>问题：</code></p>
+<p>那么信道指的是什么？发送信道指的是什么？包含A到B之间的光纤吗？还是A把数据推到光纤上所经过的地方才是信道，光纤并不算在内？所以才说算信道利用率的时候，只算传输时延而不看传播时延？</p>
+<p>那A的数据在光纤中传播时，算不算信道的空闲时间呢？</p>
+<h3 id="一、信道的定义与范围"><a href="#一、信道的定义与范围" class="headerlink" title="一、信道的定义与范围"></a>一、信道的定义与范围</h3><p><strong>1.信道（Channel）的物理本质</strong><br>信道是数据传输的物理或逻辑路径。在本场景中，​<strong>信道包含A到集线器的光纤链路、集线器内部背板总线以及集线器到B的光纤链路</strong>。</p>
+<ul>
+<li><p>光纤作为传输介质是信道的重要组成部分（，而集线器内部采用总线结构实现逻辑上的共享连接</p>
+</li>
+<li><p>由于集线器工作在物理层，所有端口共享同一冲突域和广播域，因此</p>
+<p>整个集线器连接的线路构成一个共享信道</p>
+</li>
+</ul>
+<p><strong>2.发送信道（Transmission Channel）的范畴</strong><br>​<strong>发送信道仅指A到集线器的光纤链路</strong>。当A发送帧时，数据首先通过A的网卡进入光纤链路传输到集线器，此时集线器作为中继设备将信号广播到所有端口（包括B的链路）。因此，发送信道是数据从A到集线器的单向物理路径。</p>
+<h3 id="二、信道利用率的计算依据"><a href="#二、信道利用率的计算依据" class="headerlink" title="二、信道利用率的计算依据"></a>二、信道利用率的计算依据</h3><ol>
+<li><strong>信道利用率公式的核心逻辑</strong><br>信道利用率 &#x3D; 数据发送时间 &#x2F; （数据发送时间 + 信道空闲时间），其中：<ul>
+<li>数据发送时间对应传输时延（Transmission Delay），即数据从A网卡进入光纤链路到全部比特离开A的时间（与数据大小和带宽相关）</li>
+<li>传播时延（Propagation Delay）（光信号在光纤中的传播时间）不参与计算，因为信道利用率关注的是信道被占用的时间比例，而传播时延是信号在物理介质中的固有延迟，与信道是否被占用无关</li>
+</ul>
+</li>
+<li><strong>关键区别</strong><ul>
+<li>传输时延：由数据长度和带宽决定，反映信道被占用的时间。</li>
+<li>传播时延：由物理介质长度和光速决定，反映信号到达目的地的时间，但不影响信道是否被占用</li>
+</ul>
+</li>
+</ol>
+<h3 id="三、信道空闲时间的定义"><a href="#三、信道空闲时间的定义" class="headerlink" title="三、信道空闲时间的定义"></a>三、信道空闲时间的定义</h3><p>信道空闲时间指<strong>发送端停止发送数据后，信道未被任何设备占用的时间</strong></p>
+<p>根据802.11协议的定义，信道空闲需满足以下条件：</p>
+<ol>
+<li><strong>无数据发送</strong>：发送端已停止发送数据帧。</li>
+<li>无载波监听信号：物理层（如电压变化）或虚拟层（如NAV计时器）未检测到其他设备的占用信号</li>
+</ol>
+<p>因此，当数据在光纤中传播时，若发送端已停止发送，即使信号仍在介质中传播，信道仍被判定为空闲</p>
+<h3 id="四、A到B的光纤传播阶段是否算空闲时间？"><a href="#四、A到B的光纤传播阶段是否算空闲时间？" class="headerlink" title="四、A到B的光纤传播阶段是否算空闲时间？"></a>四、A到B的光纤传播阶段是否算空闲时间？</h3><p>需分两种情况讨论：</p>
+<h4 id="1-发送端A仍在持续发送数据"><a href="#1-发送端A仍在持续发送数据" class="headerlink" title="1. 发送端A仍在持续发送数据"></a>1. <strong>发送端A仍在持续发送数据</strong></h4><ul>
+<li><strong>信道状态</strong>：<strong>繁忙</strong>。</li>
+<li>原因：A的网卡持续占用信道发送数据帧，此时无论光纤中是否已有数据传播，信道均被标记为“忙”</li>
+<li>示例：若A发送一个长帧，在第一个比特到达集线器前，后续比特仍在从A的网卡发出，此时信道仍被占用</li>
+</ul>
+<h4 id="2-发送端A已完成数据发送"><a href="#2-发送端A已完成数据发送" class="headerlink" title="2. 发送端A已完成数据发送"></a>2. <strong>发送端A已完成数据发送</strong></h4><ul>
+<li><strong>信道状态</strong>：<strong>空闲</strong>。</li>
+<li>原因：A的网卡已停止发送，最后一个比特离开A的网卡后，信道立即释放</li>
+<li>传播时延的影响：光纤中传播的数据不会影响信道状态，因信道占用仅与发送端的主动行为相关</li>
+<li><strong>示例</strong>：A发送完一个帧后，即使该帧仍在光纤中传输（传播时延），信道已空闲，B可立即竞争发送</li>
+</ul>
+<h3 id="五、信道利用率计算的本质"><a href="#五、信道利用率计算的本质" class="headerlink" title="五、信道利用率计算的本质"></a>五、信道利用率计算的本质</h3><p>信道利用率公式为：</p>
+<p>信道利用率&#x3D;传输时延&#x2F;(传输时延 + 信道空闲时间传输时延)</p>
+<ul>
+<li>传输时延：数据从A网卡完全发出的时间（与帧长和带宽相关）</li>
+<li>传播时延：数据在光纤中的传播时间（与距离和光速相关）</li>
+</ul>
+<p><strong>传播时延不参与计算</strong>，因为信道是否被占用仅取决于发送端是否在主动发送，而非信号在物理介质中的传播状态</p>
+<h3 id="六、关键结论"><a href="#六、关键结论" class="headerlink" title="六、关键结论"></a>六、关键结论</h3><ol>
+<li><strong>光纤中的传播时间是否算空闲</strong>：仅当发送端A停止发送后，传播时间才属于信道空闲时间。</li>
+<li>**信道占用判定逻辑：**基于发送端行为（是否持续发送），而非物理介质的信号传播状态</li>
+<li><strong>设计意义</strong>：这种机制允许设备在传播时延期间复用信道，提高网络效率</li>
+</ol>
+<h3 id="七、示例验证"><a href="#七、示例验证" class="headerlink" title="七、示例验证"></a>七、示例验证</h3><p>假设A发送一个1ms的帧（传输时延），光纤传播时延为0.5ms：</p>
+<ul>
+<li><strong>发送阶段（1ms）</strong>：信道繁忙。</li>
+<li><strong>传播阶段（0.5ms）</strong>：若A未发送新数据，信道立即空闲，B可竞争使用。</li>
+<li><strong>总信道占用时间</strong>：1ms（传输时延），利用率计算仅考虑这1ms</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>计算机网络</tag>
+        <tag>考研</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day109 | 148.排序链表 | 归并排序</title>
+    <url>/2025/05/03/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-30-Day109--148.%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8--%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h1 id="Day109-灵神-148-排序链表-归并排序"><a href="#Day109-灵神-148-排序链表-归并排序" class="headerlink" title="Day109 | 灵神 | 148.排序链表 | 归并排序"></a>Day109 | 灵神 | 148.排序链表 | 归并排序</h1><p><a href="https://leetcode.cn/problems/sort-list/description/">148. 排序链表 - 力扣（LeetCode）</a></p>
+<p>以下是灵神的题解，笔者认为这题只要可以看懂就好了</p>
+<p>两种方法：分治和迭代</p>
+<h2 id="前置题目"><a href="#前置题目" class="headerlink" title="前置题目"></a>前置题目</h2><ul>
+<li><a href="https://leetcode.cn/problems/middle-of-the-linked-list/">876. 链表的中间结点</a></li>
+<li><a href="https://leetcode.cn/problems/merge-two-sorted-lists/">21. 合并两个有序链表</a></li>
+</ul>
+<h2 id="方法一：归并排序（分治）"><a href="#方法一：归并排序（分治）" class="headerlink" title="方法一：归并排序（分治）"></a>方法一：归并排序（分治）</h2><ol>
+<li>找到<strong>链表的中间结点</strong> <em>head</em>2 的<strong>前一个节点</strong>，并断开 <em>head</em>2 与其前一个节点的连接。这样我们就把原链表均分成了两段更短的链表</li>
+<li>分治，递归调用 sortList，分别排序 <em>head</em>（只有前一半）和 <em>head</em>2。</li>
+<li>排序后，我们得到了两个有序链表，那么<strong>合并两个有序链表</strong>，得到排序后的链表，返回链表头节点。</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="comment">// 876. 链表的中间结点（快慢指针）</span></span><br><span class="line">    <span class="function">ListNode* <span class="title">middleNode</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        ListNode* pre = head;</span><br><span class="line">        ListNode* slow = head;</span><br><span class="line">        ListNode* fast = head;</span><br><span class="line">        <span class="keyword">while</span> (fast &amp;&amp; fast-&gt;next) &#123;</span><br><span class="line">            pre = slow; <span class="comment">// 记录 slow 的前一个节点</span></span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">            fast = fast-&gt;next-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        pre-&gt;next = <span class="literal">nullptr</span>; <span class="comment">// 断开 slow 的前一个节点和 slow 的连接</span></span><br><span class="line">        <span class="keyword">return</span> slow;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 21. 合并两个有序链表（双指针）</span></span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* list1, ListNode* list2)</span> </span>&#123;</span><br><span class="line">        ListNode dummy; <span class="comment">// 用哨兵节点简化代码逻辑</span></span><br><span class="line">        ListNode* cur = &amp;dummy; <span class="comment">// cur 指向新链表的末尾</span></span><br><span class="line">        <span class="keyword">while</span> (list1 &amp;&amp; list2) &#123;</span><br><span class="line">            <span class="keyword">if</span> (list1-&gt;val &lt; list2-&gt;val) &#123;</span><br><span class="line">                cur-&gt;next = list1; <span class="comment">// 把 list1 加到新链表中</span></span><br><span class="line">                list1 = list1-&gt;next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// 注：相等的情况加哪个节点都是可以的</span></span><br><span class="line">                cur-&gt;next = list2; <span class="comment">// 把 list2 加到新链表中</span></span><br><span class="line">                list2 = list2-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        cur-&gt;next = list1 ? list1 : list2; <span class="comment">// 拼接剩余链表</span></span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">sortList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 如果链表为空或者只有一个节点，无需排序</span></span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">nullptr</span> || head-&gt;next == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 找到中间节点 head2，并断开 head2 与其前一个节点的连接</span></span><br><span class="line">        <span class="comment">// 比如 head=[4,2,1,3]，那么 middleNode 调用结束后 head=[4,2] head2=[1,3]</span></span><br><span class="line">        ListNode* head2 = <span class="built_in">middleNode</span>(head);</span><br><span class="line">        <span class="comment">// 分治</span></span><br><span class="line">        head = <span class="built_in">sortList</span>(head);</span><br><span class="line">        head2 = <span class="built_in">sortList</span>(head2);</span><br><span class="line">        <span class="comment">// 合并</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">mergeTwoLists</span>(head, head2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><ul>
+<li>时间复杂度：O(<em>n</em>log<em>n</em>)，其中 <em>n</em> 是链表长度。递归式 <em>T</em>(<em>n</em>)&#x3D;2<em>T</em>(<em>n</em>&#x2F;2)+O(<em>n</em>)，由主定理可得时间复杂度为 O(<em>n</em>log<em>n</em>)。</li>
+<li>空间复杂度：O(log<em>n</em>)。递归需要 O(log<em>n</em>) 的栈开销。</li>
+</ul>
+<h2 id="方法二：归并排序（迭代）"><a href="#方法二：归并排序（迭代）" class="headerlink" title="方法二：归并排序（迭代）"></a>方法二：归并排序（迭代）</h2><p>方法一的归并是<strong>自顶向下</strong>计算，需要 O(log<em>n</em>) 的递归栈开销。</p>
+<p>方法二将其改成<strong>自底向上</strong>计算，空间复杂度优化成 O(1)。</p>
+<p>自底向上的意思是：</p>
+<ul>
+<li>首先，归并长度为 1 的子链表。例如 [4,2,1,3]，把第一个节点和第二个节点归并，第三个节点和第四个节点归并，得到 [2,4,1,3]。</li>
+<li>然后，归并长度为 2 的子链表。例如 [2,4,1,3]，把前两个节点和后两个节点归并，得到 [1,2,3,4]。</li>
+<li>然后，归并长度为 4 的子链表。</li>
+<li>依此类推，直到归并的长度大于等于链表长度为止，此时链表已经是有序的了。</li>
+</ul>
+<p>具体算法：</p>
+<ol>
+<li>遍历链表，获取链表长度 <em>length</em>。</li>
+<li>初始化步长 <em>step</em>&#x3D;1。</li>
+<li>循环直到 <em>step</em>≥<em>length</em>。</li>
+<li>每轮循环，从链表头节点开始。</li>
+<li>分割出两段长为 <em>step</em> 的链表，合并，把合并后的链表插到新链表的末尾。重复该步骤，直到链表遍历完毕。</li>
+<li>把 <em>step</em> 扩大一倍。回到第 4 步。</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="comment">// 获取链表长度</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getListLength</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> length = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (head) &#123;</span><br><span class="line">            length++;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分割链表</span></span><br><span class="line">    <span class="comment">// 如果链表长度 &lt;= size，不做任何操作，返回空节点</span></span><br><span class="line">    <span class="comment">// 如果链表长度 &gt; size，把链表的前 size 个节点分割出来（断开连接），并返回剩余链表的头节点</span></span><br><span class="line">    <span class="function">ListNode* <span class="title">splitList</span><span class="params">(ListNode* head, <span class="type">int</span> size)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 先找到 next_head 的前一个节点</span></span><br><span class="line">        ListNode* cur = head;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size - <span class="number">1</span> &amp;&amp; cur; i++) &#123;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果链表长度 &lt;= size</span></span><br><span class="line">        <span class="keyword">if</span> (cur == <span class="literal">nullptr</span> || cur-&gt;next == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nullptr</span>; <span class="comment">// 不做任何操作，返回空节点</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ListNode* next_head = cur-&gt;next;</span><br><span class="line">        cur-&gt;next = <span class="literal">nullptr</span>; <span class="comment">// 断开 next_head 的前一个节点和 next_head 的连接</span></span><br><span class="line">        <span class="keyword">return</span> next_head;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 21. 合并两个有序链表（双指针）</span></span><br><span class="line">    <span class="comment">// 返回合并后的链表的头节点和尾节点</span></span><br><span class="line">    <span class="function">pair&lt;ListNode*, ListNode*&gt; <span class="title">mergeTwoLists</span><span class="params">(ListNode* list1, ListNode* list2)</span> </span>&#123;</span><br><span class="line">        ListNode dummy; <span class="comment">// 用哨兵节点简化代码逻辑</span></span><br><span class="line">        ListNode* cur = &amp;dummy; <span class="comment">// cur 指向新链表的末尾</span></span><br><span class="line">        <span class="keyword">while</span> (list1 &amp;&amp; list2) &#123;</span><br><span class="line">            <span class="keyword">if</span> (list1-&gt;val &lt; list2-&gt;val) &#123;</span><br><span class="line">                cur-&gt;next = list1; <span class="comment">// 把 list1 加到新链表中</span></span><br><span class="line">                list1 = list1-&gt;next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// 注：相等的情况加哪个节点都是可以的</span></span><br><span class="line">                cur-&gt;next = list2; <span class="comment">// 把 list2 加到新链表中</span></span><br><span class="line">                list2 = list2-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        cur-&gt;next = list1 ? list1 : list2; <span class="comment">// 拼接剩余链表</span></span><br><span class="line">        <span class="keyword">while</span> (cur-&gt;next) &#123;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 循环结束后，cur 是合并后的链表的尾节点</span></span><br><span class="line">        <span class="keyword">return</span> &#123;dummy.next, cur&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">sortList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> length = <span class="built_in">getListLength</span>(head); <span class="comment">// 获取链表长度</span></span><br><span class="line">        <span class="function">ListNode <span class="title">dummy</span><span class="params">(<span class="number">0</span>, head)</span></span>; <span class="comment">// 用哨兵节点简化代码逻辑</span></span><br><span class="line">        <span class="comment">// step 为步长，即参与合并的链表长度</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> step = <span class="number">1</span>; step &lt; length; step *= <span class="number">2</span>) &#123;</span><br><span class="line">            ListNode* new_list_tail = &amp;dummy; <span class="comment">// 新链表的末尾</span></span><br><span class="line">            ListNode* cur = dummy.next; <span class="comment">// 每轮循环的起始节点</span></span><br><span class="line">            <span class="keyword">while</span> (cur) &#123;</span><br><span class="line">                <span class="comment">// 从 cur 开始，分割出两段长为 step 的链表，头节点分别为 head1 和 head2</span></span><br><span class="line">                ListNode* head1 = cur;</span><br><span class="line">                ListNode* head2 = <span class="built_in">splitList</span>(head1, step);</span><br><span class="line">                cur = <span class="built_in">splitList</span>(head2, step); <span class="comment">// 下一轮循环的起始节点</span></span><br><span class="line">                <span class="comment">// 合并两段长为 step 的链表</span></span><br><span class="line">                <span class="keyword">auto</span> [head, tail] = <span class="built_in">mergeTwoLists</span>(head1, head2);</span><br><span class="line">                <span class="comment">// 合并后的头节点 head，插到 new_list_tail 的后面</span></span><br><span class="line">                new_list_tail-&gt;next = head;</span><br><span class="line">                new_list_tail = tail; <span class="comment">// tail 现在是新链表的末尾</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><ul>
+<li>时间复杂度：O(<em>n</em>log<em>n</em>)，其中 <em>n</em> 是链表长度。</li>
+<li>空间复杂度：O(1)。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>刷题记录</tag>
+        <tag>链表</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day108 | 灵神 | 合并两个有序链表</title>
+    <url>/2025/05/02/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-30-Day108--%E7%81%B5%E7%A5%9E--%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<h1 id="Day108-灵神-合并两个有序链表"><a href="#Day108-灵神-合并两个有序链表" class="headerlink" title="Day108 | 灵神 | 合并两个有序链表"></a>Day108 | 灵神 | 合并两个有序链表</h1><p><a href="https://leetcode.cn/problems/merge-two-sorted-lists/description/">21. 合并两个有序链表 - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>这是道easy题，直接写就行</p>
+<p>说一下递归的写法</p>
+<p><strong>递归函数的含义是合并两个有序链表，返回值是合并后的链表的头结点</strong></p>
+<p><code>递归边界：</code>如果其中一个链表为空，直接返回另一个链表作为合并后的结果</p>
+<p><code>本层逻辑：</code>谁小就把谁接到当前结点的后面，然后返回当前结点作为合并后的结果</p>
+<p><code>完整代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* list1, ListNode* list2)</span> </span>&#123;</span><br><span class="line">        ListNode *t=<span class="keyword">new</span> ListNode;</span><br><span class="line">        ListNode *res=t;</span><br><span class="line">        <span class="keyword">while</span>(list1&amp;&amp;list2)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(list1-&gt;val&lt;list2-&gt;val)</span><br><span class="line">            &#123;</span><br><span class="line">                t-&gt;next=list1;</span><br><span class="line">                list1=list1-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                t-&gt;next=list2;</span><br><span class="line">                list2=list2-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            t=t-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        t-&gt;next=list1?list1:list2;</span><br><span class="line">        <span class="keyword">return</span> res-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* list1, ListNode* list2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (list1 == <span class="literal">nullptr</span>) <span class="keyword">return</span> list2; <span class="comment">// 注：如果都为空则返回空</span></span><br><span class="line">        <span class="keyword">if</span> (list2 == <span class="literal">nullptr</span>) <span class="keyword">return</span> list1;</span><br><span class="line">        <span class="keyword">if</span> (list1-&gt;val &lt; list2-&gt;val) &#123;</span><br><span class="line">            list1-&gt;next = <span class="built_in">mergeTwoLists</span>(list1-&gt;next, list2);</span><br><span class="line">            <span class="keyword">return</span> list1;</span><br><span class="line">        &#125;</span><br><span class="line">        list2-&gt;next = <span class="built_in">mergeTwoLists</span>(list1, list2-&gt;next);</span><br><span class="line">        <span class="keyword">return</span> list2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>刷题记录</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day107 | 147.对链表进行插入排序 | 简单选择、冒泡、直接插入</title>
+    <url>/2025/05/01/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-04-30-Day107--147.%E5%AF%B9%E9%93%BE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F--%E7%AE%80%E5%8D%95%E9%80%89%E6%8B%A9%E3%80%81%E5%86%92%E6%B3%A1%E3%80%81%E7%9B%B4%E6%8E%A5%E6%8F%92%E5%85%A5/</url>
+    <content><![CDATA[<h1 id="Day107-147-对链表进行插入排序-简单选择、冒泡、直接插入"><a href="#Day107-147-对链表进行插入排序-简单选择、冒泡、直接插入" class="headerlink" title="Day107 | 147.对链表进行插入排序 | 简单选择、冒泡、直接插入"></a>Day107 | 147.对链表进行插入排序 | 简单选择、冒泡、直接插入</h1><p><a href="https://leetcode.cn/problems/insertion-sort-list/description/">147. 对链表进行插入排序 - 力扣（LeetCode）</a></p>
+<p>147题直接用插入排序就可以解决</p>
+<h2 id="简单选择排序"><a href="#简单选择排序" class="headerlink" title="简单选择排序"></a>简单选择排序</h2><p><code>思路：</code></p>
+<p>笔者的思路：比较简单粗暴，我新建一个链表res，然后遍历原来的链表head，找到一个最大值的结点的前驱结点p，就保存到temp中，然后把p-&gt;next节点删掉，然后就用头插法把temp-&gt;next插入新的链表res中</p>
+<p>简单排序得知道已经排序过的序列的位置，而笔者用的是新创建的连接的虚拟头结点的res来表示已经排序好的序列的位置</p>
+<p><strong>也可以不用新的链表直接在原地修改，基本思路：</strong></p>
+<p>用sortedTail指针标记已经排序好的序列的最后一个节点</p>
+<p>用四个指针进行标记，min标记最小值的节点，premin表示pre的前驱结点</p>
+<p>cur用来遍历找最小值，precur表示cur的前驱结点和更新premin（有前驱结点好进行修改）</p>
+<p>遍历过程中，如果cur的值比min的值小的话，就把min更新为cur</p>
+<p>然后利用premin把min给删掉，把min给接到已排序链表的末尾，也就是sortedTail的后面</p>
+<p>最后把sortedTail指针更新为min即可</p>
+<p><code>完整代码：</code></p>
+<p>笔者第一次写的代码</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//简单选择排序</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">sortList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//虚拟头结点</span></span><br><span class="line">        ListNode *t=<span class="keyword">new</span> ListNode;</span><br><span class="line">        <span class="comment">//用来返回的链表的虚拟头结点</span></span><br><span class="line">        ListNode *res=<span class="keyword">new</span> ListNode;</span><br><span class="line">        t-&gt;next=head;</span><br><span class="line">        <span class="comment">//原来链表全都删除完毕代表排序结束</span></span><br><span class="line">        <span class="keyword">while</span>(t-&gt;next!=<span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> maxVal=INT_MIN;</span><br><span class="line">            ListNode *p=t;</span><br><span class="line">            <span class="comment">//temp保存有最大值的节点，因为这个结点要从原来的链表中删除掉</span></span><br><span class="line">            ListNode *temp=<span class="keyword">new</span> ListNode;</span><br><span class="line">            <span class="comment">//找最大值</span></span><br><span class="line">            <span class="keyword">while</span>(p-&gt;next!=<span class="literal">nullptr</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(p-&gt;next-&gt;val&gt;maxVal)</span><br><span class="line">                &#123;</span><br><span class="line">                    maxVal=p-&gt;next-&gt;val;</span><br><span class="line">                    temp=p;</span><br><span class="line">                &#125;</span><br><span class="line">                p=p-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//删除原来的节点</span></span><br><span class="line">            ListNode *add=temp-&gt;next;</span><br><span class="line">            temp-&gt;next=temp-&gt;next-&gt;next;</span><br><span class="line">            <span class="comment">//插入到新的链表中</span></span><br><span class="line">            add-&gt;next=res-&gt;next;</span><br><span class="line">            res-&gt;next=add;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在原地进行修改的代码</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">selectionSort</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">    <span class="function">ListNode <span class="title">dummy</span><span class="params">(<span class="number">0</span>)</span></span>;                <span class="comment">// 虚拟头节点</span></span><br><span class="line">    dummy.next = head;</span><br><span class="line">    ListNode *sortedTail = &amp;dummy;   <span class="comment">// 维护已排序部分的尾指针</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (sortedTail-&gt;next) &#123;        <span class="comment">// 遍历未排序部分</span></span><br><span class="line">        <span class="comment">//这两个一个指向最小值节点，一个指向最小值节点的前驱结点</span></span><br><span class="line">        ListNode *preMin = sortedTail, *minNode = sortedTail-&gt;next;</span><br><span class="line">        <span class="comment">//cur是用来遍历的指针，pre是cur的前驱节点，这两个是一起的</span></span><br><span class="line">        ListNode *curr = minNode-&gt;next, *preCurr = minNode;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 寻找最小值节点及其前驱（时间复杂度O(n)）</span></span><br><span class="line">        <span class="keyword">while</span> (curr) &#123;                <span class="comment">// 遍历剩余未排序节点</span></span><br><span class="line">            <span class="keyword">if</span> (curr-&gt;val &lt; minNode-&gt;val) &#123;</span><br><span class="line">                preMin = preCurr;     <span class="comment">// 更新最小值前驱指针</span></span><br><span class="line">                minNode = curr;       <span class="comment">// 更新最小值节点指针</span></span><br><span class="line">            &#125;</span><br><span class="line">            preCurr = curr;           <span class="comment">// 前驱指针跟随移动</span></span><br><span class="line">            curr = curr-&gt;next;        <span class="comment">// 当前指针后移</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将最小节点从原链表中移除</span></span><br><span class="line">        preMin-&gt;next = minNode-&gt;next; <span class="comment">// 断开原链</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将最小节点插入已排序链表的尾部</span></span><br><span class="line">        minNode-&gt;next = sortedTail-&gt;next; <span class="comment">// 保持未排序部分连接</span></span><br><span class="line">        sortedTail-&gt;next = minNode;    <span class="comment">// 插入到已排序末尾</span></span><br><span class="line">        sortedTail = minNode;          <span class="comment">// 更新尾指针</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p>太麻烦了不说了，大家自己看吧</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">bubbleSort</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!head || !head-&gt;next) <span class="keyword">return</span> head;</span><br><span class="line">    <span class="function">ListNode <span class="title">dummy</span><span class="params">(<span class="number">0</span>)</span></span>;                <span class="comment">// 虚拟头节点处理头指针变化</span></span><br><span class="line">    dummy.next = head;</span><br><span class="line">    <span class="type">bool</span> swapped = <span class="literal">true</span>;</span><br><span class="line">    ListNode* end = <span class="literal">nullptr</span>;          <span class="comment">// 记录每轮冒泡的终止边界</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (swapped) &#123;</span><br><span class="line">        swapped = <span class="literal">false</span>;</span><br><span class="line">        ListNode *prev = &amp;dummy;      <span class="comment">// 前驱指针（关键修正点）</span></span><br><span class="line">        ListNode *curr = prev-&gt;next;  <span class="comment">// 当前指针</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (curr-&gt;next != end) &#123;   <span class="comment">// 遍历至已排序边界前</span></span><br><span class="line">            ListNode *next = curr-&gt;next;</span><br><span class="line">            <span class="keyword">if</span> (curr-&gt;val &gt; next-&gt;val) &#123;</span><br><span class="line">                <span class="comment">// 交换相邻节点（调整指针而非数据域）</span></span><br><span class="line">                prev-&gt;next = next;     <span class="comment">// 前驱连接下一节点</span></span><br><span class="line">                curr-&gt;next = next-&gt;next;</span><br><span class="line">                next-&gt;next = curr;</span><br><span class="line">                <span class="comment">// 更新标记和指针</span></span><br><span class="line">                swapped = <span class="literal">true</span>;</span><br><span class="line">                prev = next;          <span class="comment">// 前驱指针后移</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                prev = curr;          <span class="comment">// 无需交换则正常后移</span></span><br><span class="line">                curr = curr-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        end = curr;                   <span class="comment">// 更新排序边界</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h2><p>这个比较好理解一些，直接插入排序就是先找插入位置，也就是下一次处理节点要插入到我们已经排序的子序列的哪里</p>
+<p>用cur遍历要处理的结点，而因为我们要把cur所指向的结点插入到已经排好序的子序列中，所以要有一个next保存cur的next结点，否则处理完一个节点直接找不到后续节点了。而我们要找插入位置，那就是要在排好序的子序列中找到最后一个小于cur的结点，然后把cur插入到该节点的后面。</p>
+<p>我们用pre表示这个结点，那么比较的时候就是pre-&gt;next-&gt;val和cur-&gt;val进行比较了，只有满足这个条件的时候pre才会往后移动，否则不移动</p>
+<p>而while条件里面的<code>pre-&gt;next不为nullptr</code>对应的是cur的节点值大于已经排好序的子序列的全部的值</p>
+<p>其余情况对应的是<code>pre-&gt;next-&gt;val &lt; curr-&gt;val</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">insertionSort</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">    <span class="function">ListNode <span class="title">dummy</span><span class="params">(<span class="number">0</span>)</span></span>;                <span class="comment">// 虚拟头节点</span></span><br><span class="line">    ListNode *curr = head;            <span class="comment">// 遍历原链表的指针</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (curr) &#123;                     <span class="comment">// 逐个处理未排序节点</span></span><br><span class="line">        ListNode *next = curr-&gt;next;   <span class="comment">// 保存下一个待处理节点</span></span><br><span class="line">        ListNode *pre = &amp;dummy;        <span class="comment">// 从虚拟头开始寻找插入位置</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 寻找插入位置（时间复杂度O(n)）</span></span><br><span class="line">        <span class="keyword">while</span> (pre-&gt;next &amp;&amp; pre-&gt;next-&gt;val &lt; curr-&gt;val) &#123;</span><br><span class="line">            pre = pre-&gt;next;           <span class="comment">// 移动至最后一个小于curr的节点</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 插入操作</span></span><br><span class="line">        curr-&gt;next = pre-&gt;next;        <span class="comment">// 将curr插入pre之后</span></span><br><span class="line">        pre-&gt;next = curr;              <span class="comment">// 更新前驱指针</span></span><br><span class="line">        curr = next;                   <span class="comment">// 处理下一个节点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummy.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>刷题记录</tag>
+        <tag>链表</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>26考研 | 王道 | 计算机网络 | 第三章 数据链路层</title>
+    <url>/2025/04/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/</url>
+    <content><![CDATA[<h1 id="26考研-王道-第三章-数据链路层"><a href="#26考研-王道-第三章-数据链路层" class="headerlink" title="26考研 | 王道 | 第三章 数据链路层"></a>26考研 | 王道 | 第三章 数据链路层</h1><p><code>数据链路层所处的地位</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f2b3b30cacec6b376470aa5f712d01bf.png" alt="image-20241024170058110"></p>
+<ul>
+<li>数据链路层 使用 物理层 提供的“比特传输”服务</li>
+<li>数据链路层 为 网络层 提供服务，将网络层的 IP数据报（分组）封装成帧，传输给下一个相邻结点</li>
+<li><strong>物理链路</strong>：传输介质（0层）+ 物理层（1层）实现了相邻结点之间的“物理链路”</li>
+<li><strong>逻辑链路</strong>：数据链路层需要基于“物理链路”，实现相邻结点之间逻辑上无差错的“数据链路（逻辑链路）”</li>
+</ul>
+<h3 id="1-数据链路层的功能"><a href="#1-数据链路层的功能" class="headerlink" title="1.数据链路层的功能"></a>1.数据链路层的功能</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9672297ac50c4d0a9c6cfde8142e9718.png" alt="在这里插入图片描述"></p>
+<p>流量控制实际上是控制发送方的数据流量，让发送方发的慢一点</p>
+<p>为了避免传输过程中的帧丢失，数据链路层采用的方法是计时器超时重发</p>
+<p>为终端节点隐蔽物理传输的细节的是物理层而不是数据链路层的事情</p>
+<p>数据链路层也会控制对物理传输介质的访问</p>
+<h3 id="2-封装成帧（组帧）"><a href="#2-封装成帧（组帧）" class="headerlink" title="2.封装成帧（组帧）"></a>2.封装成帧（组帧）</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501093725932.png" alt="image-20250501093725932"></p>
+<h4 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h4><p>定义：封装成帧是指在一段数据的前后分别添加首部和尾部来构成帧，帧是数据链路层的数据传送单元。</p>
+<p>帧长 &#x3D; 数据长度 + 首部长度 + 尾部长度 ，其能够实现两个功能：<code>帧定界和透明传输</code></p>
+<p>既要加首部又要加尾部是因为网络中信息是以帧为最小单位进行传输的，所以接收方要正确的接收帧，就必须清楚该帧在一串比特流中从哪里开始到哪里结束（因为接收方收到的是一串比特流，没有首部和尾部是不能正确区分帧的）</p>
+<ul>
+<li><p><strong>帧定界</strong>：即确定帧的界限，通过在帧的首部和尾部中包含很多控制信息来让接收方能够确定帧的界限</p>
+</li>
+<li><p><strong>透明传输</strong>： 接收方收到封装好的帧后，要将其“恢复原貌”，即通过去除“帧定界”的附加信息，从帧的内部还原出IP数据报的原始信息，并提交给网络层进行处理，因此网络层之间感受不到数据链路层对IP数据报的处理与逆处理，“组帧”这一操作对于网络层来说是透明的，所以称之为“透明传输”</p>
+<ul>
+<li>王道书中对于透明传输的理解：数据中若出现与帧定界符相同的比特组合，会被误认传输结束导致传输提前终止。透明传输则很好地解决了这个问题。无论所传数据是什么样的比特组合，透明传输都能保证数据无差错地在数据链路上传输。</li>
+</ul>
+</li>
+<li><p>**帧同步：**是指接收方如何从连续的二进制比特流中准确识别出帧的起始和结束位置，从而正确解析数据帧的边界，这是实现可靠数据传输的基础。该问题源于物理层传输的比特流缺乏明确的边界标识，且可能受到噪声、时钟偏差等干扰，导致接收端无法区分独立的数据帧</p>
+</li>
+</ul>
+<h4 id="2-四种组帧方法"><a href="#2-四种组帧方法" class="headerlink" title="2.四种组帧方法"></a>2.四种组帧方法</h4><p>字符计数法、字节填充法、零比特填充法、违规编码法</p>
+<p>由于字符计数法中计数字段的脆弱性和字节填充法试下上的复杂性和不兼容性，目前比较常用的是零比特填充法和违规编码法</p>
+<ul>
+<li><p><strong>字符计数法</strong></p>
+<p><code>原理：</code>帧首部使用定长计数字段表示帧长，注意：帧长 &#x3D; 计数字段长度 + 数据部分长度（类似大学宿舍长查寝报人数当然也得把自己算进去…）</p>
+<p><code>缺点：</code>连锁效应，一个计数字段出错，后面全错。所以健壮性不好</p>
+<p>比如下面的7的111跳变为011，那么就变成了3，只会往后数3个字节。第四个字节会被认为是帧的大小</p>
+</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501091335467.png" alt="image-20250501091335467"></p>
+<ul>
+<li><p><strong>字节填充法</strong></p>
+<p>原理：使用特定字节来定界一帧的开始SOH与结束EOT。（告诉你这一帧啥时候开始啥时候结束）</p>
+<p>三种控制字符：SOH、 EOT 、ESC</p>
+</li>
+</ul>
+<blockquote>
+<p>SOH：开始字符，代表一个帧的开始，16进制为01H</p>
+<p>EOT：结束字符，代表一个帧的结束，16进制为04H</p>
+<p>ESC：转义字符，在SOH、EOT、甚至ESC前插入转义字符，都会导致变为普通的数据信息。16进制为1BH</p>
+<p>即：只要看到转义字符，后面紧跟的只能是数据，无任何特殊含义。</p>
+<p>同理，接收方在接收时进行逆处理即可：删去转义字符，将紧跟其后的字符作为普通数据进行接收。</p>
+</blockquote>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501091608537.png" alt="image-20250501091608537"></p>
+<p>数据中包含开头和结尾控制字符，那就加入转义字符</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501091905071.png" alt="image-20250501091905071"></p>
+<p>数据中包含转义控制字符，那就在该字符前再加入一个转义字符</p>
+<p>如果有两个相连的ESC都是数据呢？那就在两个ESC前面都分别加入转义字符，看起来就变成四个相连的转义字符了，其实1,3是转义，2,4是数据</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501092139729.png" alt="image-20250501092139729"></p>
+<p><code>逆处理：</code>接收方扫描到一个转义字符，就知道后面的是数据了，然后把转义字符给去掉把数据留下来</p>
+<ul>
+<li><p><strong>零比特填充法</strong></p>
+<p>原理：使用特殊的比特串表示帧的开始和结束</p>
+<p>现实中经常用01111110。HDLC协议、PPP协议使用此方法。</p>
+<p>为防止数据段中出现01111110被误判，做出如下规定：</p>
+<p>发送方对帧的数据部分进行处理，每连续遇到五个1，就在其后填充一个0</p>
+<p>接收方对帧之后，扫到第一个01111110，就知道是帧的开始，然后对后面的数据部分进行逆处理，每连续遇到五个1，就删去紧跟其后的一个0直到末尾的0111110，末尾有6个1，所以不会删掉0</p>
+</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501092644119.png" alt="image-20250501092644119"></p>
+<p>这种方法在现代计算机很常用，因为上述的处理过程很容易使用硬件快速高效的完成，有助于提高数据链路层的处理效率。性能优于字节填充法</p>
+<ul>
+<li><p><strong>违规编码法</strong></p>
+<p>原理：利用违规编码来确定帧的起始和终止。</p>
+<p>在物理层进行比特编码时经常采用。也就是基于物理层要使用曼彻斯特编码</p>
+<p>不采用任何填充技术便能实现数据的透明传输，但只适用于冗余编码的特殊编码环境</p>
+<p>例：在曼彻斯特编码中规定：上跳0下跳1看中间，中必变，则我们可以利用周期中间不跳变的“违规编码”来表示开始与结束，就是帧开始之前的一个周期肯定不会跳变，因为没有二进制信号，帧结束之后的一个周期肯定也没有跳变，因为也没有二进制信号过来了</p>
+</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501093242046.png" alt="image-20250501093242046"></p>
+<p>这种方法需要物理层的配合，数据链路层会把数据原模原样的交给物理层，物理层会在帧的前后插入一个时钟周期的违规信号</p>
+<p>接收方的物理层也可以根据这个违规信号知道帧的开始和结束</p>
+<p>这种方法在现代计算机中也很常用</p>
+<h3 id="3-差错控制"><a href="#3-差错控制" class="headerlink" title="3.差错控制"></a>3.差错控制</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501095251793.png" alt="image-20250501095251793"></p>
+<p>奇偶校验码只能检测出奇数位错误而无法进行修正，也无法检测出双位错误</p>
+<p>CRC检测码可以检测出所有的单比特错误。但是只有在信息位较少的时候有纠错能力</p>
+<p>海明码可以检测出2位错误，纠正1位错误</p>
+<h4 id="1-奇偶校验码"><a href="#1-奇偶校验码" class="headerlink" title="1.奇偶校验码"></a>1.奇偶校验码</h4><p><strong>奇偶校验码只能检测出奇数位错误，无纠错能力</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501100620312.png" alt="image-20250501100620312"></p>
+<p>奇偶校验码是奇校验码和偶校验码的统称。在有效信息位添加一位奇偶校验位就组成整个奇偶校验码。</p>
+<p><strong>如果整个校验码中“1”的个数为奇数，则为奇校验码；反之则称为偶校验码。</strong></p>
+<p>在下面奇校验的_1001101例子中，第一位是，一共有4个1，而我们要让这个整体一共有奇数个1，所以第一位就写1</p>
+<p>_1010111有5个1，已经是奇数个了，那就写0就好了</p>
+<p>对偶校验也是同理，只是让整体一共有偶数个1</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501095545598.png" alt="image-20250501095545598"></p>
+<p>同时接收方也可以通过奇偶校验码检查整个帧是否出错，方法如下：</p>
+<ul>
+<li>约定使用奇校验：通过检查是否有奇数个1来判断正误；</li>
+<li>约定使用偶校验：接收方（硬件实现）将所有位全部进行异或，若结果为0说明正确。<ul>
+<li>做题也可以直接数1的个数是不是偶数</li>
+<li><strong>异或的性质：1的个数为偶数，结果为0。1的个数为奇数，结果为1</strong></li>
+<li>如果有偶数个比特位发生错误，则无法检测这种错误（如11010111和11010100两者异或后均为0）</li>
+</ul>
+</li>
+</ul>
+<p><strong>现实中更加常用的是偶校验，因为偶校验可以使用硬件实现，即对信息位进行异或，得到的结果就是偶校验位，拼在一起就是偶校验码，接收方将其全部异或，结果为0就是正确的</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501100639536.png" alt="image-20250501100639536"></p>
+<h4 id="2-循环冗余校验码"><a href="#2-循环冗余校验码" class="headerlink" title="2.循环冗余校验码"></a>2.循环冗余校验码</h4><p>有1位的检错能力</p>
+<p>可以通过硬件来实现</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501110844127.png" alt="image-20250501110844127"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501103445195.png" alt="image-20250501103445195">只是一般而言，给的除数和被除数都是二进制数。例：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501103653392.png" alt="image-20250501103653392"></p>
+<ul>
+<li><p>关于循环冗余校验码中的模2除法，简单总结为：求商就看被除数，首位为1就商1，首位为0就商0；余数求解用异或，余数去首往下算（进行下一轮求商）</p>
+<p>比如第一轮时101001000第一位是1，那就写1，然后是1010和1101除去第一位的对应位置进行异或操作得到111，再把1010后面的0给拉下来构成了1110</p>
+<p>第二轮时就是1110的第一位是1，那上面的商就写1，然后还是1110和1101进行异或操作，得到011，再把1拉下来得到0111</p>
+<p>第三轮0111第一位是0，那商就写0，然后商是0的话，那就是0111和0000进行异或操作了，得到1110</p>
+<p>后续都是这个过程，最终得到一个余数，作为校验位</p>
+</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/051bc3a40263b492a3317f10053a9195.png" alt="202304131915441"></p>
+<p>CRC码就是101 001 001</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501104048054.png" alt="image-20250501104048054"></p>
+<p>接收方用接收到的CRC进行模2除余数必须得是000</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501105837460.png" alt="image-20250501105837460"></p>
+<p>余数对应了出错的是第几位，但是这个例子中，余数只有3位，只能表示8个位置（1个正确7个错误），但是信息位有9位，所以余数和出错的第几位并不对应。但这并不能说循环冗余校验码只有检错能力没有纠错能力。只要信息位数少于余数能表示的位置数量，那就可以纠错</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501110243050.png" alt="image-20250501110243050"></p>
+<p><strong>所以其实是有纠错功能的，就是信息位数不能太多</strong></p>
+<p><strong>还可以看出，如果生成多项式是确定的，那么无论信息位如何变化，出错位和余数都是对应的</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501110552440.png" alt="image-20250501110552440"></p>
+<p>CRC码一般用于网络通信中，一般都是几千个bit的信息位加上几个校验位，所以一般只用来检错</p>
+<p>对于K+R+1的理解，有R位所以有2的R次方种情况，而1表示的是余数000，即正确的情况，剩下的都是K+R表示的是出错位置在[0,K+R]这个区间内的K+R种情况，所以是上述这个不等式</p>
+<h4 id="3-海明校验码"><a href="#3-海明校验码" class="headerlink" title="3.海明校验码"></a>3.海明校验码</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501112338004.png" alt="image-20250501112338004"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501111219180.png" alt="image-20250501111219180"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501111707794.png" alt="image-20250501111707794"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501111815256.png" alt="image-20250501111815256"></p>
+<p>最后由低位排到高位是s1s2s3,就是010，也就是第二位出错了</p>
+<p>海明码也可以从小到大编，如下图所示。步骤和从大到小的没有任何区别</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501111956979.png" alt="image-20250501111956979"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501112245745.png" alt="image-20250501112245745"></p>
+<h3 id="4-流量控制与可靠传输机制"><a href="#4-流量控制与可靠传输机制" class="headerlink" title="4.流量控制与可靠传输机制"></a>4.流量控制与可靠传输机制</h3><p>1.流量控制、可靠传输两种功能都可以基于滑动窗口机制来实现</p>
+<p>2.停止等待、GBN、SR本质上都是滑动窗口机制</p>
+<p>3.停止等待和GBN必须按序接收数据，因为接收窗口为1，而SR不用，因为接收窗口大于1</p>
+<p>4.对于窗口总大小为n的滑动窗口（包含接收窗口和发送窗口），最多可以有n-1个帧已发送但还没有确认（原因：发送窗口数量&lt;&#x3D;总窗口数量-1，因为接收窗口至少1个）</p>
+<p>5.如果三个协议数据帧长相等，忽略确认帧长，帧序号位数确定，那么三个协议对应的最大信道利用率大小关系为</p>
+<p>停止等待&lt;&#x3D;SR&lt;&#x3D;GBN</p>
+<h4 id="1-流量控制、可靠传输与滑动窗口机制"><a href="#1-流量控制、可靠传输与滑动窗口机制" class="headerlink" title="1.流量控制、可靠传输与滑动窗口机制"></a>1.流量控制、可靠传输与滑动窗口机制</h4><p>学习下面三个协议的时候也按照下面四个方面进行学习会比较清晰一些</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501121614714.png" alt="image-20250501121614714"></p>
+<p><code>滑动窗口机制的介绍</code></p>
+<p>滑动窗口流量控制是一种更高效的流量控制方法。</p>
+<p><code>发送窗口：</code>发送方当前允许发送的帧，如果发送窗口之外的帧，则暂时不允许发送——控制发送方最多能发送多少个帧和多少帧。</p>
+<p><code>接收窗口：</code>接收方当前允许接收的帧，同理，如果接收到窗口之外的帧，直接丢弃。</p>
+<p><strong>特性</strong>：通过“确认机制”，由接收方控制发送方的窗口向前滑动，从而实现流量控制，即：只有接收窗口向前滑动（同时接收方发送了确认）时，发送窗口才有可能（只有发送方收到确认后一定）向前滑动。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501121502530.png" alt="image-20250501121502530"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501121521492.png" alt="image-20250501121521492"></p>
+<h4 id="2-停止等待协议-S-W"><a href="#2-停止等待协议-S-W" class="headerlink" title="2.停止等待协议(S-W)"></a>2.停止等待协议(S-W)</h4><p>为什么S-W中不存在数据帧失序的问题？</p>
+<p>因为发送窗口和接收窗口大小是1，只会顺序的发送和顺序的接收</p>
+<p><code>会让停止等待协议效率遍地的：</code>在源主机和目的主机之间的距离很远的并且数据传输速率很高</p>
+<p>距离远增大了传输时间，传输速率高，数据帧的发送时间就小，两者作用下是的信道利用率大大降低</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501142814802.png" alt="image-20250501142814802"></p>
+<p>帧序号的要求是 2^n^&gt;&#x3D; 发送窗口长度+接收窗口长度</p>
+<p>在停止等待协议中，发送和接收窗口的长度都是1，所以n就是1，即用1个比特位就可以表示帧序号</p>
+<p>我们让第一个帧是0，第二个帧是1，第三个帧是0这样交替下去</p>
+<p><strong>数据帧、确认帧、帧序号的概念</strong></p>
+<ul>
+<li>数据帧：用来传输数据</li>
+<li>确认帧：当接收方接收到准确无误的数据后，会给发送方发送确认帧。确认帧很短，甚至可以是空。</li>
+<li>帧类型：注明帧的类型，是数据帧还是确认帧。因为在现实场景中数据的传输是双向的，所以需要根据帧类型来判别。（比如我接收方此时也想给发送方发送数据，那发送方怎么知道接收方发过来的是数据帧还是确认帧呢？所以就需要帧类型）</li>
+<li>帧序号：给帧编号，后续具体场景给出原因。</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501141209420.png" alt="image-20250501141209420"></p>
+<p><strong>正常情况：</strong></p>
+<p>1.发送方发送A数据帧也就是Data0帧，接收方接收后经过差错检验后，发送给网络层</p>
+<p>2.然后再发送给发送方确认帧Ack0帧，然后接收方的接收窗口向后滑动，准备接受B帧。</p>
+<p>3.发送方收到Ack0帧，然后发送窗口向后滑动准备发送B帧，即Data1帧（C是Data0帧，不是Data3帧）</p>
+<p>4.循环上述过程</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501141749738.png" alt="image-20250501141749738"></p>
+<p><strong>异常示例情况1：数据帧丢失</strong></p>
+<p>当数据帧因网络噪声等原因丢失，接收方一直收不到下一个帧，怎么办？ —— 利用重传机制</p>
+<p><strong>重传机制</strong>：发出一个帧后，发送方需要启动“计时器”，若计时器超时（规定时间内没有接收到确认帧），就自动重传，同时计时器清零重新计时，进入下一个循环。</p>
+<p>下一次，接收方正确收到数据帧时，返回确认帧，发送方在本次计时器超时前也会收到确认帧，窗口向右滑动，继续进行数据传输。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501142202087.png" alt="image-20250501142202087"></p>
+<p><strong>异常示例情况2：确认帧丢失</strong></p>
+<p>确认帧丢失，发送方计时器超时，自动重传，时间重置。而此时接收方早已接收此数据，窗口向右滑动等待接收下一个帧。</p>
+<p>收到此重复帧，接收方会进行以下两个步骤：</p>
+<ul>
+<li>丢弃重复帧</li>
+<li>返回重复帧的ACK</li>
+</ul>
+<p>因此，在超时之前，发送方可以收到该重复帧的ACK，确认该数据帧已正确传输完毕，滑块向右滑动，继续进行。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c8b0376bbade1709aaf05342d6e86f58.png" alt="image-20241104172044871"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b61a49b297443eeaf1cbbd5a72aa2970.png" alt="image-20241104172516946"></p>
+<p><strong>思考</strong>：如果没有帧序号会怎样？</p>
+<p>**接收方无法判别重复帧。**当发送方发送重复帧，接收方接收到此帧时，由于没有给帧编号，导致接收方不知道接收到的数据帧是重复帧还是数据相同的新帧，无法进行鉴别和处理重复帧的操作，也不能使数据传输进行下去。编号后，相邻两帧的序号有0、1之分，容易判别（接收窗口和发送窗口的距离不超过1，因此用1bit表示帧序号足矣）。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501142451626.png" alt="image-20250501142451626"></p>
+<p><strong>异常示例情况3：数据帧有误</strong></p>
+<p>当接收方接收到数据帧后，经过差错检验监测到数据帧内部有差错，就会将此帧“丢弃”，且不返回ACK。</p>
+<p>显然会导致发送方计时器超时，进行超时重传操作。当接收方接收到正确数据后，便会返回确认帧，继续进行。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501142702203.png" alt="image-20250501142702203"></p>
+<h4 id="3-后退N帧协议（GBN）"><a href="#3-后退N帧协议（GBN）" class="headerlink" title="3.后退N帧协议（GBN）"></a>3.后退N帧协议（GBN）</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501143133817.png" alt="image-20250501143133817"></p>
+<p><strong>帧编号问题</strong>：只要满足那个条件就行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501143228215.png" alt="image-20250501143228215"></p>
+<p><strong>正常情况</strong></p>
+<p>发送方把0,1,2全都发了，接收方也全都收了，然后<strong>只返回确认帧2，即最后一个帧</strong>，代表0,1,2全都收到了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501143401847.png" alt="image-20250501143401847"></p>
+<p><strong>异常示例情况1：数据帧丢失</strong></p>
+<p>不管是通信故障丢失还是被接收方检测出差错丢失，处理方法都是如下</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a599dc71d99f360165710dec74eb978d.png" alt="image-20241105102334771"></p>
+<p>上图是E帧丢失，而当F帧发送过去的时候，接收方的接收窗口是E帧，那不会接收F帧，并且在这时会返回已经正确接收的最后一个帧的ACK即D帧的ACK，那发送窗口就移动到D之后也就是EFG了，然后继续发送</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501143711257.png" alt="image-20250501143711257"></p>
+<p>但是之前已经发送过E、F了，但是接收方不会返回E的ACK只返回了D的ACK，那么此时E的帧超时后就会重新发送E及其以后的FG帧。其中E,F帧是重新发送的，G帧是第一次发送的</p>
+<p>这样的设计也实现了流量控制功能，如果发送方发的太快了，接收方来不及接收的话，那肯定会有帧超时，然后发送方只能重新退回到这个帧重新发</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501144141466.png" alt="image-20250501144141466"></p>
+<p><code>注：重传帧的同时要重置计时器。同时新发送的帧也要有个计时器，不要忘记了</code></p>
+<p>如果重传没有出错，那就和正常情况一样</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501144524435.png" alt="image-20250501144524435"></p>
+<p><strong>异常示例情况2：确认帧丢失</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501144722295.png" alt="image-20250501144722295"></p>
+<p>确认帧丢失后，定时器会超时，A帧第一个发的，第一个超时，那么就会重传A,B,C三个帧，同时重置计时器。</p>
+<p>而这时由于接收方的接收窗口已经滑动到D了，所以ABC都是非法帧，那就会返回目前已经接收的最后一个正确帧ACK即ACK2，发送方收到后发送窗口往后移动即可</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501144835097.png" alt="image-20250501144835097"></p>
+<h6 id="探讨：如果不满足-W-T-W-R-leq2-n-会有什么问题？"><a href="#探讨：如果不满足-W-T-W-R-leq2-n-会有什么问题？" class="headerlink" title="探讨：如果不满足$W_T+W_R\leq2^n $ 会有什么问题？"></a>探讨：如果不满足$W_T+W_R\leq2^n $ 会有什么问题？</h6><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501145205400.png" alt="image-20250501145205400"></p>
+<p>发送ABCD全部成功但是确认帧ACK3丢失了，那就会超时重传，重传A的时候发现发过去的是Data0，接收窗口接收的虽然是E但是序号是0，所以会认为是正常的，原来ABCD被接收到EFGH的地方了，接收方接收的就是ABCDABCD了，后续的都会错位的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501145440814.png" alt="image-20250501145440814"></p>
+<h4 id="4-选择重传协议（SR）"><a href="#4-选择重传协议（SR）" class="headerlink" title="4.选择重传协议（SR）"></a>4.选择重传协议（SR）</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501145720623.png" alt="image-20250501145720623"></p>
+<p><code>选择重传协议的窗口大小限制条件</code></p>
+<p>在实际应用中通常取发送和接收窗口两者相等的情况</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d44a98a8dd2a3125f35cb3e147289a6a.png" alt="image-20241105105723629"></p>
+<p><code>正常情况</code></p>
+<p>发送方把ABCD全发了，然后接收方每接收到一个都得返回对应的ACK，这是一帧一确认</p>
+<p>这些帧的ack都确认以后发送窗口就可以往后移动了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d766e66f84630cff056398486af8578a.png" alt="image-20241105110405323"></p>
+<p><strong>异常示例情况1：数据帧丢失</strong></p>
+<p>5号帧丢失了，4,6,7都正常到达了，那么就会返回4，6,7对应的ack，然后接收窗口和发送窗口都会向后移动一格</p>
+<p>此时5号帧的ack迟迟没来，那就定时器就超时，然后重传5号帧</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501150613501.png" alt="image-20250501150613501"></p>
+<p>由于发送窗口和接收窗口的后移，所以可以在重传5的时候发送和接收0号帧，ACK5和ACK0都到了就可以往后移动了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501150850473.png" alt="image-20250501150850473"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501151104697.png" alt="image-20250501151104697"></p>
+<p><strong>异常示例情况2：数据帧因差错而被丢弃</strong></p>
+<p>5号帧因为差错检验被接收方扔了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501151157970.png" alt="image-20250501151157970"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501151214219.png" alt="image-20250501151214219"></p>
+<p>收到5号帧的NAK_i就会立刻重传，并重置计时器</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501151305747.png" alt="image-20250501151305747"></p>
+<p>同时，由于发送窗口和接收窗口已经后移了，所以此时可以发送0号帧</p>
+<p>这次重新收到5号帧后没有差错就可以了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501151407321.png" alt="image-20250501151407321"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501151541398.png" alt="image-20250501151541398"></p>
+<p><strong>异常示例情况3：确认帧丢失</strong></p>
+<p>1和3的ack全都丢了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b3c70022b0bd2b3133e2c38c5c954b5f.png" alt="image-20241105111548255"></p>
+<p>此时发送窗口和接收窗口只可以向后滑动1格，此时可以继续发送E。</p>
+<p>但是1,3号帧由于超时发生了重传，所以发完E之后又会重传1,3。</p>
+<p>然后E到达之后接收窗口会继续往后滑动。</p>
+<p>此时接收方再次收到了重复的1和3的数据帧，发送方会返回两个对应的确认帧。这次要是没有丢失，发送窗口就可以往后移动了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/451746ec3f9630219efb06f2c9e741ea.png" alt="image-20241105111637621"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501152125505.png" alt="image-20250501152125505"></p>
+<h6 id="探讨：如果不满足-W-T-W-R-leq2-n-会有什么问题？-1"><a href="#探讨：如果不满足-W-T-W-R-leq2-n-会有什么问题？-1" class="headerlink" title="探讨：如果不满足$W_T+W_R\leq2^n $ 会有什么问题？"></a>探讨：如果不满足$W_T+W_R\leq2^n $ 会有什么问题？</h6><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501152259263.png" alt="image-20250501152259263"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d9f583b24a1687b70de54336fec64765.png" alt="image-20241105111919841"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/99652d562e6459f480765790ddd27a96.png" alt="image-20241105112012463"></p>
+<p>0,1,2,3,4的ack全都丢了，但是接收方全都接收上了，那么发送方会超时重传0,1,2,3,4，但是下一个滑动窗口内包含了0号帧A，那0号帧A就被放在I帧的地方了，这就发生了错误</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a3199e94f2ab8f56c4f6c691e3e23011.png" alt="image-20241105112049835"></p>
+<h4 id="5-三种协议信道利用率分析"><a href="#5-三种协议信道利用率分析" class="headerlink" title="5.三种协议信道利用率分析"></a>5.三种协议信道利用率分析</h4><p><strong>用最大平均传输速率除以信道带宽也可以得到信道利用率</strong></p>
+<p>最大平均传输速率可以通过时间t内的数据总量除以时间t得到</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501162815653.png" alt="image-20250501162815653"></p>
+<ul>
+<li><h6 id="S-−-W-S-WS−W协议的信道利用率"><a href="#S-−-W-S-WS−W协议的信道利用率" class="headerlink" title="S − W S-WS−W协议的信道利用率"></a>S − W S-W<em>S</em>−<em>W</em>协议的信道利用率</h6><ul>
+<li><h6 id="公式理解：其实就是-信道上有数据传输的时间-所占-从一个帧开始传输到下一个帧可以传输的时间-的比例"><a href="#公式理解：其实就是-信道上有数据传输的时间-所占-从一个帧开始传输到下一个帧可以传输的时间-的比例" class="headerlink" title="公式理解：其实就是 信道上有数据传输的时间 所占 从一个帧开始传输到下一个帧可以传输的时间 的比例"></a>公式理解：其实就是 信道上有数据传输的时间 所占 从一个帧开始传输到下一个帧可以传输的时间 的比例</h6></li>
+<li><p>这里算的是发送方的发送信道的信道利用率</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501155743934.png" alt="image-20250501155743934"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501155824895.png" alt="image-20250501155824895"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501155920344.png" alt="image-20250501155920344"></p>
+<ul>
+<li><h6 id="GBN、SR协议的信道利用率"><a href="#GBN、SR协议的信道利用率" class="headerlink" title="GBN、SR协议的信道利用率"></a>GBN、SR协议的信道利用率</h6>理想情况下只收发送窗口的影响，不受接收窗口的影响</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501160724407.png" alt="image-20250501160724407"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501160843991.png" alt="image-20250501160843991"></p>
+<p>平均数据传输速率为 传输的数据总量除以传输这段数据所花费的时间。要等待ack回来才算是传输完毕</p>
+<p><strong>用最大平均传输速率除以信道带宽也可以得到信道利用率</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501161713876.png" alt="image-20250501161713876"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501162254305.png" alt="image-20250501162254305"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501162402041.png" alt="image-20250501162402041"></p>
+<p>对于连续ARQ来说</p>
+<p>1.发送方可以连续发送若干数据帧，而不是发完一个就停下来等待确认帧</p>
+<p>2.发送方收到了接收方发来的确认帧，还可以继续发送数据帧</p>
+<p>3.相比停止等待协议，连续ARQ因为减少了等待时间，所以提高了信道利用率</p>
+<p>4.GBN必须按序接收数据，因为接收窗口为1，而SR不用，因为接收窗口大于1</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501162634700.png" alt="image-20250501162634700"></p>
+<h3 id="5-介质控制访问"><a href="#5-介质控制访问" class="headerlink" title="5.介质控制访问"></a>5.介质控制访问</h3><h4 id="1-信道划分-介质访问控制"><a href="#1-信道划分-介质访问控制" class="headerlink" title="1.信道划分 介质访问控制"></a>1.信道划分 介质访问控制</h4><p>TDM与FDM相比，抗干扰能力强，可以逐级再生整形，避免干扰的积累，而且数字信号比较容易实现自动转换</p>
+<p>TDM适合传输数字信号，FDM适合传输模拟信号</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502182605029.png" alt="image-20250502182605029"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501191713853.png"></p>
+<p><strong>介质访问控制（Medium Access Control，MAC）</strong>：多个节点共享同一个“总线型”广播信道时，可能发生“信号冲突”。</p>
+<ul>
+<li>应该怎么控制各节点对传输介质的访问，才能减少冲突，甚至避免冲突？这是介质访问控制应该解决的问题</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501190643541.png" alt="image-20250501190643541"></p>
+<h6 id="时分复用（Time-Division-Multiplexing，TDM）"><a href="#时分复用（Time-Division-Multiplexing，TDM）" class="headerlink" title="时分复用（Time Division Multiplexing，TDM）"></a>时分复用（Time Division Multiplexing，TDM）</h6><p>将时间分为等长的“TDM帧”，每个“TDM帧”又分为等长的m个“时隙”，将m个时隙分配给m对用户（节点）使用</p>
+<p>TMD要满足的条件：<br>1.介质的位速率大于单个信号的位速率</p>
+<p>2.介质的宽带大于结合信号的带宽</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501190944104.png" alt="image-20250501190944104"></p>
+<ul>
+<li>统计时分复用（Statistic Time Division Multiplexing，STDM ）：又称异步时分复用，在TDM的基础上，动态按序分配时隙。</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501191042453.png" alt="image-20250501191042453"></p>
+<h6 id="频分复用（Frequency-Division-Multiplexing，FDM）："><a href="#频分复用（Frequency-Division-Multiplexing，FDM）：" class="headerlink" title="频分复用（Frequency Division Multiplexing，FDM）："></a>频分复用（Frequency Division Multiplexing，FDM）：</h6><p>将信道的总频带划分为多个子频带，每个子频带作为一个子信道，每对用户使用一个子信道进行通信</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501191541695.png" alt="image-20250501191541695"></p>
+<h6 id="波分复用（Wavelength-Division-Multiplexing，WDM）-即光的频分复用"><a href="#波分复用（Wavelength-Division-Multiplexing，WDM）-即光的频分复用" class="headerlink" title="波分复用（Wavelength Division Multiplexing，WDM）:即光的频分复用"></a>波分复用（Wavelength Division Multiplexing，WDM）:即光的频分复用</h6><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501191620651.png" alt="image-20250501191620651"></p>
+<h6 id="码分复用（Code-Division-Multiplexing，CDM）"><a href="#码分复用（Code-Division-Multiplexing，CDM）" class="headerlink" title="码分复用（Code Division Multiplexing，CDM）"></a>码分复用（Code Division Multiplexing，CDM）</h6><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501191836558.png" alt="image-20250501191836558"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c026742de4e4c21b3f796d4c13bbbf88.png" alt="image-20241107215148299"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b4704d1e2b6366571f629becb972be66.png" alt="image-20241107215318198"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/7956d84e0459660ecb9951607084b049.png" alt="image-20241107215724833"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ac9d1f90c70648e79a2a213f333e753a.png" alt="image-20241107215956390"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501192551917.png" alt="image-20250501192551917"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501192640099.png" alt="image-20250501192640099"></p>
+<h4 id="2-随机访问-介质访问控制"><a href="#2-随机访问-介质访问控制" class="headerlink" title="2.随机访问 介质访问控制"></a>2.随机访问 介质访问控制</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501195914874.png" alt="image-20250501195914874"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b102c323a427faae1b321b865e33aa8a.png" alt="image-20241108150802952"></p>
+<h6 id="纯ALOHA和时隙ALOHA协议"><a href="#纯ALOHA和时隙ALOHA协议" class="headerlink" title="纯ALOHA和时隙ALOHA协议"></a>纯ALOHA和时隙ALOHA协议</h6><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e565c947ac342f0cda66d28695e9f543.png" alt="image-20241108152324853"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e6f21af29c5bd66508b33b683ea74501.png" alt="image-20241108152021038"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a9a529db3db20233f7934447e3d3cf28.png" alt="image-20241108152107919"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/81e3fe16cc4f7081f7ae8683ea81f2d5.png" alt="image-20241108152211042"></p>
+<h6 id="CSMA协议（Carrier-Sense-Multiple-Access）"><a href="#CSMA协议（Carrier-Sense-Multiple-Access）" class="headerlink" title="CSMA协议（Carrier Sense Multiple Access）"></a>CSMA协议（Carrier Sense Multiple Access）</h6><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501194032580.png" alt="image-20250501194032580"></p>
+<ul>
+<li><h6 id="1-坚持CSMA-协议"><a href="#1-坚持CSMA-协议" class="headerlink" title="1-坚持CSMA 协议"></a>1-坚持CSMA 协议</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ddce8b981ae085277fc1510e7822797d.png" alt="image-20241108153452357"></p>
+<ul>
+<li><h6 id="非坚持CSMA协议"><a href="#非坚持CSMA协议" class="headerlink" title="非坚持CSMA协议"></a>非坚持CSMA协议</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/61dca3c9423cd3a2f600c8f695d3fbbf.png" alt="image-20241108153755239"></p>
+<ul>
+<li><h6 id="p-坚持CSMA协议"><a href="#p-坚持CSMA协议" class="headerlink" title="p-坚持CSMA协议"></a>p-坚持CSMA协议</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4fa31a219ee80ac0d515186e97414545.png" alt="image-20241108154027287"></p>
+<h6 id="CAMA-CD协议"><a href="#CAMA-CD协议" class="headerlink" title="CAMA&#x2F;CD协议"></a>CAMA&#x2F;CD协议</h6><p>1.以太网常用，以太网的最短帧长是64B，也就是512bit</p>
+<p>2.当信号传播延迟趋近0时，信道利用率趋近100%</p>
+<p>3.最短帧的题目要抓住两个公式：</p>
+<pre><code>	 a.发送帧的时间&gt;=争用期时间
+</code></pre>
+<p>​	  b.最短帧长等于数据传输率*争用期时间</p>
+<p>给了最短帧长，除以数据传输率就是争用期时间</p>
+<p>争用期时间不止是线路上的传播时延（线路1000m，传播速度1m&#x2F;s然后相除得到的结果），还包括集线器之类的造成的时延（比如把信号放大再生画了2s），这些都包含在除出来的争用期时间内</p>
+<p>然后争用期减去集线器之类的时延才是传播时延</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501200102237.png" alt="image-20250501200102237"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501202430562.png" alt="image-20250501202430562"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/dde09f1584d596d40ed9a60965148074.png" alt="image-20241108160653260"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4550ad73b5006a33f68db400cb719d09.png" alt="image-20241108160547976"></p>
+<p>我们会让随机等待的时间的区间随着冲突次数的增加而增加，因为冲突次数多了我们会更希望他们可以错开往信道上发送数据，而随机等待的时间区间越大，错开发送到信道上的几率就越大</p>
+<p>第10次冲突之后我们不会再加长随机等待的时间的区间了就，这是一个分水岭</p>
+<p>第16次冲突后就不传了，再跟网络层汇报一下没传成功</p>
+<p>使用二进制指数退避算法的理由是：这种算法考虑了网络负载对冲突的影响</p>
+<ul>
+<li><h6 id="CSMA-CD协议的“争用期”"><a href="#CSMA-CD协议的“争用期”" class="headerlink" title="CSMA&#x2F;CD协议的“争用期”"></a>CSMA&#x2F;CD协议的“争用期”</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501203154012.png" alt="image-20250501203154012"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9403e0b680a6cb8736800e69a8ebb8e2.png" alt="image-20241111111439030"></p>
+<ul>
+<li><h6 id="CSMA-CD协议”最短帧长”限制"><a href="#CSMA-CD协议”最短帧长”限制" class="headerlink" title="CSMA&#x2F;CD协议”最短帧长”限制"></a>CSMA&#x2F;CD协议”最短帧长”限制</h6>假如帧长是500bit，传播需要50微秒，A传播完整个信道需要50微秒，而B正好在第29微秒时也去看了看，发现没数据，就开始传播，需要30微秒才能到A，这时候已经到第59微秒了才能到A，A在第50微秒的时候已经传送完了数据，A还以为没冲突呢，但实际上其实是有冲突的</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501204056151.png" alt="image-20250501204056151"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501204133254.png" alt="image-20250501204133254"></p>
+<ul>
+<li><h6 id="CSMA-CD协议“最长帧长”限制"><a href="#CSMA-CD协议“最长帧长”限制" class="headerlink" title="CSMA&#x2F;CD协议“最长帧长”限制"></a>CSMA&#x2F;CD协议“最长帧长”限制</h6></li>
+</ul>
+<p>最长帧长：规定最长帧长可防止某些节点一直占用信道。具体是多少要看设计者怎么设计了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501204428825.png" alt="image-20250501204428825"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250501204219123.png" alt="image-20250501204219123"></p>
+<p>补充：CSMA&#x2F;CD没有ACK机制，若发送过程中没有检测到冲突，就认为帧发送成功。早期CSMA&#x2F;CD是有线电视用的，有线电视误码率很低，所以才是没有检测到冲突的话就会认为帧是发送成功的</p>
+<h6 id="CSMA-CA协议"><a href="#CSMA-CA协议" class="headerlink" title="CSMA&#x2F;CA协议"></a>CSMA&#x2F;CA协议</h6><p>用于IEEE 802.11无限局域网(WIFI)，是考试的难点但并不是重点</p>
+<p>CSMA&#x2F;CA协议的主要特点是发送后等待确认帧，在规定时间内没有收到确认帧就重传</p>
+<p>不是发送前先预约信道，因为这个功能有时候开有时候不开</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502143253195.png" alt="image-20250502143253195"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502141514049.png" alt="image-20250502141514049"></p>
+<ul>
+<li><h6 id="什么是AP？"><a href="#什么是AP？" class="headerlink" title="什么是AP？"></a>什么是AP？</h6><p>路由器的无线信号收发装置</p>
+<p>一般不会移动，在一些教材中也被叫做固定站点</p>
+</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502141748590.png" alt="image-20250502141748590"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502142045797.png" alt="image-20250502142045797"></p>
+<p>切换wifi热点被叫做漫游</p>
+<ul>
+<li><h6 id="无线局域网（WiFi）面临的新问题"><a href="#无线局域网（WiFi）面临的新问题" class="headerlink" title="无线局域网（WiFi）面临的新问题"></a>无线局域网（WiFi）面临的新问题</h6><p>1.A发送信号太强而接收的信号D强度一般很弱，那发送信号会极大的干扰接收信号，不好检测出来</p>
+<p>并且接收信号的强度的动态变化范围很大，有可能中间加个墙就变得很小，原来可以检测到现在就检测不到了</p>
+<p>2.假设信号范围10m，A，B相距13米，那么A发送信号的时候其实就只能送到AP，检测不到B，C正在发送数据，B，C就是隐藏站</p>
+</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502142816153.png" alt="image-20250502142816153"></p>
+<ul>
+<li><h6 id="CSMA-CA协议要点（暂时先不考虑“隐藏站”问题）"><a href="#CSMA-CA协议要点（暂时先不考虑“隐藏站”问题）" class="headerlink" title="CSMA&#x2F;CA协议要点（暂时先不考虑“隐藏站”问题）"></a>CSMA&#x2F;CA协议要点（暂时先不考虑“隐藏站”问题）</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502143325491.png" alt="image-20250502143325491"></p>
+<p><code>信道空闲时：</code></p>
+<p>1.准备好数据帧</p>
+<p>2.等待一个DIFS</p>
+<p>3.发送数据帧</p>
+<p>4.接收方接收完数据后等待一个SIFS(无线通信误码率较高，必须进行差错控制)</p>
+<p>5.返回ACK</p>
+<p><code>信道不空闲时</code></p>
+<p>1.用算法确认一个倒计时</p>
+<p>2.持续监听信道，忙碌的话倒计时不会扣除</p>
+<p>3.闲置的话倒计时开始扣除，扣完之后立即开始发送数据</p>
+<p>4.接收方接收完数据后等待一个SIFS(无线通信误码率较高，必须进行差错控制)</p>
+<p>5.返回ACK</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502143755752.png" alt="image-20250502143755752"></p>
+<ul>
+<li><strong>解决“隐藏站”问题</strong></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502144344038.png" alt="image-20250502144344038"></p>
+<p>ACK也是给大家都发，发完以后B，C就可以预约了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502144603936.png" alt="image-20250502144603936"></p>
+<p>这个先预约在发送可以不启用也可以启用，判断依据是数据帧的大小，小的话就不用启用了，因为就算传输失败我重新传送这个小的数据帧的代价也很小。但是如果数据帧很大的话就需要启用了，不然重新传输的代价很大</p>
+<p>一般而言就是会设定一个阈值，超过了就会启用</p>
+<p><code>注：除了一开始是DIFS，剩下三个都是SIFS</code></p>
+<p><strong>NAV值的分析</strong></p>
+<h4 id="3-轮询访问：令牌传递协议"><a href="#3-轮询访问：令牌传递协议" class="headerlink" title="3.轮询访问：令牌传递协议"></a>3.轮询访问：令牌传递协议</h4><p>1.适用于负载高的网络，而在总线型网络且负载高时中使用CAMA&#x2F;CD协议就不太适合，因为冲突换回大幅增加，重发的次数就多了，而令牌传递冲突概率很小，几乎不会重发</p>
+<p>2.令牌环网不存在冲突</p>
+<p>3.网上所有节点共享网络带宽</p>
+<p>4.数据从一个节点到另一个结点的时间可以计算</p>
+<p>5.当前结点没有要传输的数据会立即传递令牌，不会持有</p>
+<p>6.信道利用率比较公平</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502153216735.png" alt="image-20250502153216532"></p>
+<ul>
+<li><h6 id="历史背景"><a href="#历史背景" class="headerlink" title="历史背景"></a>历史背景</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502150410922.png" alt="image-20250502150410922"></p>
+<ul>
+<li><h6 id="令牌传递协议的工作原理"><a href="#令牌传递协议的工作原理" class="headerlink" title="令牌传递协议的工作原理"></a>令牌传递协议的工作原理</h6><p>注意：1.不管是令牌帧还是数据帧，传播方向都是固定的，要么顺时针要么逆时针，不能改</p>
+<p>2.源地址和目的地址是MAC地址（48bit）</p>
+</li>
+</ul>
+<p><code>正常情况：</code></p>
+<ol>
+<li><p>1号主机拿到了令牌，同时也有数据要传递，然后把令牌帧变成数据帧，加入源地址和目的地址和要传输的数据，以及一个有没有被接收的标志位。（假设是3号主机是目的地址）</p>
+</li>
+<li><p>2号主机看了一下不是自己的，就继续往后传递，传到3号发现是自己的，就把传输的数据复制一份，然后把标志位改为true，然后继续传递</p>
+</li>
+<li><p>绕完一圈以后就回到了起点，就是1号机，检查接收是否已经被修改，为true表示接收成功。为false的话，如果数据帧检查有异常，可以尝试重新发送（重发次数也会有上限，达到上限以后可以放弃发送）。</p>
+</li>
+<li><p>如果发送成功，那就会把数据帧换回令牌帧，释放令牌，把控制权交给下一个节点。修改令牌号为2</p>
+<p>也可以说是每次只可以传1个帧，传送完就必须释放令牌（生成一个新令牌）</p>
+</li>
+<li><p>然后把令牌帧传递给2,2号主机一看是2，就看自己有没有要发的数据，有的话就还是上面的过程，没有的话就释放令牌控制权（生成一个新令牌），把令牌号改为3再传递给3号主机</p>
+</li>
+<li><p>后续就是上述过程的循环</p>
+</li>
+</ol>
+<p><code>其他情况：</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1374be7c4445751521eb1f5cfbd0ae6e.png" alt="image-20241111172823047"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b13580f1d41ac369e092d31654af1144.png" alt="image-20241111172850703"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/78800cd9bda1ab151b37b3689f19ca5a.png" alt="image-20241111172945545"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/cea1431b944bd814ffad07292e45f787.png" alt="image-20241111173011294"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0322e8d9c999ee93c3e5d0cb5c120c01.png" alt="image-20241111173115814"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/eccaadde251bda3eaf01167147943b72.png" alt="image-20241111173248755"></p>
+<ul>
+<li><h6 id="MAU——令牌环网的集中控制站"><a href="#MAU——令牌环网的集中控制站" class="headerlink" title="MAU——令牌环网的集中控制站"></a>MAU——令牌环网的集中控制站</h6>构建令牌环网的，结点的编号也是MAU控制分配的</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3dd95aad49f5c77a4d93a697f6a1e925.png" alt="image-20241111173428865"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f847272b39a1fdd2d7771a142cd30473.png" alt="image-20241111173445469"></p>
+<h3 id="6-局域网"><a href="#6-局域网" class="headerlink" title="6.局域网"></a>6.局域网</h3><h4 id="1-局域网与IEEE-802"><a href="#1-局域网与IEEE-802" class="headerlink" title="1.局域网与IEEE 802"></a>1.局域网与IEEE 802</h4><p>IEEE 802局域网对应OSI参考模型的物理层和数据链路层</p>
+<p>高速以太网和标准以太网的帧格式是一样的，以便升级和向后兼容</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502155003829.png" alt="image-20250502155003829"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502155042577.png" alt="image-20250502155042577"></p>
+<p>现在大部分的无线网卡有线网卡都不在有逻辑链路子层了，原来的目的是兼容所有版本的MAC子层，向网络层提供统一接口</p>
+<p>因为有线局域网已经被以太网垄断，基本都用以太网技术</p>
+<p>而无线局域网也被 802.11垄断了，所以对网络层提供的一共也就两种技术，也没必要单独设置一层来兼容了 </p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502155127526.png" alt="image-20250502155127526"></p>
+<p>MAC子层的主要功能是控制和协调所有站点对共享介质的访问</p>
+<h4 id="2-局域网的基本概念和体系结构"><a href="#2-局域网的基本概念和体系结构" class="headerlink" title="2.局域网的基本概念和体系结构"></a>2.局域网的基本概念和体系结构</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502155643139.png" alt="image-20250502155643139"></p>
+<h5 id="1-局域网的特点："><a href="#1-局域网的特点：" class="headerlink" title="1.局域网的特点："></a>1.局域网的特点：</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502155559232.png" alt="image-20250502155559232"></p>
+<p><code>单播广播和多播</code></p>
+<p>比如BDE是一组的，那A也可以多播这一组，也就是A发给BDE三个人</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502155750534.png" alt="image-20250502155750534"></p>
+<h5 id="2-局域网的分类"><a href="#2-局域网的分类" class="headerlink" title="2.局域网的分类"></a>2.局域网的分类</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502155937522.png" alt="image-20250502155937522"></p>
+<p><code>关注三要素</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502160034656.png" alt="image-20250502160034656"></p>
+<h6 id="有线局域网"><a href="#有线局域网" class="headerlink" title="有线局域网"></a>有线局域网</h6><p><strong>分为以太网和令牌环网</strong></p>
+<p>10Base5：Base表示的是传输的是基带信号，也就是数字信号，10是最高支持10Mbps的速度，5是一根同轴电缆不能超过500米</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502160215941.png" alt="image-20250502160215941"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502161108950.png" alt="image-20250502161108950"></p>
+<p>随着时间，以太网技术又增加了双绞线以太网和光纤以太网</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502161339780.png" alt="image-20250502161339780"></p>
+<p>用集线器连接的以太网肯定是半双工的，必须得用CSMA&#x2F;CD协议</p>
+<p><code>光纤以太网</code></p>
+<p>介质访问控制方式是null的原因是不需要考虑介质访问控制，因为一根光纤里面有两条，可以实现全双工通信</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502160831998.png" alt="image-20250502160831998"></p>
+<p><code>双绞线以太网</code></p>
+<p>10BaseT的T就是双绞线的意思</p>
+<p>不允许和同轴电缆以太网一样，一根线中间还可以分出来，必须只有两端才可以连接</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502161135745.png" alt="image-20250502161135745"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502161313646.png" alt="image-20250502161313646"></p>
+<h6 id="无线局域网"><a href="#无线局域网" class="headerlink" title="无线局域网"></a>无线局域网</h6><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502161816415.png" alt="image-20250502161816415"></p>
+<h5 id="3-硬件架构"><a href="#3-硬件架构" class="headerlink" title="3.硬件架构"></a>3.硬件架构</h5><p>网卡实现的功能主要在数据链路层和物理层 </p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502162209442.png" alt="image-20250502162209442"></p>
+<p><code>MAC地址</code>：也叫以太网地址和局域网硬件地址。全球唯一，写死在以太网适配器的ROM里面的。除非给电脑换一个适配器，否则不会改变</p>
+<p>以太网适配器和wifi网络适配器各一个，而且不一样</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502162944859.png" alt="image-20250502162944859"></p>
+<p><code>串并行转换：</code></p>
+<p>局域网和网卡之间是串行传输的，而网卡和主存之间是并行传输的，所以要进行串并行的转换（比如主存和网卡之间是32bit的速率，而局域网和网卡只有1bit，那么网卡就是把这些1比特1比特的数据按照并行传输的方式传给主存，可能够了4bit就传一次之类的）</p>
+<p>而主存并行传输给网卡32bit数据，网卡还得串行发到局域网上面</p>
+<h6 id="以太网适配器"><a href="#以太网适配器" class="headerlink" title="以太网适配器"></a>以太网适配器</h6><p>以太网适配器有ROM和RAM</p>
+<p><code>RAM帧缓冲</code>：之前说的发送窗口和接收窗口的帧就是在RAM进行缓存</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502162018337.png" alt="image-20250502162018337"></p>
+<h6 id="WIFI网络适配器"><a href="#WIFI网络适配器" class="headerlink" title="WIFI网络适配器"></a>WIFI网络适配器</h6><p>内置WIFI天线用来接收和发送电磁波信号从而接入802.11局域网</p>
+<h4 id="4-以太网与IEEE-802-3"><a href="#4-以太网与IEEE-802-3" class="headerlink" title="4.以太网与IEEE 802.3"></a>4.以太网与IEEE 802.3</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502174155588.png" alt="image-20250502174155588"></p>
+<p>以太网采用两项措施来简化通信</p>
+<p>1.<strong>采用无连接的工作方式</strong>。既不对发送的数据帧编号，又不要求接收方发送确认，即以以太网尽最大努力交付数据，<strong>提供的是不可靠服务</strong>，对差错的纠正则由高层完成</p>
+<p>2.发送的数据都是用曼彻斯特编码的信号，每个码元中间出现一次电压转换，接收方利用这种电压转换方便的将位同步信号提取出来</p>
+<ul>
+<li><h6 id="IEEE-802-3推出的以太网标准"><a href="#IEEE-802-3推出的以太网标准" class="headerlink" title="IEEE 802.3推出的以太网标准"></a>IEEE 802.3推出的以太网标准</h6></li>
+</ul>
+<p>光纤以太网考的不多，主要是双绞线和同轴电缆以太网</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/210a577af9404d141d17c77848cafb56.png" alt="image-20241112195051221"></p>
+<p>吉比特以太网</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502164906812.png" alt="image-20250502164906812"></p>
+<p>同轴电缆两端对应的是两个不同的网段，可以使用不同的物理层标准</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502165009511.png" alt="image-20250502165009511"></p>
+<ul>
+<li><h6 id="两种常见的以太网MAC层标准"><a href="#两种常见的以太网MAC层标准" class="headerlink" title="两种常见的以太网MAC层标准"></a>两种常见的以太网MAC层标准</h6><p>V2标准是市面上最常用的标准</p>
+<p>IEEE 802.3就是抄了V2的作业，基本没啥改动</p>
+</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502165147331.png" alt="image-20250502165147331"></p>
+<ul>
+<li><h6 id="V2标准的以太网MAC帧"><a href="#V2标准的以太网MAC帧" class="headerlink" title="V2标准的以太网MAC帧"></a>V2标准的以太网MAC帧</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502165339435.png" alt="image-20250502165339435"></p>
+<p>1.网络层协议是IPV4或者IPV6</p>
+<p>2.数据长度需要限制，最短是46字节，最长是1500字节，如果比46少要用其他比特进行填充，太长就分片</p>
+<p>一个MAC帧的长度为64字节到1518字节</p>
+<p>3.最后的FCS是差错控制用的，用的是CRC校验码</p>
+<p>4.物理层采用曼彻斯特编码</p>
+<p>物理层会给MAC加一段前导码，前导码的前同步码是让收发双方保持一样的节奏，后面的帧开始定界符表示后面就是MAC帧。帧结尾会留有一段空隙，接收方这段空隙里面收不到比特就知道这一帧传输完毕了。除此之外也可以采用违规编码法，见下图</p>
+<p>5.目的地址全1表示广播帧，所有相连的人都会收到这个帧</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/56f854d0315e030a67b9ba2e5e0f5988.png" alt="image-20241112201022669"></p>
+<ul>
+<li><h6 id="IEEE-802-3标准的以太网MAC帧"><a href="#IEEE-802-3标准的以太网MAC帧" class="headerlink" title="IEEE 802.3标准的以太网MAC帧"></a>IEEE 802.3标准的以太网MAC帧</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502172346512.png" alt="image-20250502172346512"></p>
+<p>和V2的区别就是 V2要指明网络层的协议类型，是IPV4还是IPV6，而这个就是指明数据部分的长度就行</p>
+<p>这是因为在IEEE的层次中，MAC层并不直接为网络层提供服务，而是上面还有个逻辑链路控制子层</p>
+<ul>
+<li><h6 id="重点：单播帧、广播帧如何传播？"><a href="#重点：单播帧、广播帧如何传播？" class="headerlink" title="重点：单播帧、广播帧如何传播？"></a>重点：单播帧、广播帧如何传播？</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502173945612.png" alt="image-20250502173945612"></p>
+<p>广播帧并不会通过路由器到达其他网络</p>
+<p>广播式网络使用共享的广播信道进行通信，通常是局域网的一种通信方式（局域网工作在数据链路层），因此可以不需要网络层，也就不存在路由选择问题。但是数据链路层使用物理层的服务必须通过服务接入点，数据链路层向高层提供服务也必须通过服务接入点</p>
+<ul>
+<li><h6 id="冲突域、广播域"><a href="#冲突域、广播域" class="headerlink" title="冲突域、广播域"></a>冲突域、广播域</h6>选C</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502174130075.png" alt="image-20250502174130075"></p>
+<h4 id="5-VLAN的基本概念与基本原理"><a href="#5-VLAN的基本概念与基本原理" class="headerlink" title="5.VLAN的基本概念与基本原理"></a>5.VLAN的基本概念与基本原理</h4><p>1.同一个VLAN的主机可以处于不同的局域网中</p>
+<p>2.VLAN是为局域网用户提供的一种服务，而不是一种新型的局域网</p>
+<p>3.VLAN建立在交换技术的基础上，以<code>软件方式</code>实现逻辑分组与管理，VLAN中的计算机不受物理位置的限制</p>
+<p>4.VLAN的划分与计算机的实际物理位置无关</p>
+<p>5.当计算机从一个VLAN转移到另一个VLAN时，只需要简单的通过软件设定，而无需改变它在网络中的物理位置</p>
+<p>6.VLAN优点：有效共享网络资源、简化网络管理、提高网络安全性和保密性。链路聚合是解决交换之间的宽带瓶颈问题的技术，而不是虚拟互联网的技术</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502175439308.png" alt="image-20250502175439308"></p>
+<p>IEEE 802.1Q负责的</p>
+<ul>
+<li><h6 id="一个大型的局域网（如校园网）面临的问题"><a href="#一个大型的局域网（如校园网）面临的问题" class="headerlink" title="一个大型的局域网（如校园网）面临的问题"></a>一个大型的局域网（如校园网）面临的问题</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502174504064.png" alt="image-20250502174504064"></p>
+<ul>
+<li><h6 id="VLAN（虚拟局域网）"><a href="#VLAN（虚拟局域网）" class="headerlink" title="VLAN（虚拟局域网）"></a>VLAN（虚拟局域网）</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502174703238.png" alt="image-20250502174703238"></p>
+<p>如何划分VLAN由管理员进行配置</p>
+<ul>
+<li><h6 id="VLAN的划分方式1：基于接口"><a href="#VLAN的划分方式1：基于接口" class="headerlink" title="VLAN的划分方式1：基于接口"></a>VLAN的划分方式1：基于接口</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/daff1088211f062ddcacb03d756f241b.png" alt="image-20241112203014667"></p>
+<ul>
+<li><h6 id="VLAN的划分方式2：基于MAC地址"><a href="#VLAN的划分方式2：基于MAC地址" class="headerlink" title="VLAN的划分方式2：基于MAC地址"></a>VLAN的划分方式2：基于MAC地址</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/14b1254f853606f38de6f8df031c4f33.png" alt="image-20241112203207998"></p>
+<ul>
+<li><h6 id="VLAN的划分方式3：基于IP地址"><a href="#VLAN的划分方式3：基于IP地址" class="headerlink" title="VLAN的划分方式3：基于IP地址"></a>VLAN的划分方式3：基于IP地址</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d3f667db936ac095f907dec60a81e324.png" alt="image-20241112203403842"></p>
+<ul>
+<li><h6 id="802-1Q帧的作用"><a href="#802-1Q帧的作用" class="headerlink" title="802.1Q帧的作用"></a>802.1Q帧的作用</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ef0e79c498d3e0418863be21b5f3b916.png" alt="image-20241112203655331"></p>
+<p>中间插入了4个字节的 VLAN标签，表示是哪个VLAN的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/542f093335a5b1fe1c5efdea61107283.png" alt="image-20241112203821021"></p>
+<h4 id="6-IEEE-802-11-无线局域网"><a href="#6-IEEE-802-11-无线局域网" class="headerlink" title="6.IEEE 802.11 无线局域网"></a>6.IEEE 802.11 无线局域网</h4><p>1.802.11帧是在以太网帧的基础上增加了4B，所以帧的长度肯定发生了变化</p>
+<p>2.MAC帧的地址字段的含义和作用取决于 帧的ToAP和FromAP位</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502181820555.png" alt="image-20250502181820555"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/25229b205e61cc153d6de4a847289bba.png" alt="image-20241112204200018"></p>
+<ul>
+<li><h6 id="一个普通家用路由器的硬件架构"><a href="#一个普通家用路由器的硬件架构" class="headerlink" title="一个普通家用路由器的硬件架构"></a>一个普通家用路由器的硬件架构</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e129dd9cf93d9dae7b6e57e8a098c1c8.png" alt="image-20241112204435395"></p>
+<p>门户其实就是网桥。</p>
+<p>以太网交换机连接的是802.3协议的，wifi是802.11协议的，两个局域网协议不同，通过网桥&#x2F;门户，可以完成协议的转换，可以连接起来组成一个更大的局域网</p>
+<ul>
+<li><h6 id="802-11无线局域网的基本概念"><a href="#802-11无线局域网的基本概念" class="headerlink" title="802.11无线局域网的基本概念"></a>802.11无线局域网的基本概念</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502180133195.png" alt="image-20250502180133195"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d9f3b6343c18c28dfade32714181210c.png" alt="image-20241112210135206"></p>
+<ul>
+<li><h6 id="802-11帧的分类"><a href="#802-11帧的分类" class="headerlink" title="802.11帧的分类"></a>802.11帧的分类</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502180710413.png" alt="image-20250502180710413"></p>
+<ul>
+<li><h6 id="802-11局域网的数据帧格式"><a href="#802-11局域网的数据帧格式" class="headerlink" title="802.11局域网的数据帧格式"></a>802.11局域网的数据帧格式</h6><p>1.第9个和第10个bit表示去往ap还是来自ap</p>
+<p>2.A给AP发，即去往AP的帧  <strong>1是接收地址，2是发送地址，3是目的地址</strong></p>
+<p>地址1：中转的AP的mac地址</p>
+<p>地址2：起始的A的mac地址</p>
+<p>地址3：最终目的的B的mac地址</p>
+<p>AP给B发，即来自AP的帧 <strong>1是接收地址，2是发送地址，3是最开始的地址</strong></p>
+<p>地址1：最终目的的B的mac地址</p>
+<p>地址2：中转的AP的mac地址</p>
+<p>地址3：起始的A的mac地址</p>
+</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8f3490415d65313fd12ec0f3c7b2e26e.png" alt="image-20241112211759561"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b196a7cffc6357c6c291c9d56bc19d23.png" alt="image-20241112213058397"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502182112819.png" alt="image-20250502182112819"></p>
+<p>持续期大小 RTS&gt;CTS&gt;ACK</p>
+<p>其实就是CSMA&#x2F;CA协议中的NAV</p>
+<h3 id="7-广域网"><a href="#7-广域网" class="headerlink" title="7.广域网"></a>7.广域网</h3><p>看课本吧，这人讲的一坨</p>
+<p>广域网的通信子网主要使用分组交换技术</p>
+<p>广域网所使用的传输方式是存储转发式</p>
+<p>广域网的拓扑结构通常采用的是网状</p>
+<p>局域网和广域网互联是通过路由器实现的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502212347282.png" alt="image-20250502212347282"></p>
+<p>1.局域网普遍采用多点接入技术，广域网采用点对点，一个发送方一个接收方，通过一条链路相连的全双工或者半双工通信模式</p>
+<p>2.局域网强调数据传输，而广域网强调资源共享</p>
+<p>虽然广域网传输速率比局域网高，但是由于距离远，导致传播延迟比局域网大，所以广域网不怎么强调数据传输，只强调资源共享</p>
+<p>3.广域网和局域网之间的差异不仅在于它们所覆盖的范围不同，还在于它们所采用的协议和网络技术不同，广域网使用点对点技术，局域网使用广播技术</p>
+<h5 id="PPP协议"><a href="#PPP协议" class="headerlink" title="PPP协议"></a>PPP协议</h5><p>1.不需要实现可靠传输</p>
+<p>2.提供有连接的不可靠服务，因为发现错误只是丢了不重传</p>
+<p>3.PPP可用于拨号连接，因此支持动态分配IP地址</p>
+<p><code>应用：</code><br>1.用户通常都要连接某个ISP才能接入互联网，PPP就是用户计算机与ISP通信时所用的数据链路层协议</p>
+<p>2.两台网络设备之间的直连专用路线</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502212913290.png" alt="image-20250502212913290"></p>
+<p>1.PPP虽然在连接建立的过程中使用了确认机制，但是在数据帧发送过程中只保证无差错接收（通过CRC），不使用序号和确认机制，因而是不可靠服务</p>
+<p>2.PPP只支持全双工的点对点链路，不支持多点线路</p>
+<p>3.PPP的两端可以运行不同的网络层协议，但仍可以使用同一个PPP通信</p>
+<p>4.PPP是面向字节的，所有的PPP帧的长度都是整数个字节</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502213149114.png" alt="image-20250502213149114"></p>
+<p>PPP不需要的纠错，只需要检错就可以了。</p>
+<p>ppp不需要流量控制，不需要给帧编号，不需要支持多点线路</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502213445982.png" alt="image-20250502213445982"></p>
+<p>第二步是建立物理的链路，第三步是建立逻辑上的链路</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502213518187.png" alt="image-20250502213518187"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502213918683.png" alt="image-20250502213918683"></p>
+<p>C是控制字段，FCS是检错字段，使用的是CRC</p>
+<p>PPP是点对点的，并不是总线形，所以无需使用CSMA&#x2F;CD协议，自然就不会有最短帧长的限制，所以信息部分是0-1500字节，而不是46-1500字节</p>
+<h3 id="8-以太网交换机"><a href="#8-以太网交换机" class="headerlink" title="8.以太网交换机"></a>8.以太网交换机</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250502224445082.png" alt="image-20250502224445082"></p>
+<p><code>以太网交换机特点：</code></p>
+<p>1.当交换机的接口直接与主机或其他交换机连接时，通常都工作在全双工方式</p>
+<p>2.交换机具有并行性，能同时连接多对接口，使每对相互通信的主机都能像独占通信介质那样，无冲突地传输数据，这样就不需要使用CSMA&#x2F;CD</p>
+<p>3.当交换机的接口连接集线器时，只能使用CSMA&#x2F;CD协议且只能工作在半双工方式。当前的交换机和计算机中的网卡都能自动识别上述两种情况</p>
+<p>4.交换机是一种即插即用设备，其内部的帧转发表是通过自学习算法，基于网络中各主机间的通信，自动地建立的</p>
+<p>5.交换机因为使用专用交换结构芯片，交换速率较高</p>
+<p>6.交换机将网络划分成多个网段，一个网段的故障不会影响到另一个网段的运行</p>
+<p><strong>交换机优点：每个接口结点所占用的宽带不会因为接口结点数量的增加而减少，且整个交换机的总宽带会随着接口节点的增加而增加</strong></p>
+<p>如果ABC连接一台交换机，每个链路都是100Mbps，那么最大吞吐量就是300Mbps，就是三个人的宽带不会互相影响</p>
+<p>而如果ABC连接一台集线器，每个链路都是100Mbps，那么最大吞吐量就是100&#x2F;3Mbps，就是三个人的宽带是共享的</p>
+<p>看书上的题 P120页第10,11题</p>
+<ul>
+<li><h6 id="以太网交换机的自学习功能"><a href="#以太网交换机的自学习功能" class="headerlink" title="以太网交换机的自学习功能"></a>以太网交换机的自学习功能</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/80113e954ace4267e801c85f5a709a77.png" alt="image-20241112214713513"></p>
+<p>A给C发帧，交换机1会记录A的MAC地址，然后由于不知道C的MAC地址，会把这个帧当成广播帧，全都发一遍，交换机2也就知道了A的MAC地址，最后只有C收到了之后看了下是自己的然后收下了</p>
+<p>剩下的帧都是这样</p>
+<p>总的来说就是，先查表，表里没有就发广播帧</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/83dd93296e7a78bd0309f3f453e265a5.png" alt="image-20241112214824772"></p>
+<ul>
+<li><h6 id="直通交换-vs-存储转发交换"><a href="#直通交换-vs-存储转发交换" class="headerlink" title="直通交换 vs 存储转发交换"></a>直通交换 vs 存储转发交换</h6></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/2a4080c4c3ee1b6d33dac86dca057199.png" alt="image-20241112215412642"></p>
+<p>直通交换：只把开头的目的地址拿出来分析一下，也就是只处理目的地址</p>
+<p>而且在需要速率匹配时表现很差，因为这个就是发送方发多快就按照相同的思路给到接收方，接收方速度慢接收不了就接收不了了</p>
+<p>存储转发交换：接收并处理整个帧</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/948052fc877a40ec73ccbf82ec4de5bf.png" alt="image-20241112215515524"></p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>计算机网络</tag>
+        <tag>考研</tag>
+      </tags>
+  </entry>
 </search>
