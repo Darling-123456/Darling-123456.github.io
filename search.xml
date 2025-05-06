@@ -53643,4 +53643,80 @@ $&#123;&#125;
         <tag>考研</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Day111 | 灵神 | 二叉树 | 验证二叉搜索树</title>
+    <url>/2025/05/06/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-06-Day111--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/</url>
+    <content><![CDATA[<h1 id="Day111-灵神-二叉树-验证二叉搜索树"><a href="#Day111-灵神-二叉树-验证二叉搜索树" class="headerlink" title="Day111 | 灵神 | 二叉树 | 验证二叉搜索树"></a>Day111 | 灵神 | 二叉树 | 验证二叉搜索树</h1><h2 id="98-验证二叉搜索树"><a href="#98-验证二叉搜索树" class="headerlink" title="98.验证二叉搜索树"></a>98.验证二叉搜索树</h2><p><a href="https://leetcode.cn/problems/validate-binary-search-tree/description/">98. 验证二叉搜索树 - 力扣（LeetCode）</a></p>
+<h2 id="方法一：前序遍历"><a href="#方法一：前序遍历" class="headerlink" title="方法一：前序遍历"></a>方法一：前序遍历</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250506121206361.png" alt="image-20250506121206361"></p>
+<p>递归函数传入合法的左右边界，只有当前结点是合法的边界，才是二叉搜索树，否则就返回false</p>
+<p>对于左子树就传入当前结点的左边界，和当前结点的值作为右边界，从而验证左子树是一颗二叉搜索树</p>
+<p>对于右子树就传入当前结点的右边界，和当前结点的值作为左边界，从而验证右子树是一颗二叉搜索树</p>
+<p>只有当前结点符合条件并且左右子树也都是二叉搜索树才会返回true</p>
+<p><code>灵神前序遍历代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isValidBST</span><span class="params">(TreeNode* root, <span class="type">long</span> <span class="type">long</span> left = LLONG_MIN, <span class="type">long</span> <span class="type">long</span> right = LLONG_MAX)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> x = root-&gt;val;</span><br><span class="line">        <span class="keyword">return</span> left &lt; x &amp;&amp; x &lt; right &amp;&amp;</span><br><span class="line">               <span class="built_in">isValidBST</span>(root-&gt;left, left, x) &amp;&amp;</span><br><span class="line">               <span class="built_in">isValidBST</span>(root-&gt;right, x, right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><ul>
+<li>时间复杂度：O(<em>n</em>)，其中 <em>n</em> 为二叉搜索树的节点个数。</li>
+<li>空间复杂度：O(<em>n</em>)。最坏情况下，二叉搜索树退化成一条链（注意题目没有保证它是<strong>平衡</strong>树），因此递归需要 O(<em>n</em>) 的栈空间。</li>
+</ul>
+<h2 id="方法二：中序遍历"><a href="#方法二：中序遍历" class="headerlink" title="方法二：中序遍历"></a>方法二：中序遍历</h2><p>二叉树搜索树的中序遍历是一个有序序列，记录前一个值，如果当前结点的值比前一个值小就是false</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    TreeNode *pre=<span class="literal">nullptr</span>;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">tra</span><span class="params">(TreeNode *t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="type">bool</span> l=<span class="built_in">tra</span>(t-&gt;left);</span><br><span class="line">        <span class="keyword">if</span>(pre!=<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">if</span>(t-&gt;val&lt;=pre-&gt;val)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        pre=t;</span><br><span class="line">        <span class="type">bool</span> r=<span class="built_in">tra</span>(t-&gt;right);</span><br><span class="line">        <span class="keyword">return</span> l&amp;&amp;r;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isValidBST</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">tra</span>(root);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>灵神中序遍历代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> pre = LLONG_MIN;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isValidBST</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">isValidBST</span>(root-&gt;left) || root-&gt;val &lt;= pre) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        pre = root-&gt;val;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">isValidBST</span>(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><ul>
+<li>时间复杂度：O(<em>n</em>)，其中 <em>n</em> 为二叉搜索树的节点个数。</li>
+<li>空间复杂度：O(<em>n</em>)。最坏情况下，二叉搜索树退化成一条链（注意题目没有保证它是<strong>平衡</strong>树），因此递归需要 O(<em>n</em>) 的栈空间。</li>
+</ul>
+<h2 id="方法三：后序遍历"><a href="#方法三：后序遍历" class="headerlink" title="方法三：后序遍历"></a>方法三：后序遍历</h2><p><code>灵神后序遍历代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="function">pair&lt;<span class="type">long</span> <span class="type">long</span>, <span class="type">long</span> <span class="type">long</span>&gt; <span class="title">dfs</span><span class="params">(TreeNode* node)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;LLONG_MAX, LLONG_MIN&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">auto</span>[l_min, l_max] = <span class="built_in">dfs</span>(node-&gt;left);</span><br><span class="line">        <span class="keyword">auto</span>[r_min, r_max] = <span class="built_in">dfs</span>(node-&gt;right);</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> x = node-&gt;val;</span><br><span class="line">        <span class="comment">// 也可以在递归完左子树之后立刻判断，如果发现不是二叉搜索树，就不用递归右子树了</span></span><br><span class="line">        <span class="keyword">if</span> (x &lt;= l_max || x &gt;= r_min) &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;LLONG_MIN, LLONG_MAX&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="built_in">min</span>(l_min, x), <span class="built_in">max</span>(r_max, x)&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isValidBST</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">dfs</span>(root).second != LLONG_MAX;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="复杂度分析-2"><a href="#复杂度分析-2" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><ul>
+<li>时间复杂度：O(<em>n</em>)，其中 <em>n</em> 为二叉搜索树的节点个数。</li>
+<li>空间复杂度：O(<em>n</em>)。最坏情况下，二叉搜索树退化成一条链（注意题目没有保证它是<strong>平衡</strong>树），因此递归需要 O(<em>n</em>) 的栈空间。</li>
+</ul>
+<h2 id="灵神点评"><a href="#灵神点评" class="headerlink" title="灵神点评"></a>灵神点评</h2><ul>
+<li><strong>前序遍历</strong>在某些数据下不需要递归到叶子节点就能返回（比如根节点左儿子的值大于根节点的值，左儿子就不会继续往下递归了），而中序遍历和后序遍历至少要递归到一个叶子节点。从这个角度上来说，前序遍历是最快的。</li>
+<li><strong>中序遍历</strong>很好地利用了二叉搜索树的性质，使用到的变量最少。</li>
+<li><strong>后序遍历</strong>的思想是最通用的，即自底向上计算子问题的过程。<strong>想要学好动态规划的话，请务必掌握自底向上的思想。</strong></li>
+</ul>
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>刷题记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day110 | 灵神 | 二叉树 | 根到叶路径上的不足节点</title>
+    <url>/2025/05/04/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-04-Day109--148.%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8--%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h1 id="Day110-灵神-二叉树-根到叶路径上的不足节点"><a href="#Day110-灵神-二叉树-根到叶路径上的不足节点" class="headerlink" title="Day110 | 灵神 | 二叉树 | 根到叶路径上的不足节点"></a>Day110 | 灵神 | 二叉树 | 根到叶路径上的不足节点</h1><h2 id="1080-根到叶路径上的不足节点"><a href="#1080-根到叶路径上的不足节点" class="headerlink" title="1080.根到叶路径上的不足节点"></a>1080.根到叶路径上的不足节点</h2><p><a href="https://leetcode.cn/problems/insufficient-nodes-in-root-to-leaf-paths/description/">1080. 根到叶路径上的不足节点 - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>笔者一开始没看懂，只能通过部分的例子，原因是把路径和小于limit的都给删了，但是如果留有左右节点其中一个的话就不能删。后面参考了灵神的，下面是灵神的思路：</p>
+<h3 id="一、思考"><a href="#一、思考" class="headerlink" title="一、思考"></a>一、思考</h3><p>对于一个叶子节点，要想删除它，需要满足什么条件？</p>
+<p>对于一个非叶节点，如果它有一个儿子没被删除，那么它能被删除吗？如果它的儿子都被删除，意味着什么？</p>
+<h3 id="二、解惑"><a href="#二、解惑" class="headerlink" title="二、解惑"></a>二、解惑</h3><p>对于一个叶子节点 leaf，由于根到 leaf 的路径仅有一条，所以如果这条路径的元素和小于 limit，就删除 leaf。</p>
+<p>对于一个非叶节点 node，如果 node 有一个儿子没被删除，那么 node 就不能被删除。这可以用反证法证明：假设可以把 node 删除，那么经过 node 的所有路径和都小于 limit，也就意味着经过 node 的儿子的路径和也小于 limit，说明 node 的儿子需要被删除，矛盾，所以 node 不能被删除。</p>
+<p>如果 node 的儿子都被删除，说明经过 node 的所有儿子的路径和都小于 limit，这等价于经过 node 的所有路径和都小于 limit，所以 node 需要被删除。</p>
+<p>因此，要删除非叶节点 node，当且仅当 node 的所有儿子都被删除。</p>
+<h3 id="三、算法"><a href="#三、算法" class="headerlink" title="三、算法"></a>三、算法</h3><p>一个直接的想法是，添加一个递归参数 sumPath，表示从根到当前节点的路径和。</p>
+<p>但为了能直接调用 sufficientSubset，还可以从 limit 中减去当前节点值。</p>
+<p>如果当前节点是叶子，且此时 limit&gt;0，说明从根到这个叶子的路径和小于 limit，那么删除这个叶子。</p>
+<p>如果当前节点不是叶子，那么往下递归，更新它的左儿子为对左儿子调用 sufficientSubset 的结果，更新它的右儿子为对右儿子调用 sufficientSubset 的结果。</p>
+<p>如果左右儿子都为空，那么就删除当前节点，返回空；否则不删，返回当前节点。</p>
+<p><code>完整代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">sufficientSubset</span><span class="params">(TreeNode* root, <span class="type">int</span> limit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="comment">//叶子节点</span></span><br><span class="line">        <span class="keyword">if</span>(root-&gt;left==<span class="literal">nullptr</span>&amp;&amp;root-&gt;right==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">if</span>(limit&lt;=root-&gt;val)</span><br><span class="line">                <span class="keyword">return</span> root;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">nullptr</span>;、</span><br><span class="line">        <span class="comment">//非叶子节点</span></span><br><span class="line">        root-&gt;left=<span class="built_in">sufficientSubset</span>(root-&gt;left,limit-root-&gt;val);</span><br><span class="line">        root-&gt;right=<span class="built_in">sufficientSubset</span>(root-&gt;right,limit-root-&gt;val);</span><br><span class="line">        <span class="comment">//如果当前结点的左右儿子都被删了，那就说明当前结点也该被删掉</span></span><br><span class="line">        <span class="keyword">return</span> (root-&gt;left||root-&gt;right)?root:<span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>刷题记录</tag>
+      </tags>
+  </entry>
 </search>
