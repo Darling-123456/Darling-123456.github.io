@@ -53719,4 +53719,46 @@ $&#123;&#125;
         <tag>刷题记录</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Day112 | 灵神 | 二叉树 | 二叉搜索树的范围和</title>
+    <url>/2025/05/07/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-07-Day112--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E8%8C%83%E5%9B%B4%E5%92%8C/</url>
+    <content><![CDATA[<h1 id="Day112-灵神-二叉树-二叉搜索树的范围和"><a href="#Day112-灵神-二叉树-二叉搜索树的范围和" class="headerlink" title="Day112 | 灵神 | 二叉树 | 二叉搜索树的范围和"></a>Day112 | 灵神 | 二叉树 | 二叉搜索树的范围和</h1><h2 id="938-二叉搜索树的范围和"><a href="#938-二叉搜索树的范围和" class="headerlink" title="938.二叉搜索树的范围和"></a>938.二叉搜索树的范围和</h2><p><a href="https://leetcode.cn/problems/range-sum-of-bst/description/">938. 二叉搜索树的范围和 - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>最直接的思路当然是直接前序遍历一遍，碰到在一个区间的就加到和里面</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(TreeNode* t, <span class="type">int</span> low, <span class="type">int</span> high)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        <span class="keyword">if</span>(t-&gt;val&lt;=high&amp;&amp;t-&gt;val&gt;=low)</span><br><span class="line">            res+=t-&gt;val;</span><br><span class="line">        <span class="built_in">dfs</span>(t-&gt;left,low,high);</span><br><span class="line">        <span class="built_in">dfs</span>(t-&gt;right,low,high);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">rangeSumBST</span><span class="params">(TreeNode* root, <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">dfs</span>(root, low, high);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>加上二叉搜索树的性质就是用后序遍历来写，递归函数返回值就<code>返回当子树的范围和</code></p>
+<p>1.当前结点值大于high的值说明右子树的所有值在范围外，只搜索左子树</p>
+<p>2.当前结点值小于low的值说明左子树的所有值在范围外，只搜索右子树</p>
+<p>3.在范围内那么左右子树都得继续搜索，返回三者的和</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">rangeSumBST</span><span class="params">(TreeNode* root, <span class="type">int</span> low, <span class="type">int</span> high)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(root-&gt;val&lt;low)</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">rangeSumBST</span>(root-&gt;right,low,high);</span><br><span class="line">        <span class="keyword">if</span>(root-&gt;val&gt;high)</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">rangeSumBST</span>(root-&gt;left,low,high);</span><br><span class="line">        <span class="keyword">return</span> root-&gt;val+<span class="built_in">rangeSumBST</span>(root-&gt;left,low,high)+<span class="built_in">rangeSumBST</span>(root-&gt;right,low,high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>刷题记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day113 | 灵神 | 二叉树 | 二叉搜索树的最小绝对差</title>
+    <url>/2025/05/08/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-08-Day113--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%9C%80%E5%B0%8F%E7%BB%9D%E5%AF%B9%E5%B7%AE/</url>
+    <content><![CDATA[<h1 id="Day113-灵神-二叉树-二叉搜索树的最小绝对差"><a href="#Day113-灵神-二叉树-二叉搜索树的最小绝对差" class="headerlink" title="Day113 | 灵神 | 二叉树 | 二叉搜索树的最小绝对差"></a>Day113 | 灵神 | 二叉树 | 二叉搜索树的最小绝对差</h1><h2 id="530-二叉搜索树的最小绝对差"><a href="#530-二叉搜索树的最小绝对差" class="headerlink" title="530.二叉搜索树的最小绝对差"></a>530.二叉搜索树的最小绝对差</h2><p><a href="https://leetcode.cn/problems/minimum-absolute-difference-in-bst/description/">530. 二叉搜索树的最小绝对差 - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>easy题目，中序遍历是有序的，最小绝对差肯定是相邻的</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> minVal=INT_MAX;</span><br><span class="line">    <span class="type">int</span> pre=INT_MIN/<span class="number">2</span>;<span class="comment">//防止溢出</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">tra</span><span class="params">(TreeNode *t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;left);</span><br><span class="line">        <span class="keyword">if</span>(t-&gt;val-pre&lt;minVal)</span><br><span class="line">            minVal=t-&gt;val-pre;</span><br><span class="line">        pre=t-&gt;val;</span><br><span class="line">        <span class="built_in">tra</span>(t-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getMinimumDifference</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">tra</span>(root);</span><br><span class="line">        <span class="keyword">return</span> minVal;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>刷题记录</tag>
+      </tags>
+  </entry>
 </search>
