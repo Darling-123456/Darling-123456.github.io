@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>网页禁止粘贴的解决方法（以学习通网页为例） | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="网页禁止粘贴的解决方法（以学习通网页为例）学数据挖掘，学习通过作业的简答题要英文做答还竟然不能复制粘贴，受不了了 下面给出解决办法 1.想着是网页JS的问题，既然不能直接粘贴，那就在源码里面修改 2.于是在输入框先随便输入一些文字，方便直接右键选择检查，查看源码。  3.双击，把内容换成自己想要的就行  注：如果有最少字数限制而你修改后字数限制还在的话，你就在输入几个a然后再删了就行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页禁止粘贴的解决方法（以学习通网页为例）">
+<meta property="og:url" content="https://darling-123456.github.io/2025/05/14/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E7%BD%91%E9%A1%B5%E7%A6%81%E6%AD%A2%E7%B2%98%E8%B4%B4%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E4%BB%A5%E5%AD%A6%E4%B9%A0%E9%80%9A%E7%BD%91%E9%A1%B5%E4%B8%BA%E4%BE%8B%EF%BC%89/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="网页禁止粘贴的解决方法（以学习通网页为例）学数据挖掘，学习通过作业的简答题要英文做答还竟然不能复制粘贴，受不了了 下面给出解决办法 1.想着是网页JS的问题，既然不能直接粘贴，那就在源码里面修改 2.于是在输入框先随便输入一些文字，方便直接右键选择检查，查看源码。  3.双击，把内容换成自己想要的就行  注：如果有最少字数限制而你修改后字数限制还在的话，你就在输入几个a然后再删了就行">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/349.jpg">
+<meta property="article:published_time" content="2025-05-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-15T15:24:43.313Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="踩坑记录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/349.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "网页禁止粘贴的解决方法（以学习通网页为例）",
+  "url": "https://darling-123456.github.io/2025/05/14/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E7%BD%91%E9%A1%B5%E7%A6%81%E6%AD%A2%E7%B2%98%E8%B4%B4%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E4%BB%A5%E5%AD%A6%E4%B9%A0%E9%80%9A%E7%BD%91%E9%A1%B5%E4%B8%BA%E4%BE%8B%EF%BC%89/",
+  "image": "https://darling-123456.github.io/img/349.jpg",
+  "datePublished": "2025-05-13T16:00:00.000Z",
+  "dateModified": "2025-05-15T15:24:43.313Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2025/05/14/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E7%BD%91%E9%A1%B5%E7%A6%81%E6%AD%A2%E7%B2%98%E8%B4%B4%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E4%BB%A5%E5%AD%A6%E4%B9%A0%E9%80%9A%E7%BD%91%E9%A1%B5%E4%B8%BA%E4%BE%8B%EF%BC%89/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '网页禁止粘贴的解决方法（以学习通网页为例）',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">343</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/349.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">网页禁止粘贴的解决方法（以学习通网页为例）</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">网页禁止粘贴的解决方法（以学习通网页为例）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-05-13T16:00:00.000Z" title="发表于 2025-05-14 00:00:00">2025-05-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-05-15T15:24:43.313Z" title="更新于 2025-05-15 23:24:43">2025-05-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">踩坑记录</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">170</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="网页禁止粘贴的解决方法（以学习通网页为例）"><a href="#网页禁止粘贴的解决方法（以学习通网页为例）" class="headerlink" title="网页禁止粘贴的解决方法（以学习通网页为例）"></a>网页禁止粘贴的解决方法（以学习通网页为例）</h1><p>学数据挖掘，学习通过作业的简答题要英文做答还竟然不能复制粘贴，受不了了</p>
+<p>下面给出解决办法</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250512220957989.png" alt="image-20250512220957989"><br>1.想着是网页JS的问题，既然不能直接粘贴，那就在源码里面修改</p>
+<p>2.于是在输入框先随便输入一些文字，方便直接右键选择检查，查看源码。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250512221045833.png"></p>
+<p>3.双击，把内容换成自己想要的就行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250512221250451.png" alt="image-20250512221250451"></p>
+<p>注：如果有最少字数限制而你修改后字数限制还在的话，你就在输入几个a然后再删了就行</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2025/05/14/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E7%BD%91%E9%A1%B5%E7%A6%81%E6%AD%A2%E7%B2%98%E8%B4%B4%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E4%BB%A5%E5%AD%A6%E4%B9%A0%E9%80%9A%E7%BD%91%E9%A1%B5%E4%B8%BA%E4%BE%8B%EF%BC%89/">https://darling-123456.github.io/2025/05/14/记录踩过的坑/网页禁止粘贴的解决方法（以学习通网页为例）/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">踩坑记录</a></div><div class="post-share"><div class="social-share" data-image="/img/349.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/05/11/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-11-Day116--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%AC%ACK%E5%B0%8F%E7%9A%84%E5%85%83%E7%B4%A0/" title="Day116 | 灵神 | 二叉树 | 二叉搜索树中第K小的元素"><img class="cover" src="/img/345.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Day116 | 灵神 | 二叉树 | 二叉搜索树中第K小的元素</div></div><div class="info-2"><div class="info-item-1">Day116 | 灵神 | 二叉树 | 二叉搜索树中第K小的元素230.二叉搜索树中第K小的元素230. 二叉搜索树中第 K 小的元素 - 力扣（LeetCode） 思路： 这道题也比较简单，就是中序遍历到第K个就是答案了 12345678910111213141516171819202122class Solution &#123;public:    int res=0;    int count=0;    void tra(TreeNode *t,int k)    &#123;        if(t==nullptr)            return;        tra(t-&gt;left,k);        count++;        if(k==count)        &#123;            res=t-&gt;val;            return;        &#125;        tra(t-&gt;right,k);    &#125;    int kthSmallest(TreeNode* root,...</div></div></div></a><a class="pagination-related" href="/2025/05/14/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-14-Day117--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E9%94%AE%E5%80%BC%E5%92%8C/" title="Day117 | 灵神 | 二叉树 | 二叉搜索树的最大键值和"><img class="cover" src="/img/346.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Day117 | 灵神 | 二叉树 | 二叉搜索树的最大键值和</div></div><div class="info-2"><div class="info-item-1">Day117 | 灵神 | 二叉树 | 二叉搜索树的最大键值和1373.二叉搜索树的最大键值和1373. 二叉搜索子树的最大键值和 - 力扣（LeetCode） 关联题目： 98. 验证二叉搜索树 -...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/03/17/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/hexo%20init%E9%97%AE%E9%A2%98/" title="用hexo初始化博客执行hexo init时碰到的问题"><img class="cover" src="/img/80.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-17</div><div class="info-item-2">用hexo初始化博客执行hexo init时碰到的问题</div></div><div class="info-2"><div class="info-item-1">用hexo初始化博客执行hexo init时碰到的问题123456$ hexo init myblogINFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.gitfatal: unable to access &#x27;https://github.com/hexojs/hexo-starter.git/&#x27;: SSL certificate problem: unable to get local issuer certificateWARN  git clone failed. Copying data insteadINFO  Install dependenciesINFO  Start blogging with...</div></div></div></a><a class="pagination-related" href="/2024/12/11/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/Ubuntu%E4%BD%BF%E7%94%A8telnet%E8%BF%9E%E6%8E%A5%E6%97%B6%E5%87%BA%E7%8E%B0%E7%9A%84%E9%94%99%E8%AF%AF%EF%BC%9A%E6%B2%A1%E6%9C%89%E5%88%B0%E4%B8%BB%E6%9C%BA%E7%9A%84%E8%B7%AF%E7%94%B1%EF%BC%88%E8%83%BDping%E9%80%9A%E4%BD%86%E6%98%AF%E8%BF%98%E6%98%AF%E6%8A%A5%E9%94%99%EF%BC%89/" title="Ubuntu使用telnet连接时出现的错误 没有到主机的路由 能ping通但是还是报错"><img class="cover" src="/img/170.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-11</div><div class="info-item-2">Ubuntu使用telnet连接时出现的错误 没有到主机的路由 能ping通但是还是报错</div></div><div class="info-2"><div class="info-item-1">Ubuntu使用telnet连接时出现的错误：没有到主机的路由（能ping通但是还是报错）错误如下：  说明： A机：192.168.120.138 B机：192.168.120.139 开启的服务端口是1234 解决方法： 1.检查是不是能ping通如果ping不通，那就先解决这个问题 2.防火墙的问题以下操作要在b机上运行，即开启服务的那个主机 列出所有规则： 1firewall-cmd --list-all   这里看到的只有22和8000端口，刚刚使用ufw开放的端口没有。于是使用相关命令开放端口（1234替换成想指定的端口）： 如果是udp也要换成udp而不是用tcp 1firewall-cmd --zone=public --add-port=1234/tcp --permanent  执行完添加端口命令后，一定要重启防火墙才能生效，重启命令如下： 1firewall-cmd...</div></div></div></a><a class="pagination-related" href="/2024/11/15/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/Linux%E4%B9%8Bvim%E5%85%A8%E9%80%89%EF%BC%8C%E5%85%A8%E9%83%A8%E5%A4%8D%E5%88%B6%EF%BC%8C%E5%85%A8%E9%83%A8%E5%88%A0%E9%99%A4/" title="Linux之vim全选 全部复制 全部删除"><img class="cover" src="/img/168.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-15</div><div class="info-item-2">Linux之vim全选 全部复制 全部删除</div></div><div class="info-2"><div class="info-item-1">Linux之vim全选，全部复制，全部删除Vim中如何全选并复制？（区分大小写！！！）全部删除：按esc键后，先按gg（到达顶部），然后dG全部复制：按esc键后，先按gg，然后ggyG全选高亮显示：按esc键后，先按gg，然后ggvG或者ggVG 单行复制：按esc键后, 然后yy单行删除：按esc键后, 然后dd粘贴：按esc键后, 然后p vim只能粘贴50行的问题：在当前用户主目录（）编辑&#x2F;.vimrc（如果不存在，新建这个文件），添加一行 1:set viminfo=&#x27;1000,&lt;500     至于为什么要输入输入’1000,这个其实不重要，最主要的是输入&lt;500,它是设置寄存器保存的行数的。即最大值为...</div></div></div></a><a class="pagination-related" href="/2024/11/08/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/MIT%206.s081%20make%20qemu%E5%90%AF%E5%8A%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%8D%A1%E4%BD%8F%E4%BA%86%E5%8A%A8%E4%B8%8D%E4%BA%86%E4%BA%86/" title="MIT 6.s081 make qemu启动的时候卡住了动不了了"><img class="cover" src="/img/160.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-08</div><div class="info-item-2">MIT 6.s081 make qemu启动的时候卡住了动不了了</div></div><div class="info-2"><div class="info-item-1">MIT 6.s081 make qemu启动的时候卡住了动不了了执行了make qemu，卡住动不了了 123qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp3 -nographic -drive file=fs. img, if=none, format=raw, id=x0 -device virtio-blk-device, drive=x0,bus=virtio-mmio-bus.0  停在了这么个倒霉地方 此时此刻，似乎软件包 qemu-system-misc 收到了一个更新，该更新破坏了它与我们内核的兼容性。如果运行 make qemu 并且脚本在 qemu-system-riscv64 -machine virt -bios none -kernel&#x2F;kernel -m 128M -smp 3 -nographic -drive file&#x3D;fs.img，if&#x3D;none，format&#x3D;raw，id&#x3D;x0...</div></div></div></a><a class="pagination-related" href="/2024/11/01/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/VScode%20%E8%B0%83%E8%AF%95%E6%95%99%E7%A8%8B%20tasks.json%E5%92%8Claunch.json%E7%9A%84%E8%AE%BE%E7%BD%AE%EF%BC%88%E8%B6%85%E8%AF%A6%E7%BB%86%EF%BC%89/" title="VScode 调试教程 tasks.json和launch.json的设置"><img class="cover" src="/img/154.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-01</div><div class="info-item-2">VScode 调试教程 tasks.json和launch.json的设置</div></div><div class="info-2"><div class="info-item-1">VScode 调试教程 tasks.json和launch.json的设置（超详细）运行环境： VSCode...</div></div></div></a><a class="pagination-related" href="/2024/11/08/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/MIT6.s081%20%E7%BC%96%E8%AF%91QEMU%E4%B8%AD%E7%9A%84%E9%94%99%E8%AF%AF%20usersh.c581%20error%20infinite%20recursion%20detected%20%5B-Werror=infinite-recursi%20%E9%80%92%E5%BD%92%E5%87%BD%E6%95%B0%E6%97%A0%E7%BA%BF%E9%80%92%E5%BD%92/" title="MIT6.s081 编译QEMU中的错误 user&#x2F;sh.c:58:1 error infinite recursion detected [-Werror&#x3D;infinite-recursi 递归函数无线递归"><img class="cover" src="/img/162.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-08</div><div class="info-item-2">MIT6.s081 编译QEMU中的错误 user&#x2F;sh.c:58:1 error infinite recursion detected [-Werror&#x3D;infinite-recursi 递归函数无线递归</div></div><div class="info-2"><div class="info-item-1">MIT6.s081 编译QEMU中的错误 user&#x2F;sh.c:58:1: error: infinite recursion detected [-Werror&#x3D;infinite-recursi 递归函数无线递归递归函数无线递归user&#x2F;sh.c:58:1: error: infinite recursion detected [-Werror&#x3D;infinite-recursi在 runcmd 前添加 attribute((noreturn)) 1234// Execute cmd.  Never returns.__attribute__((noreturn)) voidruncmd(struct cmd *cmd)  </div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">343</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E9%A1%B5%E7%A6%81%E6%AD%A2%E7%B2%98%E8%B4%B4%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E4%BB%A5%E5%AD%A6%E4%B9%A0%E9%80%9A%E7%BD%91%E9%A1%B5%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="toc-text">网页禁止粘贴的解决方法（以学习通网页为例）</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/05/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%20%20%E4%B8%80%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="26考研 | 王道 | 计算机组成原理 | 一、计算机系统概述"><img src="/img/348.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 计算机组成原理 | 一、计算机系统概述"/></a><div class="content"><a class="title" href="/2025/05/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%20%20%E4%B8%80%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="26考研 | 王道 | 计算机组成原理 | 一、计算机系统概述">26考研 | 王道 | 计算机组成原理 | 一、计算机系统概述</a><time datetime="2025-05-15T10:25:00.000Z" title="发表于 2025-05-15 18:25:00">2025-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/15/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-15-Day118--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E5%88%A0%E7%82%B9%E6%88%90%E6%9E%97/" title="Day118 | 灵神 | 二叉树 | 删点成林"><img src="/img/347.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day118 | 灵神 | 二叉树 | 删点成林"/></a><div class="content"><a class="title" href="/2025/05/15/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-15-Day118--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E5%88%A0%E7%82%B9%E6%88%90%E6%9E%97/" title="Day118 | 灵神 | 二叉树 | 删点成林">Day118 | 灵神 | 二叉树 | 删点成林</a><time datetime="2025-05-15T01:30:20.000Z" title="发表于 2025-05-15 09:30:20">2025-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-14-Day117--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E9%94%AE%E5%80%BC%E5%92%8C/" title="Day117 | 灵神 | 二叉树 | 二叉搜索树的最大键值和"><img src="/img/346.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day117 | 灵神 | 二叉树 | 二叉搜索树的最大键值和"/></a><div class="content"><a class="title" href="/2025/05/14/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-14-Day117--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E9%94%AE%E5%80%BC%E5%92%8C/" title="Day117 | 灵神 | 二叉树 | 二叉搜索树的最大键值和">Day117 | 灵神 | 二叉树 | 二叉搜索树的最大键值和</a><time datetime="2025-05-14T01:30:20.000Z" title="发表于 2025-05-14 09:30:20">2025-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/14/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E7%BD%91%E9%A1%B5%E7%A6%81%E6%AD%A2%E7%B2%98%E8%B4%B4%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E4%BB%A5%E5%AD%A6%E4%B9%A0%E9%80%9A%E7%BD%91%E9%A1%B5%E4%B8%BA%E4%BE%8B%EF%BC%89/" title="网页禁止粘贴的解决方法（以学习通网页为例）"><img src="/img/349.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="网页禁止粘贴的解决方法（以学习通网页为例）"/></a><div class="content"><a class="title" href="/2025/05/14/%E8%AE%B0%E5%BD%95%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/%E7%BD%91%E9%A1%B5%E7%A6%81%E6%AD%A2%E7%B2%98%E8%B4%B4%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%EF%BC%88%E4%BB%A5%E5%AD%A6%E4%B9%A0%E9%80%9A%E7%BD%91%E9%A1%B5%E4%B8%BA%E4%BE%8B%EF%BC%89/" title="网页禁止粘贴的解决方法（以学习通网页为例）">网页禁止粘贴的解决方法（以学习通网页为例）</a><time datetime="2025-05-13T16:00:00.000Z" title="发表于 2025-05-14 00:00:00">2025-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/11/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-11-Day116--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%AC%ACK%E5%B0%8F%E7%9A%84%E5%85%83%E7%B4%A0/" title="Day116 | 灵神 | 二叉树 | 二叉搜索树中第K小的元素"><img src="/img/345.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day116 | 灵神 | 二叉树 | 二叉搜索树中第K小的元素"/></a><div class="content"><a class="title" href="/2025/05/11/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-11-Day116--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%AC%ACK%E5%B0%8F%E7%9A%84%E5%85%83%E7%B4%A0/" title="Day116 | 灵神 | 二叉树 | 二叉搜索树中第K小的元素">Day116 | 灵神 | 二叉树 | 二叉搜索树中第K小的元素</a><time datetime="2025-05-11T01:30:20.000Z" title="发表于 2025-05-11 09:30:20">2025-05-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+  © 2024-<script>document.write(new Date().getFullYear())</script> 
+  <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
+  | 已运行 <span id="days">0</span> 天
+  <script>
+    const start = new Date('2024-12-12');
+    const now = new Date();
+    document.getElementById('days').innerHTML = 
+      Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  </script>
+</div>
+</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Never,ever,ever,give,up" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
