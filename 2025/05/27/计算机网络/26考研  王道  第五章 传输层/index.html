@@ -1,0 +1,493 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>26考研 | 王道 | 第五章 传输层 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="26考研 | 王道 | 第五章 传输层1. 传输层提供的服务      2. UDP协议 2.1 UDP数据报  UDP数据报实际最大长度只有65515B这么长，因为IP数据报不拆分的最长长度也就是65535B这么长，还要除去至少20B的IP数据包首部长度，那么剩下的65515B就是UDP数据报的总长度了。  2.2 UDP检验 其实就是UDP对应的差错控制，错了直接扔了，而且不通知发送方  接收">
+<meta property="og:type" content="article">
+<meta property="og:title" content="26考研 | 王道 | 第五章 传输层">
+<meta property="og:url" content="https://darling-123456.github.io/2025/05/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="26考研 | 王道 | 第五章 传输层1. 传输层提供的服务      2. UDP协议 2.1 UDP数据报  UDP数据报实际最大长度只有65515B这么长，因为IP数据报不拆分的最长长度也就是65535B这么长，还要除去至少20B的IP数据包首部长度，那么剩下的65515B就是UDP数据报的总长度了。  2.2 UDP检验 其实就是UDP对应的差错控制，错了直接扔了，而且不通知发送方  接收">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/357.jpg">
+<meta property="article:published_time" content="2025-05-27T01:25:00.000Z">
+<meta property="article:modified_time" content="2025-05-27T03:26:30.385Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="考研">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/357.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "26考研 | 王道 | 第五章 传输层",
+  "url": "https://darling-123456.github.io/2025/05/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/",
+  "image": "https://darling-123456.github.io/img/357.jpg",
+  "datePublished": "2025-05-27T01:25:00.000Z",
+  "dateModified": "2025-05-27T03:26:30.385Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2025/05/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '26考研 | 王道 | 第五章 传输层',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">353</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/357.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">26考研 | 王道 | 第五章 传输层</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">26考研 | 王道 | 第五章 传输层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-05-27T01:25:00.000Z" title="发表于 2025-05-27 09:25:00">2025-05-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-05-27T03:26:30.385Z" title="更新于 2025-05-27 11:26:30">2025-05-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="26考研-王道-第五章-传输层"><a href="#26考研-王道-第五章-传输层" class="headerlink" title="26考研 | 王道 | 第五章 传输层"></a>26考研 | 王道 | 第五章 传输层</h1><h2 id="1-传输层提供的服务"><a href="#1-传输层提供的服务" class="headerlink" title="1. 传输层提供的服务"></a>1. 传输层提供的服务</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523115043385.png" alt="image-20250523115043385"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523114543899.png" alt="image-20250523114543899"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523114746705.png" alt="image-20250523114746705"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523114812229.png" alt="image-20250523114812229"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523115134254.png" alt="image-20250523115134254"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523115233064.png" alt="image-20250523115233064"></p>
+<h2 id="2-UDP协议"><a href="#2-UDP协议" class="headerlink" title="2. UDP协议"></a>2. UDP协议</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523120433117.png" alt="image-20250523120433117"></p>
+<h3 id="2-1-UDP数据报"><a href="#2-1-UDP数据报" class="headerlink" title="2.1 UDP数据报"></a>2.1 UDP数据报</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523115724973.png" alt="image-20250523115724973"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523115750914.png" alt="image-20250523115750914"></p>
+<p>UDP数据报实际最大长度只有65515B这么长，因为IP数据报不拆分的最长长度也就是65535B这么长，还要除去至少20B的IP数据包首部长度，那么剩下的65515B就是UDP数据报的总长度了。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523120339933.png" alt="image-20250523120339933"></p>
+<h3 id="2-2-UDP检验"><a href="#2-2-UDP检验" class="headerlink" title="2.2 UDP检验"></a>2.2 UDP检验</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523121140274.png" alt="image-20250523121140274"></p>
+<p>其实就是UDP对应的差错控制，错了直接扔了，而且不通知发送方</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523120544969.png" alt="image-20250523120544969"></p>
+<p>接收方把数据和检验和相加如果得到的不是全1就是错的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523120712041.png" alt="image-20250523120712041"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523120926418.png" alt="image-20250523120926418"></p>
+<p>刚开始的没有计算过检验和的时候，把检验和当做全0来算</p>
+<h4 id="IP首部检验和-与-UDP检验和的区别"><a href="#IP首部检验和-与-UDP检验和的区别" class="headerlink" title="IP首部检验和 与 UDP检验和的区别"></a>IP首部检验和 与 UDP检验和的区别</h4><p>两者检验方法一致，需注意一下区别</p>
+<p>1.IP首部检验和只检查首部，不检查数据部分</p>
+<p>2.IP首部检验和不需要添加伪首部</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523121357220.png" alt="image-20250523121357220"></p>
+<h2 id="3-TCP协议"><a href="#3-TCP协议" class="headerlink" title="3.TCP协议"></a>3.TCP协议</h2><h3 id="3-0-TCP概览"><a href="#3-0-TCP概览" class="headerlink" title="3.0 TCP概览"></a>3.0 TCP概览</h3><p>TCP建立的连接本质上是两台主机的<strong>进程之间</strong>的通信，而非单纯的主机到主机的连接。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523121643503.png" alt="image-20250523121643503"></p>
+<p>建立连接由客户端发起，释放连接客户端和服务器都可以发起</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523122054740.png" alt="image-20250523122054740"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523122420277.png" alt="image-20250523122420277"></p>
+<p>MSS只是数据部分的大小，不包含首部长度</p>
+<h4 id="面向字节流和面向连接理解"><a href="#面向字节流和面向连接理解" class="headerlink" title="面向字节流和面向连接理解"></a>面向字节流和面向连接理解</h4><p>面向字节流的理解：不管进程给了TCP多少报文，在它看来都是一连串的字节流，它要做的就是按照MSS把这个字节流拆分开来，然后通通交给接收进程的TCP</p>
+<p>TCP与UDP在数据传输方式上的核心差异体现在<strong>面向字节流</strong>和<strong>面向报文</strong>的特性上。</p>
+<ol>
+<li><strong>TCP的字节流特性</strong><br>TCP将应用层传递的数据视为<strong>无结构的连续字节序列</strong>，发送方会根据网络条件（如MTU限制）自动拆分或合并数据。例如，若应用程序连续发送”Hello”和”World”，TCP可能将其合并为”HelloWorld”发送，接收方无法直接区分原始分界点。这种特性导致需要应用层通过特殊分隔符或自定义消息头解决”粘包”问题</li>
+<li><strong>UDP的报文边界保留</strong><br>UDP严格保留应用层提交的<strong>消息完整性</strong>。每个UDP数据报（Datagram）都对应一个完整的用户消息，发送方既不拆分也不合并数据。例如，若应用层发送”Hello”和”World”，接收方会收到两个独立的数据报，边界清晰。这种特性使UDP天然适合需要消息独立性的场景（如DNS查询）。</li>
+</ol>
+<ul>
+<li><strong>TCP发送过程</strong>：<br>应用层发送”123456789” → TCP拆分为3个段（”1234”、”5678”、”9”） → 接收方缓存重组为完整字节流</li>
+<li><strong>UDP发送过程</strong>：<br>应用层发送两个消息”A”和”B” → 生成两个独立数据报 → 接收方分别读取”A”和”B”</li>
+</ul>
+<p><code>典型应用场景</code></p>
+<ol>
+<li><strong>TCP适用场景</strong><ul>
+<li><strong>需要数据完整性的场景</strong>：HTTP网页加载、电子邮件传输（SMTP&#x2F;POP3）</li>
+<li><strong>长连接交互</strong>：数据库连接、SSH远程登录</li>
+<li><strong>流媒体中的可靠性优先场景</strong>：直播中的关键帧传输</li>
+</ul>
+</li>
+<li><strong>UDP适用场景</strong><ul>
+<li><strong>实时性要求高的场景</strong>：在线视频会议（如Zoom）、多人在线游戏</li>
+<li><strong>广播&#x2F;多播通信</strong>：IP电视流媒体、网络时间协议（NTP）</li>
+<li><strong>简单查询响应</strong>：DNS域名解析、DHCP动态IP分配</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-1-TCP段格式"><a href="#3-1-TCP段格式" class="headerlink" title="3.1 TCP段格式"></a>3.1 TCP段格式</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523185230444.png" alt="image-20250523185230444"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523181515506.png" alt="image-20250523181515506"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523181430367.png" alt="image-20250523181430367"></p>
+<p>确认号具有累计确认的特性，如果1-2500B都已经接收，3000-4000B也正确接收，返回的确认号是2500，因为还没收到2500-3000B的内容</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523182747142.png" alt="image-20250523182747142"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523182916346.png" alt="image-20250523182916346"></p>
+<p>紧急指针的序号和上面的序号sqe两者的序号不是一套序号，比如上面的序号是2500-3000B，下面的紧急指针的序号可以是100-199，两者没有关联</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523183424628.png" alt="image-20250523183424628"></p>
+<p>一个报文段可能既是SYN段又是ACK段，这三个位并不互斥，不是只能成为其中一个</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523184150778.png" alt="image-20250523184150778"></p>
+<p>就是接收方的接收缓冲区目前还可以接收多少字节就要满了，然后发送方就会根据这个数来发送，不会发的太多太快</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523184340737.png" alt="image-20250523184340737"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523184435246.png" alt="image-20250523184435246"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523184642276.png" alt="image-20250523184642276"></p>
+<p>MSS字段的大小只是数据部分的大小，不包含首部</p>
+<p>比如MSS为1000，那么数据部分最大就是1000B</p>
+<p>同时，TCP连接的双方通过选项字段可以协商MSS大小，并且双方设置的MSS大小可以不一样</p>
+<p>比如A给B的报文段MSS设置为1000，那么A给B发的最大就是1000B</p>
+<p>B给A的报文段MSS设置为800，那么B给A发的最大就是800B</p>
+<h3 id="3-2-TCP连接管理"><a href="#3-2-TCP连接管理" class="headerlink" title="3.2 TCP连接管理"></a>3.2 TCP连接管理</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526161516304.png" alt="image-20250526161516304"></p>
+<p><code>三次握手建立连接：</code></p>
+<p>1.SYN&#x3D;1,seq&#x3D;x</p>
+<p>2.SYN&#x3D;1,ACK&#x3D;1,seq&#x3D;y,ack&#x3D;x+1</p>
+<p>3.ACK&#x3D;1,seq&#x3D;x+1,ack&#x3D;y+1</p>
+<p><code>四次挥手释放连接：</code></p>
+<p>1.FIN&#x3D;1,seq&#x3D;u</p>
+<p>2.ACK&#x3D;1,seq&#x3D;v,ack&#x3D;u+1</p>
+<p>3.FIN&#x3D;1,ACK&#x3D;1,seq&#x3D;w,,ack&#x3D;u+1</p>
+<p>4.ACK&#x3D;1,seq&#x3D;u+1,ack&#x3D;w+1</p>
+<h4 id="1-三次握手"><a href="#1-三次握手" class="headerlink" title="1.三次握手"></a>1.三次握手</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526154736672.png" alt="image-20250526154736672"></p>
+<h5 id="1-考察SYN-ACK-FIN-seq，ack-seq"><a href="#1-考察SYN-ACK-FIN-seq，ack-seq" class="headerlink" title="1.考察SYN,ACK,FIN,seq，ack_seq"></a>1.考察SYN,ACK,FIN,seq，ack_seq</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526151935561.png" alt="image-20250526151935561"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526152649586.png" alt="image-20250526152649586"></p>
+<p>客户端发送的序号和服务器发送的序号可以相同也可以不同，比如上图，客户端发送的是以666开始的序号，而服务器是以50开始的序号</p>
+<p>服务器握手2的ack是确认的客户端的seq&#x3D;666，所以是发给客户端的是seq+1，也就是667</p>
+<p>而客户端握手3的ack确认的是服务器的seq&#x3D;50，所以发给服务器的是seq+1，也就是51</p>
+<p><strong>即虽然握手1,2不能携带数据，但仍然要消耗一个序号</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526153443516.png" alt="image-20250526153443516"></p>
+<h5 id="2-进程TCP状态的转换"><a href="#2-进程TCP状态的转换" class="headerlink" title="2.进程TCP状态的转换"></a>2.进程TCP状态的转换</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526154313443.png" alt="image-20250526154313443"></p>
+<h5 id="3-耗时分析"><a href="#3-耗时分析" class="headerlink" title="3.耗时分析"></a>3.耗时分析</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526154449694.png" alt="image-20250526154449694"></p>
+<p>1RTT是一个来回</p>
+<p>从客户端来看，由于握手3就可以直接携带数据，所以用户只需要等握手1过去，握手2回来就是了，是1RTT</p>
+<p>而服务器则需要等待握手1，握手2，握手3，一共3趟，也就是1.5RTT，也就是连接建立以后才会开始发送数据</p>
+<p><code>核心：</code>客户端是收到握手2之后才可以发送数据，服务器是收到握手3才可以发送数据</p>
+<h4 id="2-四次挥手"><a href="#2-四次挥手" class="headerlink" title="2.四次挥手"></a>2.四次挥手</h4><h5 id="1-各个数值"><a href="#1-各个数值" class="headerlink" title="1.各个数值"></a>1.各个数值</h5><p>假设客户端是首先发起释放连接的那一方</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526155214017.png" alt="image-20250526155214017"></p>
+<p>客户端收到挥手2之后，就不能给服务器发送数据了(因为客户向服务器发送数据的通道已经关闭了，这也是挥手4不能发送数据的原因)，而服务器还可以给客户端单向发送数据</p>
+<p>挥手1和挥手3实际上可以携带数据，<strong>但考试一般默认不携带数据</strong></p>
+<p><code>总结：</code>其实挥手1,2,3都可以携带数据，就是4不行</p>
+<p>而挥手2和挥手3之间的序号的差值取决于挥手2和挥手3中间传了多少的数据</p>
+<h5 id="2-进程TCP状态的转换-1"><a href="#2-进程TCP状态的转换-1" class="headerlink" title="2.进程TCP状态的转换"></a>2.进程TCP状态的转换</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526160457185.png" alt="image-20250526160457185"></p>
+<p>FIN&#x3D;1的是挥手1和挥手3</p>
+<h5 id="3-耗时分析-1"><a href="#3-耗时分析-1" class="headerlink" title="3.耗时分析"></a>3.耗时分析</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526160947074.png" alt="image-20250526160947074"></p>
+<p>等待2MSL是为了防止，客户端收到挥手3，然后发给服务器的挥手4丢失了的这种情况。这时候服务器会重新发送一个挥手3，客户端的计时器也会重置 ，然后客户端重新发个挥手4</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526161311224.png" alt="image-20250526161311224"></p>
+<h3 id="3-3-可靠传输和流量控制"><a href="#3-3-可靠传输和流量控制" class="headerlink" title="3.3 可靠传输和流量控制"></a>3.3 可靠传输和流量控制</h3><p>注：并不是要接收缓冲区满了才可以交付给应用程序，只要接收缓冲区里面的数据是有序的就可以</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526213128033.png" alt="image-20250526213128033"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527102952912.png" alt="image-20250527102952912"></p>
+<p>连续收到两个长度为MSS的报文段立即返回ack段是因为 这两个段长度很大，重传代价太高了</p>
+<h4 id="1-确认号、发送窗口接收窗口"><a href="#1-确认号、发送窗口接收窗口" class="headerlink" title="1.确认号、发送窗口接收窗口"></a>1.确认号、发送窗口接收窗口</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526201423840.png" alt="image-20250526201423840"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526201543157.png" alt="image-20250526201543157"></p>
+<p>实际中接收窗口大小rwnd一般为8KB，就是以KB为单位的，但是在这例子中，就是8B，是为了简化理解</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526201739192.png" alt="image-20250526201739192"></p>
+<p>其实接收和发送缓冲区其实就是char[]数组而已，10B就是长度为10的char型数组</p>
+<p>发送窗口大小必须小于接收缓冲区大小，在本例子中，10B的发送缓冲区只有8B能用做发送窗口</p>
+<p>而对于服务器来说，8B的发送缓冲区可以全都用作发送窗口，只要满足比接收缓冲区小就可以，显然8B小于10B，是满足的</p>
+<p><code>重点：</code>发送窗口大小不能大于发送缓冲区大小，也不能大于接收方的接收缓冲区的大小</p>
+<p> 实际上，王道这里讲的是socket编程，发送数据和接收数据也确实是用send和recv进行发送和接收的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526203322079.png" alt="image-20250526203322079"></p>
+<p>一个端口可以建立多个TCP连接，只要对应的socket对象不同就行了。每个TCP连接仅支持一对一通信（全双工）</p>
+<hr>
+<p><code>注：</code>同一端口可以承载多个TCP连接的关键在于四元组的唯一性，而不同的socket对象本质上是对不同四元组的抽象实现</p>
+<ol>
+<li><strong>四元组的唯一性</strong>：<br>TCP连接的标识是四元组（服务端IP、服务端端口、客户端IP、客户端端口）。只要四元组中任意一个元素不同，操作系统内核就会认为这是两个独立的连接。因此，服务端的一个端口可以与多个客户端的不同端口&#x2F;IP组合建立连接，每个连接对应一个唯一的socket对象</li>
+<li><strong>socket对象的本质</strong>：<br>Socket对象是操作系统内核中TCP连接状态的抽象。服务端的主监听socket（<code>listen_socket</code>）仅负责接收新连接请求，而通过<code>accept()</code>函数生成的每个新socket（<code>client_socket</code>）对应一个已建立的连接，其内核状态中包含了完整的四元组信息</li>
+</ol>
+<p>误区1：端口只能单连接：错误。端口是逻辑概念，内核通过四元组区分连接，而非单纯依赖端口</p>
+<p>误区2：客户端端口不可重用：客户端可通过设置SO_REUSEADDR选项重用本地端口连接不同服务端</p>
+<hr>
+<p>TCP协议的发送缓冲区，接收缓冲区在建立连接时由操作系统内核分配，大小不固定</p>
+<p>发送窗口和接收窗口大小也并不一定要相等，具体大小由操作系统决定</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526203437854.png" alt="image-20250526203437854"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526203500699.png" alt="image-20250526203500699"></p>
+<p><code>具体发送过程：</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526204738990.png" alt="image-20250526204738990"></p>
+<p>发送缓冲区是0,1,2,3,4,5,6,7,8,9，一开始发送窗口是8，然后把0,1,2发送过去了，接收方返回ack&#x3D;603，表示第600，601,602个字节已经收到了。之后发送缓冲区就把ack之前的数据全都给清理出去了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526204942396.png" alt="image-20250526204942396"></p>
+<p>接下来就是接收方的接收缓冲区只有5字节了，那么发送窗口的大小也必须调整为5，也就是发送窗口大小。到这里就可以体会到最新确认号，最新接收窗口大小了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526201543157.png" alt="image-20250526201543157"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526205138014.png" alt="image-20250526205138014"></p>
+<h4 id="2-累积确认"><a href="#2-累积确认" class="headerlink" title="2.累积确认"></a>2.累积确认</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526205138014.png"></p>
+<p>发送两个报文段，一个带着3,4一个带着5,6，不管谁先到达，TCP都有办法确认这四个数据应该在的位置，并且返回较大的确认号，也就是返回607，然后会构造一个不含任何数据的ACK段，告诉接收方607这个序号和接收窗口变成1</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526205346657.png" alt="image-20250526205346657"></p>
+<p>接下来就是发送方就发只含1B数据的报文段，因为发送窗口只有1这么大，然后接收缓冲区就满了，满了以后要尽快按序交付给应用程序。交付后接收缓冲区又空了，接收窗口大小又变成了8B，返回ack和接收窗口大小，然后继续传后面的数据</p>
+<h4 id="3-捎带确认"><a href="#3-捎带确认" class="headerlink" title="3.捎带确认"></a>3.捎带确认</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526210007475.png" alt="image-20250526210007475"></p>
+<p>就是当服务器接收数据之后，要构造不带数据的ack段进行确认，还有接收窗口大小。此时正好服务器也有数据准备好了，就在发送缓冲区中，那么数据就直接放到ack段中<strong>捎带</strong>着发回给接收方了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526210332071.png" alt="image-20250526210332071"></p>
+<p>在这个例子中是200,201,202,203,204<strong>捎带</strong>在ack段中了</p>
+<p>这个ack段的首部字段中：</p>
+<p>seq&#x3D;200,ack&#x3D;610,rwnd&#x3D;6</p>
+<p>接收方客户端就把数据拿下来，然后把发送窗口大小调整为6</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526210824471.png" alt="image-20250526210824471"></p>
+<p>那么客户端作为接收方收到数据之后，也得给服务器返回ack段进行确认和接收窗口大小进行调整。而如果此时发送方的发送缓冲区还有东西要发，那么也给<strong>捎带</strong>发到了服务器了就，就是图中的10,11,12,13,14,15</p>
+<p>这个ack段的首部字段中：</p>
+<p>seq&#x3D;610,ack&#x3D;205,rwnd&#x3D;5</p>
+<p>然后服务器把已经确认的数据弹出缓冲区，并且把发送窗口调整为5</p>
+<p><strong>注：并不是要接收缓冲区满了才可以交付给应用程序，只要接收缓冲区里面的数据是有序的就可以</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526211612481.png" alt="image-20250526211612481"></p>
+<p>如图所示，虽然接收缓冲区没满，但是16,17有序，那么也可以把这两个交付给应用层</p>
+<p><strong>什么是有序？</strong></p>
+<p>比如下图中，乱序到达了20，21,22，这时候不可以把这个数据交付给应用程序，因为18和19还没到，不可以称之为有序</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526211710530.png" alt="image-20250526211710530"></p>
+<h4 id="4-超时重传"><a href="#4-超时重传" class="headerlink" title="4.超时重传"></a>4.超时重传</h4><p>只要发送方没有在规定时间内收到服务器的ack确认段，那么时间到了以后就会进行重传，并重置定时器，直到收到了确认段</p>
+<p>1.发送方的发送报文丢失了</p>
+<p>定时器到时间后就会重新传</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526212035311.png" alt="image-20250526212035311"></p>
+<p>2.接收方发回来的ack段丢了</p>
+<p>也是由发送方时间到了以后重新发送，接收方收到了重复的数据，会再次返回ack确认段</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526212447169.png" alt="image-20250526212447169"></p>
+<h4 id="5-快重传、立即确认"><a href="#5-快重传、立即确认" class="headerlink" title="5.快重传、立即确认"></a>5.快重传、立即确认</h4><p><code>推迟确认的好处：</code>如果两个段到来的时间间隔很短的话，就可以二合一只返回一个ack段，也就是可以累计确认</p>
+<p><code>立即确认：</code>收到一个报文段立即返回ack确认段</p>
+<h5 id="1-推迟确认的缺点"><a href="#1-推迟确认的缺点" class="headerlink" title="1.推迟确认的缺点"></a>1.推迟确认的缺点</h5><p>推迟确认并不一定都是好的，下面这个例子体现了推迟确认的缺点</p>
+<p>其实就是如果发的这些报文段里面有一个丢了，由于推迟确认机制，在这之后的报文段全都得重新发送</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526213400607.png" alt="image-20250526213400607"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526213443316.png" alt="image-20250526213443316"></p>
+<p>在这个例子中，第2次传的数据丢失了，如下图所示，接收缓冲区大小为4了，构造四个段</p>
+<p>分别装着22,23,24,25，直接把四个都发送，接收方收到第一个的时候选择推迟确认0.5秒</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526213749869.png" alt="image-20250526213749869"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526213906565.png" alt="image-20250526213906565"></p>
+<p>其中23丢了，剩下3个都到达了。这是接收缓冲区大小还剩下3而不是1。接收缓冲区大小和确认号是一起看的，从确认号623开始的后面的这部分全是接收缓冲区，所以是3而不是1</p>
+<p>所以返回的ack段的ack是623，接收窗口的值是3</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526214206373.png" alt="image-20250526214206373"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526214243321.png" alt="image-20250526214243321"></p>
+<p>发送方收到ack段，把发送窗口调整为3,。但是呢，发送方已经把23,24,25全都发了，所以现在不会再次发送23,24,25这三个数据了，而是会在这里等着他们的ack确认段发过来。但是我们知道这不会发过来，因为接收方就没收到23，不能确认23，由于累计确认，那也就没办法确认24,25。只能等23这个报文段超时，超时后会重传（23报文段超时后不久，24,25也都会超时，并且也会重传）</p>
+<p>但其实接收方已经收到24,25报文段了，我们实际上没必要重新传。可是推迟重传导致在发送方看来接收方没收到24,25，所以24,25还会重新传一遍</p>
+<h5 id="2-快重传、立即确认"><a href="#2-快重传、立即确认" class="headerlink" title="2.快重传、立即确认"></a>2.快重传、立即确认</h5><p>其实就是服务器只要收到一个段，就确认一个段</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526214903439.png" alt="image-20250526214903439"></p>
+<p>在这个例子中，第二个23丢失了。但是22到了，会返回ack&#x3D;623。</p>
+<p>24到了，会返回ack&#x3D;623。25到了，会返回ack&#x3D;623。</p>
+<p>这样就有了3个确认号相同的冗余的ack，此时会立即重传ack对应的报文即623</p>
+<h5 id="3-易错点"><a href="#3-易错点" class="headerlink" title="3.易错点"></a>3.易错点</h5><p>第一个ack&#x3D;623不是冗余ack，因为人家本来就该发</p>
+<p>后面的624,625发过来的ack&#x3D;623才是两个冗余ack</p>
+<p>那还得有个比如626再发一个ack&#x3D;623，才是三个冗余ack，才会触发重传机制</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526215649134.png" alt="image-20250526215649134"></p>
+<h3 id="3-4-拥塞控制"><a href="#3-4-拥塞控制" class="headerlink" title="3.4 拥塞控制"></a>3.4 拥塞控制</h3><p>TCP规定阈值不能小于2</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527105218716.png" alt="image-20250527105218716"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527105358332.png" alt="image-20250527105358332"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527104821947.png" alt="image-20250527104821947"></p>
+<h4 id="1-慢开始、拥塞避免"><a href="#1-慢开始、拥塞避免" class="headerlink" title="1.慢开始、拥塞避免"></a>1.慢开始、拥塞避免</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527105241952.png" alt="image-20250527105241952"></p>
+<p>横轴的单位是 RTT，比如2那就是2RTT</p>
+<p>竖轴的单位是MSS，比如16就是 16MSS</p>
+<p>下图有一个条件是接收窗口无限大，那么发送窗口就取决于拥塞窗口的大小了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527105840742.png" alt="image-20250527105840742"></p>
+<p>一开始是指数级别增长，是2的指数，直到达到阈值ssthresh&#x3D;16</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527110144827.png" alt="image-20250527110144827"></p>
+<p>达到阈值后，变成一次只加1</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527110354964.png" alt="image-20250527110354964"></p>
+<p>一直加1加到拥塞窗口大小为24的时候发生了超时重传，说明严重拥塞，这时候重新慢开始，直接把cwnd设为1，重新开始指数增加，只是这次也会把阈值从16调整为 超时重传是拥塞窗口的一半大小即24&#x2F;2&#x3D;12这么大。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527110628138.png" alt="image-20250527110628138"></p>
+<p>然后就是一样的过程，慢开始。1+1&#x3D;2,2+2&#x3D;4,4+4&#x3D;8，到了这时 8+8&#x3D;16&gt;12，所以12这个阈值会限制这次的窗口调整，仅会调整为 8+4&#x3D;12这么大，然后开始拥塞避免算法慢慢加1</p>
+<h4 id="2-快重传、快恢复"><a href="#2-快重传、快恢复" class="headerlink" title="2.快重传、快恢复"></a>2.快重传、快恢复</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527111640094.png" alt="image-20250527111640094"></p>
+<p>在t&#x3D;12RTT之前都和慢开始那边一样的，而在t&#x3D;12RTT的时候发生的不是超时重传而是快重传了，即在这个时刻收到了3个重复确认，执行快重传，说明的是网络有点拥塞而不是严重拥塞</p>
+<p>和前面的区别就是，前面会直接把拥塞窗口值调整为1MSS，而这个只是调整为发生拥塞时的值的二分之一，称为快恢复</p>
+<p>后面就是继续使用拥塞避免算法</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527112218350.png" alt="image-20250527112218350"></p>
+<p><code>注：</code>TCP规定阈值不能小于2</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2025/05/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/">https://darling-123456.github.io/2025/05/27/计算机网络/26考研  王道  第五章 传输层/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a></div><div class="post-share"><div class="social-share" data-image="/img/357.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/05/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-26-Day127--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E5%A5%87%E5%81%B6%E6%A0%91/" title="Day127 | 灵神 | 二叉树 | 奇偶树"><img class="cover" src="/img/356.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Day127 | 灵神 | 二叉树 | 奇偶树</div></div><div class="info-2"><div class="info-item-1">Day127 | 灵神 | 二叉树 | 奇偶树1609.奇偶树1609. 奇偶树 - 力扣（LeetCode） 思路： 这道题用层序遍历的思路比较好想，就是往for循环里面加一个if，如果是奇数层就判断是不是偶数并且递减，如果是偶数层就判断是不是奇数并且递增，会很直接的写下如下所示的代码 12345678910111213141516171819202122232425262728293031323334353637383940class Solution &#123;public:    bool isEvenOddTree(TreeNode* root) &#123;        queue&lt;TreeNode *&gt; q;        int count=0;        if(root==nullptr)            return true;        q.push(root);        while(!q.empty())        &#123;            int size=q.size();           ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/04/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="26考研 | 王道 | 计算机网络 | 第一章 计算机网络的体系结构"><img class="cover" src="/img/328.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-29</div><div class="info-item-2">26考研 | 王道 | 计算机网络 | 第一章 计算机网络的体系结构</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 第一章 计算机网络的体系结构1.1 计算机网络概述1.计算机网络的概念 **计算机网络（Computer networking）**是一个将众多分散的、自治的计算机系统，通过通信设备与线路连接起来，由功能完善的软件实现资源共享和信息传递的系统。  自治的：如果一台设备坏掉，不会影响另外一台设备的运行。 通信设备：家用路由器、5G基站。 线路：WiFi——无线线路；网线——有线线路。 软件：百度网盘——资源共享；微信——信息传递。   计算机网络、互连网、互联网的区别  计算机网络（简称 网络）：由若干结点（node）和连接这些结点的链路（link）组成。  两个或者两个以上的计算机相互连接起来就是互连网。把全球的计算机都连接起来组成的更大的互连网就是互联网  结点可以是计算机、集线器、交换机、路由器等；  ...</div></div></div></a><a class="pagination-related" href="/2025/04/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E7%89%A9%E7%90%86%E5%B1%82/" title="26考研 | 王道 | 计算机网络 | 第二章 物理层"><img class="cover" src="/img/330.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-30</div><div class="info-item-2">26考研 | 王道 | 计算机网络 | 第二章 物理层</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 第二章...</div></div></div></a><a class="pagination-related" href="/2025/05/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%AF%B9%E8%AE%A1%E7%BD%91%E8%80%83%E7%A0%94%E4%B8%AD%E7%9A%84%E4%BF%A1%E9%81%93%E3%80%81%E4%BC%A0%E8%BE%93%E6%97%B6%E5%BB%B6%E3%80%81%E4%BC%A0%E6%92%AD%E6%97%B6%E5%BB%B6%E7%9A%84%E7%90%86%E8%A7%A3/" title="26考研 | 计算机网络 | 对计网考研中的信道、传输时延、传播时延的理解"><img class="cover" src="/img/334.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-01</div><div class="info-item-2">26考研 | 计算机网络 | 对计网考研中的信道、传输时延、传播时延的理解</div></div><div class="info-2"><div class="info-item-1">对计网考研中的信道、传输时延、传播时延的理解在学习数据链路层流量控制和可靠传输那一节的三个协议的最大信道利用率时产生的疑惑 情景： 假如A主机和B主机通过集线器连接，A和集线器是光纤连接，B和集线器也是光纤连接，A给B发送帧 问题： 那么信道指的是什么？发送信道指的是什么？包含A到B之间的光纤吗？还是A把数据推到光纤上所经过的地方才是信道，光纤并不算在内？所以才说算信道利用率的时候，只算传输时延而不看传播时延？ 那A的数据在光纤中传播时，算不算信道的空闲时间呢？ 一、信道的定义与范围1.信道（Channel）的物理本质信道是数据传输的物理或逻辑路径。在本场景中，​信道包含A到集线器的光纤链路、集线器内部背板总线以及集线器到B的光纤链路。  光纤作为传输介质是信道的重要组成部分（，而集线器内部采用总线结构实现逻辑上的共享连接  由于集线器工作在物理层，所有端口共享同一冲突域和广播域，因此 整个集线器连接的线路构成一个共享信道   2.发送信道（Transmission...</div></div></div></a><a class="pagination-related" href="/2025/04/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="26考研 | 王道 | 计算机网络 | 第三章 数据链路层"><img class="cover" src="/img/335.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-30</div><div class="info-item-2">26考研 | 王道 | 计算机网络 | 第三章 数据链路层</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 第三章 数据链路层数据链路层所处的地位   数据链路层 使用 物理层 提供的“比特传输”服务 数据链路层 为 网络层 提供服务，将网络层的 IP数据报（分组）封装成帧，传输给下一个相邻结点 物理链路：传输介质（0层）+ 物理层（1层）实现了相邻结点之间的“物理链路” 逻辑链路：数据链路层需要基于“物理链路”，实现相邻结点之间逻辑上无差错的“数据链路（逻辑链路）”  1.数据链路层的功能 流量控制实际上是控制发送方的数据流量，让发送方发的慢一点 为了避免传输过程中的帧丢失，数据链路层采用的方法是计时器超时重发 为终端节点隐蔽物理传输的细节的是物理层而不是数据链路层的事情 数据链路层也会控制对物理传输介质的访问 2.封装成帧（组帧） 1.概念定义：封装成帧是指在一段数据的前后分别添加首部和尾部来构成帧，帧是数据链路层的数据传送单元。 帧长 &#x3D; 数据长度 + 首部长度 + 尾部长度...</div></div></div></a><a class="pagination-related" href="/2025/05/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%A7%BB%E5%8A%A8IP%E4%B8%8E%E6%89%8B%E6%9C%BA%E7%A7%BB%E5%8A%A8%E6%95%B0%E6%8D%AE%E6%B5%81%E9%87%8F%E7%9A%84%E6%A6%82%E5%BF%B5%E3%80%81%E5%8E%9F%E7%90%86%E3%80%81%E5%8C%BA%E5%88%AB%E4%B8%8E%E8%81%94%E7%B3%BB/" title="移动IP与手机移动数据流量的概念、原理、区别与联系"><img class="cover" src="/img/343.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-09</div><div class="info-item-2">移动IP与手机移动数据流量的概念、原理、区别与联系</div></div><div class="info-2"><div class="info-item-1">移动IP与手机移动数据流量的概念、原理、区别与联系 一、概念与原理 移动IP 定义：移动IP是一种网络层协议，允许设备在不同网络（如Wi-Fi与蜂窝网络）间移动时保持固定IP地址，实现通信的无缝切换与连续性 核心原理： 代理机制：通过归属代理（Home Agent）和外地代理（Foreign Agent）实现数据转发。当设备移动到外部网络时，归属代理将数据通过隧道技术封装后转发至外地代理，再由外地代理解封装并传递给移动节点 转交地址（Care-of...</div></div></div></a><a class="pagination-related" href="/2025/05/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%AB%AF%E5%88%B0%E7%AB%AF%E4%B8%8E%E7%82%B9%E5%88%B0%E7%82%B9%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E7%9A%84%E6%A6%82%E5%BF%B5%E3%80%81%E5%8C%BA%E5%88%AB%E4%B8%8E%E8%81%94%E7%B3%BB%E5%8F%8A%E5%8D%8F%E8%AE%AE%E7%A4%BA%E4%BE%8B/" title="端到端与点到点数据传输的概念、区别与联系及协议示例"><img class="cover" src="/img/342.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-09</div><div class="info-item-2">端到端与点到点数据传输的概念、区别与联系及协议示例</div></div><div class="info-2"><div class="info-item-1">...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">353</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#26%E8%80%83%E7%A0%94-%E7%8E%8B%E9%81%93-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-text">26考研 | 王道 | 第五章 传输层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BC%A0%E8%BE%93%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E6%9C%8D%E5%8A%A1"><span class="toc-text">1. 传输层提供的服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-UDP%E5%8D%8F%E8%AE%AE"><span class="toc-text">2. UDP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-UDP%E6%95%B0%E6%8D%AE%E6%8A%A5"><span class="toc-text">2.1 UDP数据报</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-UDP%E6%A3%80%E9%AA%8C"><span class="toc-text">2.2 UDP检验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IP%E9%A6%96%E9%83%A8%E6%A3%80%E9%AA%8C%E5%92%8C-%E4%B8%8E-UDP%E6%A3%80%E9%AA%8C%E5%92%8C%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">IP首部检验和 与 UDP检验和的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-TCP%E5%8D%8F%E8%AE%AE"><span class="toc-text">3.TCP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-0-TCP%E6%A6%82%E8%A7%88"><span class="toc-text">3.0 TCP概览</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AD%97%E8%8A%82%E6%B5%81%E5%92%8C%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E7%90%86%E8%A7%A3"><span class="toc-text">面向字节流和面向连接理解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-TCP%E6%AE%B5%E6%A0%BC%E5%BC%8F"><span class="toc-text">3.1 TCP段格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-TCP%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86"><span class="toc-text">3.2 TCP连接管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="toc-text">1.三次握手</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E8%80%83%E5%AF%9FSYN-ACK-FIN-seq%EF%BC%8Cack-seq"><span class="toc-text">1.考察SYN,ACK,FIN,seq，ack_seq</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%BF%9B%E7%A8%8BTCP%E7%8A%B6%E6%80%81%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-text">2.进程TCP状态的转换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E8%80%97%E6%97%B6%E5%88%86%E6%9E%90"><span class="toc-text">3.耗时分析</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-text">2.四次挥手</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%90%84%E4%B8%AA%E6%95%B0%E5%80%BC"><span class="toc-text">1.各个数值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%BF%9B%E7%A8%8BTCP%E7%8A%B6%E6%80%81%E7%9A%84%E8%BD%AC%E6%8D%A2-1"><span class="toc-text">2.进程TCP状态的转换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E8%80%97%E6%97%B6%E5%88%86%E6%9E%90-1"><span class="toc-text">3.耗时分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E5%92%8C%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-text">3.3 可靠传输和流量控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%A1%AE%E8%AE%A4%E5%8F%B7%E3%80%81%E5%8F%91%E9%80%81%E7%AA%97%E5%8F%A3%E6%8E%A5%E6%94%B6%E7%AA%97%E5%8F%A3"><span class="toc-text">1.确认号、发送窗口接收窗口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%B4%AF%E7%A7%AF%E7%A1%AE%E8%AE%A4"><span class="toc-text">2.累积确认</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%8D%8E%E5%B8%A6%E7%A1%AE%E8%AE%A4"><span class="toc-text">3.捎带确认</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E8%B6%85%E6%97%B6%E9%87%8D%E4%BC%A0"><span class="toc-text">4.超时重传</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E5%BF%AB%E9%87%8D%E4%BC%A0%E3%80%81%E7%AB%8B%E5%8D%B3%E7%A1%AE%E8%AE%A4"><span class="toc-text">5.快重传、立即确认</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%8E%A8%E8%BF%9F%E7%A1%AE%E8%AE%A4%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-text">1.推迟确认的缺点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%BF%AB%E9%87%8D%E4%BC%A0%E3%80%81%E7%AB%8B%E5%8D%B3%E7%A1%AE%E8%AE%A4"><span class="toc-text">2.快重传、立即确认</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E6%98%93%E9%94%99%E7%82%B9"><span class="toc-text">3.易错点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="toc-text">3.4 拥塞控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%85%A2%E5%BC%80%E5%A7%8B%E3%80%81%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D"><span class="toc-text">1.慢开始、拥塞避免</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%BF%AB%E9%87%8D%E4%BC%A0%E3%80%81%E5%BF%AB%E6%81%A2%E5%A4%8D"><span class="toc-text">2.快重传、快恢复</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/05/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/" title="26考研 | 王道 | 第五章 传输层"><img src="/img/357.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 第五章 传输层"/></a><div class="content"><a class="title" href="/2025/05/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/" title="26考研 | 王道 | 第五章 传输层">26考研 | 王道 | 第五章 传输层</a><time datetime="2025-05-27T01:25:00.000Z" title="发表于 2025-05-27 09:25:00">2025-05-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-26-Day127--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E5%A5%87%E5%81%B6%E6%A0%91/" title="Day127 | 灵神 | 二叉树 | 奇偶树"><img src="/img/356.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day127 | 灵神 | 二叉树 | 奇偶树"/></a><div class="content"><a class="title" href="/2025/05/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-26-Day127--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E5%A5%87%E5%81%B6%E6%A0%91/" title="Day127 | 灵神 | 二叉树 | 奇偶树">Day127 | 灵神 | 二叉树 | 奇偶树</a><time datetime="2025-05-26T01:30:20.000Z" title="发表于 2025-05-26 09:30:20">2025-05-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/24/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-24-Day126--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E5%B1%82%E6%95%B0%E6%9C%80%E6%B7%B1%E7%9A%84%E5%8F%B6%E5%AD%90%E7%BB%93%E7%82%B9%E7%9A%84%E5%92%8C/" title="Day126 | 灵神 | 二叉树 | 层数最深的叶子结点的和"><img src="/img/355.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day126 | 灵神 | 二叉树 | 层数最深的叶子结点的和"/></a><div class="content"><a class="title" href="/2025/05/24/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-24-Day126--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E5%B1%82%E6%95%B0%E6%9C%80%E6%B7%B1%E7%9A%84%E5%8F%B6%E5%AD%90%E7%BB%93%E7%82%B9%E7%9A%84%E5%92%8C/" title="Day126 | 灵神 | 二叉树 | 层数最深的叶子结点的和">Day126 | 灵神 | 二叉树 | 层数最深的叶子结点的和</a><time datetime="2025-05-24T01:30:20.000Z" title="发表于 2025-05-24 09:30:20">2025-05-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/23/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-23-Day125--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E7%AC%ACK%E5%A4%A7%E5%B1%82%E5%92%8C/" title="Day125 | 灵神 | 二叉树 | 二叉树中的第K大层和"><img src="/img/354.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day125 | 灵神 | 二叉树 | 二叉树中的第K大层和"/></a><div class="content"><a class="title" href="/2025/05/23/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-23-Day125--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E7%AC%ACK%E5%A4%A7%E5%B1%82%E5%92%8C/" title="Day125 | 灵神 | 二叉树 | 二叉树中的第K大层和">Day125 | 灵神 | 二叉树 | 二叉树中的第K大层和</a><time datetime="2025-05-23T01:30:20.000Z" title="发表于 2025-05-23 09:30:20">2025-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-22-Day124--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%B0%8F%E6%B7%B1%E5%BA%A6/" title="Day124 | 灵神 | 二叉树 | 二叉树最小深度"><img src="/img/353.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day124 | 灵神 | 二叉树 | 二叉树最小深度"/></a><div class="content"><a class="title" href="/2025/05/22/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-22-Day124--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%A0%91%E6%9C%80%E5%B0%8F%E6%B7%B1%E5%BA%A6/" title="Day124 | 灵神 | 二叉树 | 二叉树最小深度">Day124 | 灵神 | 二叉树 | 二叉树最小深度</a><time datetime="2025-05-22T01:30:20.000Z" title="发表于 2025-05-22 09:30:20">2025-05-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+  © 2024-<script>document.write(new Date().getFullYear())</script> 
+  <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
+  | 已运行 <span id="days">0</span> 天
+  <script>
+    const start = new Date('2024-12-12');
+    const now = new Date();
+    document.getElementById('days').innerHTML = 
+      Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  </script>
+</div>
+</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Never,ever,ever,give,up" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
