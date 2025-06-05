@@ -52154,11 +52154,10 @@ $&#123;&#125;
 <p>  <strong>交换服务</strong>：当一个数据包想要从网络中的A点传送到B点的时候，计算机网络的核心部分会为这个数据包自动地选择一条合适的路径进行传送，即动态地去选择数据在网络当中传送的路径，以保证网络当中的各条线路都不会负载太重，本质上是对网络内部资源的动态配置、动态调整。</p>
 </blockquote>
 <ul>
-<li><h5 id="从逻辑功能看"><a href="#从逻辑功能看" class="headerlink" title="从逻辑功能看"></a><strong>从逻辑功能看</strong></h5></li>
+<li><h5 id="从逻辑功能看"><a href="#从逻辑功能看" class="headerlink" title="从逻辑功能看"></a>从逻辑功能看</h5></li>
 </ul>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ae56c31112eb2abd137e4d4ea06faab9.png" alt="14"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8fbefe05916e9bb08fde5594332993bc.png" alt="15"></p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/bbbdbbf0c18c627344806086c43edc61.png" alt="16"></p>
 <h3 id="3-计算机网络的功能"><a href="#3-计算机网络的功能" class="headerlink" title="3.计算机网络的功能"></a>3.计算机网络的功能</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f80438c0e6a6d7d4565b97e482fa8fb8.png" alt="17"></p>
 <p>1.数据通信（最基本、最重要的功能）</p>
 <p>2.资源共享</p>
@@ -52325,13 +52324,13 @@ $&#123;&#125;
 </ul>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9b70ccc5a9784d1e10afd95d54f81cfa.png" alt="image-20240801205249480"></p>
 <ul>
-<li><h6 id="2-链路层"><a href="#2-链路层" class="headerlink" title="2.链路层"></a><strong>2.链路层</strong></h6><p>流量控制的一个描述：避免快速发送方淹没慢速发送方</p>
+<li><h6 id="2-链路层"><a href="#2-链路层" class="headerlink" title="2.链路层"></a>2.链路层</h6><p>流量控制的一个描述：避免快速发送方淹没慢速发送方</p>
 <p>本层在不可靠的物理介质上提供可靠的传输，作用包括物理寻址，组帧，流量控制，差错检验，数据重发</p>
 </li>
 </ul>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/31ed67dd9cd258d11b76dacf3f750449.png" alt="image-20240801205620187"></p>
 <ul>
-<li><h6 id="3-网络层"><a href="#3-网络层" class="headerlink" title="3.网络层"></a><strong>3.网络层</strong></h6></li>
+<li><h6 id="3-网络层"><a href="#3-网络层" class="headerlink" title="3.网络层"></a>3.网络层</h6></li>
 </ul>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3034098337df8094f91563331d9f8fb0.png" alt="image-20240801210242581"></p>
 <ul>
@@ -53295,8 +53294,7 @@ $&#123;&#125;
 <h6 id="CAMA-CD协议"><a href="#CAMA-CD协议" class="headerlink" title="CAMA&#x2F;CD协议"></a>CAMA&#x2F;CD协议</h6><p>1.以太网常用，以太网的最短帧长是64B，也就是512bit</p>
 <p>2.当信号传播延迟趋近0时，信道利用率趋近100%</p>
 <p>3.最短帧的题目要抓住两个公式：</p>
-<pre><code>	 a.发送帧的时间&gt;=争用期时间
-</code></pre>
+<p>​      a.发送帧的时间&gt;&#x3D;争用期时间</p>
 <p>​	  b.最短帧长等于数据传输率*争用期时间</p>
 <p>给了最短帧长，除以数据传输率就是争用期时间</p>
 <p>争用期时间不止是线路上的传播时延（线路1000m，传播速度1m&#x2F;s然后相除得到的结果），还包括集线器之类的造成的时延（比如把信号放大再生画了2s），这些都包含在除出来的争用期时间内</p>
@@ -53619,7 +53617,7 @@ $&#123;&#125;
 <p>6.交换机将网络划分成多个网段，一个网段的故障不会影响到另一个网段的运行</p>
 <p><strong>交换机优点：每个接口结点所占用的宽带不会因为接口结点数量的增加而减少，且整个交换机的总宽带会随着接口节点的增加而增加</strong></p>
 <p>如果ABC连接一台交换机，每个链路都是100Mbps，那么最大吞吐量就是300Mbps，就是三个人的宽带不会互相影响</p>
-<p>而如果ABC连接一台集线器，每个链路都是100Mbps，那么最大吞吐量就是100&#x2F;3Mbps，就是三个人的宽带是共享的</p>
+<p>而如果ABC连接一台集线器，每个链路都是100Mbps，那么最大吞吐量就是100Mbps，就是三个人的宽带是共享的</p>
 <p>看书上的题 P120页第10,11题</p>
 <ul>
 <li><h6 id="以太网交换机的自学习功能"><a href="#以太网交换机的自学习功能" class="headerlink" title="以太网交换机的自学习功能"></a>以太网交换机的自学习功能</h6></li>
@@ -54327,7 +54325,7 @@ $&#123;&#125;
 <p><strong>知识点回顾</strong><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a1c2c5ad8cde71e3ea10d14efd0e0f2d.png" alt="在这里插入图片描述"><br>存储器的容量：衡量计算机的存储容量<br>机器字长：衡量计算机并行处理的能力<br>数据通路带宽：衡量计算机在功能部件之间传送数据的能力</p>
 <h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
       <categories>
-        <category>计算机网络</category>
+        <category>计算机组成原理</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
@@ -54589,7 +54587,8 @@ $&#123;&#125;
   <entry>
     <title>26考研 | 王道 | 第五章 传输层</title>
     <url>/2025/05/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E4%BC%A0%E8%BE%93%E5%B1%82/</url>
-    <content><![CDATA[<h1 id="26考研-王道-第五章-传输层"><a href="#26考研-王道-第五章-传输层" class="headerlink" title="26考研 | 王道 | 第五章 传输层"></a>26考研 | 王道 | 第五章 传输层</h1><h2 id="1-传输层提供的服务"><a href="#1-传输层提供的服务" class="headerlink" title="1. 传输层提供的服务"></a>1. 传输层提供的服务</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523115043385.png" alt="image-20250523115043385"></p>
+    <content><![CDATA[<h1 id="26考研-王道-第五章-传输层"><a href="#26考研-王道-第五章-传输层" class="headerlink" title="26考研 | 王道 | 第五章 传输层"></a>26考研 | 王道 | 第五章 传输层</h1><h2 id="1-传输层提供的服务"><a href="#1-传输层提供的服务" class="headerlink" title="1. 传输层提供的服务"></a>1. 传输层提供的服务</h2><p>IP报协议部分TCP是6，UDP是17</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523115043385.png" alt="image-20250523115043385"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523114543899.png" alt="image-20250523114543899"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523114746705.png" alt="image-20250523114746705"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250523114812229.png" alt="image-20250523114812229"></p>
@@ -54661,7 +54660,12 @@ $&#123;&#125;
 <p>同时，TCP连接的双方通过选项字段可以协商MSS大小，并且双方设置的MSS大小可以不一样</p>
 <p>比如A给B的报文段MSS设置为1000，那么A给B发的最大就是1000B</p>
 <p>B给A的报文段MSS设置为800，那么B给A发的最大就是800B</p>
-<h3 id="3-2-TCP连接管理"><a href="#3-2-TCP连接管理" class="headerlink" title="3.2 TCP连接管理"></a>3.2 TCP连接管理</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526161516304.png" alt="image-20250526161516304"></p>
+<h3 id="3-2-TCP连接管理"><a href="#3-2-TCP连接管理" class="headerlink" title="3.2 TCP连接管理"></a>3.2 TCP连接管理</h3><p>传送数据的时候</p>
+<p>甲是发送方，乙是接收方</p>
+<p>甲发的报文seq&#x3D;102，ack&#x3D;556，数据部分有100B</p>
+<p>那么乙给甲回复的报文seq&#x3D;556，ack&#x3D;202</p>
+<p><strong>回复的报文就是 seq就是发过来的ack，而回复报文的ack就是发送报文的seq+数据长度，对直接加就行</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526161516304.png" alt="image-20250526161516304"></p>
 <p><code>三次握手建立连接：</code></p>
 <p>1.SYN&#x3D;1,seq&#x3D;x</p>
 <p>2.SYN&#x3D;1,ACK&#x3D;1,seq&#x3D;y,ack&#x3D;x+1</p>
@@ -54697,7 +54701,10 @@ $&#123;&#125;
 <p>等待2MSL是为了防止，客户端收到挥手3，然后发给服务器的挥手4丢失了的这种情况。这时候服务器会重新发送一个挥手3，客户端的计时器也会重置 ，然后客户端重新发个挥手4</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526161311224.png" alt="image-20250526161311224"></p>
 <h3 id="3-3-可靠传输和流量控制"><a href="#3-3-可靠传输和流量控制" class="headerlink" title="3.3 可靠传输和流量控制"></a>3.3 可靠传输和流量控制</h3><p>注：并不是要接收缓冲区满了才可以交付给应用程序，只要接收缓冲区里面的数据是有序的就可以</p>
+<p>TCP滑动窗口协议中，发送方滑动窗口的大小规定了发送方最多能够发送的分组数量，只有窗口滑动了，才能往后继续发。分组重传的最大值也是发送方能发送数组的最大值，因而分组重传的数量最多也不能超过滑动窗口的大小</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526213128033.png" alt="image-20250526213128033"></p>
+<p>TCP为每个连接设有一个持续计时器，只要发送方收到对方的零窗口通知，就启动持续计时器。</p>
+<p>若计时器超时，就发送一个零窗口探测报文，而对方就在确认这个探测报文段时给出现在的窗口值，如果窗口仍然为0，则发送方收到确认报文段后就重新设置持续计时器</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527102952912.png" alt="image-20250527102952912"></p>
 <p>连续收到两个长度为MSS的报文段立即返回ack段是因为 这两个段长度很大，重传代价太高了</p>
 <h4 id="1-确认号、发送窗口接收窗口"><a href="#1-确认号、发送窗口接收窗口" class="headerlink" title="1.确认号、发送窗口接收窗口"></a>1.确认号、发送窗口接收窗口</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526201423840.png" alt="image-20250526201423840"></p>
@@ -54786,6 +54793,7 @@ $&#123;&#125;
 <p>那还得有个比如626再发一个ack&#x3D;623，才是三个冗余ack，才会触发重传机制</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250526215649134.png" alt="image-20250526215649134"></p>
 <h3 id="3-4-拥塞控制"><a href="#3-4-拥塞控制" class="headerlink" title="3.4 拥塞控制"></a>3.4 拥塞控制</h3><p>TCP规定阈值不能小于2</p>
+<p>拥塞窗口是发送端根据网络拥塞情况确定的窗口值，而不是接收端确定的。</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527105218716.png" alt="image-20250527105218716"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527105358332.png" alt="image-20250527105358332"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527104821947.png" alt="image-20250527104821947"></p>
@@ -54815,6 +54823,954 @@ $&#123;&#125;
         <tag>学习笔记</tag>
         <tag>计算机网络</tag>
         <tag>考研</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day128 | 灵神 | 二叉树 | 反转二叉树的奇数层</title>
+    <url>/2025/05/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-27-Day128--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E5%8F%8D%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%A5%87%E6%95%B0%E5%B1%82/</url>
+    <content><![CDATA[<h1 id="Day128-灵神-二叉树-反转二叉树的奇数层"><a href="#Day128-灵神-二叉树-反转二叉树的奇数层" class="headerlink" title="Day128 | 灵神 | 二叉树 | 反转二叉树的奇数层"></a>Day128 | 灵神 | 二叉树 | 反转二叉树的奇数层</h1><h2 id="2415-反转二叉树的奇数层"><a href="#2415-反转二叉树的奇数层" class="headerlink" title="2415.反转二叉树的奇数层"></a>2415.反转二叉树的奇数层</h2><p><a href="https://leetcode.cn/problems/reverse-odd-levels-of-binary-tree/description/">2415. 反转二叉树的奇数层 - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>层序遍历的话就交换对应节点的值吧，就如果是奇数层的话，就把节点都弄到vector里面，然后反转节点的值</p>
+<p><code>完整代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">reverseOddLevels</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        queue&lt;TreeNode *&gt; q;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        q.<span class="built_in">push</span>(root);</span><br><span class="line">        <span class="type">int</span> count=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> size=q.<span class="built_in">size</span>();</span><br><span class="line">            vector&lt;TreeNode*&gt; arr;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;size;i++)</span><br><span class="line">            &#123;</span><br><span class="line">                TreeNode *t=q.<span class="built_in">front</span>();</span><br><span class="line">                q.<span class="built_in">pop</span>();</span><br><span class="line">                <span class="keyword">if</span>(count%<span class="number">2</span>==<span class="number">1</span>)</span><br><span class="line">                    arr.<span class="built_in">push_back</span>(t);</span><br><span class="line">                <span class="keyword">if</span>(t-&gt;left)</span><br><span class="line">                    q.<span class="built_in">push</span>(t-&gt;left);</span><br><span class="line">                <span class="keyword">if</span>(t-&gt;right)</span><br><span class="line">                    q.<span class="built_in">push</span>(t-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(count%<span class="number">2</span>==<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> l=<span class="number">0</span>,r=arr.<span class="built_in">size</span>()<span class="number">-1</span>;l&lt;r;l++,r--)</span><br><span class="line">                    <span class="built_in">swap</span>(arr[l]-&gt;val,arr[r]-&gt;val);</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>刷题记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day130 | 灵神 | 回溯算法 | 子集型 电话号码的字母组合</title>
+    <url>/2025/06/05/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-05-Day130--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/</url>
+    <content><![CDATA[<h1 id="Day130-灵神-回溯算法-子集型-电话号码的字母组合"><a href="#Day130-灵神-回溯算法-子集型-电话号码的字母组合" class="headerlink" title="Day130 | 灵神 | 回溯算法 | 子集型 电话号码的字母组合"></a>Day130 | 灵神 | 回溯算法 | 子集型 电话号码的字母组合</h1><h2 id="17-电话号码的字母组合"><a href="#17-电话号码的字母组合" class="headerlink" title="17.电话号码的字母组合"></a>17.电话号码的字母组合</h2><p><a href="https://leetcode.cn/problems/letter-combinations-of-a-phone-number/description/">17. 电话号码的字母组合 - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605202058174.png" alt="image-20250605202058174"></p>
+<p>笔者用index代替i，这里的index其实就是digits数组的下标</p>
+<p>按照灵神的回溯三问，那就是</p>
+<p>1.当前的操作：找到本层要给path[index]里面填入哪个字母，很明显的是每层就是一个数字的那几个字母，所以就是选定一个数字然后从它的字母中选一个</p>
+<p>2.子问题：构造字符串&gt;&#x3D;index的部分，其实也就是说明经过了index层选择之后，我们已经确定了i位字母</p>
+<p>3.下一个子问题：构造字符串&gt;&#x3D;index+1的部分，就是说明我们下一层的递归参数是index+1，因为我们已经在本层的字母中选择了一个，所以要继续往下走了，表现在数组上就是继续往下遍历digits</p>
+<p>注意的细节：</p>
+<p>映射的建立，下标要对上数字，也就是让映射的数组从下标2开始而不是0，这样会方便很多</p>
+<p><code>完整代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;string&gt; res;</span><br><span class="line">    vector&lt;string&gt; s&#123;<span class="string">&quot;&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="string">&quot;abc&quot;</span>,<span class="string">&quot;def&quot;</span>,<span class="string">&quot;ghi&quot;</span>,<span class="string">&quot;jkl&quot;</span>,<span class="string">&quot;mno&quot;</span>,<span class="string">&quot;pqrs&quot;</span>,<span class="string">&quot;tuv&quot;</span>,<span class="string">&quot;wxyz&quot;</span>&#125;;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(string digits,string path,<span class="type">int</span> index)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index==digits.<span class="built_in">size</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> n=(<span class="type">int</span>)(digits[index]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;s[n].<span class="built_in">size</span>();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            path.<span class="built_in">push_back</span>(s[n][i]);</span><br><span class="line">            <span class="built_in">backtracking</span>(digits,path,index<span class="number">+1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">vector&lt;string&gt; <span class="title">letterCombinations</span><span class="params">(string digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(digits.<span class="built_in">size</span>()==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> res;</span><br><span class="line">        string path;</span><br><span class="line">        <span class="built_in">backtracking</span>(digits,path,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>灵神代码：</code></p>
+<p>灵神没有”恢复现场”这一步，是因为灵神把path初始化为全0的字符串，并且在递归中直接覆盖了对应的值，而恰巧字符串返回时的长度全都是digits数组的长度，所以把path放入结果集的时候肯定path数组都会被覆盖一遍</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="type">const</span> string MAPPING[<span class="number">10</span>] = &#123;<span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="string">&quot;def&quot;</span>, <span class="string">&quot;ghi&quot;</span>, <span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;mno&quot;</span>, <span class="string">&quot;pqrs&quot;</span>, <span class="string">&quot;tuv&quot;</span>, <span class="string">&quot;wxyz&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;string&gt; <span class="title">letterCombinations</span><span class="params">(string digits)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = digits.<span class="built_in">length</span>();</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;string&gt; ans;</span><br><span class="line">        <span class="function">string <span class="title">path</span><span class="params">(n, <span class="number">0</span>)</span></span>; <span class="comment">// 注意 path 长度一开始就是 n，不是空串</span></span><br><span class="line">        <span class="keyword">auto</span> dfs = [&amp;](<span class="keyword">this</span> <span class="keyword">auto</span>&amp;&amp; dfs, <span class="type">int</span> i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == n) &#123;</span><br><span class="line">                ans.<span class="built_in">emplace_back</span>(path);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">char</span> c : MAPPING[digits[i] - <span class="string">&#x27;0&#x27;</span>]) &#123;</span><br><span class="line">                path[i] = c; <span class="comment">// 直接覆盖</span></span><br><span class="line">                <span class="built_in">dfs</span>(i + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="built_in">dfs</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>刷题记录</tag>
+        <tag>回溯算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day129 | 灵神 | 二叉树 | 二叉树的堂兄弟节点II</title>
+    <url>/2025/05/29/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-05-29-Day129--%E7%81%B5%E7%A5%9E--%E4%BA%8C%E5%8F%89%E6%A0%91--%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%A0%82%E5%85%84%E5%BC%9F%E8%8A%82%E7%82%B9II/</url>
+    <content><![CDATA[<h1 id="Day129-灵神-二叉树-二叉树的堂兄弟节点II"><a href="#Day129-灵神-二叉树-二叉树的堂兄弟节点II" class="headerlink" title="Day129 | 灵神 | 二叉树 | 二叉树的堂兄弟节点II"></a>Day129 | 灵神 | 二叉树 | 二叉树的堂兄弟节点II</h1><h2 id="2641-二叉树的堂兄弟节点II"><a href="#2641-二叉树的堂兄弟节点II" class="headerlink" title="2641.二叉树的堂兄弟节点II"></a>2641.二叉树的堂兄弟节点II</h2><p><a href="https://leetcode.cn/problems/cousins-in-binary-tree-ii/description/">2641. 二叉树的堂兄弟节点 II - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>笔者这道题就算告诉我要用层序遍历，后面我也没做出来…..</p>
+<p>要从父节点思考子节点，而不是单纯从子节点下手</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529201740792.png" alt="image-20250529201740792"></p>
+<p>以这个例子为例</p>
+<p>要算第三层，就要考虑第二层，当我们还在遍历第二层的时候，就把第二层的节点存起来</p>
+<p>然后遍历一次第二层节点得到 第三层节点的和 10+1+7&#x3D;18</p>
+<p>为什么要算和是多少呢？因为我们要知道4的左右孩子的值是多少就必须知道9的左右孩子的和</p>
+<p>而我们把所有结点的和加起来以后，再减去 4的左右孩子的值，那剩下的不就是9的左右孩子的值吗</p>
+<p>算一下就是 10+1+7&#x3D;18，这是第三层节点的和 4的左右孩子和是11,9的是7</p>
+<p>那么4的左右孩子的值就是 18-1-10&#x3D;7，而9的左右孩子就是18-7&#x3D;11了</p>
+<p><strong>所以要考虑父节点那一层</strong></p>
+<p>遍历一遍当前层结点算出和，再遍历一次进行赋值</p>
+<p><code>完整代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode *<span class="title">replaceValueInTree</span><span class="params">(TreeNode *root)</span> </span>&#123;</span><br><span class="line">        vector&lt;TreeNode *&gt; q;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        root-&gt;val=<span class="number">0</span>;</span><br><span class="line">        q.<span class="built_in">push_back</span>(root);</span><br><span class="line">        <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            vector&lt;TreeNode*&gt; next;</span><br><span class="line">            <span class="type">int</span> sum=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">auto</span> t:q)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(t-&gt;left)</span><br><span class="line">                &#123;</span><br><span class="line">                    next.<span class="built_in">push_back</span>(t-&gt;left);</span><br><span class="line">                    sum+=t-&gt;left-&gt;val;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(t-&gt;right)</span><br><span class="line">                &#123;</span><br><span class="line">                    next.<span class="built_in">push_back</span>(t-&gt;right);</span><br><span class="line">                    sum+=t-&gt;right-&gt;val;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">auto</span> t:q)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">int</span> child_sum=(t-&gt;left ? t-&gt;left-&gt;val : <span class="number">0</span>) +</span><br><span class="line">                                   (t-&gt;right ? t-&gt;right-&gt;val : <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span>(t-&gt;left)</span><br><span class="line">                    t-&gt;left-&gt;val=sum-child_sum;</span><br><span class="line">                <span class="keyword">if</span>(t-&gt;right)</span><br><span class="line">                    t-&gt;right-&gt;val=sum-child_sum;</span><br><span class="line">            &#125;</span><br><span class="line">            q=<span class="built_in">move</span>(next);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+        <tag>刷题记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>26考研 | 王道 | 计算机组成原理 | 三、存储系统</title>
+    <url>/2025/05/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%B8%89%E3%80%81%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h1 id="26考研-王道-计算机组成原理-三、存储系统"><a href="#26考研-王道-计算机组成原理-三、存储系统" class="headerlink" title="26考研 | 王道 | 计算机组成原理 | 三、存储系统"></a>26考研 | 王道 | 计算机组成原理 | 三、存储系统</h1><h2 id="3-1-存储系统基本概念"><a href="#3-1-存储系统基本概念" class="headerlink" title="3.1 存储系统基本概念"></a>3.1 存储系统基本概念</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601163809904.png" alt="image-20250601163809904"></p>
+<p>相联存储器的基本原理是指把存储单元所存的内容的某一部分作为检索项去检索该存储器，并把存储器中与该检索项符号的存储单元内容进行读出和写入。所以是按内容或者地址进行寻址的，价格比较昂贵</p>
+<p>一般用来制作TLB，相联Cache等</p>
+<p><code>存储器的层次化结构</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601154010601.png" alt="image-20250601154010601"></p>
+<p>主存和辅存之间的数据调动是由硬件和操作系统共同完成的，仅对应用级程序员透明</p>
+<p><code>存储器的分类–层次</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601154320686.png" alt="image-20250601154320686"></p>
+<p><code>存储器的分类–存储介质</code></p>
+<ul>
+<li>半导体存储器：主存、Cache</li>
+<li>磁表面存储器：磁盘、磁带（以磁性材料存储信息）</li>
+<li>光存储器：光盘（以光介质存储信息）</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601154402778.png" alt="image-20250601154402778"></p>
+<p><code>存储器的分类–存取方式</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601154641494.png" alt="image-20250601154641494"></p>
+<p>相联存储器既可以按地址又可以按内容寻址。</p>
+<p><code>存储器的分类–信息的可更改性</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601154746479.png" alt="image-20250601154746479"></p>
+<p>CD-ROM是只读型光盘存储器，不属于只读存储器ROM</p>
+<p><code>存储器的分类–信息的可保存性</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601154850604.png" alt="image-20250601154850604"></p>
+<p>RAM都是易失性存储器；</p>
+<p>ROM都是非易失性存储器；</p>
+<p><strong>存储器的性能指标</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601163732877.png" alt="image-20250601163732877"></p>
+<h2 id="3-2-主存储器"><a href="#3-2-主存储器" class="headerlink" title="3.2 主存储器"></a>3.2 主存储器</h2><h3 id="1-主存储器的基本组成"><a href="#1-主存储器的基本组成" class="headerlink" title="1. 主存储器的基本组成"></a>1. 主存储器的基本组成</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601165951634.png" alt="image-20250601165951634"></p>
+<p><strong>基本的半导体元件及原理</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/bc7535fc9793373579139f025b934410.png" alt="在这里插入图片描述"></p>
+<p>注：MOS管可理解为一种电控开关，输入电压达到某个阈值时，MOS管就可以接通。</p>
+<p><strong>存储器芯片的基本原理</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601164552496.png" alt="image-20250601164552496"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601164840269.png" alt="image-20250601164840269"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601165149162.png" alt="image-20250601165149162"></p>
+<p><code>片选线作用：</code>一个内存条可能包含多块存储芯片，比如一共8块，而我们想要的数据存在第5块芯片里面，那么我们拿数据的时候就要让第5块芯片工作而其他的不工作。CS给予低电平，其他芯片为高电平。</p>
+<p><code>译码驱动：</code>其实就是在译码器和存储矩阵中间加了一个驱动，让译码器传过来的电信号更加稳定的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601165640202.png" alt="image-20250601165640202"></p>
+<p><strong>寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601165907001.png"></p>
+<p>字节地址左移两位就是对应的字的地址</p>
+<p>比如1号字节是 1，左移两位就是100，就是4，而按字寻址的编号2对应的就是字节寻址的编号4</p>
+<h3 id="2-SRAM与DRAM"><a href="#2-SRAM与DRAM" class="headerlink" title="2. SRAM与DRAM"></a>2. SRAM与DRAM</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601170332933.png" alt="image-20250601170332933"></p>
+<p>SDRAM依旧是DRAM，所以依旧要刷新的</p>
+<h4 id="1-DRAM和SRAM对比"><a href="#1-DRAM和SRAM对比" class="headerlink" title="1.DRAM和SRAM对比"></a>1.DRAM和SRAM对比</h4><p>3.2.1 的主存储器的基本组成部分就是那DRAM举例子的，可以回看一下</p>
+<p>RAM属于易失性半导体，SRAM和DRAM区别在于是否需要动态刷新</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601170434704.png" alt="image-20250601170434704"></p>
+<p>DRAM芯片：使用栅极电容存储信息</p>
+<p>SRAM芯片：使用双稳态触发器存储信息</p>
+<p>双稳态触发器这个图做个了解就行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601170908072.png" alt="image-20250601170908072"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601170940974.png" alt="image-20250601170940974"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601172524778.png" alt="image-20250601172524778"></p>
+<p>SDRAM是同步DRAM芯片，与传统的异步DRAM不同。SDRAM与CPU的数据交换同步与时钟信号，并且以CPU-主存总线的最高速度运行，而不需要等待插入状态</p>
+<p>而传统的DRAM中，CPU将地址和控制信号送入存储器后，需要经过一段延迟时间数据才能读出或者写入。在此期间，CPU不断采样DRAM的完成信号，在读写完成前，CPU不能干别的，降低了CPU的执行速度</p>
+<p>而SDRAM在系统时钟控制下进行数据的读出和写入，它将CPU发出的地址和控制信号锁存起来，经过指定的时钟周期后再响应，此时CPU可以执行别的操作</p>
+<h4 id="2-DRAM的刷新"><a href="#2-DRAM的刷新" class="headerlink" title="2.DRAM的刷新"></a>2.DRAM的刷新</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601171147143.png" alt="image-20250601171147143"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601171402480.png" alt="image-20250601171402480"></p>
+<p><strong>为什么要用行列地址（二维）？而不是用行地址或者列地址（一维）？</strong></p>
+<p>如果是一维的话，加入地址线有20位，那就需要2^20^这么多个选通线才能连接到对应的存储单元</p>
+<p>但如果是二维的话，即有行和列来确定一个存储单元，那行和列分别只需要2^10^个选通线即可</p>
+<p><strong>即可以减少选通线的数量，使得电路变得简单和清晰</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601171739449.png" alt="image-20250601171739449"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601172123184.png" alt="image-20250601172123184"></p>
+<p>分散刷新不存在死区，因为把刷新时间算到存取周期里面去了，所以存取周期会变长。</p>
+<p>异步刷新虽然缩短了死时间，但是死时间依然存在</p>
+<p>CPU可以在死区时间的时候去做运算（比如译码阶段），然后不是死区的时间来读写</p>
+<p><strong>一次完整的刷新过程只需要占用一个存取周期（书上P93页15题）</strong></p>
+<h4 id="3-DRAM的地址线复用技术"><a href="#3-DRAM的地址线复用技术" class="headerlink" title="3.DRAM的地址线复用技术"></a>3.DRAM的地址线复用技术</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601172347484.png" alt="image-20250601172347484"></p>
+<p>行&#x2F;列缓冲器通常使用SRAM实现</p>
+<p>同时送行列地址，需要8根地址线。两次送只需要4根地址线。</p>
+<p>地址线复用技术：地址线是原来的1&#x2F;2（行和列相等)且地址线分行、列两次传送。第一次送行地址到行地址缓冲器，第二次送列地址到列地址缓冲器，然后分别送到对应的译码器。</p>
+<p>突发传输方式：在寻址阶段给出数据的首地址，在传输阶段可传送多个连续存储单元的数据</p>
+<h3 id="3-只读存储器ROM"><a href="#3-只读存储器ROM" class="headerlink" title="3. 只读存储器ROM"></a>3. 只读存储器ROM</h3><p><strong>RAM和ROM可以统一编址。比如主存就是</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601173735085.png" alt="image-20250601173735085"></p>
+<p>易失性说的是断电后数据会消失</p>
+<p>EPROM不能作为随机存储器。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601173343008.png"></p>
+<p>UVEPROM要擦除只能选择全部擦除或者不擦除，不能擦一部分剩下的不擦除</p>
+<p>闪存存储元件由MOS管组成，是一种半导体存储器，采用随机访问方式，可替代计算机外部存储器</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601173604671.png" alt="image-20250601173604671"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601173630401.png" alt="image-20250601173630401"></p>
+<p>说主存不是光有内存条这个RAM，还有主板上的ROM芯片，也是主存的一部分</p>
+<h3 id="4-双端口RAM和多模块存储器"><a href="#4-双端口RAM和多模块存储器" class="headerlink" title="4.双端口RAM和多模块存储器"></a>4.双端口RAM和多模块存储器</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601202437306.png" alt="image-20250601202437306"></p>
+<p>单纯的扩容的意思是说，高位交叉编制没有加快访存的速度，即CPU在恢复时间内不能访问正在恢复的内存条的情况没有被改善，而低位却有效改善了这个问题，加快了访存速度</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601173956007.png" alt="image-20250601173956007"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601200007328.png" alt="image-20250601200007328"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601200333877.png" alt="image-20250601200333877"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601201003341.png" alt="image-20250601201003341"></p>
+<p>连续访问者五个地址的数，分别是编号0,1,2,3，4</p>
+<p>对于高位编址来说，这五个数据都在M0内存条上，而读或写完一个数据以后就要等待恢复时间，所以花费的时间就长很多</p>
+<p>而对于低位编址来说，0在M0，1在M1，2在M2，3在M3，4在M1。那我们花r的时间读完M0上面的0就可以立马去读M1上的1，而不需要等M0恢复，从而节省了很多的时间。</p>
+<p>为什么讨论的是连续访问（连续地址）的情况？因为很多情况下就是访问连续的地址比如数组</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601201618658.png" alt="image-20250601201618658"></p>
+<p>m&#x3D;T&#x2F;r的时候就是完美衔接，这个时候就是最好的情况，没有闲置也不用等待，而且存储体的个数也最少，成本就低</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601202410484.png" alt="image-20250601202410484"></p>
+<p>对于<code>灵活性</code>来说，多体比单体好一些，比如读取，2,3,4,5这四个存储单元的数据</p>
+<p>多体会直接读取这四个，而单体就会把第一行和第二行全给读下来，那么0,1,6,7这四个就是多读的，其实不太需要这四个</p>
+<p>对于<code>速度</code>而言，两者相差不大</p>
+<p>对于上面的多体，有m个存储体，而m&#x3D;T&#x2F;r的时候最好，在一个存取周期T内也是读出m个字</p>
+<p>对于下面的单体，每个存储单元有m个字，在一个存取周期T内一次也是读出m个字</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601203253718.png" alt="image-20250601203253718"></p>
+<p>相同主频：主频不一样的话，高的主频会向下兼容，和低的主频保持一致，这样其实就相当于白花了很多钱</p>
+<p>相同容量：在两者容量相同的地方，还是双通道，但是在低容量没有了的地方，而高容量内存条还有内存的地方，那其实就相当于单通道了。用游戏来说的话，如果正好放在了低地址的地方，即双通道的地方，那运行速度就快，但是如果不巧被放到了高地址的地方，那就还是单通道，性能会很不稳定</p>
+<p>如图：左边只有三个存储单元，右边有8个，就会出现上面的情况</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601203656539.png" alt="image-20250601203656539"></p>
+<h2 id="3-3-主存储器与CPU的连接"><a href="#3-3-主存储器与CPU的连接" class="headerlink" title="3.3 主存储器与CPU的连接"></a>3.3 主存储器与CPU的连接</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601211550983.png" alt="image-20250601211550983"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601204050951.png" alt="image-20250601204050951"></p>
+<p>现在的计算机MAR、MDR都在CPU中，而不再主存中</p>
+<p>8K*8位含义</p>
+<p>8K是存储单元数量，是2^13^，需要13根地址线</p>
+<p>8位是每个存储单元存储的bit位数</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601204206712.png" alt="image-20250601204206712"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601204446033.png" alt="image-20250601204446033"></p>
+<h3 id="1-位扩展"><a href="#1-位扩展" class="headerlink" title="1.位扩展"></a>1.位扩展</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601204934248.png" alt="image-20250601204934248"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601205036480.png" alt="image-20250601205036480"></p>
+<h3 id="2-字扩展"><a href="#2-字扩展" class="headerlink" title="2.字扩展"></a>2.字扩展</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601205322533.png" alt="image-20250601205322533"></p>
+<p>用这种方法，CPU有n条多余的地址线，只能有n个片选信号</p>
+<p>并且把两块芯片看做一个整体的话，那么开头的地址只能为01或者10，不能用00或者11</p>
+<p>可以做如下的优化（译码片选法），就是在第二块的片选线上加个非门，这样的话地址空间就是连续的了，从全0到全1都可以用了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601205954293.png" alt="image-20250601205954293"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601210246620.png" alt="image-20250601210246620"></p>
+<p>考试可能不选A13和A14这两个连着的，可能选A13和A15作为译码器的输入，那么A14是多少就无关紧要了</p>
+<p>那么就会发现多出来了一倍的地址，全都映射到这四块芯片中了，而四块芯片肯定装不下，所以实际中不可能用这种设计</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601210311001.png" alt="image-20250601210311001"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601210553156.png" alt="image-20250601210553156"></p>
+<h3 id="3-字位同时扩展"><a href="#3-字位同时扩展" class="headerlink" title="3.字位同时扩展"></a>3.字位同时扩展</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601210911202.png" alt="image-20250601210911202"></p>
+<p>一共四组芯片，一组2个芯片。</p>
+<p>1.原来是一块芯片，16K*4位</p>
+<p>2.位扩展得到每组的芯片个数，就是目标位数除以单个芯片的位数，8&#x2F;4&#x3D;2，所以每组是2个新盘</p>
+<p>经过位扩展后，变成一组芯片，16K*8位</p>
+<p>3.字扩展得到一共要几组，就是目标存储单元数量除以一组的单元数量，64K&#x2F;16K&#x3D;4，那么一共需要4组</p>
+<p>经过字扩展后，把16K*8位变成64K*8位的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601211856723.png" alt="image-20250601211856723"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601212032748.png" alt="image-20250601212032748"></p>
+<p>有3个使能信号，那么必须同时满足才可以工作，有一个不满足就不可以工作<br>也就是只有100才会正常工作，而其他的001,101之类的都是非法信号，会让所有的结果都为0，再取反那就都是1然后输出出去了</p>
+<p>这样可以让CPU使用使能端控制片选信号的生效时间</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601212414832.png" alt="image-20250601212414832"></p>
+<p>MREQ，低电平有效，主存请求信号， 当CPU想要访问主存的时候就会让它有效</p>
+<p>它有效才会让译码器使能，也就是让译码器有效</p>
+<p><code>CPU访存是这样的：</code></p>
+<p>1.先发送出去地址信号，由于地址信号都是电信号，所以要先等一下让它稳定</p>
+<p>2.等到地址信号稳定以后让MREQ有效，然后片选线才会有效</p>
+<p><strong>这样保证了主存收到的地址信号一定是稳定的</strong></p>
+<p>对于左下角的图，中间有上上下下的，那说明传过去的电信号有1有0，就是有高电平也有低电平</p>
+<p>上面提到，发送出去地址信号以后会等一段时间。所以图中地址有效的时候CS并不是立马开始有效，而是中间间隔了一段时间才开始有效，这中间这段时间就是等待的时间。然后在地址有效时间Tco内把数据输出出去。</p>
+<p><code>注：</code>灰色的部分是无效的地方，白色的地方才是有效的地方</p>
+<h2 id="3-4-外部存储器"><a href="#3-4-外部存储器" class="headerlink" title="3.4 外部存储器"></a>3.4 外部存储器</h2><h3 id="1-磁盘存储器"><a href="#1-磁盘存储器" class="headerlink" title="1. 磁盘存储器"></a>1. 磁盘存储器</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602173738027.png" alt="image-20250602173738027"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602170248404.png" alt="image-20250602170248404"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602170448167.png" alt="image-20250602170448167"></p>
+<p><strong>1、磁盘设备的组成</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602170927901.png" alt="image-20250602170927901"></p>
+<p><strong>2、磁盘的性能指标</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602172157476.png" alt="image-20250602172157476"></p>
+<p>rN是一个理论最大值</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602171459462.png" alt="image-20250602171459462"></p>
+<p>格式化容量会有一部分容量用于别的用途，而非格式化容量是该磁盘的二进制bit存储上限，所以格式化容量比非格式化容量要小</p>
+<p>每个磁道记录信息的信息量是相同的，并不是圆的半径越大信息量越多</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602172039873.png" alt="image-20250602172039873"></p>
+<p><code>磁盘控制器延迟：</code>（有的题有,有的题没有）电子部件接收主机信号，然后向磁盘发出读写信号的时间</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602172537266.png" alt="image-20250602172537266"></p>
+<p>如果数据是并行传给磁盘的，那在这之前还要经过一个串并行转换电路才行，因为磁盘只能串行的工作</p>
+<h4 id="磁盘阵列"><a href="#磁盘阵列" class="headerlink" title="磁盘阵列"></a>磁盘阵列</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602173626699.png" alt="image-20250602173626699"></p>
+<p>越后面的磁盘阵列信息冗余越少，安全性和可靠性越高，成本也越低</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602173237775.png" alt="image-20250602173237775"></p>
+<p><code>RAID0：</code>就是RAID0是一个逻辑盘，是通过磁盘1和磁盘2映射而来，比如RAID0的第一个存储单元的数据存放在磁盘1的第一个单元和磁盘2第一个单元，那我们读取逻辑盘的时候就相当于有两个磁盘同时为我们工作，可以实现并行访问，提高速度</p>
+<p>但如果物理磁盘有比特跳变之类的错误的话，RAID0也发现不了</p>
+<p><code>RAID1</code>：存了两份一样的数据，那就是有冗余了，两份可以对比着看，有错误可以发现，所以是有校验的。也实现了并行访问，但是存储空间有些浪费</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602173433649.png" alt="image-20250602173433649"></p>
+<p>0-3只存储比特数据，4-6存储校验数据</p>
+<p>这样的话浪费的空间没有RAID1那么多</p>
+<h3 id="2-固态硬盘SSD"><a href="#2-固态硬盘SSD" class="headerlink" title="2. 固态硬盘SSD"></a>2. 固态硬盘SSD</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602175002356.png" alt="image-20250602175002356"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602174707438.png" alt="image-20250602174707438"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602174135625.png" alt="image-20250602174135625"></p>
+<p>闪存芯片可以分为很多块，每个块可以分为很多页</p>
+<p>每个块相当于磁盘中的磁道，每个页相当于磁盘中的块&#x2F;扇区</p>
+<p>也就是说SSD的读写的基本单位是页也不是块</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602174945174.png" alt="image-20250602174945174"></p>
+<h2 id="3-5-高速缓冲存储器"><a href="#3-5-高速缓冲存储器" class="headerlink" title="3.5 高速缓冲存储器"></a>3.5 高速缓冲存储器</h2><p>1.Cache里面存储的是主存的副本。所以如果Cache有40KB，主存有200MB</p>
+<p>那存储系统的容量还是200MB，而不是200MB+40KB，因为Cache存的仅仅是副本而已</p>
+<p>2.Cache访问失效的时候，通常不仅要像CPU传递消息，还要将信息写入Cache，传递消息的数据宽度是字，写入信息的数据宽度是块。</p>
+<p>CPU与cache或者主存信息信息交互的单位是字，而Cache与主存间信息交互的单位是块</p>
+<p>3.Cache的功能全部由硬件实现</p>
+<p>4.多级cache中，算缺失率的时候，只需要看到最低一级的cache的时候还有多少没有命中</p>
+<p>5.Cache中地址映射表的大小就是（有效位+标记位）*块数</p>
+<p>6.逻辑地址的页和物理地址的块对应，映射的话就是逻辑的页映射到物理的块上面去</p>
+<p>7.对于有高速缓存，主存，硬盘构成的三级存储体系，CPU直接根据主存物理地址进行访问</p>
+<p>8.<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605201050911.png" alt="image-20250605201050911"></p>
+<p>标记位前面可能还有有效位、脏位、替换控制位，通过这四个位来算Cache除了数据部分还有得有多少的容量</p>
+<p>不管什么方法都会有有效位，写回法一定会有脏a位。替换控制位很少见</p>
+<p>9.组相联映射中，是几路组相联就有几个比较器。这个比较器是来看给出的主存地址具体在组内的哪个块</p>
+<p>所以 比较器里面存的就是标记位（不包含组号），因为一组有 的块数和路数相同，所以比较器的个数就是和路数相同的，一共要比较的次数也和路数一样</p>
+<h3 id="1-基本原理"><a href="#1-基本原理" class="headerlink" title="1.基本原理"></a>1.基本原理</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602211304010.png" alt="image-20250602211304010"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602205157410.png" alt="image-20250602205157410"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602210202690.png" alt="image-20250602210202690"></p>
+<p>按照行优先存储的，如果循环体按照列优先进行访问的话，那么会比按照行优先进行访问的慢很多，因为按照行优先会有很多地址可以映射到cache中</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602210641791.png" alt="image-20250602210641791"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602210823148.png" alt="image-20250602210823148"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602211058779.png" alt="image-20250602211058779"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602211220115.png" alt="image-20250602211220115"></p>
+<h3 id="2-Cache和主存间的映射方式"><a href="#2-Cache和主存间的映射方式" class="headerlink" title="2.Cache和主存间的映射方式"></a>2.Cache和主存间的映射方式</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602213029735.png" alt="image-20250602213029735"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602212126065.png" alt="image-20250602212126065"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602212416219.png" alt="image-20250602212416219"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602212711225.png" alt="image-20250602212711225"></p>
+<p>其实就是主存容量是Cache的多少倍，如果主存容量是cache的4096&#x3D;2^12^倍，那么标记位数就是 12</p>
+<p>也就是得标记4096个位置才行</p>
+<p>比如图中的标记位数就是 256MB&#x2F;(8*64B)&#x3D;2^19^次</p>
+<p><strong>有效位和标记位组成地址映射表</strong>，其大小就是（有效位数+标记位数）* cache块数</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602212802971.png" alt="image-20250602212802971"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602212923576.png" alt="image-20250602212923576"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602213002984.png" alt="image-20250602213002984"></p>
+<h3 id="3-Cache的替换算法"><a href="#3-Cache的替换算法" class="headerlink" title="3. Cache的替换算法"></a>3. Cache的替换算法</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602214715709.png" alt="image-20250602214715709"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602213420788.png" alt="image-20250602213420788"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602213550902.png" alt="image-20250602213550902"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602214014188.png" alt="image-20250602214014188"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602214051651.png" alt="image-20250602214051651"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602214125073.png" alt="image-20250602214125073"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602214237061.png" alt="image-20250602214237061"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602214305898.png" alt="image-20250602214305898"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602214551003.png" alt="image-20250602214551003"></p>
+<h3 id="4-Cache写策略"><a href="#4-Cache写策略" class="headerlink" title="4. Cache写策略"></a>4. Cache写策略</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602224028486.png" alt="image-20250602224028486"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602223356639.png" alt="image-20250602223356639"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602223601159.png" alt="image-20250602223601159"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602223515516.png" alt="image-20250602223515516"></p>
+<p>阻塞的意思是cpu必须阻塞等待</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602223734924.png" alt="image-20250602223734924"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602223805693.png" alt="image-20250602223805693"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602223854440.png" alt="image-20250602223854440"></p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>考研</tag>
+        <tag>计算机组成原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>26考研 | 王道 | 第六章 应用层</title>
+    <url>/2025/05/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E5%BA%94%E7%94%A8%E5%B1%82/</url>
+    <content><![CDATA[<h1 id="26考研-王道-第六章-应用层"><a href="#26考研-王道-第六章-应用层" class="headerlink" title="26考研 | 王道 | 第六章 应用层"></a>26考研 | 王道 | 第六章 应用层</h1><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527113018376.png" alt="image-20250527113018376"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527113033376.png" alt="image-20250527113033376"></p>
+<h2 id="1-网络应用模型"><a href="#1-网络应用模型" class="headerlink" title="1.网络应用模型"></a>1.网络应用模型</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527113629678.png" alt="image-20250527113629678"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527114015564.png" alt="image-20250527114015564"></p>
+<h3 id="1-CS模型的应用"><a href="#1-CS模型的应用" class="headerlink" title="1.CS模型的应用"></a>1.CS模型的应用</h3><p>CS模型（客户端-服务器）的特点是客户端需要安装专用软件，服务端负责核心逻辑处理和数据存储。典型应用包括：</p>
+<ul>
+<li><p>传统桌面软件：如早期的单机游戏（如《魔兽争霸3》）、办公软件（如Office）</p>
+</li>
+<li><p>网络游戏：如《王者荣耀》采用客户端-服务器架构，客户端负责渲染和操作，服务器处理战斗逻辑和匹配</p>
+</li>
+<li><p>企业级应用：如ERP系统、数据库管理系统（如MySQL客户端）</p>
+</li>
+<li><p>云服务工具：如Cobalt Strike（渗透测试工具）需客户端连接服务器</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527113932945.png" alt="image-20250527113932945"></p>
+</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527114131060.png" alt="image-20250527114131060"></p>
+<h3 id="2-P2P模型的应用"><a href="#2-P2P模型的应用" class="headerlink" title="2.P2P模型的应用"></a>2.P2P模型的应用</h3><p>P2P模型（点对点）的特点是节点之间直接通信，无中心服务器。典型应用包括：</p>
+<ul>
+<li>文件共享：如BitTorrent、早期的Napster，用户之间直接交换文件</li>
+<li>实时通信：如Skype（早期版本）、区块链网络（如比特币节点通信）</li>
+<li>分布式计算：如SETI@home项目，利用全球用户设备资源进行天文计算</li>
+<li>去中心化应用：如IPFS（星际文件系统）等新型网络协议</li>
+</ul>
+<h2 id="2-DNS域名解析"><a href="#2-DNS域名解析" class="headerlink" title="2.DNS域名解析"></a>2.DNS域名解析</h2><p>Internet上提供访问的主机一定要有IP地址，但不一定要有域名</p>
+<p>同一个域名在不同的时间可能解析出不同的IP地址</p>
+<p>多个域名可以指向同一台主机IP地址</p>
+<p>IP子网中的主机可以由不同的域名服务器来维护其映射</p>
+<p>DNS采用层次结构，子节点无需知道父节点IP，通过递归查询完成解析。</p>
+<h3 id="0-DNS系统"><a href="#0-DNS系统" class="headerlink" title="0.DNS系统"></a>0.DNS系统</h3><ul>
+<li><code>域名系统(Domain Name System, DNS)</code>是因特网使用的命名系统，用来<code>把便于人们记忆的具有特定含义的主机名(如www.BitHachi.com)转换为便于机器处理的IP地址</code>。</li>
+<li>相对于IP地址，人们更喜欢使用具有特定含义的字符串来标识因特网上的计算机。</li>
+<li>DNS系统采用客户&#x2F;服务器模型，其协议运行在<code>UDP</code>之上，使用<code>53</code>号端口。</li>
+<li>从概念上可将DNS分为3部分:<code>层次域名空间、域名服务器和解析器</code>。</li>
+<li><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9d854d58e1fa7d9b08788c04a01e72fd.png" alt="在这里插入图片描述"></li>
+<li>某台主机访问网站<a href="http://www.bithachi.cn网站为例,dns的大致流程/">www.bithachi.cn网站为例，DNS的大致流程</a></li>
+<li><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/25c59b95050f5b0c907f64039fd0110b.png" alt="在这里插入图片描述"></li>
+</ul>
+<h3 id="1-域名"><a href="#1-域名" class="headerlink" title="1.域名"></a>1.域名</h3><p>DNS的任务就是实现域名到IP的映射，使得我们输入域名可以访问对应的网站</p>
+<ul>
+<li><code>因特网采用层次树状结构的命名方法</code>。采用这种命名方法，任何一个连接到因特网的主机或路由器，都有一个唯一的层次结构名称，即<code>域名(Domain Name)</code>。</li>
+<li><code>域(Domain)</code>是名字空间中一个可被管理的划分。</li>
+<li>域还可以划分为子域，而子域还可以继续划分为子域的子域，这样就形成了顶级域、二级域、三级域等。</li>
+</ul>
+<p><strong>在域名系统中，每个域分别由不同的组织进行管理。每个组织都可以将它的域再分成一定数目的子域，并将这些子域委托给其他组织去管理。</strong></p>
+<ul>
+<li>例如，管理CN域的中国将EDU.CN子域授权给中国教育和科研计算机网(CERNET)来管理。</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527121335014.png" alt="image-20250527121335014"></p>
+<p>二级域名除了图中的两个以外还可以自己去注册一个。注册二级域名可以得到一个三级域名</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527121505128.png" alt="image-20250527121505128"></p>
+<p>每个域名都由<code>标号</code>序列组.成，而各标号之间用点<code>(“.”)</code>隔开。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5325d9ccfb35161e8414bf5fd970d5f3.png" alt="在这里插入图片描述"></p>
+<p><strong>关于域名中的标号有以下几点需要注意:</strong></p>
+<ul>
+<li>1)标号中的英文<code>不区分大小写</code>。.</li>
+<li>2)标号中除连字符(-) 外不能使用其他的标点符号。</li>
+<li>3)每个标号不超过63个字符，多标号组成的完整域名最长不超过255个字符。</li>
+<li>4)级别最低的域名写在最左边，级别最高的顶级域名写在最右边。</li>
+</ul>
+<p><code>顶级域名(Top Level Domain, TLD)</code>分为如下三大类:</p>
+<ul>
+<li>1)国家顶级域名(nTLD)。国家和某些地区的域名，如“.cn”表示中国，“.us”表示美国，.uk”表示英国。</li>
+<li>2)通用顶级域名(gTLD)。 常见的有“.com” (公司)、“.net” (网络服务机构)、“.org”(非营利性组织)和“.gov” (国家或政府部门)等。</li>
+<li>3)基础结构域名。<code>这种顶级域名只有一个，即arpa,用于反向域名解析</code>，因此又称反向域名。<code>反向域名解析与通常的正向域名解析相反，提供IP地址到域名的对应</code>，反向域名格式如：X.X.X.in-addr.arpa。很多网络服务提供商要求访问的IP地址具有反向域名解析的结果，否则不提供服务。</li>
+</ul>
+<p>国家顶级域名下注册的二级域名均由该国家自行确定。</p>
+<h3 id="2-域名服务器"><a href="#2-域名服务器" class="headerlink" title="2.域名服务器"></a>2.域名服务器</h3><ul>
+<li><code>因特网的域名系统被设计成一个联机分布式的数据库系统，并采用客户/服务器模型</code>。</li>
+<li>域名到IP地址的解析是由运行在域名服务器上的程序完成的，<code>一个服务器所负责管辖的(或有权限的)范围称为区(不以“域”为单位)</code>，各单位根据具体情况来划分自己管辖范围的区，但在一个区中的所有结点必须是能够连通的，每个区设置相应的<code>权限域名服务器</code>，用来保存该区中的所有主机的域名到IP地址的映射。</li>
+<li>每个域名服务器不但能够进行一些域名到IP地址的解析，而且还必须具有连向其他域名服务器的信息。当自己不能进行域名到IP地址的转换时，能够知道到什么地方去找其他域名服务器。</li>
+<li>DNS使用了大量的域名服务器，它们以层次方式组织。没有一台域名服务器具有因特网上所有主机的映射，相反，该映射分布在所有的DNS上。</li>
+<li>采用分布式设计的DNS，是一个在因特网上实现分布式数据库的精彩范例。主要有4种类型的域名服务器。</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527122054220.png" alt="image-20250527122054220"></p>
+<h4 id="（1）根域名服务器"><a href="#（1）根域名服务器" class="headerlink" title="（1）根域名服务器"></a>（1）根域名服务器</h4><ul>
+<li><code>根域名服务器</code>是<code>最高层次</code>的域名服务器，所有的<code>根域名服务器</code>都知道<code>所有</code>的<code>顶级域名服务器的IP地址</code>。</li>
+<li>根域名服务器也是最重要的域名服务器，不管是哪个<code>本地域名服务器</code>，若要对因特网上任何一个域名进行解析，只要自己无法解析，就首先要求助于<code>根域名服务器</code>。</li>
+<li>因特网上有<code>13个根域名服务器</code>，尽管我们将这13个根域名服务器中的每个都视为单个服务器，但<code>每个“服务器”实际上是冗余服务器的集群</code>，以提供安全性和可靠性。</li>
+<li>需要注意的是，<code>根域名服务器</code>用来<code>管辖顶级域(如.com)</code>， 通常它并不直接把待查询的域名直接转换成IP地址，而是<code>告诉本地域名服务器</code>下一步应当找哪个<code>顶级域名服务器</code>进行查询。</li>
+</ul>
+<h4 id="（2）顶级域名服务器"><a href="#（2）顶级域名服务器" class="headerlink" title="（2）顶级域名服务器"></a>（2）顶级域名服务器</h4><ul>
+<li>这些域名服务器负责<code>管理在该顶级域名服务器注册的所有二级域名</code>。</li>
+<li>收到DNS查询请求时,就给出相应的回答(可能是最后的结果，也可能是下一步应当查找的域名服务器的IP地址)。</li>
+</ul>
+<h4 id="（3）授权域名服务器-权限域名服务器"><a href="#（3）授权域名服务器-权限域名服务器" class="headerlink" title="（3）授权域名服务器(权限域名服务器)"></a>（3）授权域名服务器(权限域名服务器)</h4><ul>
+<li><code>每台主机</code>都必须在<code>授权域名服务器</code>处登记。为了更加可靠地工作，一台主机最好至少有两个授权域名服务器。</li>
+<li>实际上，许多<code>域名服务器</code>都<code>同时</code>充当<code>本地域名服务器</code>和<code>授权域名服务器</code>。</li>
+<li><code>授权域名服务器</code>总能将其管辖的<code>主机名</code>转换为该主机的<code>IP地址</code>。</li>
+</ul>
+<h4 id="（4）本地域名服务器"><a href="#（4）本地域名服务器" class="headerlink" title="（4）本地域名服务器"></a>（4）本地域名服务器</h4><ul>
+<li>本地域名服务器对域名系统非常重要。</li>
+<li>每个因特网服务提供者(ISP)， 或一所大学，甚至一所大学中的各个系，都可以拥有一个本地域名服务器。</li>
+<li><code>当一台主机发出DNS查询请求时，这个查询请求报文就发送给该主机的本地域名服务器</code>。</li>
+<li>事实上，我们在Windows系统中配置<code>“本地连接”</code>时，就需要填写DNS地址，这个地址就是<code>本地DNS (域名服务器)的地址</code>。</li>
+</ul>
+<h3 id="3-域名解析过程"><a href="#3-域名解析过程" class="headerlink" title="3.域名解析过程"></a>3.域名解析过程</h3><ul>
+<li><code>域名解析是指把域名映射成为IP地址或把IP地址映射成域名的过程。前者称为正向解析，后者称为反向解析。</code></li>
+<li>当客户端需要域名解析时，通过本机的DNS客户端构造一个<code>DNS请求报文</code>，以<code>UDP数据报</code>方式发往<code>本地域名服务器</code>。</li>
+<li>域名解析有两种方式:<code>递归查询</code>和<code>递归与迭代</code>相结合的查询。</li>
+</ul>
+<h4 id="递归查询"><a href="#递归查询" class="headerlink" title="递归查询"></a>递归查询</h4><p><strong>递归查询的过程如下图所示</strong>， 由于该方法给根域名服务造成的负载过大，所以在实际中几乎不使用。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527122450209.png" alt="image-20250527122450209"></p>
+<h4 id="递归与迭代相结合"><a href="#递归与迭代相结合" class="headerlink" title="递归与迭代相结合"></a>递归与迭代相结合</h4><p>右边是递归与迭代相结合的查询，下面是具体过程</p>
+<p><strong>(1)<code>主机</code>向<code>本地域名服务器</code>的查询采用的是<code>递归</code>查询</strong></p>
+<ul>
+<li>也就是说，如果<code>本地主机</code>所询问的<code>本地域名服务器</code>不知道被查询域名的IP 地址，那么<code>本地域名服务器</code>就以<code>DNS客户</code>的身份，向<code>根域名服务器</code>继续发出<code>查询请求报文</code>(即替该主机继续查询)，而不是让该主机自己进行下一步的查询。</li>
+<li>在这种情况下，<code>本地域名服务器</code>只需向<code>根域名服务器查询</code>一次，后面的几次查询都是递归地在其他几个域名服务器之间进行的[见图6.6(a)中的步骤③~⑥]。</li>
+<li>在步骤⑦中，<code>本地域名服务器</code>从<code>根域名服务器</code>得到了所需的<code>IP地址</code>,最后在步骤⑧中，<code>本地域名服务器</code>把查询结果告诉<code>主机</code>m.xyz.com.</li>
+</ul>
+<p><strong>(2)<code>本地域名服务器</code>向<code>根域名服务器</code>的查询采用<code>迭代</code>查询</strong></p>
+<ul>
+<li>当<code>根域名服务器</code>收到<code>本地域名服务器</code>发出的<code>迭代查询请求报文</code>时，要么给出所要查询的IP地址，要么告诉<code>本地域名服务器</code>:“你下一步应当向哪个<code>顶级域名服务器</code>进行查询”。</li>
+<li>然后让<code>本地域名服务器</code>向这个<code>顶级域名服务器</code>进行后续的查询，如图6.6(b)所示。</li>
+<li>同样，<code>顶级域名服务器</code>收到查询报文后，要么给出所要查询的IP地址，要么告诉<code>本地域名服务器</code>下一步应向哪个·权限域名服务器·查询。</li>
+<li>最后，知道所要<code>解析的域名的IP地址</code>后，把这个<code>结果返回</code>给发起查询的<code>主机</code>。</li>
+</ul>
+<p><strong><code>下面举例说明域名解析的过程:</code></strong><br><strong>假定某客户机想获知域名为y.abc.com主机的IP地址，域名解析的过程(共使用8个UDP报文)如下:</strong></p>
+<ul>
+<li>①<code>客户机</code>向其<code>本地域名服务器</code>发出<code>DNS请求报文</code>。</li>
+<li>②<code>本地域名服务器</code>收到请求后，查询<code>本地缓存</code>，若没有该记录，则以DNS客户的身份向<code>根域名服务器</code>发出解析请求。</li>
+<li>③<code>根域名服务器</code>收到请求后，判断该域名属于.com域，将对应的<code>顶级域名服务器</code>dns.com的IP地址返回给<code>本地域名服务器</code>。</li>
+<li>④<code>本地域名服务器</code>向<code>顶级域名服务器dns.com</code>发出解析<code>请求报文</code>。</li>
+<li>⑤<code>顶级域名服务器dns.com</code>收到请求后，<code>判断</code>该域名<code>属于abc.com域</code>，因此将对应的<code>授权域名服务器dns.abc.com</code>的IP地址返回给<code>本地域名服务器</code>。</li>
+<li>⑥<code>本地域名服务器</code>向<code>授权域名服务器dns.abc.com</code>发起解析<code>请求报文</code>。</li>
+<li>⑦<code>授权域名服务器dns.abc.com</code>收到请求后，将查询<code>结果</code>返回给<code>本地域名服务器</code>。</li>
+<li>⑧<code>本地域名服务器</code>将查询结果保存到<code>本地缓存</code>，同时返回给<code>客户机</code>。</li>
+</ul>
+<h4 id="DNS高速缓存"><a href="#DNS高速缓存" class="headerlink" title="DNS高速缓存"></a>DNS高速缓存</h4><ul>
+<li>为了提高DNS的查询效率，并减少因特网上的DNS查询报文数量，在域名服务器中广泛地使用了<code>高速缓存</code>。</li>
+<li>当一个DNS服务器接收到DNS查询结果时，它能将该DNS信息缓存在高速<br>缓存中。这样，当另一个相同的域名查询到达该DNS服务器时，该服务器就能够直接提供所要求的IP地址，而不需要再去向其他DNS服务器询问。</li>
+<li>因为<code>主机名和IP地址之间的映射不是永久的，所以DNS服务器将在一段时间后丢弃高速缓存中的信息</code>。</li>
+</ul>
+<h3 id="4-加深理解的内容-举例"><a href="#4-加深理解的内容-举例" class="headerlink" title="4.加深理解的内容(举例)"></a>4.加深理解的内容(举例)</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527122540656.png" alt="image-20250527122540656"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527122644720.png" alt="image-20250527122644720"></p>
+<p>你去找校长，校长找院长，院长找系主任，系主任给你查一下这个人，然后系主任给院长说，院长给校长说，校长再给你说（递归查询）。但是如果每个人都去找校长，那校长就会很繁忙，回复每个人就会很慢</p>
+<p>**解决办法就是本地域名服务器。**就是把最近问过的域名和ip给存到缓存，之后再问的话就直接读取就行了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527122906009.png" alt="image-20250527122906009"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527123014752.png" alt="image-20250527123014752"></p>
+<p><code>递归查询</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527123150515.png" alt="image-20250527123150515"></p>
+<p><code>迭代查询</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527123303674.png" alt="image-20250527123303674"></p>
+<h2 id="3-文件传输协议"><a href="#3-文件传输协议" class="headerlink" title="3.文件传输协议"></a>3.文件传输协议</h2><p><strong>TFTP</strong>只需要知道是面向小文件并且比较容易实现的一个协议</p>
+<ul>
+<li>文件传输协议( File Transfer Protocol, FTP)是因特网上使用得最广泛的<code>文件传输协议。</code></li>
+<li>FTP提供<code>交互式的访问</code>，允许客户指明文件的类型与格式，并允许文件具有<code>存取权限</code>。</li>
+<li>它屏蔽了各计算机系统的细节，因而适合于在异构网络中的<code>任意计算机之间传送文件</code>。</li>
+</ul>
+<p><strong>FTP提供以下功能:</strong></p>
+<p>①提供不同种类主机系统(硬、软件体系等都可以不同)之间的文件传输能力。</p>
+<p>②<code>以用户权限管理的方式提供用户对远程FTP服务器上的文件管理能力</code>。</p>
+<p>③以<code>匿名FTP</code>的方式提供<code>公用文件共享</code>的能力。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527150811569.png" alt="image-20250527150811569"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527150936539.png" alt="image-20250527150936539"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250527151138375.png" alt="image-20250527151138375"></p>
+<h3 id="FTP工作原理"><a href="#FTP工作原理" class="headerlink" title="FTP工作原理"></a>FTP工作原理</h3><ul>
+<li><p>FTP采用客户&#x2F;服务器（C&#x2F;S）的工作方式，它使用TCP可靠的传输服务。</p>
+</li>
+<li><p>一个FTP服务器进程可同时为多个客户进程提供服务。</p>
+</li>
+<li><p>依照FTP协议提供服务，进行文件传送的计算机就是<code>FTP服务器</code>。</p>
+</li>
+<li><p>连接FTP服务器，遵循FTP协议与服务器传送文件的电脑就是<code>FTP客户端</code>。</p>
+</li>
+<li><p><code>FTP的服务器进程</code>由两大部分组成:</p>
+<p><code>一个主进程，负责接收新的请求;</code></p>
+<p><code>若干从属进程，负责处理单个请求。</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c5fb19d3b872f46b0c1c3d0bbd5775c8.png" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<hr>
+<p><strong>其工作步骤如下:</strong></p>
+<p>①打开熟知端口21 (控制端口)，使客户进程能够连接上。</p>
+<p>②等待客户进程发连接请求。</p>
+<p>③启动从属进程来处理客户进程发来的请求。主进程与从属进程并发执行，从属进程对客户进程的请求处理完毕后即终止。</p>
+<p>④回到等待状态，继续接收其他客户进程的请求。</p>
+<hr>
+<ul>
+<li>FTP服务器必须在整个会话期间保留用户的状态信息。特别是服务器必须把指定的用户账户与控制连接联系起来，服务器必须追踪用户在远程目录树上的当前位置。</li>
+</ul>
+<h3 id="控制连接和数据连接"><a href="#控制连接和数据连接" class="headerlink" title="控制连接和数据连接"></a>控制连接和数据连接</h3><p><strong>控制进程和数据传送进程都是服务器从属进程而不是主进程</strong></p>
+<ul>
+<li><p>FTP在工作时使用两个<code>并行的TCP连接</code>:</p>
+<p>一个是<code>控制连接(端口号21)</code>，一个是<code>数据连接(端口号20)</code>。这两个端口号说的是服务器的端口号</p>
+</li>
+<li><p>使用两个不同的端口号可使协议更加简单和更容易实现。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a6dedab6f031e8855131b74727f1856c.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/13b7893cf26df881b7abdf9199df1869.png" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<p><strong>1.控制连接</strong></p>
+<ul>
+<li><p>服务器监听21号端口，等待客户连接，建立在这个端口.上的连接称为控制连接，控制连接用来传输控制信息(如连接请求、传送请求等)，并且控制信息都以7位ASCII格式传送。</p>
+</li>
+<li><p>FTP客户发出的传送请求，通过控制连接发送给服务器端的控制进程,但控制连接并不用来传送文件。</p>
+</li>
+<li><p>在传输文件时还可以使用控制连接(如客户在传输中途发一个中止传输的命令)，因此控制连接在整个会话期间一直保持打开状态。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a6dedab6f031e8855131b74727f1856c.png" alt="在这里插入图片描述"><br><strong>2.数据连接</strong></p>
+</li>
+<li><p>服务器端的控制进程在接收到FTP客户发来的文件传输请求后，就创建“数据传送进程”和“数据连接”。</p>
+</li>
+<li><p>数据连接用来连接客户端和服务器端的数据传送进程，数据传送进程实际完成文件的传送，在传送完毕后关闭“数据传送连接”并结束运行</p>
+</li>
+</ul>
+<h4 id="主动模式PORT和被动模式PASV"><a href="#主动模式PORT和被动模式PASV" class="headerlink" title="主动模式PORT和被动模式PASV"></a>主动模式PORT和被动模式PASV</h4><p> <code>主动模式：</code>客户端连接服务器21端口，登陆成功后要读取数据时，客户端随机开放一个端口，然后发送命令告知服务器，服务器收到PORT命令和端口号以后，用20端口和客户端建立连接，发送数据</p>
+<p><strong>可以看做是服务器的20端口去连接客户端的一个随机端口，可以看做服务器主动连接客户端</strong></p>
+<p> <code>被动模式：</code>客户端连接服务器21端口，登陆成功后要读取数据时，客户端要读取数据，然后发送PASV命令告知服务器，服务器收到后开放一个随机端口，告知客户端，客户端来进行连接，连接好以后进行传输。</p>
+<p><strong>可以看做是客户端端口去连接服务器的随机端口，可以看做客户端主动连接服务器，服务器是被动的所以叫做被动模式</strong></p>
+<p><strong>一般默认是主动模式，即服务器通过20端口连接客户端</strong></p>
+<hr>
+<ul>
+<li>因为FTP使用了一个分离的控制连接，所以也称FTP的控制信息是带外(Out-of-band) 传送的。</li>
+<li>使用FTP时，若要修改服务器上的文件，则需要先将此文件传送到本地主机,然后再将修改后的文件副本传送到原服务器，来回传送会花费很多时间。</li>
+<li>网络文件系统(NFS)允许进程打开一个远程文件，并在该文件的某个特定位置开始读写数据。这样，NFS可使用户复制一个大文件中的一个很小的片段，而不需要复制整个大文件。</li>
+</ul>
+<h2 id="4-电子邮件"><a href="#4-电子邮件" class="headerlink" title="4.电子邮件"></a>4.电子邮件</h2><h3 id="0-思维导图"><a href="#0-思维导图" class="headerlink" title="0.思维导图"></a>0.思维导图</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/153ff24f2fd431cf0dd448d412abf463.png" alt="在这里插入图片描述"></p>
+<h3 id="1-电子邮件的信息格式"><a href="#1-电子邮件的信息格式" class="headerlink" title="1.电子邮件的信息格式"></a>1.电子邮件的信息格式</h3><ul>
+<li>一个电子邮件分为<code>信封和内容</code>两大部分，邮件<code>内容</code>又<code>分为首部和主体</code>两部分。</li>
+<li>RFC 822规定了邮件的首部格式，而邮件的主体部分则让用户自由撰写。</li>
+<li>用户写好首部后，邮件系统自动地将信封所需的信息提取出来并写在信封上，用户不需要亲自填写信封上的信息。</li>
+<li>邮件内容的首部包含一些首部行，每个首部行由一个关键字后跟冒号再后跟值组成。有些关键字是必需的，有些则是可选的。<strong>最重要的关键字是To和Subject。</strong></li>
+<li>To是必需的关键字，后面填入一个或多个收件人的电子邮件地址。</li>
+<li>电子邮件地址的规定格式为:收件人邮箱名@邮箱所在主机的域名如<a href="mailto:&#97;&#x62;&#99;&#64;&#99;&#115;&#x6b;&#97;&#x6f;&#x79;&#97;&#x6e;&#46;&#99;&#x6f;&#109;">abc@cskaoyan.com</a>,其中收信人邮箱名即用户名，<strong>abc在cskaoyan.com这个邮件服务器上必须是唯一的</strong> 。这也就保证了<a href="mailto:&#97;&#98;&#x63;&#64;&#x63;&#115;&#107;&#x61;&#x6f;&#121;&#97;&#110;&#46;&#99;&#x6f;&#109;">abc@cskaoyan.com</a> 这个邮件地址在整个因特网上是唯一的。</li>
+<li>Subject是可选关键字，是邮件的主题，反映了邮件的主要内容。</li>
+<li>还有一个必填的关键字是From,但它通常由邮件系统自动填入。</li>
+<li>首部与主体之间用一个空行进行分割。典型的邮件内容如下:</li>
+<li><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/aaa4912943c73c5d1ac1c07433f131e9.png" alt="在这里插入图片描述"></li>
+</ul>
+<h3 id="2-电子邮件系统的组成结构"><a href="#2-电子邮件系统的组成结构" class="headerlink" title="2.电子邮件系统的组成结构"></a>2.电子邮件系统的组成结构</h3><ul>
+<li><p>电子邮件是一种异步通信方式，通信时不需要双方同时在场。</p>
+</li>
+<li><p>电子邮件把邮件发送到收件人使用的邮件服务器，并放在其中的收件人邮箱中，收件人可以随时上网到自己使用的邮件服务器进行读取。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a8c7f76375b724a80cc37ec7d636acc1.png" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>一个 电子邮件系统应具有三个最主要的组成构件：用户代理(User Agent)、邮件服务器、电子邮件使用的协议，如SMTP、POP3 (或IMAP)等。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ca9bf122e639e53aae981c068d4728d2.png" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<p><code>用户代理(UA):</code>用户与电子邮件系统的接口。</p>
+<ul>
+<li>用户代理使用户能够通过一个很友好的接口发送和接收邮件，用户代理至少应当具有撰写、显示和邮件处理的功能。</li>
+<li>通常情况下，用户代理就是一个运行在PC.上的程序，常见的有Outlook、Foxmail 和Thunderbird等。</li>
+</ul>
+<p><code>邮件服务器:</code>组成电子邮件系统的核心。</p>
+<ul>
+<li>邮件服务器的功能是发送和接收邮件，同时还要向发信人报告邮件传送的情况(已交付、被拒绝、丢失等)。</li>
+<li>邮件服务器采用客户&#x2F;服务器方式工作，但它能够同时充当客户和服务器。</li>
+<li>例如，当邮件服务器A向邮件服务器B发送邮件时，A就作为SMTP客户，而B是SMTP服务器;反之，当B向A发送邮件时，B就是SMTP客户，而A就是SMTP服务器。</li>
+</ul>
+<p><code>邮件发送协议和读取协议:</code></p>
+<ul>
+<li><code>邮件发送协议</code>用于用户代理向邮件服务器发送邮件或在邮件服务器之间发送邮件，通常使用的是<code>SMTP</code>;</li>
+<li><code>邮件读取协议</code>用于用户代理从邮件服务器读取邮件，如<code>POP3</code>。</li>
+<li>SMTP采用的是“推”(Push)的通信方式，即在用户代理向邮件服务器发送邮件及在邮件服务器之间发送邮件时，SMTP客户端主动将邮件“推”送到SMTP服务器端。</li>
+<li>POP3采用的是“拉”(Pull)的通信方式，即用户读取邮件时，用户代理向邮件服务器发出请求，“拉”取用户邮箱中的邮件。</li>
+</ul>
+<h3 id="3-电子邮件协议"><a href="#3-电子邮件协议" class="headerlink" title="3.电子邮件协议"></a>3.电子邮件协议</h3><h4 id="1-SMTP"><a href="#1-SMTP" class="headerlink" title="1.SMTP"></a>1.SMTP</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f1b6a6415b6f5473155a3e6fb4aaa90e.png" alt="在这里插入图片描述"></p>
+<p><code>(1)连接建立</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b3717c0c5637591dd0f6e24dd4360c26.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><p>发件人的邮件发送到发送方邮件服务器的邮件缓存中后，SMTP客户就每隔一定 时间对邮件缓存扫描一次。<br>如发现有邮件，就使用SMTP的熟知端口号(25) 与接收方邮件服务器的SMTP服务器建立TCP连接。</p>
+</li>
+<li><p>连接建立后，接收方SMTP服务器发出220 Service ready (服务就绪)。然后SMTP客户向SMTP服务器发送HELO命令，附上发送方的主机名。</p>
+<ul>
+<li>如果SMTP服务器有能力接收邮件，那就回复 250 OK</li>
+<li>否则 回复 421 Service not available</li>
+</ul>
+</li>
+<li><p>SMTP不使用中间邮件服务器。</p>
+<p>TCP连接总是在发送方和接收方这两个邮件服务器之间直接建立，而不管它们相隔多远。</p>
+<p>接收方的邮件服务器因故障暂时不能建立连接时，<strong>会告知发送方</strong>，发送方的邮件服务器只能等待一段时间后再次尝试连接。</p>
+</li>
+</ul>
+<p><code>(2)邮件传送</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0ff35c215ae9fc2165e48f68bc607d77.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><p>连接建立后，就可开始传送邮件。邮件的传送从MAIL命令开始，MAIL 命令后面有发件人的地址。如MAIL FROM: <a href="mailto:&#104;&#111;&#111;&#112;&#x64;&#x6f;&#x67;&#64;&#104;&#117;&#x73;&#x74;&#x2e;&#x65;&#x64;&#117;&#x2e;&#99;&#x6e;">hoopdog@hust.edu.cn</a></p>
+</li>
+<li><p>若SMTP服务器已准备好接收邮件，则回答250 OK</p>
+</li>
+<li><p>接着SMTP客户端发送一个或多个RCPT (收件人recipient的缩写)命令，格式为RCPTTO: &lt;收件人地址&gt;。<br>每发送一个 RCPT命令，都应有相应的信息从SMTP服务器返回，如250 OK或550 No such user here (无此用户)。<br>RCPT命令的作用是，先弄清接收方系统是否已做好接收邮件的准备，然后才发送邮件，以便不至于发送了很长的邮件后才知道地址错误，进而避免浪费通信资源。</p>
+</li>
+<li><p>获得0K的回答后，客户端就使用DATA命令，表示要开始传输邮件的内容。<br>正常情况下，SMTP服务器回复信息是354 Start mail input; end with . 。表示回车换行。此时SMTP客户端就可开始传送邮件内容，并用. (两个回车，中间一个点)表示邮件内容的结束。</p>
+<ul>
+<li>传输内容完毕的末尾也要加上<CR><LF>这些字段表示传输完了</li>
+</ul>
+</li>
+<li><p>然后回复 250 OK</p>
+</li>
+</ul>
+<p><code>(3)连接释放</code></p>
+<ul>
+<li>邮件发送完毕后，SMTP客户应发送QUIT命令。</li>
+<li>SMTP服务器返回的信息是221 (服务关闭)，表示SMTP同意释放TCP连接。</li>
+<li>邮件传送的全部过程就此结束。</li>
+</ul>
+<h5 id="MIME—多用途网络邮件扩充"><a href="#MIME—多用途网络邮件扩充" class="headerlink" title="MIME—多用途网络邮件扩充"></a>MIME—多用途网络邮件扩充</h5><ul>
+<li><p>由于SMTP只能传送一定长度的ASCII码，许多其他非英语国家的文字(如中文、俄文，甚至带重音符号的法文或德文)就无法传送，且无法传送可执行文件及其他二进制对象，因此提出了多用途网络邮件扩充(Multipurpose Internet MailExtensions，MIME)。</p>
+</li>
+<li><p>MIME并未改动SMTP或取代它。MIME的意图是继续使用目前的格式，但增加了邮件主体的结构，并定义了传送非ASCII码的编码规则。也就是说，MIME邮件可在现有的电子邮件程序和协议下传送。MIME与SMTP的关系如图</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/31f9efe90129850db9d9d4d169b8c526.png" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<p><strong>MIME主要包括以下三部分内容:</strong></p>
+<ul>
+<li>①5个新的邮件首部字段，包括MIME版本、内容 描述、内容标识、内容传送编码和内容类型。</li>
+<li>②定义了许多邮件内容的格式，对多媒体电子邮件的表示方法进行了标准化。</li>
+<li>③定义了传送编码，可对任何内容格式进行转换，而不会被邮件系统改变。</li>
+</ul>
+<h4 id="2-POP3"><a href="#2-POP3" class="headerlink" title="2.POP3"></a>2.POP3</h4><p>登录到服务器后，POP3协议发送的密码不是加密的，是明文的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/89bef17bd7821f1ed35299789cdec02f.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><p>邮局协议( Post Office Protocol, POP) 是一个非常简单但功能有限的邮件读取协议，现在使用的是它的第3个版本POP3。</p>
+</li>
+<li><p>POP3 采用的是“拉”(Pull)的通信方式，当用户读取邮件时，用户代理向邮件服务器发出请求，“拉”取用户邮箱中的邮件。</p>
+</li>
+<li><p>POP也使用客户&#x2F;服务器的工作方式，<strong>在传输层使用TCP,端口号为110</strong>。接收方的用户代理上必须运行POP客户程序，而接收方的邮件服务器上则运行POP服务器程序。</p>
+</li>
+<li><p>POP有两种工作方式:<code>“下载并保留”和“下载并删除”。</code></p>
+<p>在<code>“下载并保留”</code>方式下，用户从邮件服务器上读取邮件后，邮件依然会保存在邮件服务器上，用户可再次从服务器上读取该邮件;</p>
+<p>使用<code>“下载并删除”</code>方式时，邮件一旦被读取，就被从邮件服务器上删除，用户不能再次从服务器上读取。</p>
+</li>
+</ul>
+<h5 id="IMAP—因特网报文存取协议"><a href="#IMAP—因特网报文存取协议" class="headerlink" title="IMAP—因特网报文存取协议"></a>IMAP—因特网报文存取协议</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/17cffd259c043349ec162e711b760bb3.png" alt="在这里插入图片描述"></p>
+<ul>
+<li>另一个邮件接收协议是<code>因特网报文存取协议(IMAP)</code>,它比POP复杂得多，IMAP为用户提供了创建文件夹、在不同文件夹之间移动邮件及在远程文件夹中查询邮件的命令，为此<code>IMAP服务器维护了会话用户的状态信息</code>。</li>
+<li>IMAP的另一特性是<code>允许用户代理只获取报文的某些部分</code>，例如可以只读取一个报文的首部,或一个多部分MIME报文的一部分。这非常适用于低带宽的情况，用户可能并不想取回邮箱中的所有邮件，尤其是包含很多音频或视频的大邮件。</li>
+</ul>
+<h4 id="3-万维网的电子邮件"><a href="#3-万维网的电子邮件" class="headerlink" title="3.万维网的电子邮件"></a>3.万维网的电子邮件</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8f91b16855009f7a5ec979e81cf138c3.png" alt="在这里插入图片描述"></p>
+<ul>
+<li>随着万维网的流行，目前出现了很多基于万维网的电子邮件，如Hotmail、Gmail 等。</li>
+<li>这种电子邮件的特点是，用户浏览器与Hotmail或Gmail的邮件服务器之间的邮件发送或接收使用的是HTTP而不是POP3或者SMTP，而<code>仅在不同邮件服务器之间传送邮件时才使用SMTP.</code></li>
+</ul>
+<h2 id="5-WWW万维网和HTTP"><a href="#5-WWW万维网和HTTP" class="headerlink" title="5.WWW万维网和HTTP"></a>5.WWW万维网和HTTP</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529153949297.png" alt="image-20250529153949297"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529155433029.png" alt="image-20250529155433029"></p>
+<h3 id="1-访问网页的过程"><a href="#1-访问网页的过程" class="headerlink" title="1.访问网页的过程"></a>1.访问网页的过程</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529151057514.png" alt="image-20250529151057514"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529151217989.png" alt="image-20250529151217989"></p>
+<p>访问网站之前，要先配置默认网关和DNS服务器，这些都是由DHCP服务器配置完成的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529151639726.png" alt="image-20250529151639726"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529151827490.png" alt="image-20250529151827490"></p>
+<h3 id="2-HTTP的工作方式"><a href="#2-HTTP的工作方式" class="headerlink" title="2.HTTP的工作方式"></a>2.HTTP的工作方式</h3><p><strong>了看文字还要看 王道这一节的pdf，看看这块相关的</strong></p>
+<p>分为非持续连接，持续链接但是非流水线，持续链接并且流水线这三种方式</p>
+<p>下面以例子来说明三种工作方式</p>
+<p>服务器先把网页html发给web服务器，浏览器解析一下发现还要三个元素</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529152358323.png" alt="image-20250529152358323"></p>
+<p>1.非持续链接就是</p>
+<p>给web发html文件是一次tccp连接，然后发完以后断开</p>
+<p>然后再用三次tcp连接 分别获取三个元素</p>
+<p><strong>一共4个http请求，4个http响应，4个tcp连接</strong></p>
+<p><strong>并且每个发过去http请求 得等到一个http响应以后才发下一个请求</strong></p>
+<p>2.持续链接但是非流水线 就是</p>
+<p>给web发html文件时建立tcp连接，然后继续用本连接收发元素</p>
+<p><strong>一共4个http请求，4个http响应，1个tcp连接</strong></p>
+<p><strong>并且每个发过去http请求 得等到一个http响应以后才发下一个请求</strong></p>
+<p>3.持续链接并且流水线 就是</p>
+<p>给web发html文件时建立tcp连接，然后继续用本连接收发元素</p>
+<p><strong>一共4个http请求，4个http响应，1个tcp连接</strong></p>
+<p><strong>但是和非流线不同的是，除开html文件这个http请求以外，剩下的三个http请求可以一起发送，也就是连续发三个http请求，然后服务器可以返回三个http响应</strong></p>
+<p><code>注：</code></p>
+<p>1.非持续链接时，在四次挥手开始时就可以开始下一次三次握手了，不是非得等到这次tcp连接四次挥手结束才行</p>
+<p>2.HTTP请求报文通常很小，不考虑传输时延，但响应报文很大，通常要考虑传输时延</p>
+<p>3.持续连接方式传输完文件后不会立刻关闭，而是会等待一段时间，由程序员决定</p>
+<p>4.非持续链接的三个元素的http请求与响应可以多开2个进程并行执行，这样的话会节省很多的时间</p>
+<h3 id="3-HTTP报文格式"><a href="#3-HTTP报文格式" class="headerlink" title="3.HTTP报文格式"></a>3.HTTP报文格式</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529154154984.png" alt="image-20250529154154984"></p>
+<p>HEAD一般是GET之前用来询问当前请求的URL里面有没有我要的东西，不带文件就可以用比较小的代价来完成</p>
+<p>页登录的账号密码就是用过POST交给服务器的</p>
+<p><strong>GET 请求的参数暴露</strong></p>
+<ul>
+<li><strong>参数位置</strong>：GET 请求的参数通过 URL 的查询字符串（<code>?key=value</code>）传递</li>
+</ul>
+<p><strong>POST 请求的数据隐藏</strong></p>
+<ul>
+<li><strong>参数位置</strong>：POST 请求的数据存放在 HTTP 请求的正文（Body）中，不会出现在 URL 中</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529154907663.png" alt="image-20250529154907663"></p>
+<p>###4. Cookie</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529155257264.png" alt="image-20250529155257264"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250529155409455.png" alt="image-20250529155409455"></p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>计算机网络</tag>
+        <tag>考研</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>26考研 | 王道 | 计算机组成原理 | 四、指令系统</title>
+    <url>/2025/06/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%9B%9B%E3%80%81%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h1 id="26考研-王道-计算机组成原理-四、指令系统"><a href="#26考研-王道-计算机组成原理-四、指令系统" class="headerlink" title="26考研 | 王道 | 计算机组成原理 | 四、指令系统"></a>26考研 | 王道 | 计算机组成原理 | 四、指令系统</h1><h2 id="1-指令系统"><a href="#1-指令系统" class="headerlink" title="1.指令系统"></a>1.指令系统</h2><h3 id="0-指令集体系结构"><a href="#0-指令集体系结构" class="headerlink" title="0.指令集体系结构"></a>0.指令集体系结构</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604151625968.png" alt="image-20250604151625968"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604151658241.png" alt="image-20250604151658241"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604160149038.png" alt="image-20250604160149038"></p>
+<h3 id="1-指令格式"><a href="#1-指令格式" class="headerlink" title="1. 指令格式"></a>1. 指令格式</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604103803885.png" alt="image-20250604103803885"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604102736829.png" alt="image-20250604102736829"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604102809082.png" alt="image-20250604102809082"></p>
+<h4 id="1-按地址码数目不同来分"><a href="#1-按地址码数目不同来分" class="headerlink" title="1.按地址码数目不同来分"></a>1.按地址码数目不同来分</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604103351242.png" alt="image-20250604103351242"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604103008235.png" alt="image-20250604103008235"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604103144391.png" alt="image-20250604103144391"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604103226162.png" alt="image-20250604103226162"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604103330396.png" alt="image-20250604103330396"></p>
+<h4 id="2-指令-按指令长度分类"><a href="#2-指令-按指令长度分类" class="headerlink" title="2.指令-按指令长度分类"></a>2.指令-按指令长度分类</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604103531737.png" alt="image-20250604103531737"><br>机器字长和存储字长固定不变。</p>
+<h4 id="3-指令-按操作码长度分类"><a href="#3-指令-按操作码长度分类" class="headerlink" title="3.指令-按操作码长度分类"></a>3.指令-按操作码长度分类</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604103627413.png" alt="image-20250604103627413"></p>
+<h4 id="4-指令-按操作类型分类"><a href="#4-指令-按操作类型分类" class="headerlink" title="4.指令-按操作类型分类"></a>4.指令-按操作类型分类</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604103746769.png" alt="image-20250604103746769"></p>
+<p>程序控制类指令除了上述还有循环指令</p>
+<h3 id="2-扩展操作码指令格式"><a href="#2-扩展操作码指令格式" class="headerlink" title="2. 扩展操作码指令格式"></a>2. 扩展操作码指令格式</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604103902998.png" alt="image-20250604103902998"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604104021670.png" alt="image-20250604104021670"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604104137826.png" alt="image-20250604104137826"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604104541253.png" alt="image-20250604104541253"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604104605328.png" alt="image-20250604104605328"></p>
+<h2 id="2-指令的寻址方式"><a href="#2-指令的寻址方式" class="headerlink" title="2.指令的寻址方式"></a>2.指令的寻址方式</h2><p>###1. 指令寻址</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604105529082.png" alt="image-20250604105529082"></p>
+<h4 id="1-顺序寻址（PC）-“1”–-PC"><a href="#1-顺序寻址（PC）-“1”–-PC" class="headerlink" title="1.顺序寻址（PC）+“1”–&gt;PC"></a>1.顺序寻址（PC）+“1”–&gt;PC</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604104945292.png" alt="image-20250604104945292"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604105027197.png" alt="image-20250604105027197"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604105224901.png" alt="image-20250604105224901"></p>
+<p>图中的指令字长是变化的，不是右边的16bit，所以才会每次读入一个字</p>
+<h4 id="2-跳跃寻址：由转移指令指出"><a href="#2-跳跃寻址：由转移指令指出" class="headerlink" title="2.跳跃寻址：由转移指令指出"></a>2.跳跃寻址：由转移指令指出</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604105518477.png" alt="image-20250604105518477"><br><strong>本节回顾</strong></p>
+<ol>
+<li>转移指令是通过修改PC实现的</li>
+<li>程序计数器PC：存放下一条指令所在单元的地址</li>
+<li>累加器ACC：用来存放操作数或运算结果</li>
+<li>指令寄存器IR：临时放置从内存里面取得的程序指令的寄存器，用于存放当前从主存储器读出的正在执行的一条指令。</li>
+<li>地址寄存器MAR：用来保存当前CPU所访问的内存单元的地址。</li>
+</ol>
+<h3 id="2-数据寻址"><a href="#2-数据寻址" class="headerlink" title="2. 数据寻址"></a>2. 数据寻址</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604105811906.png" alt="image-20250604105811906"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e82131145eb45b6cef1b4756a7312295.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f62e3bc88ef4cff422551c858ad3700e.png" alt="在这里插入图片描述"></p>
+<h4 id="1-常见寻址方式"><a href="#1-常见寻址方式" class="headerlink" title="1.常见寻址方式"></a>1.常见寻址方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604110946756.png" alt="image-20250604110946756"></p>
+<p>取指令也需要一次访存（如果指令字长等于存储字长的话）</p>
+<p><strong>直接寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1f768b126b37fcd5b0a567ced2066445.png" alt="在这里插入图片描述"></p>
+<p><strong>间接寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f3bba538c3844c5d14c1903161da70c5.png" alt="在这里插入图片描述"></p>
+<p><strong>寄存器寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0f9920ceb416cfe7474d8229088a25db.png" alt="在这里插入图片描述"></p>
+<p><strong>寄存器间接寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/95da1bcc3759f99c1af385f390d0444e.png" alt="在这里插入图片描述"></p>
+<p><strong>隐含寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/29b56783f0b5ed562f919c67b39ce9f5.png" alt="在这里插入图片描述"></p>
+<p><strong>立即寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/67450c122055a1b4a01ba6ef64b3d4b2.png" alt="在这里插入图片描述"></p>
+<h4 id="2-数据寻址–偏移寻址"><a href="#2-数据寻址–偏移寻址" class="headerlink" title="2. 数据寻址–偏移寻址"></a>2. 数据寻址–偏移寻址</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604121951781.png" alt="image-20250604121951781"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604115845766.png" alt="image-20250604115845766"></p>
+<p><strong>基址寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f0288699f8ca30dd8125fa491f74ff06.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604120311361.png" alt="image-20250604120311361"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ab07e156d907bc0e250031370c4e1d27.png" alt="在这里插入图片描述"></p>
+<p><strong>变址寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604120510270.png" alt="image-20250604120510270"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604120626031.png" alt="image-20250604120626031"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604120842407.png" alt="image-20250604120842407"></p>
+<p>其实IX的值就是个偏移量</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/460ea0856076ab5d40687df86d82388c.png" alt="在这里插入图片描述"></p>
+<p><strong>基址&amp;变址复合寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604121114645.png" alt="image-20250604121114645"></p>
+<p><strong>相对寻址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/dc0bae9746d4a51e532b133e7be63556.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604121517124.png" alt="image-20250604121517124"></p>
+<p>等到取指令取完第M+3条指令之后，PC值就会变为M+4，而不是M+3，所以相对寻址（跳转指令）就得按照PC&#x3D;M+4来算，也就是补码表示的-4<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9546e8065800e333ac1f03f86876e8a9.png" alt="在这里插入图片描述"></p>
+<p>基址寻址中程序浮动指的是整段程序在内存里的浮动，相对寻址中程序浮动指的是一段代码在程序内部的浮动。</p>
+<p><strong>本节回顾</strong><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/2b3eb2f30108fffce21b113db69b63e4.png" alt="在这里插入图片描述"></p>
+<p><strong>硬件如何实现数的“比较”</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604122205585.png" alt="image-20250604122205585"><br>注：无条件转移指令jmp2，就不会管PSW的各种标志位。PC&#x3D;2</p>
+<h4 id="3-数据寻址–堆栈寻址"><a href="#3-数据寻址–堆栈寻址" class="headerlink" title="3. 数据寻址–堆栈寻址"></a>3. 数据寻址–堆栈寻址</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604122537785.png" alt="image-20250604122537785"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4fd1e1b0a32a61bb99987566de570266.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604122644104.png" alt="image-20250604122644104"></p>
+<p>硬堆栈压入和弹出都不需要访存，而软堆栈不管压入还是弹出都需要一次访存，因为软堆栈是在主存中划分出来了一部分内容作为堆栈（也是函数调用时候保存信息的哪个堆栈）</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604122901347.png" alt="image-20250604122901347"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ca4401d3c052b5feab43bdfdf682e19d.jpeg" alt="在这里插入图片描述"></p>
+<h2 id="3-程序的机器级代码表示"><a href="#3-程序的机器级代码表示" class="headerlink" title="3.程序的机器级代码表示"></a>3.程序的机器级代码表示</h2><h3 id="1-高级语言与机器级代码之间的对应"><a href="#1-高级语言与机器级代码之间的对应" class="headerlink" title="1. 高级语言与机器级代码之间的对应"></a>1. 高级语言与机器级代码之间的对应</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604203947053.png" alt="image-20250604203947053"></p>
+<p><strong>X86汇编语言指令基础</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/81c34843ccae2143d6c40d2c09cbf0b2.png" alt="在这里插入图片描述"></p>
+<p><strong>以MOV指令为例</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3b7d715a3d6c0cf2b2805e7c847245ba.png" alt="在这里插入图片描述"></p>
+<p><strong>X86架构CPU，有哪些寄存器？</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/903d27b742da169211101adf75648177.png" alt="在这里插入图片描述"></p>
+<p>通用寄存器另外两种表示方式</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/700d072c44e657dcc9ae8c6e654bbd56.png" alt="在这里插入图片描述"></p>
+<p>####📊 通用寄存器功能概览</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>寄存器</strong></th>
+<th align="center"><strong>主要用途</strong></th>
+<th align="center"><strong>细分功能</strong></th>
+<th align="center"><strong>典型指令示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>AX</strong></td>
+<td align="center">累加器（核心运算）</td>
+<td align="center">乘除运算、I&#x2F;O操作、数据中转</td>
+<td align="center"><code>MUL</code>、<code>DIV</code>、<code>IN</code>、<code>OUT</code></td>
+</tr>
+<tr>
+<td align="center"><strong>BX</strong></td>
+<td align="center">基址寄存器（内存寻址）</td>
+<td align="center">存储偏移地址、数组&#x2F;结构体访问</td>
+<td align="center"><code>MOV AX, [BX]</code>、<code>LEA</code></td>
+</tr>
+<tr>
+<td align="center"><strong>CX</strong></td>
+<td align="center">计数器（循环&#x2F;字符串控制）</td>
+<td align="center">循环次数计数、字符串操作重复控制</td>
+<td align="center"><code>LOOP</code>、<code>REP MOVSB</code></td>
+</tr>
+<tr>
+<td align="center"><strong>DX</strong></td>
+<td align="center">数据寄存器（I&#x2F;O及高精度运算）</td>
+<td align="center">I&#x2F;O端口寻址、乘除法辅助、大数存储</td>
+<td align="center"><code>IN AX, DX</code>、<code>MUL DX</code></td>
+</tr>
+</tbody></table>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e4636ed8de4a79da4c644e0f56300a5d.png" alt="在这里插入图片描述"></p>
+<p>更多例子<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/81f1886ee8262fb52d66731a33a9f13a.png" alt="在这里插入图片描述"></p>
+<p><strong>总结</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/52723717a95dc6b67e0937800857cc8c.png" alt="在这里插入图片描述"></p>
+<h3 id="2-常用的X86汇编语言指令"><a href="#2-常用的X86汇编语言指令" class="headerlink" title="2. 常用的X86汇编语言指令"></a>2. 常用的X86汇编语言指令</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604205159121.png" alt="image-20250604205159121"></p>
+<p><strong>常见的算数运算指令</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/19d205bf3d970a9ec2c1923387bb9051.png" alt="在这里插入图片描述"></p>
+<p>destination:目的地（d目的操作数）</p>
+<p>source：来源地（s源操作数）</p>
+<p><strong>目的操作数d不可以是常量，可以来是寄存器或者主存</strong></p>
+<p><strong>而s三者都可以</strong></p>
+<p>在进行除法运算之前，需要把被除数位扩展，如32bit&#x2F;32bit要变成64b&#x2F;32b,存放64位的被除数需要两个寄存器，edx:eax，高32位存放在edx,低32位存放在eax</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/7912262e5ab45dda2c19923113931267.png" alt="在这里插入图片描述"></p>
+<p><strong>X86汇编语言当中不允许两个操作数同时来源于主存。</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/02fe7b09726c28d4c5c753a439eeb6d8.png" alt="在这里插入图片描述"></p>
+<h3 id="3-ATu0026T格式和intel格式"><a href="#3-ATu0026T格式和intel格式" class="headerlink" title="3. ATu0026T格式和intel格式"></a>3. ATu0026T格式和intel格式</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/138b39aa55b8e703a708aacdf73f839b.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1c5d74231f9aa2cf5cd38bde8792c948.png" alt="在这里插入图片描述"></p>
+<h3 id="4-选择语句的机器级表示"><a href="#4-选择语句的机器级表示" class="headerlink" title="4. 选择语句的机器级表示"></a>4. 选择语句的机器级表示</h3><p>程序默认是顺序执行的</p>
+<p><strong>程序中的选择语句（分支结构）</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/785a510bdd000192d5a671fadef88f60.png" alt="在这里插入图片描述"></p>
+<p><strong>无条件转移指令–jmp</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/08418b5bcf6de2424cbefb2ce7f05341.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/34be4a84d8a94422fd2ffba41650e79d.png" alt="在这里插入图片描述"></p>
+<p>无条件转移指令，类似于c语言里的goto语句</p>
+<p>无条件转移指令无法实现if,else语句，因为不需要任何条件就可以跳转</p>
+<p><strong>条件转移指令–jxxx</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/cfa076909c51996eb249999d33781588.png" alt="在这里插入图片描述"></p>
+<p><strong>示例：选择语句的机器级表示</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e0ff2ba288280d0e520cac7aef72bafc.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5d29ad377d2b9974c292f4a60bbd6e90.png" alt="在这里插入图片描述"></p>
+<p>扩展：cmp指令的底层原理</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e3d30f1c802e6fd018ac8cc248a38a48.png" alt="在这里插入图片描述"></p>
+<h3 id="5-循环语句机器级表示"><a href="#5-循环语句机器级表示" class="headerlink" title="5. 循环语句机器级表示"></a>5. 循环语句机器级表示</h3><p><strong>用条件转移指令实现循环</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/32d618bc80de20e0ced31a5532e112f6.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9369dda64d41f63f08f4b36b5df605a3.png" alt="在这里插入图片描述"></p>
+<p><strong>用loop指令实现循环</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a5f987e6893a6d06f5f8eea912994953.png" alt="在这里插入图片描述"></p>
+<h3 id="6-函数调用的机器级表示"><a href="#6-函数调用的机器级表示" class="headerlink" title="6.函数调用的机器级表示"></a>6.函数调用的机器级表示</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604224103342.png" alt="image-20250604224103342"></p>
+<h4 id="1-call和ret指令"><a href="#1-call和ret指令" class="headerlink" title="1.call和ret指令"></a>1.call和ret指令</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604212515266.png" alt="image-20250604212515266"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604212542835.png" alt="image-20250604212542835"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604212634031.png" alt="image-20250604212634031"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604212740643.png" alt="image-20250604212740643"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604212830826.png" alt="image-20250604212830826"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604212859170.png" alt="image-20250604212859170"></p>
+<h4 id="2-如何访问栈帧"><a href="#2-如何访问栈帧" class="headerlink" title="2.如何访问栈帧"></a>2.如何访问栈帧</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604213856167.png" alt="image-20250604213856167"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604213023338.png" alt="image-20250604213023338"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604213121590.png" alt="image-20250604213121590"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604213210388.png" alt="image-20250604213210388"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604213415337.png" alt="image-20250604213415337"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604213334867.png" alt="image-20250604213334867"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604213621791.png" alt="image-20250604213621791"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604213647783.png" alt="image-20250604213647783"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604213817354.png" alt="image-20250604213817354"></p>
+<h4 id="3-如何切换栈帧"><a href="#3-如何切换栈帧" class="headerlink" title="3.如何切换栈帧"></a>3.如何切换栈帧</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604222414167.png" alt="image-20250604222414167"></p>
+<h5 id="进入函数"><a href="#进入函数" class="headerlink" title="进入函数"></a>进入函数</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604213956495.png" alt="image-20250604213956495"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604221727855.png" alt="image-20250604221727855"></p>
+<p>通过这两条命令保存上一层函数的栈帧地址，并设置当前函数的栈帧地址</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604221852468.png" alt="image-20250604221852468"></p>
+<p>enter是零地址指令，直接等价于那两条命令</p>
+<h5 id="函数返回"><a href="#函数返回" class="headerlink" title="函数返回"></a>函数返回</h5><p>执行那两条指令前是这样的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604222010270.png" alt="image-20250604222010270"></p>
+<p>执行第一条指令后，也就是让esp和ebp指向同一个位置</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604222127950.png" alt="image-20250604222127950"></p>
+<p>执行第二条指令后，就返回了上一层函数调用</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604222202678.png" alt="image-20250604222202678"></p>
+<p>这两条等价于leave</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604222254605.png" alt="image-20250604222254605"></p>
+<h5 id="ret指令"><a href="#ret指令" class="headerlink" title="ret指令"></a>ret指令</h5><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604222322658.png" alt="image-20250604222322658"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604222545695.png" alt="image-20250604222545695"></p>
+<h4 id="4-如何传递参数和返回值"><a href="#4-如何传递参数和返回值" class="headerlink" title="4.如何传递参数和返回值"></a>4.如何传递参数和返回值</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604223858250.png" alt="image-20250604223858250"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604222658556.png" alt="image-20250604222658556"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604223210778.png" alt="image-20250604223210778"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604223302078.png" alt="image-20250604223302078"></p>
+<p>如果用来保存 被调用函数的返回值 的寄存器原来有数据，那就得压栈，然后去保存返回值，等把返回值读出来以后再回复原来的数据</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604223914089.png" alt="image-20250604223914089"></p>
+<p>前两句代码执行：相当于enter</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604224303382.png" alt="image-20250604224303382"></p>
+<p>执行sub指令，相当于划分了一片属于自己的空间，即图中绿色部分</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604224338087.png" alt="image-20250604224338087"></p>
+<p>执行接下来两句，作用是初始化变量temp1和temp2</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604224500101.png" alt="image-20250604224500101"></p>
+<p>接下来四句指令都是给下层函数add传递参数，需要倒腾一遍，先把temp1放到寄存器，再从寄存器放回主存的对应地址（不从主存直接写到主存是因为汇编的源操作数和目的操作数不可以同时是主存）</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604224611197.png" alt="image-20250604224611197"></p>
+<p>执行call指令，然后就是惯例执行add的前两行，这是保存上一层函数的信息</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604224734229.png" alt="image-20250604224734229"></p>
+<p>通过ebp访问上层函数保存的本层函数要用的参数，保存到寄存器中</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604224905591.png" alt="image-20250604224905591"></p>
+<p>执行add</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604225019156.png" alt="image-20250604225019156"></p>
+<p>执行leave</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604225039794.png" alt="image-20250604225039794"></p>
+<p>执行ret</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604225116719.png" alt="image-20250604225116719"></p>
+<p>通过eax寄存器使用返回值</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604225136280.png" alt="image-20250604225136280"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604225230574.png" alt="image-20250604225230574"></p>
+<p>再次使用eax给再上一层函数返回值</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250604225308781.png" alt="image-20250604225308781"></p>
+<p>之后就是leave和ret了</p>
+<h2 id="4-CISC和RISC"><a href="#4-CISC和RISC" class="headerlink" title="4. CISC和RISC"></a>4. CISC和RISC</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605094538215.png" alt="image-20250605094538215"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605094604517.png" alt="image-20250605094604517"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605093824275.png" alt="image-20250605093824275"></p>
+<p>有的复杂指令用硬件实现困难，那就把组成复杂指令的一些简单的指令存储起来（微程序），完成这个复杂指令</p>
+<p>比如矩阵乘就可以由剩下的整数加减乘和矩阵加减来完成</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605094218985.png" alt="image-20250605094218985"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605094457538.png" alt="image-20250605094457538"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605094508917.png" alt="image-20250605094508917"></p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>考研</tag>
+        <tag>计算机组成原理</tag>
       </tags>
   </entry>
 </search>
