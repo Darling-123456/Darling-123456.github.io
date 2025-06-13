@@ -1,0 +1,615 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系笔者学王道计组第五章第二节的时候做题发现很难受，就去查了一下这相关的 ##1.单周期cpu和多周期cpu 一、核心概念 单周期CPU 原理：一条指令必须在1个时钟周期内完成所有操作（取指令、译码、执行、访存、写回）。 特点： 时钟周期长度由最慢指令决定（如加载指令lw耗时最长） 所有指令的CPI（每条指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系">
+<meta property="og:url" content="https://darling-123456.github.io/2025/06/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-06-%E5%8D%95%E5%91%A8%E6%9C%9Fcpu%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9Fcpu%E3%80%81%E5%8D%95%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E4%B8%8E%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E4%B8%93%E7%94%A8%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E5%85%B3%E7%B3%BB/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系笔者学王道计组第五章第二节的时候做题发现很难受，就去查了一下这相关的 ##1.单周期cpu和多周期cpu 一、核心概念 单周期CPU 原理：一条指令必须在1个时钟周期内完成所有操作（取指令、译码、执行、访存、写回）。 特点： 时钟周期长度由最慢指令决定（如加载指令lw耗时最长） 所有指令的CPI（每条指">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/366.jpg">
+<meta property="article:published_time" content="2025-06-06T10:25:00.000Z">
+<meta property="article:modified_time" content="2025-06-06T08:13:25.926Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="考研">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/366.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系",
+  "url": "https://darling-123456.github.io/2025/06/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-06-%E5%8D%95%E5%91%A8%E6%9C%9Fcpu%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9Fcpu%E3%80%81%E5%8D%95%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E4%B8%8E%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E4%B8%93%E7%94%A8%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E5%85%B3%E7%B3%BB/",
+  "image": "https://darling-123456.github.io/img/366.jpg",
+  "datePublished": "2025-06-06T10:25:00.000Z",
+  "dateModified": "2025-06-06T08:13:25.926Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2025/06/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-06-%E5%8D%95%E5%91%A8%E6%9C%9Fcpu%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9Fcpu%E3%80%81%E5%8D%95%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E4%B8%8E%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E4%B8%93%E7%94%A8%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E5%85%B3%E7%B3%BB/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">365</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/366.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-06T10:25:00.000Z" title="发表于 2025-06-06 18:25:00">2025-06-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-06T08:13:25.926Z" title="更新于 2025-06-06 16:13:25">2025-06-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系"><a href="#单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系" class="headerlink" title="单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系"></a>单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系</h1><p>笔者学王道计组第五章第二节的时候做题发现很难受，就去查了一下这相关的</p>
+<p>##1.单周期cpu和多周期cpu</p>
+<h3 id="一、核心概念"><a href="#一、核心概念" class="headerlink" title="一、核心概念"></a>一、核心概念</h3><ol>
+<li><strong>单周期CPU</strong><ul>
+<li><strong>原理</strong>：<strong>一条指令必须在1个时钟周期内完成</strong>所有操作（取指令、译码、执行、访存、写回）。</li>
+<li>特点：<ul>
+<li>时钟周期长度由最慢指令决定（如加载指令lw耗时最长）</li>
+<li>所有指令的CPI（每条指令周期数）均为1</li>
+</ul>
+</li>
+<li><strong>通俗类比</strong>：⏱️ 所有学生考试时间统一为3小时，有人1小时交卷也得等，效率低。</li>
+</ul>
+</li>
+<li><strong>多周期CPU</strong><ul>
+<li><strong>原理</strong>：<strong>将指令拆分为多个阶段</strong>（如5阶段：取指IF、译码ID、执行EXE、访存MEM、写回WB），<strong>每个阶段占1个时钟周期</strong>。</li>
+<li>特点：<ul>
+<li>不同指令的周期数不同（如加法指令需4周期，lw需5周期）</li>
+<li>时钟周期按最慢阶段设计（如访存阶段），但短指令无需等待长指令</li>
+</ul>
+</li>
+<li><strong>通俗类比</strong>：🔧 工厂流水线，不同零件加工步骤不同，每步只需1分钟，整体效率高。</li>
+</ul>
+</li>
+</ol>
+<h3 id="二、性能与优缺点"><a href="#二、性能与优缺点" class="headerlink" title="二、性能与优缺点"></a>二、性能与优缺点</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>对比项</strong></th>
+<th align="center">单周期CPU</th>
+<th align="center">多周期CPU</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>时钟周期长度</strong></td>
+<td align="center">长（由最长指令定）</td>
+<td align="center">短（由最长阶段定）</td>
+</tr>
+<tr>
+<td align="center"><strong>CPI</strong></td>
+<td align="center">固定为1</td>
+<td align="center">可变（平均&gt;1）</td>
+</tr>
+<tr>
+<td align="center"><strong>资源利用率</strong></td>
+<td align="center">低（简单指令空等）</td>
+<td align="center">高（按需分配周期）</td>
+</tr>
+<tr>
+<td align="center"><strong>设计复杂度</strong></td>
+<td align="center">简单（控制信号少）</td>
+<td align="center">复杂（需多状态机控制）</td>
+</tr>
+<tr>
+<td align="center"><strong>并行支持</strong></td>
+<td align="center">不支持</td>
+<td align="center">可扩展为流水线</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>关键结论</strong>：多周期通过<strong>时间换效率</strong>，避免资源闲置，适合复杂指令集</p>
+</blockquote>
+<h2 id="2-单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系"><a href="#2-单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系" class="headerlink" title="2.单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系"></a>2.单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系</h2><p>单周期数据通路和多周期数据通路是<strong>单周期CPU和多周期CPU的核心硬件实现结构</strong>，它们与CPU设计理念直接对应。</p>
+<h3 id="一、数据通路与CPU设计的关系"><a href="#一、数据通路与CPU设计的关系" class="headerlink" title="一、数据通路与CPU设计的关系"></a>一、数据通路与CPU设计的关系</h3><ol>
+<li><strong>单周期CPU → 单周期数据通路</strong><ul>
+<li><strong>设计思想</strong>：一条指令在<strong>一个时钟周期内完成所有操作</strong>（取指、译码、执行、访存、写回）。</li>
+<li>数据通路特点：<ul>
+<li>完整通路一次性贯通：指令执行过程不分割，数据从输入到输出流经所有功能部件</li>
+<li>无中间寄存器：结果直接传递，无需暂存中间值</li>
+<li>时钟周期长：由最慢指令（如lw）决定，需覆盖访存、ALU运算、寄存器读写等总耗时</li>
+</ul>
+</li>
+<li><strong>关系</strong>：单周期数据通路是实现单周期CPU的硬件基础，其结构决定了CPU“一刀切”的低效特性。</li>
+</ul>
+</li>
+<li><strong>多周期CPU → 多周期数据通路</strong><ul>
+<li>设计思想：将指令拆分为多个阶段（如IF&#x2F;ID&#x2F;EXE&#x2F;MEM&#x2F;WB），每个阶段占一个时钟周期</li>
+<li>数据通路特点：<ul>
+<li>分段式结构：通过中间寄存器（如IR、A、B、ALUout）分割通路，锁存阶段结果</li>
+<li>复用功能部件：如指令&#x2F;数据存储器分时复用，ALU用于不同阶段的计算</li>
+<li>时钟周期短：由最慢阶段（如MEM访存）决定，远短于单周期</li>
+</ul>
+</li>
+<li><strong>关系</strong>：多周期数据通路是多周期CPU的物理载体，支持指令按需分配时钟周期，提升效率。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="二、数据通路的核心差异对比"><a href="#二、数据通路的核心差异对比" class="headerlink" title="二、数据通路的核心差异对比"></a>二、数据通路的核心差异对比</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>对比项</strong></th>
+<th align="center">单周期数据通路</th>
+<th align="center">多周期数据通路</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>结构复杂度</strong></td>
+<td align="center">简单（组合逻辑为主）</td>
+<td align="center">复杂（需中间寄存器+状态机控制）</td>
+</tr>
+<tr>
+<td align="center"><strong>时钟控制</strong></td>
+<td align="center">无阶段划分，全局同步</td>
+<td align="center">分阶段控制，状态机切换</td>
+</tr>
+<tr>
+<td align="center"><strong>关键路径</strong></td>
+<td align="center">完整指令路径（如<code>lw</code>全流程）</td>
+<td align="center">单阶段路径（如仅MEM阶段）</td>
+</tr>
+<tr>
+<td align="center"><strong>资源利用率</strong></td>
+<td align="center">低（功能部件串行使用）</td>
+<td align="center">高（部件分时复用）</td>
+</tr>
+<tr>
+<td align="center"><strong>典型优化</strong></td>
+<td align="center">无</td>
+<td align="center">插入寄存器分割关键路径</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>示例说明</strong>：</p>
+<ul>
+<li><p>单周期通路：lw指令需一次性完成：取指→读寄存器→ALU计算地址→访存→写回，路径长且不可中断</p>
+</li>
+<li><p>多周期通路：lw</p>
+<p>被拆分为：</p>
+<ul>
+<li><p><strong>IF</strong>：取指令 → 存IR</p>
+</li>
+<li><p><strong>ID</strong>：读寄存器 → 存A&#x2F;B</p>
+</li>
+<li><p><strong>EXE</strong>：ALU算地址 → 存ALUout</p>
+</li>
+<li><p><strong>MEM</strong>：访存 → 存DR</p>
+</li>
+<li><p>WB：写回寄存器</p>
+<p>每个阶段结果由寄存器暂存，下个时钟周期继续使用。</p>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="3-总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系"><a href="#3-总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系" class="headerlink" title="3.总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系"></a>3.总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系</h2><h3 id="一、数据通路设计方式"><a href="#一、数据通路设计方式" class="headerlink" title="一、数据通路设计方式"></a><strong>一、数据通路设计方式</strong></h3><h4 id="1-总线结构数据通路"><a href="#1-总线结构数据通路" class="headerlink" title="1. 总线结构数据通路"></a>1. <strong>总线结构数据通路</strong></h4><ul>
+<li>定义：通过共享总线连接CPU内部各部件（如寄存器、ALU、存储器接口），数据分时复用总线传输</li>
+<li>子类型：<ul>
+<li>单总线结构：所有部件共用一条总线，同一时间只能传输一个数据，效率低（如单周期CPU常用）</li>
+<li>多总线结构：使用多条总线（如双总线、三总线），支持并行数据传输，提高效率（多周期CPU可能采用）</li>
+</ul>
+</li>
+<li>特点：<ul>
+<li><strong>优点</strong>：结构简单，硬件成本低。</li>
+<li>缺点：总线冲突频繁，需分时使用，成为性能瓶颈</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-专用数据通路"><a href="#2-专用数据通路" class="headerlink" title="2. 专用数据通路"></a>2. <strong>专用数据通路</strong></h4><ul>
+<li>定义：为特定操作设计独立的数据传输路径（如ALU与寄存器直连），避免共享总线</li>
+<li>特点：<ul>
+<li><strong>优点</strong>：无冲突、延迟低、性能高（适合高频操作如浮点运算）。</li>
+<li>缺点：硬件复杂、成本高、扩展性差</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="二、与CPU设计的关系"><a href="#二、与CPU设计的关系" class="headerlink" title="二、与CPU设计的关系"></a>二、与CPU设计的关系</h3><h4 id="1-单周期CPU"><a href="#1-单周期CPU" class="headerlink" title="1. 单周期CPU"></a>1. <strong>单周期CPU</strong></h4><ul>
+<li><strong>典型数据通路</strong>：多采用<strong>单总线结构</strong>。</li>
+<li>原因：单周期需在一个时钟周期完成所有操作，总线结构设计简单，但时钟周期因共享总线冲突而较长</li>
+<li>示例：lw指令需依次完成取指、译码、ALU计算、访存、写回，全程独占总线</li>
+</ul>
+<h4 id="2-多周期CPU"><a href="#2-多周期CPU" class="headerlink" title="2. 多周期CPU"></a>2. <strong>多周期CPU</strong></h4><ul>
+<li>常用数据通路：<ul>
+<li>总线结构：多采用多总线（如三总线），支持分阶段并行传输（如IF阶段取指时，EXE阶段可同时计算）</li>
+<li>专用数据通路：为关键操作（如ALU运算）设计专用路径，减少阶段间阻塞</li>
+</ul>
+</li>
+<li>优势：时钟周期短（由最慢阶段决定），资源利用率高</li>
+</ul>
+<hr>
+<h3 id="三、核心关系对比"><a href="#三、核心关系对比" class="headerlink" title="三、核心关系对比"></a><strong>三、核心关系对比</strong></h3><table>
+<thead>
+<tr>
+<th align="center"><strong>设计方式</strong></th>
+<th align="center"><strong>总线结构数据通路</strong></th>
+<th align="center"><strong>专用数据通路</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>硬件复杂度</strong></td>
+<td align="center">低（共享线路）</td>
+<td align="center">高（独立线路）</td>
+</tr>
+<tr>
+<td align="center"><strong>执行效率</strong></td>
+<td align="center">较低（总线冲突）</td>
+<td align="center">高（无冲突，并行性强）</td>
+</tr>
+<tr>
+<td align="center"><strong>指令冲突</strong></td>
+<td align="center">严重（分时复用总线）</td>
+<td align="center">无（路径独立）</td>
+</tr>
+<tr>
+<td align="center"><strong>典型应用场景</strong></td>
+<td align="center">单周期CPU、简单多周期CPU</td>
+<td align="center">高性能多周期CPU、流水线CPU</td>
+</tr>
+<tr>
+<td align="center"><strong>与CPU类型关系</strong></td>
+<td align="center">单周期依赖单总线，多周期可选多总线</td>
+<td align="center">多周期&#x2F;流水线中优化关键路径</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>关键总结</strong>：</p>
+<ul>
+<li><p>单周期CPU：因时间约束紧，多用单总线结构，但效率低</p>
+</li>
+<li><p>多周期CPU：灵活选择多总线或专用通路，平衡效率与复杂度</p>
+</li>
+<li><p>专用通路</p>
+<p>是总线结构的补充，用于突破性能瓶颈（如ALU密集操作）</p>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="四、实例说明"><a href="#四、实例说明" class="headerlink" title="四、实例说明"></a><strong>四、实例说明</strong></h3><ol>
+<li><strong>单周期CPU + 单总线</strong><ul>
+<li>所有操作（取指、ALU、访存）串行占用同一条总线 → 时钟周期&#x3D;最长指令耗时</li>
+<li>控制信号：全局生成，无阶段切换（如PCout、MARin全程有效）</li>
+</ul>
+</li>
+<li><strong>多周期CPU + 三总线</strong><ul>
+<li>分阶段执行：IF阶段用总线1取指令，EXE阶段用总线2传ALU操作数</li>
+<li>控制信号：状态机分阶段生成（如MEM阶段激活MemRead)</li>
+</ul>
+</li>
+<li><strong>多周期CPU + 专用通路</strong><ul>
+<li>ALU输入端直连寄存器，避免总线竞争 → 加速加法运算</li>
+<li>硬件代价：需额外多路选择器和控制逻辑</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a><strong>结论</strong></h3><ul>
+<li><p><strong>总线结构</strong>（单&#x2F;多总线）是数据通路的基础设计，<strong>单周期CPU依赖它实现简单性</strong>，<strong>多周期CPU通过多总线提升效率</strong>。</p>
+</li>
+<li><p><strong>专用数据通路</strong>是高性能场景的优化手段，<strong>多用于多周期CPU的关键路径</strong>，以空间换时间。</p>
+</li>
+<li><p>关系本质：</p>
+<blockquote>
+<p>单周期CPU → 单总线为主 | 多周期CPU → 多总线&#x2F;专用通路混合 → 流水线CPU的基石</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="4-如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次"><a href="#4-如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次" class="headerlink" title="4.如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次"></a>4.如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次</h2><h4 id="单周期CPU的控制信号与部件使用"><a href="#单周期CPU的控制信号与部件使用" class="headerlink" title="单周期CPU的控制信号与部件使用"></a><strong>单周期CPU的控制信号与部件使用</strong></h4><ul>
+<li><p><strong>控制信号保持不变</strong>：<br>单周期CPU在一个时钟周期内完成整条指令的所有操作（取指、译码、执行、访存、写回）。控制信号（如<code>RegWrite</code>、<code>MemRead</code>等）在周期开始时一次性生成，并在整个周期内保持恒定</p>
+<blockquote>
+<p>例如：执行<code>lw</code>指令时，控制信号<code>MemRead</code>和<code>RegWrite</code>从周期开始到结束始终有效。</p>
+</blockquote>
+</li>
+<li><p><strong>部件只能使用一次</strong>：<br>由于所有操作在一个周期内完成，每个功能部件（如ALU、存储器）只能被使用一次。例如：</p>
+<ul>
+<li>ALU在计算内存地址后便闲置，无法在同一指令中再次使用</li>
+<li>数据存储器仅在访存阶段被访问一次。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-多周期CPU的控制信号与部件使用"><a href="#2-多周期CPU的控制信号与部件使用" class="headerlink" title="2. 多周期CPU的控制信号与部件使用"></a><strong>2. 多周期CPU的控制信号与部件使用</strong></h4><ul>
+<li><p><strong>控制信号动态变化</strong>：<br>多周期CPU将指令分为多个阶段（如IF、ID、EXE、MEM、WB），每个阶段占一个时钟周期。控制信号由<strong>状态机</strong>分阶段生成，随执行阶段动态调整</p>
+<blockquote>
+<p>例如：<code>lw</code>指令在MEM阶段激活<code>MemRead</code>，在WB阶段激活<code>RegWrite</code>，而其他信号（如<code>ALUSrc</code>）可能在EXE阶段生效。</p>
+</blockquote>
+</li>
+<li><p><strong>部件可重复使用</strong>：<br>同一部件可在不同阶段被多次调用，典型例子包括：</p>
+<ul>
+<li>ALU复用：在EXE阶段计算地址，在MEM阶段可能用于分支判断（如beq指令）</li>
+<li>存储器分时复用：指令存储器（IF阶段）和数据存储器（MEM阶段）共享物理存储，但分时访问</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="核心差异对比"><a href="#核心差异对比" class="headerlink" title="核心差异对比"></a>核心差异对比</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>特性</strong></th>
+<th align="center">单周期CPU</th>
+<th align="center">多周期CPU</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>控制信号</strong></td>
+<td align="center">周期内恒定不变</td>
+<td align="center">分阶段动态变化（由状态机控制）</td>
+</tr>
+<tr>
+<td align="center"><strong>部件使用</strong></td>
+<td align="center">每个部件仅使用一次</td>
+<td align="center">同一部件可多次复用（如ALU、存储器）</td>
+</tr>
+<tr>
+<td align="center"><strong>设计依据</strong></td>
+<td align="center">信号全局生成，无阶段切换</td>
+<td align="center">状态机按阶段生成控制信号</td>
+</tr>
+<tr>
+<td align="center"><strong>硬件效率</strong></td>
+<td align="center">低（部件闲置率高）</td>
+<td align="center">高（资源分时复用）</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="关键机制说明"><a href="#关键机制说明" class="headerlink" title="关键机制说明"></a>关键机制说明</h3><ol>
+<li><p><strong>单周期控制信号生成</strong>：<br>控制单元通过组合逻辑直接解析指令操作码（Opcode），一次性输出所有控制信号，无中间状态切换</p>
+</li>
+<li><p><strong>多周期控制信号生成</strong>：<br>依赖<strong>有限状态机（FSM）​</strong>​：</p>
+<ul>
+<li>每个状态对应一个执行阶段（如<code>S_IF</code>、<code>S_EXE</code>）。</li>
+<li>状态转移由当前指令类型和阶段触发，控制信号随状态改变</li>
+</ul>
+<blockquote>
+<p>例如：<code>add</code>指令在EXE阶段激活<code>ALUOp</code>，而<code>lw</code>指令在MEM阶段激活<code>MemRead</code>。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="实际影响与设计意义"><a href="#实际影响与设计意义" class="headerlink" title="实际影响与设计意义"></a>实际影响与设计意义</h3><ol>
+<li><strong>单周期局限性</strong>：<br>因控制信号固定且部件单次使用，时钟周期必须覆盖最长指令耗时（如<code>lw</code>），导致简单指令（如<code>add</code>）等待时间浪费</li>
+<li><strong>多周期灵活性</strong>：<br>通过动态控制信号和部件复用：<ul>
+<li>时钟周期缩短至最慢阶段耗时（通常为MEM访存）</li>
+<li>资源利用率提升（如ALU在空闲阶段可服务其他操作）</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这句话精准概括了两种CPU的核心差异：</p>
+<ul>
+<li><strong>单周期CPU</strong>：控制信号静态、部件一次性使用 → <strong>简单但低效</strong>。</li>
+<li>多周期CPU：控制信号动态、部件可复用 → 复杂但高效。这种差异正是多周期CPU能突破单周期性能瓶颈的关键</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2025/06/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-06-%E5%8D%95%E5%91%A8%E6%9C%9Fcpu%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9Fcpu%E3%80%81%E5%8D%95%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E4%B8%8E%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E4%B8%93%E7%94%A8%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E5%85%B3%E7%B3%BB/">https://darling-123456.github.io/2025/06/06/计算机组成原理/2025-06-06-单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post-share"><div class="social-share" data-image="/img/366.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/06/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%9B%9B%E3%80%81%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 四、指令系统"><img class="cover" src="/img/362.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 四、指令系统</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 四、指令系统1.指令系统0.指令集体系结构   1. 指令格式   1.按地址码数目不同来分     2.指令-按指令长度分类机器字长和存储字长固定不变。 3.指令-按操作码长度分类 4.指令-按操作类型分类 程序控制类指令除了上述还有循环指令 2. 扩展操作码指令格式     2.指令的寻址方式###1. 指令寻址  1.顺序寻址（PC）+“1”–&gt;PC 图中的指令字长是变化的，不是右边的16bit，所以才会每次读入一个字 2.跳跃寻址：由转移指令指出本节回顾  转移指令是通过修改PC实现的 程序计数器PC：存放下一条指令所在单元的地址 累加器ACC：用来存放操作数或运算结果 指令寄存器IR：临时放置从内存里面取得的程序指令的寄存器，用于存放当前从主存储器读出的正在执行的一条指令。 地址寄存器MAR：用来保存当前CPU所访问的内存单元的地址。  2. 数据寻址   1.常见寻址方式 取指令也需要一次访存（如果指令字长等于存储字长的话） 直接寻址  间接寻址  寄存器寻址  寄存器间接寻址  隐含寻址  立即寻址  2....</div></div></div></a><a class="pagination-related" href="/2025/06/10/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-10-Day131--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/" title="Day131 | 灵神 | 回溯算法 | 子集型 子集"><img class="cover" src="/img/365.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Day131 | 灵神 | 回溯算法 | 子集型 子集</div></div><div class="info-2"><div class="info-item-1">Day131 | 灵神 | 回溯算法 | 子集型 子集78.子集78. 子集 - 力扣（LeetCode） 思路： 笔者写过很多次这道题了，不想写题解了，大家看灵神讲解吧 回溯算法套路①子集型回溯【基础算法精讲 14】_哔哩哔哩_bilibili 完整代码： 选或不选  123456789101112131415161718192021222324class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; res;    vector&lt;int&gt; path;    void backtracking(vector&lt;int&gt;&amp; nums,int index)    &#123;        if(index==nums.size())        &#123;            res.push_back(path);            return;        &#125;        //不选        backtracking(nums,index+1);...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/05/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%20%20%E4%B8%80%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="26考研 | 王道 | 计算机组成原理 | 一、计算机系统概述"><img class="cover" src="/img/348.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-15</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 一、计算机系统概述</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 一、计算机系统概述1.1 计算机的发展   1.2 计算机硬件和软件 1.2.1 计算机硬件的基本组成早期的冯诺依曼机   对于同一个功能，既可以用软件实现，也可以用硬件实现 冯诺依曼计算机的特点  计算机由五大部件组成 指令和数据以同等地位存于存储器，可按地址访问（统一编址，指令和数据所在存储单元无差异） 指令和数据用二进制表示 指令由操作码和地址码组成 存储程序 以运算器为中心（输入和输出设备与存储器之间的数据传送经过运算器完成，运算器算是一个中转站。这样就会让运算器的数据计算的效率降低） 即输入设备先把数据交给运算器，然后再转交给存储器，存储器要输出时，也是存储器先交给运算器然后运算器交给输出设备    数据驱动方式：  控制流驱动：指令–&gt;数据 数据流驱动：数据–&gt;指令  现代计算机的结构  以存储器为中心，输入的数据直接交给存储器，输出的时候也由存储器直接给输出设备，更多的解放运算器的运算时间  1.2.2...</div></div></div></a><a class="pagination-related" href="/2025/05/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%B8%89%E3%80%81%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 三、存储系统"><img class="cover" src="/img/361.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-29</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 三、存储系统</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 三、存储系统3.1 存储系统基本概念 相联存储器的基本原理是指把存储单元所存的内容的某一部分作为检索项去检索该存储器，并把存储器中与该检索项符号的存储单元内容进行读出和写入。所以是按内容或者地址进行寻址的，价格比较昂贵 一般用来制作TLB，相联Cache等 存储器的层次化结构  主存和辅存之间的数据调动是由硬件和操作系统共同完成的，仅对应用级程序员透明 存储器的分类–层次  存储器的分类–存储介质  半导体存储器：主存、Cache 磁表面存储器：磁盘、磁带（以磁性材料存储信息） 光存储器：光盘（以光介质存储信息）   存储器的分类–存取方式  相联存储器既可以按地址又可以按内容寻址。 存储器的分类–信息的可更改性  CD-ROM是只读型光盘存储器，不属于只读存储器ROM 存储器的分类–信息的可保存性  RAM都是易失性存储器； ROM都是非易失性存储器； 存储器的性能指标  3.2 主存储器1....</div></div></div></a><a class="pagination-related" href="/2025/06/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%9B%9B%E3%80%81%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 四、指令系统"><img class="cover" src="/img/362.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-05</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 四、指令系统</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 四、指令系统1.指令系统0.指令集体系结构   1. 指令格式   1.按地址码数目不同来分     2.指令-按指令长度分类机器字长和存储字长固定不变。 3.指令-按操作码长度分类 4.指令-按操作类型分类 程序控制类指令除了上述还有循环指令 2. 扩展操作码指令格式     2.指令的寻址方式###1. 指令寻址  1.顺序寻址（PC）+“1”–&gt;PC 图中的指令字长是变化的，不是右边的16bit，所以才会每次读入一个字 2.跳跃寻址：由转移指令指出本节回顾  转移指令是通过修改PC实现的 程序计数器PC：存放下一条指令所在单元的地址 累加器ACC：用来存放操作数或运算结果 指令寄存器IR：临时放置从内存里面取得的程序指令的寄存器，用于存放当前从主存储器读出的正在执行的一条指令。 地址寄存器MAR：用来保存当前CPU所访问的内存单元的地址。  2. 数据寻址   1.常见寻址方式 取指令也需要一次访存（如果指令字长等于存储字长的话） 直接寻址  间接寻址  寄存器寻址  寄存器间接寻址  隐含寻址  立即寻址  2....</div></div></div></a><a class="pagination-related" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" title="26考研 | 王道 | 计算机组成原理 | 五、中央处理器"><img class="cover" src="/img/363.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-11</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 五、中央处理器</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 五、中央处理器0.概览CPU能够识别执行的只有机器指令和微指令，汇编指令只有翻译为机器指令之后才可以执行 汇编程序员可见的寄存器有：基址寄存器、状态寄存器PSW、程序计数器PC、通用寄存器组 不可见的：MAR、MDR、IR、微指令寄存器      1.CPU的功能和结构CPU读写控制信号的作用是 决定数据总线上的数据流动方向，控制存储器操作的读写类型，控制流入流出存储器信息的方向  寄存器可见性与透明性分类   寄存器 用户可见性 用户透明性 用户可修改性 修改方式    PSW（程序状态字） 可见 ✅ 不透明 部分可修改 间接修改（硬件自动设置状态位，部分标志位支持软件修改）   ACC（累加器） 可见 ✅ 不透明 可修改 直接修改（如 MOV ACC, 10H）   通用寄存器组（如R0-R12） 可见 ✅ 不透明 可修改 直接修改（如 MOV R1, AX）   PC（程序计数器） 可见 ✅ 不透明 可修改 间接修改（通过跳转指令如 JMP、CALL）   IR（指令寄存器） 不可见 ❌ 透明...</div></div></div></a><a class="pagination-related" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%85%AD%E3%80%81%E6%80%BB%E7%BA%BF/" title="26考研 | 王道 | 计算机组成原理 | 六、总线"><img class="cover" src="/img/366.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-11</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 六、总线</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 六、总线6.1 总线概述计算机使用总线结构便于增减外设，同时减少信息传输线的条数  总线简图  总线的物理实现  1. 总线概述  同一时刻只能有一个部件发送信息，但是各个部件可以同时从总线接收数据 在总线上，同一时刻只能有一个主设备控制总线传输操作  总线的特性 1.机械特性:尺寸、形状、管脚数、排列顺序 2.电气特性:传输方向和有效的电平范围 3.功能特性:每根传输线的功能(地址、数据、控制） 4.时间特性:信号的时序关系   串行总线抗干扰能力比较强。 并行总线与串行总线并不一定谁就比谁快，并行总线工作频率高的时候会有严重干扰，所以频率不能太高 而串行总线虽然不行一次传很多个但是频率可以很高 不同信号在同一条信号线上分时传输的方式称为总线复用方式 主存通过总线的类型来识别信息是地址还是数据 总线的分类（按总线功能)     效率低是因为三个总线同一时刻只能有一个在工作  桥接器还会负责串并行转换、总线仲裁 多总线结构中，总线之间须通过桥接器相连 2....</div></div></div></a><a class="pagination-related" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%B8%83%E3%80%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 七、输入输出系统"><img class="cover" src="/img/367.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-11</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 七、输入输出系统</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 七、输入输出系统 7.1 输入输出系统及I&#x2F;O控制方式  I&#x2F;O接口：又称I&#x2F;O控制器、设备控制器、负责协调主机与外部设备之间的数据传输。（I&#x2F;O控制器就是一块芯片，常被集成在主板上） I&#x2F;O控制方式简介   DMA控制方式   通道控制方式   I&#x2F;O系统基本组成  在配有通道的计算机系统中，用户需要输入输出时，引起的中断是 访管中断 （因为这时调用的是系统提供的接口，要去请求操作系统服务，此时会使得访管中断） 外部设备(考纲没有，做个了解)           7.2 I&#x2F;O接口磁盘驱动器是磁头、磁盘和读写电路组成的，也就是常说的磁盘本身，不是I&#x2F;O接口   功能：选址功能、传送命令功能、传送数据功能、反映I&#x2F;O设备工作状态的功能   I&#x2F;O接口的工作原理  接口和设备之间不会传送中断请求信号 接口与端口  统一编址 V.S....</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">365</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E5%91%A8%E6%9C%9Fcpu%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9Fcpu%E3%80%81%E5%8D%95%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E4%B8%8E%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E4%B8%93%E7%94%A8%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-text">一、核心概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%80%A7%E8%83%BD%E4%B8%8E%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">二、性能与优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%8D%95%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%88%9A%E5%88%9A%E9%82%A3%E4%B8%A4%E4%B8%AA%E5%90%8D%E8%AF%8D%E6%98%AF%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB"><span class="toc-text">2.单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E4%B8%8ECPU%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">一、数据通路与CPU设计的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E6%A0%B8%E5%BF%83%E5%B7%AE%E5%BC%82%E5%AF%B9%E6%AF%94"><span class="toc-text">二、数据通路的核心差异对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E4%B8%93%E7%94%A8%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%88%9A%E5%88%9A%E8%BF%99%E5%9B%9B%E4%B8%AA%E5%90%8D%E8%AF%8D%E5%8F%88%E6%98%AF%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB"><span class="toc-text">3.总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E8%AE%BE%E8%AE%A1%E6%96%B9%E5%BC%8F"><span class="toc-text">一、数据通路设计方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF"><span class="toc-text">1. 总线结构数据通路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%B8%93%E7%94%A8%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF"><span class="toc-text">2. 专用数据通路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%8ECPU%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">二、与CPU设计的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8D%95%E5%91%A8%E6%9C%9FCPU"><span class="toc-text">1. 单周期CPU</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%A4%9A%E5%91%A8%E6%9C%9FCPU"><span class="toc-text">2. 多周期CPU</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A0%B8%E5%BF%83%E5%85%B3%E7%B3%BB%E5%AF%B9%E6%AF%94"><span class="toc-text">三、核心关系对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%AE%9E%E4%BE%8B%E8%AF%B4%E6%98%8E"><span class="toc-text">四、实例说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%E5%9C%A8%E4%B8%80%E6%9D%A1%E6%8C%87%E4%BB%A4%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E4%B8%AD%EF%BC%8C%E5%8D%95%E5%91%A8%E6%9C%9FCPU%E7%9A%84%E6%AF%8F%E4%B8%AA%E6%8E%A7%E5%88%B6%E4%BF%A1%E5%8F%B7%E4%BF%9D%E6%8C%81%E4%B8%8D%E5%8F%98%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%83%A8%E4%BB%B6%E5%8F%AA%E8%83%BD%E4%BD%BF%E7%94%A8%E4%B8%80%E6%AC%A1%E3%80%82%E5%A4%9A%E5%91%A8%E6%9C%9FCPU%E7%9A%84%E6%8E%A7%E5%88%B6%E4%BF%A1%E5%8F%B7%E5%8F%AF%E8%83%BD%E5%8F%91%E7%94%9F%E6%94%B9%E5%8F%98%EF%BC%8C%E5%90%8C%E4%B8%80%E4%B8%AA%E9%83%A8%E4%BB%B6%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E5%A4%9A%E6%AC%A1"><span class="toc-text">4.如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%91%A8%E6%9C%9FCPU%E7%9A%84%E6%8E%A7%E5%88%B6%E4%BF%A1%E5%8F%B7%E4%B8%8E%E9%83%A8%E4%BB%B6%E4%BD%BF%E7%94%A8"><span class="toc-text">单周期CPU的控制信号与部件使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%A4%9A%E5%91%A8%E6%9C%9FCPU%E7%9A%84%E6%8E%A7%E5%88%B6%E4%BF%A1%E5%8F%B7%E4%B8%8E%E9%83%A8%E4%BB%B6%E4%BD%BF%E7%94%A8"><span class="toc-text">2. 多周期CPU的控制信号与部件使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%AE%E5%BC%82%E5%AF%B9%E6%AF%94"><span class="toc-text">核心差异对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%9C%BA%E5%88%B6%E8%AF%B4%E6%98%8E"><span class="toc-text">关键机制说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%BD%B1%E5%93%8D%E4%B8%8E%E8%AE%BE%E8%AE%A1%E6%84%8F%E4%B9%89"><span class="toc-text">实际影响与设计意义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/12/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-12-Day132--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" title="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串"><img src="/img/368.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串"/></a><div class="content"><a class="title" href="/2025/06/12/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-12-Day132--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" title="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串">Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串</a><time datetime="2025-06-12T01:30:20.000Z" title="发表于 2025-06-12 09:30:20">2025-06-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" title="26考研 | 王道 | 计算机组成原理 | 五、中央处理器"><img src="/img/363.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 计算机组成原理 | 五、中央处理器"/></a><div class="content"><a class="title" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" title="26考研 | 王道 | 计算机组成原理 | 五、中央处理器">26考研 | 王道 | 计算机组成原理 | 五、中央处理器</a><time datetime="2025-06-11T10:25:00.000Z" title="发表于 2025-06-11 18:25:00">2025-06-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%85%AD%E3%80%81%E6%80%BB%E7%BA%BF/" title="26考研 | 王道 | 计算机组成原理 | 六、总线"><img src="/img/366.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 计算机组成原理 | 六、总线"/></a><div class="content"><a class="title" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%85%AD%E3%80%81%E6%80%BB%E7%BA%BF/" title="26考研 | 王道 | 计算机组成原理 | 六、总线">26考研 | 王道 | 计算机组成原理 | 六、总线</a><time datetime="2025-06-11T10:25:00.000Z" title="发表于 2025-06-11 18:25:00">2025-06-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%B8%83%E3%80%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 七、输入输出系统"><img src="/img/367.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 计算机组成原理 | 七、输入输出系统"/></a><div class="content"><a class="title" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%B8%83%E3%80%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 七、输入输出系统">26考研 | 王道 | 计算机组成原理 | 七、输入输出系统</a><time datetime="2025-06-11T10:25:00.000Z" title="发表于 2025-06-11 18:25:00">2025-06-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/10/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-10-Day131--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/" title="Day131 | 灵神 | 回溯算法 | 子集型 子集"><img src="/img/365.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day131 | 灵神 | 回溯算法 | 子集型 子集"/></a><div class="content"><a class="title" href="/2025/06/10/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-10-Day131--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/" title="Day131 | 灵神 | 回溯算法 | 子集型 子集">Day131 | 灵神 | 回溯算法 | 子集型 子集</a><time datetime="2025-06-10T01:30:20.000Z" title="发表于 2025-06-10 09:30:20">2025-06-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+  © 2024-<script>document.write(new Date().getFullYear())</script> 
+  <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
+  | 已运行 <span id="days">0</span> 天
+  <script>
+    const start = new Date('2024-12-12');
+    const now = new Date();
+    document.getElementById('days').innerHTML = 
+      Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  </script>
+</div>
+</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Never,ever,ever,give,up" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

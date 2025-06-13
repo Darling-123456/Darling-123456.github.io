@@ -55773,4 +55773,1097 @@ $&#123;&#125;
         <tag>计算机组成原理</tag>
       </tags>
   </entry>
+  <entry>
+    <title>26考研 | 王道 | 计算机组成原理 | 五、中央处理器</title>
+    <url>/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="26考研-王道-计算机组成原理-五、中央处理器"><a href="#26考研-王道-计算机组成原理-五、中央处理器" class="headerlink" title="26考研 | 王道 | 计算机组成原理 | 五、中央处理器"></a>26考研 | 王道 | 计算机组成原理 | 五、中央处理器</h1><h2 id="0-概览"><a href="#0-概览" class="headerlink" title="0.概览"></a>0.概览</h2><p>CPU能够识别执行的只有机器指令和微指令，汇编指令只有翻译为机器指令之后才可以执行</p>
+<p>汇编程序员<code>可见的寄存器</code>有：基址寄存器、状态寄存器PSW、程序计数器PC、通用寄存器组</p>
+<p><code>不可见的：</code>MAR、MDR、IR、微指令寄存器</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605100002496.png" alt="image-20250605100002496"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/7e6b124eda7a055c873348fedc2ca98e.jpeg" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/74f34de5f9d271f05188f0dc9a0ddacf.jpeg" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605094940034.png" alt="image-20250605094940034"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605095004847.png" alt="image-20250605095004847"></p>
+<h2 id="1-CPU的功能和结构"><a href="#1-CPU的功能和结构" class="headerlink" title="1.CPU的功能和结构"></a>1.CPU的功能和结构</h2><p><code>CPU读写控制信号的作用</code>是 决定数据总线上的数据流动方向，控制存储器操作的读写类型，控制流入流出存储器信息的方向</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605105248561.png" alt="image-20250605105248561"></p>
+<h3 id="寄存器可见性与透明性分类"><a href="#寄存器可见性与透明性分类" class="headerlink" title="寄存器可见性与透明性分类"></a><strong>寄存器可见性与透明性分类</strong></h3><table>
+<thead>
+<tr>
+<th align="center"><strong>寄存器</strong></th>
+<th align="center"><strong>用户可见性</strong></th>
+<th align="center"><strong>用户透明性</strong></th>
+<th align="center"><strong>用户可修改性</strong></th>
+<th align="center"><strong>修改方式</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>PSW</strong>（程序状态字）</td>
+<td align="center">可见 ✅</td>
+<td align="center">不透明</td>
+<td align="center"><strong>部分可修改</strong></td>
+<td align="center">间接修改（硬件自动设置状态位，部分标志位支持软件修改）</td>
+</tr>
+<tr>
+<td align="center"><strong>ACC</strong>（累加器）</td>
+<td align="center">可见 ✅</td>
+<td align="center">不透明</td>
+<td align="center"><strong>可修改</strong></td>
+<td align="center"><strong>直接修改</strong>（如 <code>MOV ACC, 10H</code>）</td>
+</tr>
+<tr>
+<td align="center"><strong>通用寄存器组</strong>（如R0-R12）</td>
+<td align="center">可见 ✅</td>
+<td align="center">不透明</td>
+<td align="center"><strong>可修改</strong></td>
+<td align="center"><strong>直接修改</strong>（如 <code>MOV R1, AX</code>）</td>
+</tr>
+<tr>
+<td align="center"><strong>PC</strong>（程序计数器）</td>
+<td align="center">可见 ✅</td>
+<td align="center">不透明</td>
+<td align="center"><strong>可修改</strong></td>
+<td align="center"><strong>间接修改</strong>（通过跳转指令如 <code>JMP</code>、<code>CALL</code>）</td>
+</tr>
+<tr>
+<td align="center"><strong>IR</strong>（指令寄存器）</td>
+<td align="center">不可见 ❌</td>
+<td align="center"><strong>透明</strong> ✅</td>
+<td align="center">不可修改</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center"><strong>MAR</strong>（存储器地址寄存器）</td>
+<td align="center">不可见 ❌</td>
+<td align="center"><strong>透明</strong> ✅</td>
+<td align="center">不可修改</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center"><strong>MDR</strong>（存储器数据寄存器）</td>
+<td align="center">不可见 ❌</td>
+<td align="center"><strong>透明</strong> ✅</td>
+<td align="center">不可修改</td>
+<td align="center">-</td>
+</tr>
+</tbody></table>
+<p>不知道间接修改算不算可以修改，按照书上的说法，用户是不能修改PSW和PC的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605102154875.png" alt="image-20250605102154875"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605102418895.png" alt="image-20250605102418895"></p>
+<h3 id="1-运算器"><a href="#1-运算器" class="headerlink" title="1.运算器"></a>1.运算器</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605102918873.png" alt="image-20250605102847651"></p>
+<p>专用数据通路方式就是只要有数据流过，那你就给这个路径连上一条线，所以ALU和各个寄存器之间都有线，还要决定使用哪个寄存器，有需要其他硬件，所以硬件量就很大了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605103744944.png" alt="image-20250605103744944"></p>
+<p>CPU内部单总线方式：将所有寄存器的输入端和输出端都连接到一条公共的通路上。</p>
+<p>如：两个操作数分别来自主存和R0，最后结果存回R0，那么从主存中取来的操作数直接放入暂存器，就不会破坏运算前R0的内容。</p>
+<p>在R0给的信号不稳定之前，ALU会产生一个输出信号送到内部总线上，就会与R0送到内部总线上的信号冲突，从而导致运算的错误。在ALU的输出端加一个暂存寄存器，等R0送到总线上的信号稳定之后，ALU把运算的结果放到暂存寄存器中，在ALU的输出稳定之后，让三态门导通，把运算结果送到内部总线上，给R0的输入端加上有效的电信号，就会把运算的结果输入到R0寄存器中。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605104038852.png" alt="image-20250605104038852"></p>
+<p><strong>暂存寄存器改为移位寄存器是因为这个暂存寄存器多半具有移位这个功能</strong></p>
+<p>通用寄存器可以放数据也可以放地址，但是不可以替代指令寄存器</p>
+<p>PSW是专用寄存器， 不需要像其他寄存器那样需要编号</p>
+<p>用户不能直接修改PSW，但是PSW对用户是可见的，不是透明的</p>
+<h3 id="2-控制器"><a href="#2-控制器" class="headerlink" title="2.控制器"></a>2.控制器</h3><p>控制器功能是取指令分析指令和执行指令。执行指令就是发出有关操作的控制信号</p>
+<p><strong>指令译码器是指对指令的操作码字段进行译码</strong></p>
+<p>CPU不包括地址译码器</p>
+<p><strong>控制器的基本结构</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605104705767.png" alt="image-20250605104705767"></p>
+<p>程序计数器PC可以使用字节地址，也可以使用字地址，其位数取决于存储器容量和指令字长，与机器字长无关</p>
+<p>机器指令中不能显式的使用PC，只能让其自增或者通过转移指令设置</p>
+<p>指令寄存器IR位数取决于指令字长</p>
+<p>CPU中通用寄存器长度取决于机器字长</p>
+<p><strong>CPU的基本结构</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605104848794.png" alt="image-20250605104848794"></p>
+<p>棕色的寄存器是用户可见的，灰色的是对用户透明的</p>
+<p>可见的有：PSW,PC,ACC,R0-R3。可见的意思是用户可以通过汇编语言进行修改这个寄存器的值</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f1b55081591314f5e1e8a12e8845a344.png" alt="在这里插入图片描述"></p>
+<p>课后题PC的位数问题：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606111107461.png" alt="image-20250606111107461"></p>
+<p>按字节编制，一个指令32位，占4B，四个存储单元，而又要按字边界对齐存放（这句话说明了每条指令的起始地址必须是4的倍数）</p>
+<p>所以指令要放的话，按找最多的情况来放置，可以放 4GB&#x2F;4B&#x3D;2^30^这么多条指令，也就是说有这么多个编号</p>
+<p>为什么呢？</p>
+<p>如果地址空间全都放指令的话，因为指令的地址一定是4的倍数，一定是0,4,8,12,16…..</p>
+<p>那么0,4,8,12,16….4GB这些编号一共有多少个？那不就是 4GB&#x2F;4B个嘛</p>
+<p>所以编号一共有2^30^个，那么我们只需要30位就可以存储下来所有的编号，而又因为编号全都是4的倍数，我们去主存里面找的时候只要左移2位即可，就相当于乘以4了</p>
+<p>比如虽然它原来的编号是0,4,8,12,16，但是PC存储的时候就是0,1,2,3,4，而我们用它到主存里面寻找指令的时候，就乘以4，就是0,4,8,12,16了</p>
+<h2 id="2-指令执行过程"><a href="#2-指令执行过程" class="headerlink" title="2. 指令执行过程"></a>2. 指令执行过程</h2><p><strong>CPU的控制器通过指令周期的不同阶段区分是指令还是数据，取指周期拿出来的就是指令，执行阶段拿出来的就是数据</strong></p>
+<p>PC的值在指令的执行过程中修改（具体是在取值周期进行修改）</p>
+<p>取指操作是控制器固有的功能，不需要在操作码的控制下完成</p>
+<p>取值操作是控制器自动完成的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e09f24ce4a776a562debef58072712ab.png" alt="在这里插入图片描述"></p>
+<p>单周期CPU中，指令执行的所有阶段都在一个时钟周期内完成，因此其指令周期就是一个时钟周期，CPI&#x3D;1</p>
+<p>多周期CPU中，不同的类型的指令可以用不同的执行步骤，需要几个周期就分配几个周期，CPI&gt;1</p>
+<p>流水线CPU追求目标是每个时钟周期完成一条指令的执行过程（在理想情况下CPI&#x3D;1），在每个时钟周期启动一条指令，尽量让多条指令同时运行，但各自在不同的执行步骤中</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ec3e179c293e3302ba7b2e57976a3e25.jpeg" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605110353944.png" alt="image-20250605110353944"></p>
+<p><code>各个周期的关系</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9ad8ab4923e6d5db2b3e7a7008e03913.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605111046371.png" alt="image-20250605111046371"></p>
+<p><strong>指令周期流程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605111226887.png" alt="image-20250605111226887"></p>
+<p><strong>指令周期的数据流-取址周期</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605112641697.png" alt="image-20250605112641697"></p>
+<p><strong>指令周期的数据流-间址周期</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605112942747.png" alt="image-20250605112942747"></p>
+<p>除了把MDR拼接到Ad(IR)里面这种处理方式以外，可能有的处理方式会直接把MDR放到MAR里面去</p>
+<p><strong>指令周期的数据流-执行周期</strong></p>
+<p>执行周期的任务是根据IR指令字的操作码和操作数通过ALU操作产生执行结果。不同指令的执行周期操作不同，因此没有统一的数据流向。</p>
+<p><strong>指令周期的数据流-中断周期</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605113752508.png" alt="image-20250605113752508"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e556f6af1d91f726f010ea50c760d191.jpeg" alt="在这里插入图片描述"><br><strong>指令执行方案</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a7adc8fbdba72c33320bdf85fdf423bb.png" alt="在这里插入图片描述"></p>
+<h2 id="3-数据通路的功能和基本结构"><a href="#3-数据通路的功能和基本结构" class="headerlink" title="3.数据通路的功能和基本结构"></a>3.数据通路的功能和基本结构</h2><p>数据通路的功能由控制部件送出的控制信号决定</p>
+<p>在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次</p>
+<p><strong>关于这句话的具体解释请看</strong></p>
+<p><a href="https://blog.csdn.net/m0_74795952/article/details/148477301?spm=1001.2014.3001.5501">单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系-CSDN博客</a></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605123619785.png" alt="image-20250605123619785"></p>
+<p><code>内部总线数据通路的特点：</code>结构简单，实现容易，性能较低，存在较多的冲突现象</p>
+<p><code>专用的特点：</code>结构复杂，硬件量大，不易实现，性能较高，基本不存在冲突现象</p>
+<p><strong>CPU可以视作由数据通路和控制部件两大部分组成的</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605122320473.png" alt="image-20250605122320473"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605121334286.png" alt="image-20250605121334286"></p>
+<p>表示总线连接或者断开的部件是三态门，图中的三角形</p>
+<p>###1. 数据通路-单总线结构</p>
+<p>数据通路通常指指令执行过程中数据经过的路径以及路径上的部件。<br>数据通路&#x3D;电路+部件（组合逻辑元件+时序逻辑元件），并且由控制信号进行控制。<br>组合逻辑元件（操作元件）：不能存储，如多路选择器MUX、ALU、译码器。<br>时序逻辑元件（状态元件）：能存储，如寄存器。</p>
+<p>ALU，通用寄存器，状态寄存器，Cache，MMU，浮点运算逻辑，异常和中断处理逻辑等都是指令执行过程中数据流经的部件，都属于数据通路的一部分</p>
+<p>原则上来说，每个时刻只能有一个器件发出信息，一个或者多个器件接收信息</p>
+<p><strong>数据通路-CPU内部单总线方式</strong></p>
+<p>以下内容结合1.2.2“计算机的工作过程”进行学习</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9d27f9927dc5497fefa381102dd2c1e8.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5bfa2851afb55e1fc3741085c134136e.png" alt="在这里插入图片描述"></p>
+<p>不严谨的原因是因为主存中的数据通过数据总线写到MDR的时候通常是另外一个信号</p>
+<p>而MDRin只是CPU内部总线往MDR写的时候的信号而已</p>
+<p>下图也有类似不严谨处</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e44dc9e8e40de7f250efa8d4d5c8fe5e.png" alt="在这里插入图片描述"></p>
+<p>Y是暂存寄存器，用来放其中一个加数，Z是暂存结果的暂存寄存器</p>
+<p>而Y和ALU有一个专用的数据通路，不会占用CPU内部总线</p>
+<p>每个时钟周期内，CU都会发出一组相应的控制信号，来完成某一个微操作，到下一个时钟周期，CU又会发出第二个控制信号，完成第二个微操作。</p>
+<p><strong>CPU内部总线方式-例题</strong></p>
+<p>(R0)目的操作数，有括号需要进行一次间接寻址，表示R0中存放的是操作数在主存中的存储地址。</p>
+<p>R1源操作数，没有括号表示操作数直接存放在R1寄存器中。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c93f701608412be7bdfc45a84c9a9043.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0f1bb13591e70355345f22fe0d4177db.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d7750628ac8cc67561e18f1645cacd29.png" alt="在这里插入图片描述"></p>
+<p>Y和ALU有专门的数据通路，不需要占用CPU内部总线</p>
+<h3 id="2-数据通路-专用通路结构"><a href="#2-数据通路-专用通路结构" class="headerlink" title="2. 数据通路-专用通路结构"></a>2. 数据通路-专用通路结构</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606121512622.png" alt="image-20250606121512622"></p>
+<p>专用数据通路的效率比单总线高，但相对的成本也会高</p>
+<p><strong>专用数据通路方式-取值周期</strong></p>
+<p>图中的Cx表示的是如果是Cx有效那么这条路就是通的，否则不通</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ed2c8c530edfc638c4470292690f575a.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606120642116.png" alt="image-20250606120642116"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606120921114.png" alt="image-20250606120921114"></p>
+<p>第二问如果不放心还可以写上</p>
+<p><code>pc+1-&gt;pc</code></p>
+<p><code>OP(IR)-&gt;微操作发生器</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606121150872.png" alt="image-20250606121150872"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606121317129.png" alt="image-20250606121317129"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606121413839.png" alt="image-20250606121413839"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606121449231.png" alt="image-20250606121448725"></p>
+<p>采用CPU内部总线：结构简单，实现容易，性能较低，存在较多的冲突现象。<br>专用数据通路：结构复杂，硬件量大，不易实现，性能高，基本不存在数据冲突现象。</p>
+<p>数据总线是双向的：CPU–&gt;内存，内存–&gt;CPU<br>地址总线是单向的：CPU–&gt;内存</p>
+<h2 id="4-控制器的功能和工作原理"><a href="#4-控制器的功能和工作原理" class="headerlink" title="4.控制器的功能和工作原理"></a>4.控制器的功能和工作原理</h2><p>取指令操作是控制器固有功能，不需要在操作码控制下进行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606161940513.png" alt="image-20250606161940513"></p>
+<p>以访存所需节拍数量作为参考是因为 访存比较慢，比大多数指令都慢所以具有参考价值</p>
+<p>根据指令操作码、目前的机器周期、节拍信号（T0、T1、T2）、机器状态条件（如PSW中溢出、正负性等）、即可确定现在这个节拍下应该发出哪些微命令</p>
+<p>根据操作码确定是什么操作，根据FE,IND,EX,INT确定是哪个周期，根据节拍确定是哪个微命令，而微命令又一一对应了微操作（确定节拍后可能还要参考PSW之后才能发出对应的微命令）</p>
+<h3 id="1-硬布线控制器的设计"><a href="#1-硬布线控制器的设计" class="headerlink" title="1.硬布线控制器的设计"></a>1.硬布线控制器的设计</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610113450831.png" alt="image-20250610113450831"></p>
+<p>控制信号主要与指令译码信号和时钟信号有关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606163446597.png" alt="image-20250606163446597"></p>
+<p>基于 上面的理解</p>
+<p>传操作码译码器是为了知道操作码是多少，四个触发器是为了知道哪个周期，节拍发生器是为了确定哪个节拍，传标志是为了确定到执行什么微命令，最后输出出去即可</p>
+<p><strong>2.硬布线控制器的设计</strong>（不考，听一听便于理解）</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606164106207.png" alt="image-20250606164106207"></p>
+<p><strong>分析每个阶段的微操作序列</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610111420093.png" alt="image-20250610111420093"></p>
+<p><strong>安排微操作时序的原则-取值周期</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610111733798.png" alt="image-20250610111733798"></p>
+<p><strong>安排微操作时序的原则-间值周期</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ca07f2acdcb536b0fb902cd0721c2915.png" alt="在这里插入图片描述"></p>
+<p>1和2在一个节拍内完成，因为被控对象不同</p>
+<p>3和4分别放在一个节拍完成，因为3是访存操作，一个节拍完成不了</p>
+<p><strong>安排微操作时序的原则-执行周期</strong></p>
+<p>一个微操作就可以完成的微指令可以用一个节拍来完成，即放在三个节拍的最后一个节拍</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610111906553.png" alt="image-20250610111906553"></p>
+<p><strong>电路设计-组合逻辑设计</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4ad44db462fae941706d7c2414ea9333.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/759a8ca9dd6918c5555392006cb4d51e.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e0363ff73c5b6d58e6f7c789cf04f98c.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e16a09a4795fdfe542baa8b1dea93f80.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0e0217b03ea99e0e6637682feb2ceb9f.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/dfda4533c6baa93b77039023ba97e29f.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/128ffbe959cffe7bf84554e92efd8368.png" alt="在这里插入图片描述"></p>
+<h3 id="2-微程序控制器的基本原理"><a href="#2-微程序控制器的基本原理" class="headerlink" title="2. 微程序控制器的基本原理"></a>2. 微程序控制器的基本原理</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c3de8608879122315ce8ad23c504d355.png" alt="在这里插入图片描述"></p>
+<p>采用“存储程序”的思想，CPU出厂前将所有指令的“微程序”存入“控制器存储器”中</p>
+<p>微程序控制器中，形成微程序入口地址的是机器指令的操作码字段</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8b6263d6c4791c4395366feacbcc5a65.png" alt="在这里插入图片描述"></p>
+<p><code>操作控制字段</code>就是用若干个bit表示当前微指令对应的微操作是哪几个</p>
+<p>微指令存放在控制器的一个特殊的存储器当中，所以会有对应的地址</p>
+<p><code>顺序控制字段</code>可能会有几个bit表示地址的寻址方式，是间接还是直接之类的</p>
+<p><strong>微程序控制器的基本结构</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c16b02314cbd52771396558506eb15ab.png" alt="在这里插入图片描述"></p>
+<p><strong>微程序控制器的工作原理</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0b7fa174259b6622e623d74e0e702620.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3bb75173953e70be233ff8c5dd0353ac.png" alt="在这里插入图片描述"></p>
+<h3 id="3-微指令的设计"><a href="#3-微指令的设计" class="headerlink" title="3. 微指令的设计"></a>3. 微指令的设计</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610155152471.png" alt="image-20250610155152471"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610152632770.png" alt="image-20250610152632770"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610153022277.png"></p>
+<h4 id="1-微指令的编码方式"><a href="#1-微指令的编码方式" class="headerlink" title="1.微指令的编码方式"></a>1.微指令的编码方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610153300827.png" alt="image-20250610153300827"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610153732066.png" alt="image-20250610153732066"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6e9de1bf56834c2816771934a443f904.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610154037480.png" alt="image-20250610154037480"></p>
+<h4 id="2-微指令的地址形成方式"><a href="#2-微指令的地址形成方式" class="headerlink" title="2.微指令的地址形成方式"></a>2.微指令的地址形成方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610154745420.png" alt="image-20250610154745420"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610154814914.png" alt="image-20250610154814914"></p>
+<p>测试网络其实就是下图的顺序逻辑部分，测试源就是标志</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610154833223.png" alt="image-20250610154833223"></p>
+<p><strong>例题-断定方式</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/99ab544df6b2eda9d04ce1a77ad63e15.png" alt="在这里插入图片描述"></p>
+<h3 id="4-微程序控制单元的设计"><a href="#4-微程序控制单元的设计" class="headerlink" title="4. 微程序控制单元的设计"></a>4. 微程序控制单元的设计</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610160732967.png" alt="image-20250610160732967"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/74e78d2a016bd195e97161f98d7c278d.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610155805230.png" alt="image-20250610155805230"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610155851591.png" alt="image-20250610155851591"></p>
+<p>如下图这样安排也可以，只要保证两个微操作可以在一个节拍内完成即可</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610155947586.png" alt="image-20250610155947586"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610160143078.png" alt="image-20250610160143078"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610160323363.png" alt="image-20250610160323363"></p>
+<p><strong>微程序设计的分类</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610160522104.png" alt="image-20250610160522104"></p>
+<p><strong>硬布线与微程序的比较</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610160654049.png" alt="image-20250610160654049"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/85b94fe56da50a9e0a21c6fb79df0cf0.jpeg" alt="在这里插入图片描述"></p>
+<h2 id="5-异常与中断"><a href="#5-异常与中断" class="headerlink" title="5. 异常与中断"></a>5. 异常与中断</h2><p>视频说除数0是终止，而书上说是故障，暂且以书上为准吧</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612121340381.png" alt="image-20250612121340381"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612120649969.png" alt="image-20250612120649969"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612120753074.png" alt="image-20250612120753074"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612120827861.png"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612120957666.png" alt="image-20250612120957666"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612121149658.png" alt="image-20250612121149658"></p>
+<p><code>异常：</code>整数除以0，溢出，断点，单步跟踪，非法指令，栈溢出，地址越界，缺页等</p>
+<p><code>故障：</code>指在引起故障的指令启动后，执行结束前被检测到的异常事件。例如：非法操作码、缺页、除数为0。如果可以修复，修复完了继续回来执行，如果不可修复，那就终止进程的执行</p>
+<p><code>陷阱：</code>断点、单步跟踪</p>
+<p><code>终止：</code>若在执行过程中发生了使计算机无法继续执行的硬件故障，如控制器出错，存储器校验错，总线错误等，程序无法继续执行，只能终止。这类异常与故障和自陷不同，不是由特定指令产生，而是随机发生的</p>
+<p>浮点数的上溢属于内中断，但下溢直接当做机器0处理，不属于中断</p>
+<p>内部异常的产生与当前执行的指令相关</p>
+<p>内部异常的检测由CPU内部逻辑实现</p>
+<p>内部异常的相应发生在指令执行的过程中</p>
+<p>异常事件检测由CPU在执行每一条指令的过程中进行</p>
+<p>中断请求检测由CPU在每条指令执行结束、取下条指令之前进行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612163917265.png" alt="image-20250612163917265"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612163940370.png" alt="image-20250612163940370"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612164106918.png" alt="image-20250612164106918"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612121453295.png" alt="image-20250612121453295"></p>
+<p>举个例子，你在图书馆复习408，在做某道题，你就是CPU（也就是CPU在执行当前指令）。<br>1.陷入：你想起来昨天晚上的那局王者被单杀，气不过，然后来了一把（你是学习态，想做游戏态的事情，是不是很像系统调用），打完又灰溜溜做题（返回下一条指令）。<br>2.故障：你突然发现这道题的知识点不会（也就是不在你的内存中），你就去翻书（外存），查到之后还要继续做这道题（返回本条指令）。<br>3.终止：你突然很累，大脑宕机，不想学习，直接回寝室睡大觉，不回来做题，这就是终止（不可恢复）。<br>4.外中断：和你自己没关系，旁边来了个妹妹，打断了你的学习，你看了十分钟又灰溜溜的做题，这就是外中断，和你自己（CPU）没关系。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/88d220be37ca01bc4280efa7823bddec.jpeg" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/99c48deeed5bbea8c3ea90713648b97c.jpeg" alt="在这里插入图片描述"></p>
+<p>故障：如果能修复，那就是返回当前指令，修复不了那就直接终止了</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>特性</strong></th>
+<th align="center">内部异常</th>
+<th align="center">外部中断</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>触发源</strong></td>
+<td align="center">CPU内部执行错误（如除零、溢出）</td>
+<td align="center">外设或硬件故障（如按键、掉电）</td>
+</tr>
+<tr>
+<td align="center"><strong>检测逻辑</strong></td>
+<td align="center">CPU指令执行单元自动检测</td>
+<td align="center">依赖引脚电平扫描+中断控制器</td>
+</tr>
+<tr>
+<td align="center"><strong>同步性</strong></td>
+<td align="center">同步（与指令执行严格相关）</td>
+<td align="center">异步（随时可能发生）</td>
+</tr>
+<tr>
+<td align="center"><strong>响应时机</strong></td>
+<td align="center">立即终止当前指令</td>
+<td align="center">当前指令结束后响应</td>
+</tr>
+<tr>
+<td align="center"><strong>硬件依赖</strong></td>
+<td align="center">纯CPU内部逻辑</td>
+<td align="center">需外部中断引脚和控制器支持</td>
+</tr>
+</tbody></table>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1ba4d8a3cfbb9502dfb8d5e535886ea1.jpeg" alt="在这里插入图片描述"></p>
+<h2 id="6-指令流水线"><a href="#6-指令流水线" class="headerlink" title="6. 指令流水线"></a>6. 指令流水线</h2><h3 id="1-指令流水线的基本概念"><a href="#1-指令流水线的基本概念" class="headerlink" title="1. 指令流水线的基本概念"></a>1. 指令流水线的基本概念</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610200728029.png" alt="image-20250610200728029"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610194044234.png" alt="image-20250610194044234"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610194250442.png" alt="image-20250610194250442"></p>
+<h4 id="指令流水线的表示方式"><a href="#指令流水线的表示方式" class="headerlink" title="指令流水线的表示方式"></a>指令流水线的表示方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/169a566a12b9b47b4051f3840c71fb98.png" alt="在这里插入图片描述"></p>
+<h4 id="流水线的性能指标"><a href="#流水线的性能指标" class="headerlink" title="流水线的性能指标"></a>流水线的性能指标</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a9cc914441fd9152621690ea751c5fda.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4a935cbb7903a7baff73db11495eedb9.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9f9bc5dd418485ca72b432ac8dcaf78a.png" alt="在这里插入图片描述"></p>
+<h3 id="2-指令流水线的影响因素和分类"><a href="#2-指令流水线的影响因素和分类" class="headerlink" title="2. 指令流水线的影响因素和分类"></a>2. 指令流水线的影响因素和分类</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610205246489.png" alt="image-20250610205246489"></p>
+<h4 id="机器周期的设置"><a href="#机器周期的设置" class="headerlink" title="机器周期的设置"></a>机器周期的设置</h4><p>IF：取指阶段</p>
+<p>ID：指令译码阶段（指令译码，从通用寄存器中取出当前指令所需要的操作数），imm立即数</p>
+<p>EX：执行阶段</p>
+<p>M：访存阶段</p>
+<p>WB：写回通用寄存器组</p>
+<p>cache：data cache和insrtuction cache，将数据和指令放在两个独立的模块中，对这两个模块的访问可以并行进行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610202403871.png" alt="image-20250610202403871"></p>
+<p>这个锁存器就是流水段寄存器</p>
+<p>指令译码得到的控制信号需要通过流水段寄存器传递到下一个流水段</p>
+<p>每个流水段之间的寄存器的信息不一定相同，因此寄存器位数也不一定相同，用户程序不可以通过指令指定访问哪个流水段寄存器</p>
+<h4 id="影响流水线的因素"><a href="#影响流水线的因素" class="headerlink" title="影响流水线的因素"></a>影响流水线的因素</h4><ol>
+<li>结构相关（资源冲突–”互斥“）</li>
+<li>数据相关（数据冲突-”同步“）</li>
+<li>控制相关（控制冲突）<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3210a86da37ef56804bb67fa70fd9d61.png" alt="在这里插入图片描述"></li>
+</ol>
+<p>①结构相关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6446e864c296ec3bafb71594912a5fbd.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/234f9a9af479a9fb8d57b84fba25ae41.png" alt="在这里插入图片描述"></p>
+<p>再多准备一套数据存储器和指令存储器，让冲突的指令去访问多出来的这一套</p>
+<p>②数据相关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9b667827b2838f01f35762053a8893b0.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/cded1b2710dacdd5e71ffeaba6d677d1.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3ef227b984937c255fd0edc1b4af3590.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/38966234526dc47a5e68c20d9bea3dd4.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a41a6d82665235c78b77701402717494.png" alt="在这里插入图片描述"></p>
+<p>如果有后续的指令可以提前执行，不需要依赖前序指令的执行结果，可以通过编译器调整指令顺序来解决数据相关。（类似于插入空操作)</p>
+<p>③控制相关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9685356bd2df72ec620c50bac2bccc79.png" alt="在这里插入图片描述"></p>
+<p>静态预测的结果每次都一样的</p>
+<h4 id="流水线的分类（似乎不考）"><a href="#流水线的分类（似乎不考）" class="headerlink" title="流水线的分类（似乎不考）"></a>流水线的分类（似乎不考）</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610204430688.png" alt="image-20250610204430688"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610204615724.png" alt="image-20250610204615724"></p>
+<h4 id="流水线的多发技术"><a href="#流水线的多发技术" class="headerlink" title="流水线的多发技术"></a>流水线的多发技术</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610204841405.png" alt="image-20250610204841405"></p>
+<p>也叫动态多发射技术</p>
+<p>很多超标量CPU都结合动态流水线调度技术，通过动态分支预测等手段，指令不按顺序执行，这种方式成为乱序执行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/dd709e43a958216011720c2d2531b134.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250613221812426.png" alt="image-20250613221812426"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250613221823471.png" alt="image-20250613221823471"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5846561007296f0499473792f0c77159.png" alt="在这里插入图片描述"></p>
+<h3 id="3-五段式指令流水线"><a href="#3-五段式指令流水线" class="headerlink" title="3. 五段式指令流水线"></a>3. 五段式指令流水线</h3><p>常见的5类指令：运算类指令、LOAD指令、STORE指令、条件转移指令、五条件转移指令</p>
+<p><strong>运算类指令的执行过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c801b0a7c39fc1163a717bbb0b8b5737.png" alt="在这里插入图片描述"></p>
+<p><strong>LOAD指令的执行过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6e2606bf92b05860695544db30e377b1.png" alt="在这里插入图片描述"></p>
+<p><strong>STORE指令的执行过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4b61bfc84cf31fa8bd1a44afd5dd0a0b.png" alt="在这里插入图片描述"></p>
+<p><strong>条件转移指令的执行过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/99fcaa4c296224c69c51ff37f9578751.png" alt="在这里插入图片描述"></p>
+<p><strong>无条件转移指令的执行过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a26f22e10fe94a150e5724e6b580f566.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611104132480.png" alt="image-20250611104132480"></p>
+<h2 id="7-多处理器概念"><a href="#7-多处理器概念" class="headerlink" title="7.多处理器概念"></a>7.多处理器概念</h2><p>Tips：只考选择题</p>
+<h3 id="1-多处理器的基本概念"><a href="#1-多处理器的基本概念" class="headerlink" title="1. 多处理器的基本概念"></a>1. 多处理器的基本概念</h3><p>不太严谨的图，方便理解<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f346b9555a1466a8bf0efe8e8ca0824d.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/15e1cfb9a502b9ee4c342a192daf321d.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c0f4edb086acc312196a0c129e5fad73.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/cd436c6239bd9582f64942ec25006b4a.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/35d325b090acb7ea59a27fab078011ee.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/699aaa62d3e0c5ad71f5efedb5a30bd0.png" alt="在这里插入图片描述"></p>
+<p>单指令流单数据流SISD结构：一个指令流对应一个数据流<br>单指令流多数据流SIMD结构：一个指令流对应多个数据流<br>多指令流单数据流MISD结构：多个指令流对应一个数据流（事实上不存在)<br>多指令流多数据流MIMD结构：多个指令流对应多个数据流<br>M:Multiple<br>S:Single<br>l:Instruction<br>D:Data</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e11fbda83b16504ff59fb6703f4d5415.jpeg" alt="在这里插入图片描述"><br>UMA：统一存储访问<br>NUMA：非统一存储访问</p>
+<h3 id="2-硬件多线程的基本概念"><a href="#2-硬件多线程的基本概念" class="headerlink" title="2. 硬件多线程的基本概念"></a>2. 硬件多线程的基本概念</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1283c1c9fa7dc94137d34e486098dd69.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0c0d063a597c9d75a210bafacbef0b4c.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/cc872b4ab43ad0c0f73c9f89fdf372d4.png" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>考研</tag>
+        <tag>计算机组成原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>26考研 | 王道 | 计算机组成原理 | 六、总线</title>
+    <url>/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%85%AD%E3%80%81%E6%80%BB%E7%BA%BF/</url>
+    <content><![CDATA[<h2 id="26考研-王道-计算机组成原理-六、总线"><a href="#26考研-王道-计算机组成原理-六、总线" class="headerlink" title="26考研 | 王道 | 计算机组成原理 | 六、总线"></a>26考研 | 王道 | 计算机组成原理 | 六、总线</h2><h3 id="6-1-总线概述"><a href="#6-1-总线概述" class="headerlink" title="6.1 总线概述"></a>6.1 总线概述</h3><p>计算机使用总线结构便于增减外设，同时减少信息传输线的条数</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/02348677c3c7b3ef34d44a3ae7c79e03.png" alt="在这里插入图片描述"></p>
+<p><strong>总线简图</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/49809aab0d50b73a71857d0bd3c4e952.png" alt="在这里插入图片描述"></p>
+<p><strong>总线的物理实现</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/566824128321f85ee86f2db818d0ed6f.png" alt="在这里插入图片描述"></p>
+<h4 id="1-总线概述"><a href="#1-总线概述" class="headerlink" title="1. 总线概述"></a>1. 总线概述</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611153527974.png" alt="image-20250611153527974"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611150629177.png" alt="image-20250611150629177"></p>
+<p>同一时刻只能有一个部件发送信息，但是各个部件可以同时从总线接收数据</p>
+<p>在总线上，同一时刻只能有一个主设备控制总线传输操作</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611151603692.png" alt="image-20250611151603692"></p>
+<p><code>总线的特性</code></p>
+<p>1.机械特性:尺寸、形状、管脚数、排列顺序</p>
+<p>2.电气特性:传输方向和有效的电平范围</p>
+<p>3.功能特性:每根传输线的功能(地址、数据、控制）</p>
+<p>4.时间特性:信号的时序关系</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/7a420f1b35a50092d77301eae0785e28.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/49d1e4f2caf4665c74e15c0af920f86b.png" alt="在这里插入图片描述"></p>
+<p>串行总线抗干扰能力比较强。</p>
+<p>并行总线与串行总线并不一定谁就比谁快，并行总线工作频率高的时候会有严重干扰，所以频率不能太高</p>
+<p>而串行总线虽然不行一次传很多个但是频率可以很高</p>
+<p>不同信号在同一条信号线上分时传输的方式称为总线复用方式</p>
+<p>主存通过总线的类型来识别信息是地址还是数据</p>
+<p><code>总线的分类（按总线功能)</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611152324769.png" alt="image-20250611152324769"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6b7f4ec345dd81782d741279c12cc5f2.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611211140209.png" alt="image-20250611211140209"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/663d45ec30643a6e0a9112ca50927b73.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/291842fef5c16ea7f1fdb1cf33a5bfd5.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/544a2d170fb36cd698e7b127fa9a152d.png" alt="在这里插入图片描述"></p>
+<p>效率低是因为三个总线同一时刻只能有一个在工作</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/fd87ee6c713e9d12f198883c8d69e942.png" alt="在这里插入图片描述"></p>
+<p>桥接器还会负责串并行转换、总线仲裁</p>
+<p>多总线结构中，总线之间须通过桥接器相连</p>
+<h4 id="2-总线的性能指标"><a href="#2-总线的性能指标" class="headerlink" title="2. 总线的性能指标"></a>2. 总线的性能指标</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611154551405.png" alt="image-20250611154551405"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c015a42d65f7386368f8797facd90f8e.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/bc5d2ce1d9b565092230e5dbd1d1caaf.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611154329272.png" alt="image-20250611154329272"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/086e177c9e51ffbc8abe68d08f0ed2a9.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9628d2b5853be1334bd17ad01e5e66b2.png" alt="在这里插入图片描述"></p>
+<p><strong>总线标准</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/72dbc65f4a4a22c50629060f95b58fb1.jpeg" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d25d6da3f0bb1412884ddd0865e437d2.jpeg" alt="在这里插入图片描述"><br>USB总线：<br>即插即用、热拔插（带电拔插）、菊花链形式连接众多外设<br>可扩充性好，一个USB控制器可连接127个外部USB设备<br>可以为低电压设备供电（5V)<br>高速传输，最新标准可达1280MB&#x2F;s</p>
+<p>多总线结构：<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9653143cb632557cf79fb611a1258f13.jpeg" alt="在这里插入图片描述"></p>
+<h3 id="6-2-总线仲裁（考纲没有，看了留个印象）"><a href="#6-2-总线仲裁（考纲没有，看了留个印象）" class="headerlink" title="6.2 总线仲裁（考纲没有，看了留个印象）"></a>6.2 总线仲裁（考纲没有，看了留个印象）</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611162729624.png" alt="image-20250611162729624"></p>
+<p>其实就是由纯硬件实现的调度算法</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611161223744.png" alt="image-20250611161223744"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611161645427.png" alt="image-20250611161645427"></p>
+<p>BG、BR、BS都属于控制总线</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611162132414.png" alt="image-20250611162132414"></p>
+<p>计数器每次都从0开始的话那么设备的优先级就和链式查询方式一样了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611162421318.png" alt="image-20250611162421318"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611162518126.png" alt="image-20250611162518126"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611162708918.png" alt="image-20250611162708918"></p>
+<h3 id="6-3-总线操作和定时"><a href="#6-3-总线操作和定时" class="headerlink" title="6.3 总线操作和定时"></a>6.3 总线操作和定时</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611164510935.png" alt="image-20250611164510935"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611163114687.png" alt="image-20250611163114687"></p>
+<p><strong>同步定时方式-读命令</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611163301821.png" alt="image-20250611163301821"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611163426869.png" alt="image-20250611163426869"></p>
+<p><strong>异步定时方式</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611163810315.png" alt="image-20250611163810315"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611163707313.png" alt="image-20250611163707313"></p>
+<p><strong>半同步通信</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611163949768.png" alt="image-20250611163949768"></p>
+<p>是同步和异步方式的一个结合，也可以支持速度差异比较大的设备的通信，是通过增加等待信号完成的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611164119601.png" alt="image-20250611164119601"></p>
+<p><strong>分离式通信</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611164435599.png" alt="image-20250611164435599"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611164451194.png" alt="image-20250611164451194"></p>
+<h3 id="6-4-总线标准（考纲没有，看了留个印象算了）"><a href="#6-4-总线标准（考纲没有，看了留个印象算了）" class="headerlink" title="6.4 总线标准（考纲没有，看了留个印象算了）"></a>6.4 总线标准（考纲没有，看了留个印象算了）</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611170348539.png" alt="image-20250611170348539"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611164941214.png" alt="image-20250611164941214"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611165105314.png" alt="image-20250611165105314"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611165226086.png" alt="image-20250611165226086"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611165332084.png" alt="image-20250611165332084"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611165355356.png" alt="image-20250611165355356"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611165457783.png" alt="image-20250611165457783"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611165512559.png" alt="image-20250611165512559"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611165654198.png" alt="image-20250611165654198"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611165731134.png" alt="image-20250611165731134"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611165836063.png" alt="image-20250611165836063"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611165917158.png" alt="image-20250611165917158"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611170125865.png" alt="image-20250611170125865"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611170217896.png" alt="image-20250611170217896"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611170256927.png" alt="image-20250611170256927"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611170326383.png" alt="image-20250611170326383"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611170538169.png" alt="image-20250611170538169"></p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>考研</tag>
+        <tag>计算机组成原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>26考研 | 王道 | 计算机组成原理 | 七、输入输出系统</title>
+    <url>/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%B8%83%E3%80%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h2 id="26考研-王道-计算机组成原理-七、输入输出系统"><a href="#26考研-王道-计算机组成原理-七、输入输出系统" class="headerlink" title="26考研 | 王道 | 计算机组成原理 | 七、输入输出系统"></a>26考研 | 王道 | 计算机组成原理 | 七、输入输出系统</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ff01a8e36011d03207f37b804c12efd6.png" alt="在这里插入图片描述"></p>
+<h3 id="7-1-输入输出系统及I-O控制方式"><a href="#7-1-输入输出系统及I-O控制方式" class="headerlink" title="7.1 输入输出系统及I&#x2F;O控制方式"></a>7.1 输入输出系统及I&#x2F;O控制方式</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611224116359.png" alt="image-20250611224116359"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/be158b847f05383e74d93510f60cd31f.png" alt="在这里插入图片描述"></p>
+<p>I&#x2F;O接口：又称I&#x2F;O控制器、设备控制器、负责协调主机与外部设备之间的数据传输。（I&#x2F;O控制器就是一块芯片，常被集成在主板上）</p>
+<p><strong>I&#x2F;O控制方式简介</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8909b35a50340702d641e46c1861f067.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611223318729.png" alt="image-20250611223318729"></p>
+<p><strong>DMA控制方式</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5d29e7cef65e5cb9f95218084e72b463.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f7660121991b74c1eb32e003db371569.png" alt="在这里插入图片描述"></p>
+<p><strong>通道控制方式</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/bf479252de960b857c527d4136758e7e.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/00bcd104aa43f04024e2ce0d02c527c7.png" alt="在这里插入图片描述"></p>
+<p><strong>I&#x2F;O系统基本组成</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/23ab9018bb6092f055a9d8e590b38944.png" alt="在这里插入图片描述"></p>
+<p>在配有通道的计算机系统中，用户需要输入输出时，引起的中断是 访管中断 （因为这时调用的是系统提供的接口，要去请求操作系统服务，此时会使得访管中断）</p>
+<h4 id="外部设备-考纲没有，做个了解"><a href="#外部设备-考纲没有，做个了解" class="headerlink" title="外部设备(考纲没有，做个了解)"></a>外部设备(考纲没有，做个了解)</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611225339773.png" alt="image-20250611225339773"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611224236797.png" alt="image-20250611224236797"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611224333595.png" alt="image-20250611224333595"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611224628760.png" alt="image-20250611224628760"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611224802343.png" alt="image-20250611224802343"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611224858067.png" alt="image-20250611224858067"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611224918438.png" alt="image-20250611224918438"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611225015835.png" alt="image-20250611225015835"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611225130503.png" alt="image-20250611225130503"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611225245617.png" alt="image-20250611225245617"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611225309690.png" alt="image-20250611225309690"></p>
+<h3 id="7-2-I-O接口"><a href="#7-2-I-O接口" class="headerlink" title="7.2 I&#x2F;O接口"></a>7.2 I&#x2F;O接口</h3><p>磁盘驱动器是磁头、磁盘和读写电路组成的，也就是常说的磁盘本身，不是I&#x2F;O接口</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611231640530.png" alt="image-20250611231640530"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e5b0bfef29d436ca10cd4a1dad3152ad.png" alt="在这里插入图片描述"></p>
+<p>功能：选址功能、传送命令功能、传送数据功能、反映I&#x2F;O设备工作状态的功能</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3f1826ccfcb2c4017776c9c6cd93b50a.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611230336177.png" alt="image-20250611230336177"></p>
+<p><strong>I&#x2F;O接口的工作原理</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/93e512082523d6b5c40fc15e840ac8d6.png" alt="在这里插入图片描述"></p>
+<p>接口和设备之间不会传送中断请求信号</p>
+<p><strong>接口与端口</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/30420741716f68a9535129fdc5fc0f55.png" alt="在这里插入图片描述"></p>
+<p><strong>统一编址 V.S. 独立编址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/210b5e8f3d33026f15931b4b4b76b3dc.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/76a537e835ace7388f92ef9c5cd19723.png" alt="在这里插入图片描述"></p>
+<p><strong>I&#x2F;O接口的类型</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a7c08a0eaaa539985dacd9404e6c6949.png" alt="在这里插入图片描述"></p>
+<p>磁盘驱动器向盘片磁道记录数据时采用穿行方式写入</p>
+<p>USB就是串行接口</p>
+<p>程序员进行系统调用访问设备使用的是逻辑地址</p>
+<h3 id="7-3-I-O方式"><a href="#7-3-I-O方式" class="headerlink" title="7.3 I&#x2F;O方式"></a>7.3 I&#x2F;O方式</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612204700773.png" alt="image-20250612204700773"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612204729513.png" alt="image-20250612204729513"></p>
+<p>1.在各种I&#x2F;O方式中，这三种方式的特点如下所示：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612204153280.png" alt="image-20250612204153280"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612204203665.png" alt="image-20250612204203665"></p>
+<p>2.DMA优先级高于程序中断的优先级</p>
+<p>3.程序中断方式需要保护现场，DMA方式在传输过程中不需要保护现场</p>
+<p>4.程序中断过程是由硬件（称中断隐指令）和中断服务程序共同完成的</p>
+<p>5.中断I&#x2F;O方式下，CPU执行中断服务程序时会执行相应的I&#x2F;O指令，实现CPU的通用寄存器和外设接口中的寄存器之间的直接数据交换</p>
+<p>6.中断请求的是CPU时间，要求CPU执行程序来处理发生的相关事件</p>
+<p>7.CPU对外部中断的响应不可能发生在一条指令的执行过程中</p>
+<h4 id="1-程序查询方式"><a href="#1-程序查询方式" class="headerlink" title="1. 程序查询方式"></a>1. 程序查询方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612110237802.png" alt="image-20250612110237802"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5cf643d622235213b819b6f0a1561c75.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a3763089142585fe7243886f1ffa45ab.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5d6db5db30b13a6473ef3e5953398c91.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612110132247.png" alt="image-20250612110132247"></p>
+<h4 id="2-中断的作用和原理"><a href="#2-中断的作用和原理" class="headerlink" title="2. 中断的作用和原理"></a>2. 中断的作用和原理</h4><p>1.CPU响应中断的三个条件：中断源有中断请求、CPU允许中断以及开中断、一条指令执行完毕并且没有更紧迫的任务</p>
+<p>（开中断时，CPU只要检测到中断请求就进行中断响应，不管多重还是单重）</p>
+<p>2.中断服务程序一般是操作系统模块</p>
+<p>3.中断向量方法可提高中断源的识别速度</p>
+<p>4.中断向量地址是内存中存放中断向量的地址，也就是中断服务程序入口地址的地址，也就是说中断向量其实是中断服务程序入口地址</p>
+<p>5.中断服务程序最后的指令是中断返回指令，不是无条件转移指令。不同的地方在于，不仅要修改PC值，还要恢复现场</p>
+<p>6.中断响应的优先级不是由中断屏蔽字决定的，在中断响应阶段之前，CPU根据中断屏蔽字将所有未被屏蔽的中断请求送到硬件电路（或中断查询程序）进行中断响应判优</p>
+<p>7.在中断响应周期，由中断隐指令将允许中断触发器置0，表示关中断</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612204041119.png" alt="image-20250612204041119"></p>
+<p>8.进入中断响应阶段时，CPU一定处于开中断状态（进入响应阶段，说明有请求并且CPU也响应了，那说明还可以收到请求，那说明就是开中断状态）</p>
+<p>9.中断优先级包括响应优先级和处理优先级，响应优先级由硬件线路或者查询程序的查询顺序确定，不可动态改变，处理优先级由中断屏蔽字确定，可灵活改变</p>
+<p><strong>中断的基本概念</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0a8e7ee7900052f44415e6f2100e9a47.png" alt="在这里插入图片描述"></p>
+<p><strong>中断请求的分类</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4bb12dfff00d56f8fec8209f7b9dd7fa.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612191704547.png" alt="image-20250612191704547"></p>
+<p><strong>中断请求标记</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3a0147a785e9c534937d09d95f427be6.png" alt="在这里插入图片描述"></p>
+<p><strong>中断判优实现</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0bb6c90cd89f246c3e22daba17e54cac.png" alt="在这里插入图片描述"></p>
+<p><strong>中断判优-优先级设置</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612111329547.png"></p>
+<p><strong>中断处理过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a4240776c0f4b59f9ec7bc0e4aa64e0c.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612111943824.png" alt="image-20250612111943824"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1612b9cba1c1e01e4a17ceaecc290fc1.png" alt="在这里插入图片描述"></p>
+<p>其实就是排队器选择一个中断后，把结果输入到中断向量地址形成部件，然后映射成向量地址</p>
+<p>根据向量地址，我们就可以找到入口地址了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f35cf9fb2b0fb7aafa5b1d61621c72bd.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612191807149.png" alt="image-20250612191807149"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612191819144.png" alt="image-20250612191819144"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612191843747.png" alt="image-20250612191843747"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612191905370.png" alt="image-20250612191905370"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612191922073.png" alt="image-20250612191922073"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/db2c8710c45f741d00a0a3376744deb0.png" alt="在这里插入图片描述"></p>
+<h5 id="1-中断响应阶段（硬件自动完成）"><a href="#1-中断响应阶段（硬件自动完成）" class="headerlink" title="1.中断响应阶段（硬件自动完成）"></a>1.<strong>中断响应阶段（硬件自动完成）</strong></h5><ul>
+<li><strong>中断请求</strong><ul>
+<li>操作：中断源（外设&#x2F;定时器&#x2F;异常）通过物理引脚（如INTR）或内部逻辑发送请求信号，并保持信号直至响应</li>
+<li>硬件支持：中断控制器（如APIC）管理多源请求的优先级</li>
+</ul>
+</li>
+<li><strong>中断响应</strong><ul>
+<li>操作：CPU在当前指令的最后一个时钟周期扫描中断引脚。若中断使能（IF&#x3D;1）且请求有效，发送应答信号（INTA）</li>
+<li>关键限制：长指令（如X86 REP MOVS）需执行完毕才响应</li>
+</ul>
+</li>
+<li><strong>关闭中断</strong><ul>
+<li>操作：硬件自动清除标志寄存器（EFLAGS）的IF位，屏蔽后续可屏蔽中断，防止现场保护时被抢占</li>
+<li>例外：不可屏蔽中断（NMI）仍可触发</li>
+</ul>
+</li>
+<li><strong>保护断点</strong><ul>
+<li>操作：CPU自动将程序计数器（PC&#x2F;EIP） 和程序状态字（PSW&#x2F;EFLAGS） 压入内核栈</li>
+<li><strong>意义</strong>：确保中断返回后能继续执行原指令流。</li>
+</ul>
+</li>
+<li><strong>中断源识别</strong><ul>
+<li>操作：通过中断向量号（如0x80为系统调用）查询中断描述符表（IDT），定位中断服务程序入口地址</li>
+<li>多源处理：共享中断（如PCI设备）需软件二次查询中断控制器状态</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-中断处理阶段（操作系统-驱动主导）"><a href="#2-中断处理阶段（操作系统-驱动主导）" class="headerlink" title="2. 中断处理阶段（操作系统&#x2F;驱动主导）"></a><strong>2. 中断处理阶段（操作系统&#x2F;驱动主导）</strong></h5><ul>
+<li><strong>保护现场</strong><ul>
+<li>操作：中断服务程序（ISR）开头用PUSH指令保存通用寄存器（EAX&#x2F;EBX等）内容到栈中，防止主程序状态被破坏</li>
+<li><strong>编程责任</strong>：由开发者编写保存代码，非硬件自动完成。</li>
+</ul>
+</li>
+<li><strong>执行中断服务程序（ISP）</strong><ul>
+<li>上半部（Top Half）：<ul>
+<li>立即处理关键操作：读取外设数据寄存器、清除中断标志</li>
+<li><strong>特点</strong>：不可阻塞、不可嵌套（关中断状态下执行）。</li>
+</ul>
+</li>
+<li>下半部（Bottom Half）：<ul>
+<li>延迟处理耗时操作：网络包处理、磁盘I&#x2F;O调度</li>
+<li>实现机制：<ul>
+<li><code>softirq</code>：高优先级，多CPU并行执行</li>
+<li><code>tasklet</code>：单CPU串行执行</li>
+<li>workqueue：可睡眠的线程上下文</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>恢复现场</strong><ul>
+<li>操作：ISP末尾用POP指令从栈中恢复寄存器原值，与保护现场成对出现</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-中断返回阶段"><a href="#3-中断返回阶段" class="headerlink" title="3. 中断返回阶段"></a><strong>3. 中断返回阶段</strong></h5><ul>
+<li><strong>恢复断点</strong><ul>
+<li>操作：执行IRET指令时，硬件自动从栈中弹出PC和PSW值，装载回寄存器</li>
+<li><strong>原子性</strong>：恢复操作不可分割，防止状态不一致。</li>
+</ul>
+</li>
+<li><strong>开中断</strong><ul>
+<li>操作：IRET指令隐式恢复标志寄存器（含IF位），重新允许响应中断</li>
+</ul>
+</li>
+<li><strong>返回原程序</strong><ul>
+<li>操作：CPU从断点地址继续执行原指令流，中断处理结束</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-多重中断"><a href="#3-多重中断" class="headerlink" title="3. 多重中断"></a>3. 多重中断</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612113158057.png" alt="image-20250612113158057"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/058da735e79db505ada2beea571960b0.png" alt="在这里插入图片描述"></p>
+<p><strong>中断屏蔽技术</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4d9f02b043ac5498cd2d49a6ee56654d.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6ce767eb2652470798dc237f93bc4ede.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b13f72dea4a832220f1663473f0851db.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5c3b2f32bcd6e22899157caf4af54635.png" alt="在这里插入图片描述"></p>
+<h4 id="4-程序中断方式"><a href="#4-程序中断方式" class="headerlink" title="4. 程序中断方式"></a>4. 程序中断方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/182af2aec544aedd35eff2e6b8414245.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6e6a394b98958d3e20abe5424e6cfb06.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/27205660bf9dd0fbbf203281bf653aba.png" alt="在这里插入图片描述"></p>
+<h4 id="5-DMA方式"><a href="#5-DMA方式" class="headerlink" title="5. DMA方式"></a>5. DMA方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612210246331.png" alt="image-20250612210246331"></p>
+<p>CPU会在每个存取周期（总线周期）结束后检查是否有DMA请求，而不是一条指令执行过程的末尾</p>
+<p>只有具有DMA接口的设备才能产生DMA请求。否则即使是当前设备是高速设备或者需要与主机批量交换数据，也不能产生DMA请求</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612204321199.png" alt="image-20250612204321199"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612204432469.png" alt="image-20250612204432469"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/cba99123af7bf30a10cb524ed0fb0e94.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612160304420.png" alt="image-20250612160304420"></p>
+<p>程序中断方式每次传输一次数据就得中断一次。</p>
+<p>而DMA方式（并且没有DMA总线的情况下）每传输一次数据只需要占用一下系统总线（就是中间空下的那一个存取周期），若CPU此时没有访存操作，即不需要用到系统总线的操作，那么CPU可以执行其他程序，如果CPU有访存操作，即需要用到系统总线的操作，那么会等到DMA控制器用完以后，CPU再用，那就是中间的那个空下的存取周期</p>
+<p>如果是三总线结构，即有DMA总线时，都不需要占用系统总线，只需要考虑和CPU是否会同时读写主存的问题，就是后面提到的三种策略</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1ce2f800f208ec876754bf5246c7bd91.png" alt="在这里插入图片描述"></p>
+<p>向CPU报告是发出一个中断信号</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1763c19be68da3f1b54e355d0c1d9db0.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612155737536.png" alt="image-20250612155737536"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3fa7364c18032f5e15edf0b72a350e54.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f4fc36169afa77f8f40017f1cb9a9a23.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/2c0be3e3fb9873b5b29cb9b40f9ea9a0.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d825351f97aa64f8444d1d2ac5b88fd5.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/04b138b903670550358b63a649a87ab3.png" alt="在这里插入图片描述"></p>
+<p>、</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/358ecd665a35f47417dbccf39f336244.jpeg" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>考研</tag>
+        <tag>计算机组成原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day131 | 灵神 | 回溯算法 | 子集型 子集</title>
+    <url>/2025/06/10/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-10-Day131--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/</url>
+    <content><![CDATA[<h1 id="Day131-灵神-回溯算法-子集型-子集"><a href="#Day131-灵神-回溯算法-子集型-子集" class="headerlink" title="Day131 | 灵神 | 回溯算法 | 子集型 子集"></a>Day131 | 灵神 | 回溯算法 | 子集型 子集</h1><h2 id="78-子集"><a href="#78-子集" class="headerlink" title="78.子集"></a>78.子集</h2><p><a href="https://leetcode.cn/problems/subsets/description/">78. 子集 - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>笔者写过很多次这道题了，不想写题解了，大家看灵神讲解吧</p>
+<p><a href="https://www.bilibili.com/video/BV1mG4y1A7Gu?spm_id_from=333.788.videopod.sections&vd_source=7831c5b97cfc5c745eb48ff04f6515e7">回溯算法套路①子集型回溯【基础算法精讲 14】_哔哩哔哩_bilibili</a></p>
+<p><code>完整代码：</code></p>
+<p><strong>选或不选</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610171702417.png" alt="image-20250610171702417"></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums,<span class="type">int</span> index)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index==nums.<span class="built_in">size</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//不选</span></span><br><span class="line">        <span class="built_in">backtracking</span>(nums,index<span class="number">+1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//选</span></span><br><span class="line">        path.<span class="built_in">push_back</span>(nums[index]);</span><br><span class="line">        <span class="built_in">backtracking</span>(nums,index<span class="number">+1</span>);</span><br><span class="line">        path.<span class="built_in">pop_back</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">subsets</span>(vector&lt;<span class="type">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="built_in">backtracking</span>(nums,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>枚举选哪个</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610171628126.png" alt="image-20250610171628126"></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums,<span class="type">int</span> index)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        res.<span class="built_in">push_back</span>(path);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=index;i&lt;nums.<span class="built_in">size</span>();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            path.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">            <span class="built_in">backtracking</span>(nums,i<span class="number">+1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">subsets</span>(vector&lt;<span class="type">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="built_in">backtracking</span>(nums,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>刷题记录</tag>
+        <tag>回溯算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系</title>
+    <url>/2025/06/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-06-%E5%8D%95%E5%91%A8%E6%9C%9Fcpu%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9Fcpu%E3%80%81%E5%8D%95%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E4%B8%8E%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E4%B8%93%E7%94%A8%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E5%85%B3%E7%B3%BB/</url>
+    <content><![CDATA[<h1 id="单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系"><a href="#单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系" class="headerlink" title="单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系"></a>单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系</h1><p>笔者学王道计组第五章第二节的时候做题发现很难受，就去查了一下这相关的</p>
+<p>##1.单周期cpu和多周期cpu</p>
+<h3 id="一、核心概念"><a href="#一、核心概念" class="headerlink" title="一、核心概念"></a>一、核心概念</h3><ol>
+<li><strong>单周期CPU</strong><ul>
+<li><strong>原理</strong>：<strong>一条指令必须在1个时钟周期内完成</strong>所有操作（取指令、译码、执行、访存、写回）。</li>
+<li>特点：<ul>
+<li>时钟周期长度由最慢指令决定（如加载指令lw耗时最长）</li>
+<li>所有指令的CPI（每条指令周期数）均为1</li>
+</ul>
+</li>
+<li><strong>通俗类比</strong>：⏱️ 所有学生考试时间统一为3小时，有人1小时交卷也得等，效率低。</li>
+</ul>
+</li>
+<li><strong>多周期CPU</strong><ul>
+<li><strong>原理</strong>：<strong>将指令拆分为多个阶段</strong>（如5阶段：取指IF、译码ID、执行EXE、访存MEM、写回WB），<strong>每个阶段占1个时钟周期</strong>。</li>
+<li>特点：<ul>
+<li>不同指令的周期数不同（如加法指令需4周期，lw需5周期）</li>
+<li>时钟周期按最慢阶段设计（如访存阶段），但短指令无需等待长指令</li>
+</ul>
+</li>
+<li><strong>通俗类比</strong>：🔧 工厂流水线，不同零件加工步骤不同，每步只需1分钟，整体效率高。</li>
+</ul>
+</li>
+</ol>
+<h3 id="二、性能与优缺点"><a href="#二、性能与优缺点" class="headerlink" title="二、性能与优缺点"></a>二、性能与优缺点</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>对比项</strong></th>
+<th align="center">单周期CPU</th>
+<th align="center">多周期CPU</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>时钟周期长度</strong></td>
+<td align="center">长（由最长指令定）</td>
+<td align="center">短（由最长阶段定）</td>
+</tr>
+<tr>
+<td align="center"><strong>CPI</strong></td>
+<td align="center">固定为1</td>
+<td align="center">可变（平均&gt;1）</td>
+</tr>
+<tr>
+<td align="center"><strong>资源利用率</strong></td>
+<td align="center">低（简单指令空等）</td>
+<td align="center">高（按需分配周期）</td>
+</tr>
+<tr>
+<td align="center"><strong>设计复杂度</strong></td>
+<td align="center">简单（控制信号少）</td>
+<td align="center">复杂（需多状态机控制）</td>
+</tr>
+<tr>
+<td align="center"><strong>并行支持</strong></td>
+<td align="center">不支持</td>
+<td align="center">可扩展为流水线</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>关键结论</strong>：多周期通过<strong>时间换效率</strong>，避免资源闲置，适合复杂指令集</p>
+</blockquote>
+<h2 id="2-单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系"><a href="#2-单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系" class="headerlink" title="2.单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系"></a>2.单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系</h2><p>单周期数据通路和多周期数据通路是<strong>单周期CPU和多周期CPU的核心硬件实现结构</strong>，它们与CPU设计理念直接对应。</p>
+<h3 id="一、数据通路与CPU设计的关系"><a href="#一、数据通路与CPU设计的关系" class="headerlink" title="一、数据通路与CPU设计的关系"></a>一、数据通路与CPU设计的关系</h3><ol>
+<li><strong>单周期CPU → 单周期数据通路</strong><ul>
+<li><strong>设计思想</strong>：一条指令在<strong>一个时钟周期内完成所有操作</strong>（取指、译码、执行、访存、写回）。</li>
+<li>数据通路特点：<ul>
+<li>完整通路一次性贯通：指令执行过程不分割，数据从输入到输出流经所有功能部件</li>
+<li>无中间寄存器：结果直接传递，无需暂存中间值</li>
+<li>时钟周期长：由最慢指令（如lw）决定，需覆盖访存、ALU运算、寄存器读写等总耗时</li>
+</ul>
+</li>
+<li><strong>关系</strong>：单周期数据通路是实现单周期CPU的硬件基础，其结构决定了CPU“一刀切”的低效特性。</li>
+</ul>
+</li>
+<li><strong>多周期CPU → 多周期数据通路</strong><ul>
+<li>设计思想：将指令拆分为多个阶段（如IF&#x2F;ID&#x2F;EXE&#x2F;MEM&#x2F;WB），每个阶段占一个时钟周期</li>
+<li>数据通路特点：<ul>
+<li>分段式结构：通过中间寄存器（如IR、A、B、ALUout）分割通路，锁存阶段结果</li>
+<li>复用功能部件：如指令&#x2F;数据存储器分时复用，ALU用于不同阶段的计算</li>
+<li>时钟周期短：由最慢阶段（如MEM访存）决定，远短于单周期</li>
+</ul>
+</li>
+<li><strong>关系</strong>：多周期数据通路是多周期CPU的物理载体，支持指令按需分配时钟周期，提升效率。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="二、数据通路的核心差异对比"><a href="#二、数据通路的核心差异对比" class="headerlink" title="二、数据通路的核心差异对比"></a>二、数据通路的核心差异对比</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>对比项</strong></th>
+<th align="center">单周期数据通路</th>
+<th align="center">多周期数据通路</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>结构复杂度</strong></td>
+<td align="center">简单（组合逻辑为主）</td>
+<td align="center">复杂（需中间寄存器+状态机控制）</td>
+</tr>
+<tr>
+<td align="center"><strong>时钟控制</strong></td>
+<td align="center">无阶段划分，全局同步</td>
+<td align="center">分阶段控制，状态机切换</td>
+</tr>
+<tr>
+<td align="center"><strong>关键路径</strong></td>
+<td align="center">完整指令路径（如<code>lw</code>全流程）</td>
+<td align="center">单阶段路径（如仅MEM阶段）</td>
+</tr>
+<tr>
+<td align="center"><strong>资源利用率</strong></td>
+<td align="center">低（功能部件串行使用）</td>
+<td align="center">高（部件分时复用）</td>
+</tr>
+<tr>
+<td align="center"><strong>典型优化</strong></td>
+<td align="center">无</td>
+<td align="center">插入寄存器分割关键路径</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>示例说明</strong>：</p>
+<ul>
+<li><p>单周期通路：lw指令需一次性完成：取指→读寄存器→ALU计算地址→访存→写回，路径长且不可中断</p>
+</li>
+<li><p>多周期通路：lw</p>
+<p>被拆分为：</p>
+<ul>
+<li><p><strong>IF</strong>：取指令 → 存IR</p>
+</li>
+<li><p><strong>ID</strong>：读寄存器 → 存A&#x2F;B</p>
+</li>
+<li><p><strong>EXE</strong>：ALU算地址 → 存ALUout</p>
+</li>
+<li><p><strong>MEM</strong>：访存 → 存DR</p>
+</li>
+<li><p>WB：写回寄存器</p>
+<p>每个阶段结果由寄存器暂存，下个时钟周期继续使用。</p>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="3-总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系"><a href="#3-总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系" class="headerlink" title="3.总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系"></a>3.总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系</h2><h3 id="一、数据通路设计方式"><a href="#一、数据通路设计方式" class="headerlink" title="一、数据通路设计方式"></a><strong>一、数据通路设计方式</strong></h3><h4 id="1-总线结构数据通路"><a href="#1-总线结构数据通路" class="headerlink" title="1. 总线结构数据通路"></a>1. <strong>总线结构数据通路</strong></h4><ul>
+<li>定义：通过共享总线连接CPU内部各部件（如寄存器、ALU、存储器接口），数据分时复用总线传输</li>
+<li>子类型：<ul>
+<li>单总线结构：所有部件共用一条总线，同一时间只能传输一个数据，效率低（如单周期CPU常用）</li>
+<li>多总线结构：使用多条总线（如双总线、三总线），支持并行数据传输，提高效率（多周期CPU可能采用）</li>
+</ul>
+</li>
+<li>特点：<ul>
+<li><strong>优点</strong>：结构简单，硬件成本低。</li>
+<li>缺点：总线冲突频繁，需分时使用，成为性能瓶颈</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-专用数据通路"><a href="#2-专用数据通路" class="headerlink" title="2. 专用数据通路"></a>2. <strong>专用数据通路</strong></h4><ul>
+<li>定义：为特定操作设计独立的数据传输路径（如ALU与寄存器直连），避免共享总线</li>
+<li>特点：<ul>
+<li><strong>优点</strong>：无冲突、延迟低、性能高（适合高频操作如浮点运算）。</li>
+<li>缺点：硬件复杂、成本高、扩展性差</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="二、与CPU设计的关系"><a href="#二、与CPU设计的关系" class="headerlink" title="二、与CPU设计的关系"></a>二、与CPU设计的关系</h3><h4 id="1-单周期CPU"><a href="#1-单周期CPU" class="headerlink" title="1. 单周期CPU"></a>1. <strong>单周期CPU</strong></h4><ul>
+<li><strong>典型数据通路</strong>：多采用<strong>单总线结构</strong>。</li>
+<li>原因：单周期需在一个时钟周期完成所有操作，总线结构设计简单，但时钟周期因共享总线冲突而较长</li>
+<li>示例：lw指令需依次完成取指、译码、ALU计算、访存、写回，全程独占总线</li>
+</ul>
+<h4 id="2-多周期CPU"><a href="#2-多周期CPU" class="headerlink" title="2. 多周期CPU"></a>2. <strong>多周期CPU</strong></h4><ul>
+<li>常用数据通路：<ul>
+<li>总线结构：多采用多总线（如三总线），支持分阶段并行传输（如IF阶段取指时，EXE阶段可同时计算）</li>
+<li>专用数据通路：为关键操作（如ALU运算）设计专用路径，减少阶段间阻塞</li>
+</ul>
+</li>
+<li>优势：时钟周期短（由最慢阶段决定），资源利用率高</li>
+</ul>
+<hr>
+<h3 id="三、核心关系对比"><a href="#三、核心关系对比" class="headerlink" title="三、核心关系对比"></a><strong>三、核心关系对比</strong></h3><table>
+<thead>
+<tr>
+<th align="center"><strong>设计方式</strong></th>
+<th align="center"><strong>总线结构数据通路</strong></th>
+<th align="center"><strong>专用数据通路</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>硬件复杂度</strong></td>
+<td align="center">低（共享线路）</td>
+<td align="center">高（独立线路）</td>
+</tr>
+<tr>
+<td align="center"><strong>执行效率</strong></td>
+<td align="center">较低（总线冲突）</td>
+<td align="center">高（无冲突，并行性强）</td>
+</tr>
+<tr>
+<td align="center"><strong>指令冲突</strong></td>
+<td align="center">严重（分时复用总线）</td>
+<td align="center">无（路径独立）</td>
+</tr>
+<tr>
+<td align="center"><strong>典型应用场景</strong></td>
+<td align="center">单周期CPU、简单多周期CPU</td>
+<td align="center">高性能多周期CPU、流水线CPU</td>
+</tr>
+<tr>
+<td align="center"><strong>与CPU类型关系</strong></td>
+<td align="center">单周期依赖单总线，多周期可选多总线</td>
+<td align="center">多周期&#x2F;流水线中优化关键路径</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>关键总结</strong>：</p>
+<ul>
+<li><p>单周期CPU：因时间约束紧，多用单总线结构，但效率低</p>
+</li>
+<li><p>多周期CPU：灵活选择多总线或专用通路，平衡效率与复杂度</p>
+</li>
+<li><p>专用通路</p>
+<p>是总线结构的补充，用于突破性能瓶颈（如ALU密集操作）</p>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="四、实例说明"><a href="#四、实例说明" class="headerlink" title="四、实例说明"></a><strong>四、实例说明</strong></h3><ol>
+<li><strong>单周期CPU + 单总线</strong><ul>
+<li>所有操作（取指、ALU、访存）串行占用同一条总线 → 时钟周期&#x3D;最长指令耗时</li>
+<li>控制信号：全局生成，无阶段切换（如PCout、MARin全程有效）</li>
+</ul>
+</li>
+<li><strong>多周期CPU + 三总线</strong><ul>
+<li>分阶段执行：IF阶段用总线1取指令，EXE阶段用总线2传ALU操作数</li>
+<li>控制信号：状态机分阶段生成（如MEM阶段激活MemRead)</li>
+</ul>
+</li>
+<li><strong>多周期CPU + 专用通路</strong><ul>
+<li>ALU输入端直连寄存器，避免总线竞争 → 加速加法运算</li>
+<li>硬件代价：需额外多路选择器和控制逻辑</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a><strong>结论</strong></h3><ul>
+<li><p><strong>总线结构</strong>（单&#x2F;多总线）是数据通路的基础设计，<strong>单周期CPU依赖它实现简单性</strong>，<strong>多周期CPU通过多总线提升效率</strong>。</p>
+</li>
+<li><p><strong>专用数据通路</strong>是高性能场景的优化手段，<strong>多用于多周期CPU的关键路径</strong>，以空间换时间。</p>
+</li>
+<li><p>关系本质：</p>
+<blockquote>
+<p>单周期CPU → 单总线为主 | 多周期CPU → 多总线&#x2F;专用通路混合 → 流水线CPU的基石</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="4-如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次"><a href="#4-如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次" class="headerlink" title="4.如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次"></a>4.如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次</h2><h4 id="单周期CPU的控制信号与部件使用"><a href="#单周期CPU的控制信号与部件使用" class="headerlink" title="单周期CPU的控制信号与部件使用"></a><strong>单周期CPU的控制信号与部件使用</strong></h4><ul>
+<li><p><strong>控制信号保持不变</strong>：<br>单周期CPU在一个时钟周期内完成整条指令的所有操作（取指、译码、执行、访存、写回）。控制信号（如<code>RegWrite</code>、<code>MemRead</code>等）在周期开始时一次性生成，并在整个周期内保持恒定</p>
+<blockquote>
+<p>例如：执行<code>lw</code>指令时，控制信号<code>MemRead</code>和<code>RegWrite</code>从周期开始到结束始终有效。</p>
+</blockquote>
+</li>
+<li><p><strong>部件只能使用一次</strong>：<br>由于所有操作在一个周期内完成，每个功能部件（如ALU、存储器）只能被使用一次。例如：</p>
+<ul>
+<li>ALU在计算内存地址后便闲置，无法在同一指令中再次使用</li>
+<li>数据存储器仅在访存阶段被访问一次。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-多周期CPU的控制信号与部件使用"><a href="#2-多周期CPU的控制信号与部件使用" class="headerlink" title="2. 多周期CPU的控制信号与部件使用"></a><strong>2. 多周期CPU的控制信号与部件使用</strong></h4><ul>
+<li><p><strong>控制信号动态变化</strong>：<br>多周期CPU将指令分为多个阶段（如IF、ID、EXE、MEM、WB），每个阶段占一个时钟周期。控制信号由<strong>状态机</strong>分阶段生成，随执行阶段动态调整</p>
+<blockquote>
+<p>例如：<code>lw</code>指令在MEM阶段激活<code>MemRead</code>，在WB阶段激活<code>RegWrite</code>，而其他信号（如<code>ALUSrc</code>）可能在EXE阶段生效。</p>
+</blockquote>
+</li>
+<li><p><strong>部件可重复使用</strong>：<br>同一部件可在不同阶段被多次调用，典型例子包括：</p>
+<ul>
+<li>ALU复用：在EXE阶段计算地址，在MEM阶段可能用于分支判断（如beq指令）</li>
+<li>存储器分时复用：指令存储器（IF阶段）和数据存储器（MEM阶段）共享物理存储，但分时访问</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="核心差异对比"><a href="#核心差异对比" class="headerlink" title="核心差异对比"></a>核心差异对比</h3><table>
+<thead>
+<tr>
+<th align="center"><strong>特性</strong></th>
+<th align="center">单周期CPU</th>
+<th align="center">多周期CPU</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>控制信号</strong></td>
+<td align="center">周期内恒定不变</td>
+<td align="center">分阶段动态变化（由状态机控制）</td>
+</tr>
+<tr>
+<td align="center"><strong>部件使用</strong></td>
+<td align="center">每个部件仅使用一次</td>
+<td align="center">同一部件可多次复用（如ALU、存储器）</td>
+</tr>
+<tr>
+<td align="center"><strong>设计依据</strong></td>
+<td align="center">信号全局生成，无阶段切换</td>
+<td align="center">状态机按阶段生成控制信号</td>
+</tr>
+<tr>
+<td align="center"><strong>硬件效率</strong></td>
+<td align="center">低（部件闲置率高）</td>
+<td align="center">高（资源分时复用）</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="关键机制说明"><a href="#关键机制说明" class="headerlink" title="关键机制说明"></a>关键机制说明</h3><ol>
+<li><p><strong>单周期控制信号生成</strong>：<br>控制单元通过组合逻辑直接解析指令操作码（Opcode），一次性输出所有控制信号，无中间状态切换</p>
+</li>
+<li><p><strong>多周期控制信号生成</strong>：<br>依赖<strong>有限状态机（FSM）​</strong>​：</p>
+<ul>
+<li>每个状态对应一个执行阶段（如<code>S_IF</code>、<code>S_EXE</code>）。</li>
+<li>状态转移由当前指令类型和阶段触发，控制信号随状态改变</li>
+</ul>
+<blockquote>
+<p>例如：<code>add</code>指令在EXE阶段激活<code>ALUOp</code>，而<code>lw</code>指令在MEM阶段激活<code>MemRead</code>。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="实际影响与设计意义"><a href="#实际影响与设计意义" class="headerlink" title="实际影响与设计意义"></a>实际影响与设计意义</h3><ol>
+<li><strong>单周期局限性</strong>：<br>因控制信号固定且部件单次使用，时钟周期必须覆盖最长指令耗时（如<code>lw</code>），导致简单指令（如<code>add</code>）等待时间浪费</li>
+<li><strong>多周期灵活性</strong>：<br>通过动态控制信号和部件复用：<ul>
+<li>时钟周期缩短至最慢阶段耗时（通常为MEM访存）</li>
+<li>资源利用率提升（如ALU在空闲阶段可服务其他操作）</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这句话精准概括了两种CPU的核心差异：</p>
+<ul>
+<li><strong>单周期CPU</strong>：控制信号静态、部件一次性使用 → <strong>简单但低效</strong>。</li>
+<li>多周期CPU：控制信号动态、部件可复用 → 复杂但高效。这种差异正是多周期CPU能突破单周期性能瓶颈的关键</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机组成原理</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>考研</tag>
+        <tag>计算机组成原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串</title>
+    <url>/2025/06/12/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-12-Day132--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/</url>
+    <content><![CDATA[<h1 id="Day132-灵神-回溯算法-子集型-分割回文子串"><a href="#Day132-灵神-回溯算法-子集型-分割回文子串" class="headerlink" title="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串"></a>Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串</h1><h2 id="131-分割回文子串"><a href="#131-分割回文子串" class="headerlink" title="131.分割回文子串"></a>131.分割回文子串</h2><p><a href="https://leetcode.cn/problems/palindrome-partitioning/description/">131. 分割回文串 - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>其实就和子集一样的，每次加入一个字符然后判断是不是回文串，是的话加入答案集合不是的话就不加入答案</p>
+<p>笔者写过很多次这道题了，不想写题解了，大家看灵神讲解吧</p>
+<p><a href="https://www.bilibili.com/video/BV1mG4y1A7Gu?spm_id_from=333.788.videopod.sections&vd_source=7831c5b97cfc5c745eb48ff04f6515e7">回溯算法套路①子集型回溯【基础算法精讲 14】_哔哩哔哩_bilibili</a></p>
+<p><code>完整代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;string&gt;&gt; res;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">is</span><span class="params">(string s,<span class="type">int</span> begin,<span class="type">int</span> end)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=begin,j=end;i&lt;j;i++,j--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(s[i]!=s[j])</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtracking</span><span class="params">(string s,vector&lt;string&gt; path,<span class="type">int</span> index)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index==s.<span class="built_in">size</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=index;i&lt;s.<span class="built_in">size</span>();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">is</span>(s,index,i))</span><br><span class="line">            &#123;</span><br><span class="line">                path.<span class="built_in">push_back</span>(<span class="built_in">string</span>(s.<span class="built_in">begin</span>()+index,s.<span class="built_in">begin</span>()+i<span class="number">+1</span>));</span><br><span class="line">                <span class="built_in">backtracking</span>(s,path,i<span class="number">+1</span>);</span><br><span class="line">                path.<span class="built_in">pop_back</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;string&gt;&gt; <span class="built_in">partition</span>(string s) &#123;</span><br><span class="line">        vector&lt;string&gt; path;</span><br><span class="line">        <span class="built_in">backtracking</span>(s,path,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>刷题记录</tag>
+        <tag>回溯算法</tag>
+      </tags>
+  </entry>
 </search>

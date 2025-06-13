@@ -1,0 +1,651 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>26考研 | 王道 | 计算机组成原理 | 五、中央处理器 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="26考研 | 王道 | 计算机组成原理 | 五、中央处理器0.概览CPU能够识别执行的只有机器指令和微指令，汇编指令只有翻译为机器指令之后才可以执行 汇编程序员可见的寄存器有：基址寄存器、状态寄存器PSW、程序计数器PC、通用寄存器组 不可见的：MAR、MDR、IR、微指令寄存器      1.CPU的功能和结构CPU读写控制信号的作用是 决定数据总线上的数据流动方向，控制存储器操作的读写类型，控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="26考研 | 王道 | 计算机组成原理 | 五、中央处理器">
+<meta property="og:url" content="https://darling-123456.github.io/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="26考研 | 王道 | 计算机组成原理 | 五、中央处理器0.概览CPU能够识别执行的只有机器指令和微指令，汇编指令只有翻译为机器指令之后才可以执行 汇编程序员可见的寄存器有：基址寄存器、状态寄存器PSW、程序计数器PC、通用寄存器组 不可见的：MAR、MDR、IR、微指令寄存器      1.CPU的功能和结构CPU读写控制信号的作用是 决定数据总线上的数据流动方向，控制存储器操作的读写类型，控">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/363.jpg">
+<meta property="article:published_time" content="2025-06-11T10:25:00.000Z">
+<meta property="article:modified_time" content="2025-06-13T14:38:11.189Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="考研">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/363.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "26考研 | 王道 | 计算机组成原理 | 五、中央处理器",
+  "url": "https://darling-123456.github.io/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/",
+  "image": "https://darling-123456.github.io/img/363.jpg",
+  "datePublished": "2025-06-11T10:25:00.000Z",
+  "dateModified": "2025-06-13T14:38:11.189Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '26考研 | 王道 | 计算机组成原理 | 五、中央处理器',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">365</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/363.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">26考研 | 王道 | 计算机组成原理 | 五、中央处理器</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">26考研 | 王道 | 计算机组成原理 | 五、中央处理器</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-11T10:25:00.000Z" title="发表于 2025-06-11 18:25:00">2025-06-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-13T14:38:11.189Z" title="更新于 2025-06-13 22:38:11">2025-06-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="26考研-王道-计算机组成原理-五、中央处理器"><a href="#26考研-王道-计算机组成原理-五、中央处理器" class="headerlink" title="26考研 | 王道 | 计算机组成原理 | 五、中央处理器"></a>26考研 | 王道 | 计算机组成原理 | 五、中央处理器</h1><h2 id="0-概览"><a href="#0-概览" class="headerlink" title="0.概览"></a>0.概览</h2><p>CPU能够识别执行的只有机器指令和微指令，汇编指令只有翻译为机器指令之后才可以执行</p>
+<p>汇编程序员<code>可见的寄存器</code>有：基址寄存器、状态寄存器PSW、程序计数器PC、通用寄存器组</p>
+<p><code>不可见的：</code>MAR、MDR、IR、微指令寄存器</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605100002496.png" alt="image-20250605100002496"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/7e6b124eda7a055c873348fedc2ca98e.jpeg" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/74f34de5f9d271f05188f0dc9a0ddacf.jpeg" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605094940034.png" alt="image-20250605094940034"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605095004847.png" alt="image-20250605095004847"></p>
+<h2 id="1-CPU的功能和结构"><a href="#1-CPU的功能和结构" class="headerlink" title="1.CPU的功能和结构"></a>1.CPU的功能和结构</h2><p><code>CPU读写控制信号的作用</code>是 决定数据总线上的数据流动方向，控制存储器操作的读写类型，控制流入流出存储器信息的方向</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605105248561.png" alt="image-20250605105248561"></p>
+<h3 id="寄存器可见性与透明性分类"><a href="#寄存器可见性与透明性分类" class="headerlink" title="寄存器可见性与透明性分类"></a><strong>寄存器可见性与透明性分类</strong></h3><table>
+<thead>
+<tr>
+<th align="center"><strong>寄存器</strong></th>
+<th align="center"><strong>用户可见性</strong></th>
+<th align="center"><strong>用户透明性</strong></th>
+<th align="center"><strong>用户可修改性</strong></th>
+<th align="center"><strong>修改方式</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>PSW</strong>（程序状态字）</td>
+<td align="center">可见 ✅</td>
+<td align="center">不透明</td>
+<td align="center"><strong>部分可修改</strong></td>
+<td align="center">间接修改（硬件自动设置状态位，部分标志位支持软件修改）</td>
+</tr>
+<tr>
+<td align="center"><strong>ACC</strong>（累加器）</td>
+<td align="center">可见 ✅</td>
+<td align="center">不透明</td>
+<td align="center"><strong>可修改</strong></td>
+<td align="center"><strong>直接修改</strong>（如 <code>MOV ACC, 10H</code>）</td>
+</tr>
+<tr>
+<td align="center"><strong>通用寄存器组</strong>（如R0-R12）</td>
+<td align="center">可见 ✅</td>
+<td align="center">不透明</td>
+<td align="center"><strong>可修改</strong></td>
+<td align="center"><strong>直接修改</strong>（如 <code>MOV R1, AX</code>）</td>
+</tr>
+<tr>
+<td align="center"><strong>PC</strong>（程序计数器）</td>
+<td align="center">可见 ✅</td>
+<td align="center">不透明</td>
+<td align="center"><strong>可修改</strong></td>
+<td align="center"><strong>间接修改</strong>（通过跳转指令如 <code>JMP</code>、<code>CALL</code>）</td>
+</tr>
+<tr>
+<td align="center"><strong>IR</strong>（指令寄存器）</td>
+<td align="center">不可见 ❌</td>
+<td align="center"><strong>透明</strong> ✅</td>
+<td align="center">不可修改</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center"><strong>MAR</strong>（存储器地址寄存器）</td>
+<td align="center">不可见 ❌</td>
+<td align="center"><strong>透明</strong> ✅</td>
+<td align="center">不可修改</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center"><strong>MDR</strong>（存储器数据寄存器）</td>
+<td align="center">不可见 ❌</td>
+<td align="center"><strong>透明</strong> ✅</td>
+<td align="center">不可修改</td>
+<td align="center">-</td>
+</tr>
+</tbody></table>
+<p>不知道间接修改算不算可以修改，按照书上的说法，用户是不能修改PSW和PC的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605102154875.png" alt="image-20250605102154875"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605102418895.png" alt="image-20250605102418895"></p>
+<h3 id="1-运算器"><a href="#1-运算器" class="headerlink" title="1.运算器"></a>1.运算器</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605102918873.png" alt="image-20250605102847651"></p>
+<p>专用数据通路方式就是只要有数据流过，那你就给这个路径连上一条线，所以ALU和各个寄存器之间都有线，还要决定使用哪个寄存器，有需要其他硬件，所以硬件量就很大了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605103744944.png" alt="image-20250605103744944"></p>
+<p>CPU内部单总线方式：将所有寄存器的输入端和输出端都连接到一条公共的通路上。</p>
+<p>如：两个操作数分别来自主存和R0，最后结果存回R0，那么从主存中取来的操作数直接放入暂存器，就不会破坏运算前R0的内容。</p>
+<p>在R0给的信号不稳定之前，ALU会产生一个输出信号送到内部总线上，就会与R0送到内部总线上的信号冲突，从而导致运算的错误。在ALU的输出端加一个暂存寄存器，等R0送到总线上的信号稳定之后，ALU把运算的结果放到暂存寄存器中，在ALU的输出稳定之后，让三态门导通，把运算结果送到内部总线上，给R0的输入端加上有效的电信号，就会把运算的结果输入到R0寄存器中。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605104038852.png" alt="image-20250605104038852"></p>
+<p><strong>暂存寄存器改为移位寄存器是因为这个暂存寄存器多半具有移位这个功能</strong></p>
+<p>通用寄存器可以放数据也可以放地址，但是不可以替代指令寄存器</p>
+<p>PSW是专用寄存器， 不需要像其他寄存器那样需要编号</p>
+<p>用户不能直接修改PSW，但是PSW对用户是可见的，不是透明的</p>
+<h3 id="2-控制器"><a href="#2-控制器" class="headerlink" title="2.控制器"></a>2.控制器</h3><p>控制器功能是取指令分析指令和执行指令。执行指令就是发出有关操作的控制信号</p>
+<p><strong>指令译码器是指对指令的操作码字段进行译码</strong></p>
+<p>CPU不包括地址译码器</p>
+<p><strong>控制器的基本结构</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605104705767.png" alt="image-20250605104705767"></p>
+<p>程序计数器PC可以使用字节地址，也可以使用字地址，其位数取决于存储器容量和指令字长，与机器字长无关</p>
+<p>机器指令中不能显式的使用PC，只能让其自增或者通过转移指令设置</p>
+<p>指令寄存器IR位数取决于指令字长</p>
+<p>CPU中通用寄存器长度取决于机器字长</p>
+<p><strong>CPU的基本结构</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605104848794.png" alt="image-20250605104848794"></p>
+<p>棕色的寄存器是用户可见的，灰色的是对用户透明的</p>
+<p>可见的有：PSW,PC,ACC,R0-R3。可见的意思是用户可以通过汇编语言进行修改这个寄存器的值</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f1b55081591314f5e1e8a12e8845a344.png" alt="在这里插入图片描述"></p>
+<p>课后题PC的位数问题：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606111107461.png" alt="image-20250606111107461"></p>
+<p>按字节编制，一个指令32位，占4B，四个存储单元，而又要按字边界对齐存放（这句话说明了每条指令的起始地址必须是4的倍数）</p>
+<p>所以指令要放的话，按找最多的情况来放置，可以放 4GB&#x2F;4B&#x3D;2^30^这么多条指令，也就是说有这么多个编号</p>
+<p>为什么呢？</p>
+<p>如果地址空间全都放指令的话，因为指令的地址一定是4的倍数，一定是0,4,8,12,16…..</p>
+<p>那么0,4,8,12,16….4GB这些编号一共有多少个？那不就是 4GB&#x2F;4B个嘛</p>
+<p>所以编号一共有2^30^个，那么我们只需要30位就可以存储下来所有的编号，而又因为编号全都是4的倍数，我们去主存里面找的时候只要左移2位即可，就相当于乘以4了</p>
+<p>比如虽然它原来的编号是0,4,8,12,16，但是PC存储的时候就是0,1,2,3,4，而我们用它到主存里面寻找指令的时候，就乘以4，就是0,4,8,12,16了</p>
+<h2 id="2-指令执行过程"><a href="#2-指令执行过程" class="headerlink" title="2. 指令执行过程"></a>2. 指令执行过程</h2><p><strong>CPU的控制器通过指令周期的不同阶段区分是指令还是数据，取指周期拿出来的就是指令，执行阶段拿出来的就是数据</strong></p>
+<p>PC的值在指令的执行过程中修改（具体是在取值周期进行修改）</p>
+<p>取指操作是控制器固有的功能，不需要在操作码的控制下完成</p>
+<p>取值操作是控制器自动完成的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e09f24ce4a776a562debef58072712ab.png" alt="在这里插入图片描述"></p>
+<p>单周期CPU中，指令执行的所有阶段都在一个时钟周期内完成，因此其指令周期就是一个时钟周期，CPI&#x3D;1</p>
+<p>多周期CPU中，不同的类型的指令可以用不同的执行步骤，需要几个周期就分配几个周期，CPI&gt;1</p>
+<p>流水线CPU追求目标是每个时钟周期完成一条指令的执行过程（在理想情况下CPI&#x3D;1），在每个时钟周期启动一条指令，尽量让多条指令同时运行，但各自在不同的执行步骤中</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ec3e179c293e3302ba7b2e57976a3e25.jpeg" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605110353944.png" alt="image-20250605110353944"></p>
+<p><code>各个周期的关系</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9ad8ab4923e6d5db2b3e7a7008e03913.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605111046371.png" alt="image-20250605111046371"></p>
+<p><strong>指令周期流程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605111226887.png" alt="image-20250605111226887"></p>
+<p><strong>指令周期的数据流-取址周期</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605112641697.png" alt="image-20250605112641697"></p>
+<p><strong>指令周期的数据流-间址周期</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605112942747.png" alt="image-20250605112942747"></p>
+<p>除了把MDR拼接到Ad(IR)里面这种处理方式以外，可能有的处理方式会直接把MDR放到MAR里面去</p>
+<p><strong>指令周期的数据流-执行周期</strong></p>
+<p>执行周期的任务是根据IR指令字的操作码和操作数通过ALU操作产生执行结果。不同指令的执行周期操作不同，因此没有统一的数据流向。</p>
+<p><strong>指令周期的数据流-中断周期</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605113752508.png" alt="image-20250605113752508"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e556f6af1d91f726f010ea50c760d191.jpeg" alt="在这里插入图片描述"><br><strong>指令执行方案</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a7adc8fbdba72c33320bdf85fdf423bb.png" alt="在这里插入图片描述"></p>
+<h2 id="3-数据通路的功能和基本结构"><a href="#3-数据通路的功能和基本结构" class="headerlink" title="3.数据通路的功能和基本结构"></a>3.数据通路的功能和基本结构</h2><p>数据通路的功能由控制部件送出的控制信号决定</p>
+<p>在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次</p>
+<p><strong>关于这句话的具体解释请看</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_74795952/article/details/148477301?spm=1001.2014.3001.5501">单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系-CSDN博客</a></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605123619785.png" alt="image-20250605123619785"></p>
+<p><code>内部总线数据通路的特点：</code>结构简单，实现容易，性能较低，存在较多的冲突现象</p>
+<p><code>专用的特点：</code>结构复杂，硬件量大，不易实现，性能较高，基本不存在冲突现象</p>
+<p><strong>CPU可以视作由数据通路和控制部件两大部分组成的</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605122320473.png" alt="image-20250605122320473"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605121334286.png" alt="image-20250605121334286"></p>
+<p>表示总线连接或者断开的部件是三态门，图中的三角形</p>
+<p>###1. 数据通路-单总线结构</p>
+<p>数据通路通常指指令执行过程中数据经过的路径以及路径上的部件。<br>数据通路&#x3D;电路+部件（组合逻辑元件+时序逻辑元件），并且由控制信号进行控制。<br>组合逻辑元件（操作元件）：不能存储，如多路选择器MUX、ALU、译码器。<br>时序逻辑元件（状态元件）：能存储，如寄存器。</p>
+<p>ALU，通用寄存器，状态寄存器，Cache，MMU，浮点运算逻辑，异常和中断处理逻辑等都是指令执行过程中数据流经的部件，都属于数据通路的一部分</p>
+<p>原则上来说，每个时刻只能有一个器件发出信息，一个或者多个器件接收信息</p>
+<p><strong>数据通路-CPU内部单总线方式</strong></p>
+<p>以下内容结合1.2.2“计算机的工作过程”进行学习</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9d27f9927dc5497fefa381102dd2c1e8.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5bfa2851afb55e1fc3741085c134136e.png" alt="在这里插入图片描述"></p>
+<p>不严谨的原因是因为主存中的数据通过数据总线写到MDR的时候通常是另外一个信号</p>
+<p>而MDRin只是CPU内部总线往MDR写的时候的信号而已</p>
+<p>下图也有类似不严谨处</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e44dc9e8e40de7f250efa8d4d5c8fe5e.png" alt="在这里插入图片描述"></p>
+<p>Y是暂存寄存器，用来放其中一个加数，Z是暂存结果的暂存寄存器</p>
+<p>而Y和ALU有一个专用的数据通路，不会占用CPU内部总线</p>
+<p>每个时钟周期内，CU都会发出一组相应的控制信号，来完成某一个微操作，到下一个时钟周期，CU又会发出第二个控制信号，完成第二个微操作。</p>
+<p><strong>CPU内部总线方式-例题</strong></p>
+<p>(R0)目的操作数，有括号需要进行一次间接寻址，表示R0中存放的是操作数在主存中的存储地址。</p>
+<p>R1源操作数，没有括号表示操作数直接存放在R1寄存器中。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c93f701608412be7bdfc45a84c9a9043.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0f1bb13591e70355345f22fe0d4177db.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/d7750628ac8cc67561e18f1645cacd29.png" alt="在这里插入图片描述"></p>
+<p>Y和ALU有专门的数据通路，不需要占用CPU内部总线</p>
+<h3 id="2-数据通路-专用通路结构"><a href="#2-数据通路-专用通路结构" class="headerlink" title="2. 数据通路-专用通路结构"></a>2. 数据通路-专用通路结构</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606121512622.png" alt="image-20250606121512622"></p>
+<p>专用数据通路的效率比单总线高，但相对的成本也会高</p>
+<p><strong>专用数据通路方式-取值周期</strong></p>
+<p>图中的Cx表示的是如果是Cx有效那么这条路就是通的，否则不通</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ed2c8c530edfc638c4470292690f575a.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606120642116.png" alt="image-20250606120642116"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606120921114.png" alt="image-20250606120921114"></p>
+<p>第二问如果不放心还可以写上</p>
+<p><code>pc+1-&gt;pc</code></p>
+<p><code>OP(IR)-&gt;微操作发生器</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606121150872.png" alt="image-20250606121150872"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606121317129.png" alt="image-20250606121317129"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606121413839.png" alt="image-20250606121413839"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606121449231.png" alt="image-20250606121448725"></p>
+<p>采用CPU内部总线：结构简单，实现容易，性能较低，存在较多的冲突现象。<br>专用数据通路：结构复杂，硬件量大，不易实现，性能高，基本不存在数据冲突现象。</p>
+<p>数据总线是双向的：CPU–&gt;内存，内存–&gt;CPU<br>地址总线是单向的：CPU–&gt;内存</p>
+<h2 id="4-控制器的功能和工作原理"><a href="#4-控制器的功能和工作原理" class="headerlink" title="4.控制器的功能和工作原理"></a>4.控制器的功能和工作原理</h2><p>取指令操作是控制器固有功能，不需要在操作码控制下进行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606161940513.png" alt="image-20250606161940513"></p>
+<p>以访存所需节拍数量作为参考是因为 访存比较慢，比大多数指令都慢所以具有参考价值</p>
+<p>根据指令操作码、目前的机器周期、节拍信号（T0、T1、T2）、机器状态条件（如PSW中溢出、正负性等）、即可确定现在这个节拍下应该发出哪些微命令</p>
+<p>根据操作码确定是什么操作，根据FE,IND,EX,INT确定是哪个周期，根据节拍确定是哪个微命令，而微命令又一一对应了微操作（确定节拍后可能还要参考PSW之后才能发出对应的微命令）</p>
+<h3 id="1-硬布线控制器的设计"><a href="#1-硬布线控制器的设计" class="headerlink" title="1.硬布线控制器的设计"></a>1.硬布线控制器的设计</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610113450831.png" alt="image-20250610113450831"></p>
+<p>控制信号主要与指令译码信号和时钟信号有关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606163446597.png" alt="image-20250606163446597"></p>
+<p>基于 上面的理解</p>
+<p>传操作码译码器是为了知道操作码是多少，四个触发器是为了知道哪个周期，节拍发生器是为了确定哪个节拍，传标志是为了确定到执行什么微命令，最后输出出去即可</p>
+<p><strong>2.硬布线控制器的设计</strong>（不考，听一听便于理解）</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250606164106207.png" alt="image-20250606164106207"></p>
+<p><strong>分析每个阶段的微操作序列</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610111420093.png" alt="image-20250610111420093"></p>
+<p><strong>安排微操作时序的原则-取值周期</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610111733798.png" alt="image-20250610111733798"></p>
+<p><strong>安排微操作时序的原则-间值周期</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ca07f2acdcb536b0fb902cd0721c2915.png" alt="在这里插入图片描述"></p>
+<p>1和2在一个节拍内完成，因为被控对象不同</p>
+<p>3和4分别放在一个节拍完成，因为3是访存操作，一个节拍完成不了</p>
+<p><strong>安排微操作时序的原则-执行周期</strong></p>
+<p>一个微操作就可以完成的微指令可以用一个节拍来完成，即放在三个节拍的最后一个节拍</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610111906553.png" alt="image-20250610111906553"></p>
+<p><strong>电路设计-组合逻辑设计</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4ad44db462fae941706d7c2414ea9333.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/759a8ca9dd6918c5555392006cb4d51e.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e0363ff73c5b6d58e6f7c789cf04f98c.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e16a09a4795fdfe542baa8b1dea93f80.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0e0217b03ea99e0e6637682feb2ceb9f.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/dfda4533c6baa93b77039023ba97e29f.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/128ffbe959cffe7bf84554e92efd8368.png" alt="在这里插入图片描述"></p>
+<h3 id="2-微程序控制器的基本原理"><a href="#2-微程序控制器的基本原理" class="headerlink" title="2. 微程序控制器的基本原理"></a>2. 微程序控制器的基本原理</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c3de8608879122315ce8ad23c504d355.png" alt="在这里插入图片描述"></p>
+<p>采用“存储程序”的思想，CPU出厂前将所有指令的“微程序”存入“控制器存储器”中</p>
+<p>微程序控制器中，形成微程序入口地址的是机器指令的操作码字段</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8b6263d6c4791c4395366feacbcc5a65.png" alt="在这里插入图片描述"></p>
+<p><code>操作控制字段</code>就是用若干个bit表示当前微指令对应的微操作是哪几个</p>
+<p>微指令存放在控制器的一个特殊的存储器当中，所以会有对应的地址</p>
+<p><code>顺序控制字段</code>可能会有几个bit表示地址的寻址方式，是间接还是直接之类的</p>
+<p><strong>微程序控制器的基本结构</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c16b02314cbd52771396558506eb15ab.png" alt="在这里插入图片描述"></p>
+<p><strong>微程序控制器的工作原理</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0b7fa174259b6622e623d74e0e702620.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3bb75173953e70be233ff8c5dd0353ac.png" alt="在这里插入图片描述"></p>
+<h3 id="3-微指令的设计"><a href="#3-微指令的设计" class="headerlink" title="3. 微指令的设计"></a>3. 微指令的设计</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610155152471.png" alt="image-20250610155152471"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610152632770.png" alt="image-20250610152632770"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610153022277.png"></p>
+<h4 id="1-微指令的编码方式"><a href="#1-微指令的编码方式" class="headerlink" title="1.微指令的编码方式"></a>1.微指令的编码方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610153300827.png" alt="image-20250610153300827"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610153732066.png" alt="image-20250610153732066"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6e9de1bf56834c2816771934a443f904.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610154037480.png" alt="image-20250610154037480"></p>
+<h4 id="2-微指令的地址形成方式"><a href="#2-微指令的地址形成方式" class="headerlink" title="2.微指令的地址形成方式"></a>2.微指令的地址形成方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610154745420.png" alt="image-20250610154745420"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610154814914.png" alt="image-20250610154814914"></p>
+<p>测试网络其实就是下图的顺序逻辑部分，测试源就是标志</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610154833223.png" alt="image-20250610154833223"></p>
+<p><strong>例题-断定方式</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/99ab544df6b2eda9d04ce1a77ad63e15.png" alt="在这里插入图片描述"></p>
+<h3 id="4-微程序控制单元的设计"><a href="#4-微程序控制单元的设计" class="headerlink" title="4. 微程序控制单元的设计"></a>4. 微程序控制单元的设计</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610160732967.png" alt="image-20250610160732967"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/74e78d2a016bd195e97161f98d7c278d.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610155805230.png" alt="image-20250610155805230"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610155851591.png" alt="image-20250610155851591"></p>
+<p>如下图这样安排也可以，只要保证两个微操作可以在一个节拍内完成即可</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610155947586.png" alt="image-20250610155947586"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610160143078.png" alt="image-20250610160143078"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610160323363.png" alt="image-20250610160323363"></p>
+<p><strong>微程序设计的分类</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610160522104.png" alt="image-20250610160522104"></p>
+<p><strong>硬布线与微程序的比较</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610160654049.png" alt="image-20250610160654049"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/85b94fe56da50a9e0a21c6fb79df0cf0.jpeg" alt="在这里插入图片描述"></p>
+<h2 id="5-异常与中断"><a href="#5-异常与中断" class="headerlink" title="5. 异常与中断"></a>5. 异常与中断</h2><p>视频说除数0是终止，而书上说是故障，暂且以书上为准吧</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612121340381.png" alt="image-20250612121340381"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612120649969.png" alt="image-20250612120649969"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612120753074.png" alt="image-20250612120753074"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612120827861.png"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612120957666.png" alt="image-20250612120957666"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612121149658.png" alt="image-20250612121149658"></p>
+<p><code>异常：</code>整数除以0，溢出，断点，单步跟踪，非法指令，栈溢出，地址越界，缺页等</p>
+<p><code>故障：</code>指在引起故障的指令启动后，执行结束前被检测到的异常事件。例如：非法操作码、缺页、除数为0。如果可以修复，修复完了继续回来执行，如果不可修复，那就终止进程的执行</p>
+<p><code>陷阱：</code>断点、单步跟踪</p>
+<p><code>终止：</code>若在执行过程中发生了使计算机无法继续执行的硬件故障，如控制器出错，存储器校验错，总线错误等，程序无法继续执行，只能终止。这类异常与故障和自陷不同，不是由特定指令产生，而是随机发生的</p>
+<p>浮点数的上溢属于内中断，但下溢直接当做机器0处理，不属于中断</p>
+<p>内部异常的产生与当前执行的指令相关</p>
+<p>内部异常的检测由CPU内部逻辑实现</p>
+<p>内部异常的相应发生在指令执行的过程中</p>
+<p>异常事件检测由CPU在执行每一条指令的过程中进行</p>
+<p>中断请求检测由CPU在每条指令执行结束、取下条指令之前进行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612163917265.png" alt="image-20250612163917265"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612163940370.png" alt="image-20250612163940370"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612164106918.png" alt="image-20250612164106918"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250612121453295.png" alt="image-20250612121453295"></p>
+<p>举个例子，你在图书馆复习408，在做某道题，你就是CPU（也就是CPU在执行当前指令）。<br>1.陷入：你想起来昨天晚上的那局王者被单杀，气不过，然后来了一把（你是学习态，想做游戏态的事情，是不是很像系统调用），打完又灰溜溜做题（返回下一条指令）。<br>2.故障：你突然发现这道题的知识点不会（也就是不在你的内存中），你就去翻书（外存），查到之后还要继续做这道题（返回本条指令）。<br>3.终止：你突然很累，大脑宕机，不想学习，直接回寝室睡大觉，不回来做题，这就是终止（不可恢复）。<br>4.外中断：和你自己没关系，旁边来了个妹妹，打断了你的学习，你看了十分钟又灰溜溜的做题，这就是外中断，和你自己（CPU）没关系。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/88d220be37ca01bc4280efa7823bddec.jpeg" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/99c48deeed5bbea8c3ea90713648b97c.jpeg" alt="在这里插入图片描述"></p>
+<p>故障：如果能修复，那就是返回当前指令，修复不了那就直接终止了</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>特性</strong></th>
+<th align="center">内部异常</th>
+<th align="center">外部中断</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>触发源</strong></td>
+<td align="center">CPU内部执行错误（如除零、溢出）</td>
+<td align="center">外设或硬件故障（如按键、掉电）</td>
+</tr>
+<tr>
+<td align="center"><strong>检测逻辑</strong></td>
+<td align="center">CPU指令执行单元自动检测</td>
+<td align="center">依赖引脚电平扫描+中断控制器</td>
+</tr>
+<tr>
+<td align="center"><strong>同步性</strong></td>
+<td align="center">同步（与指令执行严格相关）</td>
+<td align="center">异步（随时可能发生）</td>
+</tr>
+<tr>
+<td align="center"><strong>响应时机</strong></td>
+<td align="center">立即终止当前指令</td>
+<td align="center">当前指令结束后响应</td>
+</tr>
+<tr>
+<td align="center"><strong>硬件依赖</strong></td>
+<td align="center">纯CPU内部逻辑</td>
+<td align="center">需外部中断引脚和控制器支持</td>
+</tr>
+</tbody></table>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1ba4d8a3cfbb9502dfb8d5e535886ea1.jpeg" alt="在这里插入图片描述"></p>
+<h2 id="6-指令流水线"><a href="#6-指令流水线" class="headerlink" title="6. 指令流水线"></a>6. 指令流水线</h2><h3 id="1-指令流水线的基本概念"><a href="#1-指令流水线的基本概念" class="headerlink" title="1. 指令流水线的基本概念"></a>1. 指令流水线的基本概念</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610200728029.png" alt="image-20250610200728029"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610194044234.png" alt="image-20250610194044234"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610194250442.png" alt="image-20250610194250442"></p>
+<h4 id="指令流水线的表示方式"><a href="#指令流水线的表示方式" class="headerlink" title="指令流水线的表示方式"></a>指令流水线的表示方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/169a566a12b9b47b4051f3840c71fb98.png" alt="在这里插入图片描述"></p>
+<h4 id="流水线的性能指标"><a href="#流水线的性能指标" class="headerlink" title="流水线的性能指标"></a>流水线的性能指标</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a9cc914441fd9152621690ea751c5fda.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4a935cbb7903a7baff73db11495eedb9.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9f9bc5dd418485ca72b432ac8dcaf78a.png" alt="在这里插入图片描述"></p>
+<h3 id="2-指令流水线的影响因素和分类"><a href="#2-指令流水线的影响因素和分类" class="headerlink" title="2. 指令流水线的影响因素和分类"></a>2. 指令流水线的影响因素和分类</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610205246489.png" alt="image-20250610205246489"></p>
+<h4 id="机器周期的设置"><a href="#机器周期的设置" class="headerlink" title="机器周期的设置"></a>机器周期的设置</h4><p>IF：取指阶段</p>
+<p>ID：指令译码阶段（指令译码，从通用寄存器中取出当前指令所需要的操作数），imm立即数</p>
+<p>EX：执行阶段</p>
+<p>M：访存阶段</p>
+<p>WB：写回通用寄存器组</p>
+<p>cache：data cache和insrtuction cache，将数据和指令放在两个独立的模块中，对这两个模块的访问可以并行进行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610202403871.png" alt="image-20250610202403871"></p>
+<p>这个锁存器就是流水段寄存器</p>
+<p>指令译码得到的控制信号需要通过流水段寄存器传递到下一个流水段</p>
+<p>每个流水段之间的寄存器的信息不一定相同，因此寄存器位数也不一定相同，用户程序不可以通过指令指定访问哪个流水段寄存器</p>
+<h4 id="影响流水线的因素"><a href="#影响流水线的因素" class="headerlink" title="影响流水线的因素"></a>影响流水线的因素</h4><ol>
+<li>结构相关（资源冲突–”互斥“）</li>
+<li>数据相关（数据冲突-”同步“）</li>
+<li>控制相关（控制冲突）<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3210a86da37ef56804bb67fa70fd9d61.png" alt="在这里插入图片描述"></li>
+</ol>
+<p>①结构相关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6446e864c296ec3bafb71594912a5fbd.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/234f9a9af479a9fb8d57b84fba25ae41.png" alt="在这里插入图片描述"></p>
+<p>再多准备一套数据存储器和指令存储器，让冲突的指令去访问多出来的这一套</p>
+<p>②数据相关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9b667827b2838f01f35762053a8893b0.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/cded1b2710dacdd5e71ffeaba6d677d1.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3ef227b984937c255fd0edc1b4af3590.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/38966234526dc47a5e68c20d9bea3dd4.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a41a6d82665235c78b77701402717494.png" alt="在这里插入图片描述"></p>
+<p>如果有后续的指令可以提前执行，不需要依赖前序指令的执行结果，可以通过编译器调整指令顺序来解决数据相关。（类似于插入空操作)</p>
+<p>③控制相关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9685356bd2df72ec620c50bac2bccc79.png" alt="在这里插入图片描述"></p>
+<p>静态预测的结果每次都一样的</p>
+<h4 id="流水线的分类（似乎不考）"><a href="#流水线的分类（似乎不考）" class="headerlink" title="流水线的分类（似乎不考）"></a>流水线的分类（似乎不考）</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610204430688.png" alt="image-20250610204430688"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610204615724.png" alt="image-20250610204615724"></p>
+<h4 id="流水线的多发技术"><a href="#流水线的多发技术" class="headerlink" title="流水线的多发技术"></a>流水线的多发技术</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250610204841405.png" alt="image-20250610204841405"></p>
+<p>也叫动态多发射技术</p>
+<p>很多超标量CPU都结合动态流水线调度技术，通过动态分支预测等手段，指令不按顺序执行，这种方式成为乱序执行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/dd709e43a958216011720c2d2531b134.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250613221812426.png" alt="image-20250613221812426"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250613221823471.png" alt="image-20250613221823471"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5846561007296f0499473792f0c77159.png" alt="在这里插入图片描述"></p>
+<h3 id="3-五段式指令流水线"><a href="#3-五段式指令流水线" class="headerlink" title="3. 五段式指令流水线"></a>3. 五段式指令流水线</h3><p>常见的5类指令：运算类指令、LOAD指令、STORE指令、条件转移指令、五条件转移指令</p>
+<p><strong>运算类指令的执行过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c801b0a7c39fc1163a717bbb0b8b5737.png" alt="在这里插入图片描述"></p>
+<p><strong>LOAD指令的执行过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6e2606bf92b05860695544db30e377b1.png" alt="在这里插入图片描述"></p>
+<p><strong>STORE指令的执行过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/4b61bfc84cf31fa8bd1a44afd5dd0a0b.png" alt="在这里插入图片描述"></p>
+<p><strong>条件转移指令的执行过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/99fcaa4c296224c69c51ff37f9578751.png" alt="在这里插入图片描述"></p>
+<p><strong>无条件转移指令的执行过程</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a26f22e10fe94a150e5724e6b580f566.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250611104132480.png" alt="image-20250611104132480"></p>
+<h2 id="7-多处理器概念"><a href="#7-多处理器概念" class="headerlink" title="7.多处理器概念"></a>7.多处理器概念</h2><p>Tips：只考选择题</p>
+<h3 id="1-多处理器的基本概念"><a href="#1-多处理器的基本概念" class="headerlink" title="1. 多处理器的基本概念"></a>1. 多处理器的基本概念</h3><p>不太严谨的图，方便理解<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f346b9555a1466a8bf0efe8e8ca0824d.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/15e1cfb9a502b9ee4c342a192daf321d.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c0f4edb086acc312196a0c129e5fad73.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/cd436c6239bd9582f64942ec25006b4a.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/35d325b090acb7ea59a27fab078011ee.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/699aaa62d3e0c5ad71f5efedb5a30bd0.png" alt="在这里插入图片描述"></p>
+<p>单指令流单数据流SISD结构：一个指令流对应一个数据流<br>单指令流多数据流SIMD结构：一个指令流对应多个数据流<br>多指令流单数据流MISD结构：多个指令流对应一个数据流（事实上不存在)<br>多指令流多数据流MIMD结构：多个指令流对应多个数据流<br>M:Multiple<br>S:Single<br>l:Instruction<br>D:Data</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e11fbda83b16504ff59fb6703f4d5415.jpeg" alt="在这里插入图片描述"><br>UMA：统一存储访问<br>NUMA：非统一存储访问</p>
+<h3 id="2-硬件多线程的基本概念"><a href="#2-硬件多线程的基本概念" class="headerlink" title="2. 硬件多线程的基本概念"></a>2. 硬件多线程的基本概念</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/1283c1c9fa7dc94137d34e486098dd69.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/0c0d063a597c9d75a210bafacbef0b4c.png" alt="在这里插入图片描述"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/cc872b4ab43ad0c0f73c9f89fdf372d4.png" alt="在这里插入图片描述"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/">https://darling-123456.github.io/2025/06/11/计算机组成原理/2025-05-15-26考研--王道--计算机组成原理--五、中央处理器/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post-share"><div class="social-share" data-image="/img/363.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/06/10/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-10-Day131--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/" title="Day131 | 灵神 | 回溯算法 | 子集型 子集"><img class="cover" src="/img/365.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Day131 | 灵神 | 回溯算法 | 子集型 子集</div></div><div class="info-2"><div class="info-item-1">Day131 | 灵神 | 回溯算法 | 子集型 子集78.子集78. 子集 - 力扣（LeetCode） 思路： 笔者写过很多次这道题了，不想写题解了，大家看灵神讲解吧 回溯算法套路①子集型回溯【基础算法精讲 14】_哔哩哔哩_bilibili 完整代码： 选或不选  123456789101112131415161718192021222324class Solution &#123;public:    vector&lt;vector&lt;int&gt;&gt; res;    vector&lt;int&gt; path;    void backtracking(vector&lt;int&gt;&amp; nums,int index)    &#123;        if(index==nums.size())        &#123;            res.push_back(path);            return;        &#125;        //不选        backtracking(nums,index+1);...</div></div></div></a><a class="pagination-related" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%85%AD%E3%80%81%E6%80%BB%E7%BA%BF/" title="26考研 | 王道 | 计算机组成原理 | 六、总线"><img class="cover" src="/img/366.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 六、总线</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 六、总线6.1 总线概述计算机使用总线结构便于增减外设，同时减少信息传输线的条数  总线简图  总线的物理实现  1. 总线概述  同一时刻只能有一个部件发送信息，但是各个部件可以同时从总线接收数据 在总线上，同一时刻只能有一个主设备控制总线传输操作  总线的特性 1.机械特性:尺寸、形状、管脚数、排列顺序 2.电气特性:传输方向和有效的电平范围 3.功能特性:每根传输线的功能(地址、数据、控制） 4.时间特性:信号的时序关系   串行总线抗干扰能力比较强。 并行总线与串行总线并不一定谁就比谁快，并行总线工作频率高的时候会有严重干扰，所以频率不能太高 而串行总线虽然不行一次传很多个但是频率可以很高 不同信号在同一条信号线上分时传输的方式称为总线复用方式 主存通过总线的类型来识别信息是地址还是数据 总线的分类（按总线功能)     效率低是因为三个总线同一时刻只能有一个在工作  桥接器还会负责串并行转换、总线仲裁 多总线结构中，总线之间须通过桥接器相连 2....</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/05/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/26%E8%80%83%E7%A0%94%20%20%E7%8E%8B%E9%81%93%20%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%20%20%E4%B8%80%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="26考研 | 王道 | 计算机组成原理 | 一、计算机系统概述"><img class="cover" src="/img/348.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-15</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 一、计算机系统概述</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 一、计算机系统概述1.1 计算机的发展   1.2 计算机硬件和软件 1.2.1 计算机硬件的基本组成早期的冯诺依曼机   对于同一个功能，既可以用软件实现，也可以用硬件实现 冯诺依曼计算机的特点  计算机由五大部件组成 指令和数据以同等地位存于存储器，可按地址访问（统一编址，指令和数据所在存储单元无差异） 指令和数据用二进制表示 指令由操作码和地址码组成 存储程序 以运算器为中心（输入和输出设备与存储器之间的数据传送经过运算器完成，运算器算是一个中转站。这样就会让运算器的数据计算的效率降低） 即输入设备先把数据交给运算器，然后再转交给存储器，存储器要输出时，也是存储器先交给运算器然后运算器交给输出设备    数据驱动方式：  控制流驱动：指令–&gt;数据 数据流驱动：数据–&gt;指令  现代计算机的结构  以存储器为中心，输入的数据直接交给存储器，输出的时候也由存储器直接给输出设备，更多的解放运算器的运算时间  1.2.2...</div></div></div></a><a class="pagination-related" href="/2025/05/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%B8%89%E3%80%81%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 三、存储系统"><img class="cover" src="/img/361.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-29</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 三、存储系统</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 三、存储系统3.1 存储系统基本概念 相联存储器的基本原理是指把存储单元所存的内容的某一部分作为检索项去检索该存储器，并把存储器中与该检索项符号的存储单元内容进行读出和写入。所以是按内容或者地址进行寻址的，价格比较昂贵 一般用来制作TLB，相联Cache等 存储器的层次化结构  主存和辅存之间的数据调动是由硬件和操作系统共同完成的，仅对应用级程序员透明 存储器的分类–层次  存储器的分类–存储介质  半导体存储器：主存、Cache 磁表面存储器：磁盘、磁带（以磁性材料存储信息） 光存储器：光盘（以光介质存储信息）   存储器的分类–存取方式  相联存储器既可以按地址又可以按内容寻址。 存储器的分类–信息的可更改性  CD-ROM是只读型光盘存储器，不属于只读存储器ROM 存储器的分类–信息的可保存性  RAM都是易失性存储器； ROM都是非易失性存储器； 存储器的性能指标  3.2 主存储器1....</div></div></div></a><a class="pagination-related" href="/2025/06/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%9B%9B%E3%80%81%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 四、指令系统"><img class="cover" src="/img/362.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-05</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 四、指令系统</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 四、指令系统1.指令系统0.指令集体系结构   1. 指令格式   1.按地址码数目不同来分     2.指令-按指令长度分类机器字长和存储字长固定不变。 3.指令-按操作码长度分类 4.指令-按操作类型分类 程序控制类指令除了上述还有循环指令 2. 扩展操作码指令格式     2.指令的寻址方式###1. 指令寻址  1.顺序寻址（PC）+“1”–&gt;PC 图中的指令字长是变化的，不是右边的16bit，所以才会每次读入一个字 2.跳跃寻址：由转移指令指出本节回顾  转移指令是通过修改PC实现的 程序计数器PC：存放下一条指令所在单元的地址 累加器ACC：用来存放操作数或运算结果 指令寄存器IR：临时放置从内存里面取得的程序指令的寄存器，用于存放当前从主存储器读出的正在执行的一条指令。 地址寄存器MAR：用来保存当前CPU所访问的内存单元的地址。  2. 数据寻址   1.常见寻址方式 取指令也需要一次访存（如果指令字长等于存储字长的话） 直接寻址  间接寻址  寄存器寻址  寄存器间接寻址  隐含寻址  立即寻址  2....</div></div></div></a><a class="pagination-related" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%85%AD%E3%80%81%E6%80%BB%E7%BA%BF/" title="26考研 | 王道 | 计算机组成原理 | 六、总线"><img class="cover" src="/img/366.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-11</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 六、总线</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 六、总线6.1 总线概述计算机使用总线结构便于增减外设，同时减少信息传输线的条数  总线简图  总线的物理实现  1. 总线概述  同一时刻只能有一个部件发送信息，但是各个部件可以同时从总线接收数据 在总线上，同一时刻只能有一个主设备控制总线传输操作  总线的特性 1.机械特性:尺寸、形状、管脚数、排列顺序 2.电气特性:传输方向和有效的电平范围 3.功能特性:每根传输线的功能(地址、数据、控制） 4.时间特性:信号的时序关系   串行总线抗干扰能力比较强。 并行总线与串行总线并不一定谁就比谁快，并行总线工作频率高的时候会有严重干扰，所以频率不能太高 而串行总线虽然不行一次传很多个但是频率可以很高 不同信号在同一条信号线上分时传输的方式称为总线复用方式 主存通过总线的类型来识别信息是地址还是数据 总线的分类（按总线功能)     效率低是因为三个总线同一时刻只能有一个在工作  桥接器还会负责串并行转换、总线仲裁 多总线结构中，总线之间须通过桥接器相连 2....</div></div></div></a><a class="pagination-related" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%B8%83%E3%80%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 七、输入输出系统"><img class="cover" src="/img/367.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-11</div><div class="info-item-2">26考研 | 王道 | 计算机组成原理 | 七、输入输出系统</div></div><div class="info-2"><div class="info-item-1">26考研 | 王道 | 计算机组成原理 | 七、输入输出系统 7.1 输入输出系统及I&#x2F;O控制方式  I&#x2F;O接口：又称I&#x2F;O控制器、设备控制器、负责协调主机与外部设备之间的数据传输。（I&#x2F;O控制器就是一块芯片，常被集成在主板上） I&#x2F;O控制方式简介   DMA控制方式   通道控制方式   I&#x2F;O系统基本组成  在配有通道的计算机系统中，用户需要输入输出时，引起的中断是 访管中断 （因为这时调用的是系统提供的接口，要去请求操作系统服务，此时会使得访管中断） 外部设备(考纲没有，做个了解)           7.2 I&#x2F;O接口磁盘驱动器是磁头、磁盘和读写电路组成的，也就是常说的磁盘本身，不是I&#x2F;O接口   功能：选址功能、传送命令功能、传送数据功能、反映I&#x2F;O设备工作状态的功能   I&#x2F;O接口的工作原理  接口和设备之间不会传送中断请求信号 接口与端口  统一编址 V.S....</div></div></div></a><a class="pagination-related" href="/2025/06/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-06-%E5%8D%95%E5%91%A8%E6%9C%9Fcpu%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9Fcpu%E3%80%81%E5%8D%95%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E4%B8%8E%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E4%B8%93%E7%94%A8%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E5%85%B3%E7%B3%BB/" title="单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系"><img class="cover" src="/img/366.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-06</div><div class="info-item-2">单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系</div></div><div class="info-2"><div class="info-item-1">单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系笔者学王道计组第五章第二节的时候做题发现很难受，就去查了一下这相关的 ##1.单周期cpu和多周期cpu 一、核心概念 单周期CPU 原理：一条指令必须在1个时钟周期内完成所有操作（取指令、译码、执行、访存、写回）。 特点： 时钟周期长度由最慢指令决定（如加载指令lw耗时最长） 所有指令的CPI（每条指令周期数）均为1   通俗类比：⏱️ 所有学生考试时间统一为3小时，有人1小时交卷也得等，效率低。   多周期CPU 原理：将指令拆分为多个阶段（如5阶段：取指IF、译码ID、执行EXE、访存MEM、写回WB），每个阶段占1个时钟周期。 特点： 不同指令的周期数不同（如加法指令需4周期，lw需5周期） 时钟周期按最慢阶段设计（如访存阶段），但短指令无需等待长指令   通俗类比：🔧...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">365</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#26%E8%80%83%E7%A0%94-%E7%8E%8B%E9%81%93-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86-%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text">26考研 | 王道 | 计算机组成原理 | 五、中央处理器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-%E6%A6%82%E8%A7%88"><span class="toc-text">0.概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CPU%E7%9A%84%E5%8A%9F%E8%83%BD%E5%92%8C%E7%BB%93%E6%9E%84"><span class="toc-text">1.CPU的功能和结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E5%8F%AF%E8%A7%81%E6%80%A7%E4%B8%8E%E9%80%8F%E6%98%8E%E6%80%A7%E5%88%86%E7%B1%BB"><span class="toc-text">寄存器可见性与透明性分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BF%90%E7%AE%97%E5%99%A8"><span class="toc-text">1.运算器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-text">2.控制器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%8C%87%E4%BB%A4%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">2. 指令执行过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E5%8A%9F%E8%83%BD%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-text">3.数据通路的功能和基本结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF-%E4%B8%93%E7%94%A8%E9%80%9A%E8%B7%AF%E7%BB%93%E6%9E%84"><span class="toc-text">2. 数据通路-专用通路结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E5%8A%9F%E8%83%BD%E5%92%8C%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">4.控制器的功能和工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%A1%AC%E5%B8%83%E7%BA%BF%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">1.硬布线控制器的设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%BE%AE%E7%A8%8B%E5%BA%8F%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-text">2. 微程序控制器的基本原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%BE%AE%E6%8C%87%E4%BB%A4%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">3. 微指令的设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%BE%AE%E6%8C%87%E4%BB%A4%E7%9A%84%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F"><span class="toc-text">1.微指令的编码方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%BE%AE%E6%8C%87%E4%BB%A4%E7%9A%84%E5%9C%B0%E5%9D%80%E5%BD%A2%E6%88%90%E6%96%B9%E5%BC%8F"><span class="toc-text">2.微指令的地址形成方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BE%AE%E7%A8%8B%E5%BA%8F%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">4. 微程序控制单元的设计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%BC%82%E5%B8%B8%E4%B8%8E%E4%B8%AD%E6%96%AD"><span class="toc-text">5. 异常与中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-text">6. 指令流水线</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">1. 指令流水线的基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E5%BC%8F"><span class="toc-text">指令流水线的表示方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-text">流水线的性能指标</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%BD%B1%E5%93%8D%E5%9B%A0%E7%B4%A0%E5%92%8C%E5%88%86%E7%B1%BB"><span class="toc-text">2. 指令流水线的影响因素和分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E5%91%A8%E6%9C%9F%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="toc-text">机器周期的设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%B1%E5%93%8D%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%9B%A0%E7%B4%A0"><span class="toc-text">影响流水线的因素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%88%86%E7%B1%BB%EF%BC%88%E4%BC%BC%E4%B9%8E%E4%B8%8D%E8%80%83%EF%BC%89"><span class="toc-text">流水线的分类（似乎不考）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%A4%9A%E5%8F%91%E6%8A%80%E6%9C%AF"><span class="toc-text">流水线的多发技术</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BA%94%E6%AE%B5%E5%BC%8F%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-text">3. 五段式指令流水线</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%A4%9A%E5%A4%84%E7%90%86%E5%99%A8%E6%A6%82%E5%BF%B5"><span class="toc-text">7.多处理器概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%A4%9A%E5%A4%84%E7%90%86%E5%99%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">1. 多处理器的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%A1%AC%E4%BB%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">2. 硬件多线程的基本概念</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/12/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-12-Day132--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" title="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串"><img src="/img/368.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串"/></a><div class="content"><a class="title" href="/2025/06/12/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-12-Day132--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" title="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串">Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串</a><time datetime="2025-06-12T01:30:20.000Z" title="发表于 2025-06-12 09:30:20">2025-06-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" title="26考研 | 王道 | 计算机组成原理 | 五、中央处理器"><img src="/img/363.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 计算机组成原理 | 五、中央处理器"/></a><div class="content"><a class="title" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-05-15-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%BA%94%E3%80%81%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" title="26考研 | 王道 | 计算机组成原理 | 五、中央处理器">26考研 | 王道 | 计算机组成原理 | 五、中央处理器</a><time datetime="2025-06-11T10:25:00.000Z" title="发表于 2025-06-11 18:25:00">2025-06-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%85%AD%E3%80%81%E6%80%BB%E7%BA%BF/" title="26考研 | 王道 | 计算机组成原理 | 六、总线"><img src="/img/366.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 计算机组成原理 | 六、总线"/></a><div class="content"><a class="title" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E5%85%AD%E3%80%81%E6%80%BB%E7%BA%BF/" title="26考研 | 王道 | 计算机组成原理 | 六、总线">26考研 | 王道 | 计算机组成原理 | 六、总线</a><time datetime="2025-06-11T10:25:00.000Z" title="发表于 2025-06-11 18:25:00">2025-06-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%B8%83%E3%80%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 七、输入输出系统"><img src="/img/367.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 王道 | 计算机组成原理 | 七、输入输出系统"/></a><div class="content"><a class="title" href="/2025/06/11/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-11-26%E8%80%83%E7%A0%94--%E7%8E%8B%E9%81%93--%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86--%E4%B8%83%E3%80%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/" title="26考研 | 王道 | 计算机组成原理 | 七、输入输出系统">26考研 | 王道 | 计算机组成原理 | 七、输入输出系统</a><time datetime="2025-06-11T10:25:00.000Z" title="发表于 2025-06-11 18:25:00">2025-06-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/10/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-10-Day131--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/" title="Day131 | 灵神 | 回溯算法 | 子集型 子集"><img src="/img/365.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day131 | 灵神 | 回溯算法 | 子集型 子集"/></a><div class="content"><a class="title" href="/2025/06/10/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-10-Day131--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/" title="Day131 | 灵神 | 回溯算法 | 子集型 子集">Day131 | 灵神 | 回溯算法 | 子集型 子集</a><time datetime="2025-06-10T01:30:20.000Z" title="发表于 2025-06-10 09:30:20">2025-06-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+  © 2024-<script>document.write(new Date().getFullYear())</script> 
+  <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
+  | 已运行 <span id="days">0</span> 天
+  <script>
+    const start = new Date('2024-12-12');
+    const now = new Date();
+    document.getElementById('days').innerHTML = 
+      Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  </script>
+</div>
+</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Never,ever,ever,give,up" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
