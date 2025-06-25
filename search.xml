@@ -38463,7 +38463,8 @@ project(test)
 </ol>
 <p>发展时间轴：<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e81abe6a05731d990c5af0820b5766a3.png" alt="在这里插入图片描述"></p>
 <h3 id="1-2-如何开发人工智能系统"><a href="#1-2-如何开发人工智能系统" class="headerlink" title="1.2 如何开发人工智能系统"></a>1.2 如何开发人工智能系统</h3><p>很难实现一个程序把这些规则给写下来，比如语音的识别，数字的识别； &#x3D;&gt; 机器学习：机器自己总结规则（函数）<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8c3c9b1e138c0f1dc3a28b045d3a53c6.png" alt="在这里插入图片描述"><br>怎么构建这个函数？就是机器学习要解决的事；</p>
-<p>用一个根据芒果图片来判断芒果是否甜的模型举例机器学习步骤：<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/035119537851ac6a0c8ab4a55183eadb.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b0138c9c7248ee99e7f3a101302dae36.png" alt="在这里插入图片描述"></p>
+<p>用一个根据芒果图片来判断芒果是否甜的模型举例机器学习步骤：</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/035119537851ac6a0c8ab4a55183eadb.png" alt="在这里插入图片描述"><br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b0138c9c7248ee99e7f3a101302dae36.png" alt="在这里插入图片描述"></p>
 <h3 id="1-3-表示学习"><a href="#1-3-表示学习" class="headerlink" title="1.3 表示学习"></a>1.3 表示学习</h3><p>当我们用机器学习来解决一些模式识别任务时，一般的流程包含以下几个步骤：<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9de712f15be24b8f4399907b256ee84e.png" alt="在这里插入图片描述"></p>
 <ol>
 <li>数据预处理：剔除原始数据中的冗余、缺失、异常等无效数据；</li>
@@ -56864,6 +56865,242 @@ $&#123;&#125;
       <tags>
         <tag>刷题记录</tag>
         <tag>回溯算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径</title>
+    <url>/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/</url>
+    <content><![CDATA[<h1 id="Day133-灵神-回溯算法-子集型-二叉树的所有路径"><a href="#Day133-灵神-回溯算法-子集型-二叉树的所有路径" class="headerlink" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"></a>Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径</h1><h2 id="257-二叉树的所有路径"><a href="#257-二叉树的所有路径" class="headerlink" title="257.二叉树的所有路径"></a>257.二叉树的所有路径</h2><p><a href="https://leetcode.cn/problems/binary-tree-paths/description/">257. 二叉树的所有路径 - 力扣（LeetCode）</a></p>
+<p><code>思路：</code></p>
+<p>这道题思路比较简单，直接写就行</p>
+<p><code>完整代码：</code></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;string&gt; res;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(TreeNode *t,string path)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(t==<span class="literal">nullptr</span>)</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        path += <span class="built_in">to_string</span>(t-&gt;val);</span><br><span class="line">        <span class="keyword">if</span>(t-&gt;left==<span class="literal">nullptr</span>&amp;&amp;t-&gt;right==<span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        &#125;</span><br><span class="line">        path += <span class="string">&quot;-&gt;&quot;</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(t-&gt;left,path);</span><br><span class="line">        <span class="built_in">dfs</span>(t-&gt;right,path);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">vector&lt;string&gt; <span class="title">binaryTreePaths</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        string path;</span><br><span class="line">        <span class="built_in">dfs</span>(root,path);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>刷题记录</category>
+      </categories>
+      <tags>
+        <tag>刷题记录</tag>
+        <tag>回溯算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络</title>
+    <url>/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h1 id="6-循环神经网络"><a href="#6-循环神经网络" class="headerlink" title="6.循环神经网络"></a>6.循环神经网络</h1><h2 id="6-1-给神经网络增加记忆能力"><a href="#6-1-给神经网络增加记忆能力" class="headerlink" title="6.1 给神经网络增加记忆能力"></a>6.1 给神经网络增加记忆能力</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619181935666.png" alt="image-20250619181935666"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619182053148.png" alt="image-20250619182053148"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619182211448.png" alt="image-20250619182211448"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619182838423.png" alt="image-20250619182838423"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619183027304.png" alt="image-20250619183027304"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619183102004.png" alt="image-20250619183102004"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619183220196.png" alt="image-20250619183220196"></p>
+<h2 id="6-2-循环神经网络"><a href="#6-2-循环神经网络" class="headerlink" title="6.2 循环神经网络"></a>6.2 循环神经网络</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619183438773.png" alt="image-20250619183438773"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619183626430.png" alt="image-20250619183626430"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619183656238.png" alt="image-20250619183656238"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619183728493.png" alt="image-20250619183728493"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619183821778.png" alt="image-20250619183821778"></p>
+<h2 id="6-3-应用到机器学习"><a href="#6-3-应用到机器学习" class="headerlink" title="6.3 应用到机器学习"></a>6.3 应用到机器学习</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619183852191.png" alt="image-20250619183852191"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619184017724.png" alt="image-20250619184017724"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619184038434.png" alt="image-20250619184038434"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619184122924.png" alt="image-20250619184122924"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619184209384.png" alt="image-20250619184209384"></p>
+<p>s是单个词的意思，b是一个词的开始，e是一个词的结束</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619184259571.png" alt="image-20250619184259571"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619184506163.png" alt="image-20250619184506163"></p>
+<p>没有结果产生的部分就是编码部分，有结果产生的部分就是解码部分</p>
+<p>这是之前说的自回归模型</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619184554697.png" alt="image-20250619184554697"></p>
+<h2 id="6-4-参数学习"><a href="#6-4-参数学习" class="headerlink" title="6.4 参数学习"></a>6.4 参数学习</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619184647479.png" alt="image-20250619184647479"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619185307359.png" alt="image-20250619185307359"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619185451231.png" alt="image-20250619185451231"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619185723339.png" alt="image-20250619185723339"></p>
+<p>会让第t个时刻的时候收不到关于第k个时刻的损失对地t个时刻的影响 原因就是梯度爆炸或者梯度消失</p>
+<h2 id="6-5-如何解决长程依赖问题"><a href="#6-5-如何解决长程依赖问题" class="headerlink" title="6.5 如何解决长程依赖问题"></a>6.5 如何解决长程依赖问题</h2><p>让上图的伽马&#x3D;1即可，但是这个条件很强，很难达到</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619190128907.png" alt="image-20250619190128907"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619190513215.png" alt="image-20250619190513215"></p>
+<h2 id="6-6-GRU-和-LSTM"><a href="#6-6-GRU-和-LSTM" class="headerlink" title="6.6 GRU 和 LSTM"></a>6.6 GRU 和 LSTM</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619190639444.png" alt="image-20250619190639444"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619190847351.png" alt="image-20250619190847351"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619190955831.png" alt="image-20250619190955831"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619191214269.png" alt="image-20250619191214269"></p>
+<p>ft是遗忘门，说的是我们这次应该忘记多少信息</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619191251814.png" alt="image-20250619191251814"></p>
+<h2 id="6-7-深层循环神经网络"><a href="#6-7-深层循环神经网络" class="headerlink" title="6.7 深层循环神经网络"></a>6.7 深层循环神经网络</h2><p>就是多叠了几层</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619191554108.png" alt="image-20250619191554108"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619191653641.png" alt="image-20250619191653641"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619191811292.png" alt="image-20250619191811292"></p>
+<h2 id="6-8-应用"><a href="#6-8-应用" class="headerlink" title="6.8 应用"></a>6.8 应用</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192039920.png" alt="image-20250619192039920"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192127735.png" alt="image-20250619192127735"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192228707.png" alt="image-20250619192228707"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192242123.png" alt="image-20250619192242123"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192301289.png" alt="image-20250619192301289"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192321576.png" alt="image-20250619192321576"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192337661.png" alt="image-20250619192337661"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192351576.png" alt="image-20250619192351576"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192412908.png" alt="image-20250619192412908"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192440892.png" alt="image-20250619192440892"></p>
+<h2 id="6-9-扩展到图结构"><a href="#6-9-扩展到图结构" class="headerlink" title="6.9 扩展到图结构"></a>6.9 扩展到图结构</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192557777.png" alt="image-20250619192557777"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192617815.png" alt="image-20250619192617815"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192807763.png" alt="image-20250619192807763"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192824007.png" alt="image-20250619192824007"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619192902995.png" alt="image-20250619192902995"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619193028186.png" alt="image-20250619193028186"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619193049694.png" alt="image-20250619193049694"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619193107861.png" alt="image-20250619193107861"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619193125837.png" alt="image-20250619193125837"></p>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深度学习与神经网络 | 邱锡鹏 | 第五章学习笔记 卷积神经网络</title>
+    <url>/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BA%94%E3%80%81%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
+    <content><![CDATA[<h1 id="五、卷积神经网络"><a href="#五、卷积神经网络" class="headerlink" title="五、卷积神经网络"></a>五、卷积神经网络</h1><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619121034084.png" alt="image-20250619121034084"></p>
+<p>我们希望有一个新的网络可以提取局部不变性</p>
+<h2 id="5-1-卷积"><a href="#5-1-卷积" class="headerlink" title="5.1 卷积"></a>5.1 卷积</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619152129122.png" alt="image-20250619152129122"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619152417115.png" alt="image-20250619152417115"></p>
+<p>前两个输入都不卷，从第三个开始卷，因为滤波器的长度是3</p>
+<p>每次选定三个数卷，比如前三个，1,1,2</p>
+<p>2* (-1) + 1*0+1*1&#x3D; -1</p>
+<p>然后根据公式就是如上计算，就是滤波器的第三个对应当前选定的三个值的第一个，第二个对第二个，第一个对第三个，其实就是倒着来的，后面的也都是如此</p>
+<p>然后可以看到，输入有7个，输出有5个，滤波器大小是3，那么关系就是7-3+1&#x3D;5</p>
+<p>也就是n-k+1&#x3D;5</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619153015496.png" alt="image-20250619153015496"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619153139560.png" alt="image-20250619153139560"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619153447719.png" alt="image-20250619153447719"></p>
+<p>零填充很常用，因为这个可以让输入和输出长度相同</p>
+<p>比如图中输入是7，滤波器是3，输出本来应该是5，现在零填空P&#x3D;1，那就是补了两个零，表面上输入好像成9了，这么一算，输出就是7，但实际上输入还是原来的7，因为那两个0是补进去的</p>
+<p>其实P&#x3D;(k-1)&#x2F;2，也就是输入会补k-1个0</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619154024386.png" alt="image-20250619154024386"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619154220811.png" alt="image-20250619154220811"></p>
+<p>5-3+1&#x3D;3,依旧满足上面那个规则</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619154259420.png" alt="image-20250619154259420"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619154431171.png" alt="image-20250619154431171"></p>
+<h2 id="5-2-卷积神经网络"><a href="#5-2-卷积神经网络" class="headerlink" title="5.2 卷积神经网络"></a>5.2 卷积神经网络</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619155814620.png" alt="image-20250619155814620"></p>
+<p>用卷积核代替全连接，原来每个连接都是一个参数，现在换成卷积核，这里卷积核是3（滤波器大小），所以参数也就是3个，再加上一个偏置b，一共是4个，偏置也是共享的</p>
+<p>而且这个参数数量和输入的神经元数量无关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619160050746.png" alt="image-20250619160050746"></p>
+<p>不反着来正着来就是互相关，即w1对x1，w2对x2，一般不做特殊说明就是互相关</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619160443152.png" alt="image-20250619160443152"></p>
+<p>D就是通道数，在右边这张图里面就是3，MN是原来的大小</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619160650085.png" alt="image-20250619160650085"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619160734078.png" alt="image-20250619160734078"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619160901588.png" alt="image-20250619160901588"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619160939633.png" alt="image-20250619160939633"></p>
+<p>划分成区域就可以显著降低神经元个数了，原来4*4变成了2*2</p>
+<p>划分成4个互不相交的区域以后，怎么汇聚  可以是平均值或者最大值或者其他的规则</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619161238449.png" alt="image-20250619161238449"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619161448275.png" alt="image-20250619161448275"></p>
+<h2 id="5-3-其他卷积"><a href="#5-3-其他卷积" class="headerlink" title="5.3 其他卷积"></a>5.3 其他卷积</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619161648794.png" alt="image-20250619161648794"></p>
+<p>空洞其实就是插入0，把3*3弄成5*5的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619161925896.png" alt="image-20250619161925896"></p>
+<h2 id="5-4-经典卷积网络"><a href="#5-4-经典卷积网络" class="headerlink" title="5.4 经典卷积网络"></a>5.4 经典卷积网络</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619162352603.png" alt="image-20250619162352603"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619162702099.png" alt="image-20250619162702099"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619162738719.png" alt="image-20250619162738719"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619162757235.png" alt="image-20250619162757235"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619162931213.png" alt="image-20250619162931213"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619162945347.png" alt="image-20250619162945347"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619163005010.png" alt="image-20250619163005010"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619163234503.png" alt="image-20250619163234503"></p>
+<p>直连边会让求导会有一个恒等的1，也就是如果想让层数深的话，直接相连的边必不可少</p>
+<h2 id="5-5-卷积网络的应用"><a href="#5-5-卷积网络的应用" class="headerlink" title="5.5 卷积网络的应用"></a>5.5 卷积网络的应用</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619163522931.png" alt="image-20250619163522931"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619163602818.png" alt="image-20250619163602818"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619163637454.png" alt="image-20250619163637454"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619163645170.png" alt="image-20250619163645170"></p>
+<h2 id="5-6-应用到文本数据"><a href="#5-6-应用到文本数据" class="headerlink" title="5.6 应用到文本数据"></a>5.6 应用到文本数据</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619163953538.png" alt="image-20250619163953538"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619164123980.png" alt="image-20250619164123980"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619164151031.png" alt="image-20250619164151031"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619164251329.png" alt="image-20250619164251329"></p>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深度学习与神经网络 | 邱锡鹏 | 第七章学习笔记 网络优化与正则化</title>
+    <url>/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7.%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="7-网络优化与正则化"><a href="#7-网络优化与正则化" class="headerlink" title="7.网络优化与正则化"></a>7.网络优化与正则化</h1><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619202031965.png" alt="image-20250619202031965"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619202112131.png" alt="image-20250619202112131"></p>
+<h2 id="7-1神经网络优化的特点"><a href="#7-1神经网络优化的特点" class="headerlink" title="7.1神经网络优化的特点"></a>7.1神经网络优化的特点</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619202520742.png" alt="image-20250619202520742"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619202656219.png" alt="image-20250619202656219"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619202800500.png" alt="image-20250619202800500"></p>
+<p>所以找个平坦最小值就好了，不一定需要全局最小值</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619202850140.png" alt="image-20250619202850140"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619202938548.png" alt="image-20250619202938548"></p>
+<h2 id="7-2-优化算法改进"><a href="#7-2-优化算法改进" class="headerlink" title="7.2 优化算法改进"></a>7.2 优化算法改进</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619203117763.png" alt="image-20250619203117763"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619203146508.png" alt="image-20250619203146508"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619203422727.png" alt="image-20250619203422727"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619203453878.png" alt="image-20250619203453878"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619203712390.png" alt="image-20250619203712390"></p>
+<h2 id="7-3-动态学习率"><a href="#7-3-动态学习率" class="headerlink" title="7.3 动态学习率"></a>7.3 动态学习率</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619203749004.png" alt="image-20250619203749004"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619203829729.png" alt="image-20250619203829729"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619203842400.png" alt="image-20250619203842400"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619203942843.png" alt="image-20250619203942843"></p>
+<p>总体趋势还是减少的。时不时变大是为了找到更好的局部最优</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619204056543.png" alt="image-20250619204056543"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619204120051.png" alt="image-20250619204120051"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619204234445.png" alt="image-20250619204234445"></p>
+<h2 id="7-4-梯度方向优化"><a href="#7-4-梯度方向优化" class="headerlink" title="7.4 梯度方向优化"></a>7.4 梯度方向优化</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619204841103.png" alt="image-20250619204841103"></p>
+<p>效果比随机梯度要好</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619204857349.png" alt="image-20250619204857349"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619205036035.png" alt="image-20250619205036035"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619205049830.png" alt="image-20250619205049830"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619205120833.png" alt="image-20250619205120833"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619205308436.png" alt="image-20250619205308436"></p>
+<h2 id="7-5-参数初始化"><a href="#7-5-参数初始化" class="headerlink" title="7.5 参数初始化"></a>7.5 参数初始化</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619205516613.png" alt="image-20250619205516613"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619205543929.png" alt="image-20250619205543929"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619205731412.png" alt="image-20250619205731412"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619205816067.png" alt="image-20250619205816067"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619205912177.png" alt="image-20250619205912177"></p>
+<p>上图通常用在循环网络中</p>
+<h2 id="7-6-数据预处理"><a href="#7-6-数据预处理" class="headerlink" title="7.6 数据预处理"></a>7.6 数据预处理</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619210046839.png" alt="image-20250619210046839"></p>
+<p>问题就是会对参数初始化产生一定的影响，也会对优化产生一定的影响</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619210213042.png" alt="image-20250619210213042"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619210331758.png" alt="image-20250619210331758"></p>
+<p>标准差为0的数据没啥意义，直接就扔了</p>
+<h2 id="7-7-逐层规范化"><a href="#7-7-逐层规范化" class="headerlink" title="7.7 逐层规范化"></a>7.7 逐层规范化</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619210415982.png" alt="image-20250619210415982"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619210614571.png" alt="image-20250619210614571"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619210657902.png" alt="image-20250619210657902"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619210819352.png" alt="image-20250619210819352"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619210845672.png" alt="image-20250619210845672"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619211017841.png" alt="image-20250619211017841"></p>
+<h2 id="7-8-超参数优化"><a href="#7-8-超参数优化" class="headerlink" title="7.8 超参数优化"></a>7.8 超参数优化</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619211206730.png" alt="image-20250619211206730"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619211411234.png" alt="image-20250619211411234"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619211727490.png" alt="image-20250619211727490"></p>
+<h2 id="7-9-正则化"><a href="#7-9-正则化" class="headerlink" title="7.9 正则化"></a>7.9 正则化</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619212852039.png" alt="image-20250619212852039"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619212919360.png" alt="image-20250619212919360"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213041301.png" alt="image-20250619213041301"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213123612.png" alt="image-20250619213123612"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213157959.png" alt="image-20250619213157959"></p>
+<h2 id="7-10-暂退法"><a href="#7-10-暂退法" class="headerlink" title="7.10 暂退法"></a>7.10 暂退法</h2><p>可以提高网络的泛化能力</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213339320.png" alt="image-20250619213339320"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213351117.png" alt="image-20250619213351117"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213445112.png" alt="image-20250619213445112"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213500484.png" alt="image-20250619213500484"></p>
+<h2 id="7-11-l1和l2正则化"><a href="#7-11-l1和l2正则化" class="headerlink" title="7.11 l1和l2正则化"></a>7.11 l1和l2正则化</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213739900.png" alt="image-20250619213739900"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213809078.png" alt="image-20250619213809078"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213820241.png" alt="image-20250619213820241"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213907454.png" alt="image-20250619213907454"></p>
+<h2 id="7-12-数据增强"><a href="#7-12-数据增强" class="headerlink" title="7.12 数据增强"></a>7.12 数据增强</h2><p>可以增强模型泛化能力</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619213947042.png" alt="image-20250619213947042"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619214025829.png" alt="image-20250619214025829"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250619214117339.png" alt="image-20250619214117339"></p>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>深度学习</tag>
       </tags>
   </entry>
 </search>
