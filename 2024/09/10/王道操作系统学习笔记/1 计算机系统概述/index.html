@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>王道操作系统 1.计算机系统概述 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1 计算机系统概述1.1 操作系统的基本概念  定义 操作系统（Operating System，OS）是指控制和管理整个计算机系统的硬件和软件资源，并合理地组织调度计算机的工作和资源的分配；以提供给用户和其他软件方便的接口和环境；它是计算机系统中最基本的系统软件。  特征  并发 并发指两个或多个事件在同一时间间隔内发生。这些事件宏观上是同时发生的，但微观上是交替发生的。 OS的并发性是通过分时">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>王道操作系统 1.计算机系统概述 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1 计算机系统概述1.1 操作系统的基本概念 定义     GUI最终调用的还是系统调用     特征 并发    并发性：两个或多个事件在同一时间间隔内发生。 并行性：两个或多个事件在同一时刻发生，需要硬件支持，如多流水线或多处理机硬件环境。  多道程序环境下，一段时间，宏观上，多道程序同时执行某一时刻，单处理机环境下实际仅有一道程序执行，微观上程序分时交替执行  共享   所谓的“同时”往往是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="王道操作系统 1.计算机系统概述">
 <meta property="og:url" content="https://darling-123456.github.io/2024/09/10/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="Darlingの妙妙屋">
-<meta property="og:description" content="1 计算机系统概述1.1 操作系统的基本概念  定义 操作系统（Operating System，OS）是指控制和管理整个计算机系统的硬件和软件资源，并合理地组织调度计算机的工作和资源的分配；以提供给用户和其他软件方便的接口和环境；它是计算机系统中最基本的系统软件。  特征  并发 并发指两个或多个事件在同一时间间隔内发生。这些事件宏观上是同时发生的，但微观上是交替发生的。 OS的并发性是通过分时">
+<meta property="og:description" content="1 计算机系统概述1.1 操作系统的基本概念 定义     GUI最终调用的还是系统调用     特征 并发    并发性：两个或多个事件在同一时间间隔内发生。 并行性：两个或多个事件在同一时刻发生，需要硬件支持，如多流水线或多处理机硬件环境。  多道程序环境下，一段时间，宏观上，多道程序同时执行某一时刻，单处理机环境下实际仅有一道程序执行，微观上程序分时交替执行  共享   所谓的“同时”往往是">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://darling-123456.github.io/img/104.jpg">
 <meta property="article:published_time" content="2024-09-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-26T12:30:24.720Z">
+<meta property="article:modified_time" content="2025-07-16T09:56:06.158Z">
 <meta property="article:author" content="Darling">
 <meta property="article:tag" content="操作系统">
 <meta property="article:tag" content="考研">
@@ -19,7 +19,7 @@
   "url": "https://darling-123456.github.io/2024/09/10/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/",
   "image": "https://darling-123456.github.io/img/104.jpg",
   "datePublished": "2024-09-09T16:00:00.000Z",
-  "dateModified": "2025-03-26T12:30:24.720Z",
+  "dateModified": "2025-07-16T09:56:06.158Z",
   "author": [
     {
       "@type": "Person",
@@ -181,20 +181,21 @@
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">369</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/104.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">王道操作系统 1.计算机系统概述</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">王道操作系统 1.计算机系统概述</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-09T16:00:00.000Z" title="发表于 2024-09-10 00:00:00">2024-09-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-26T12:30:24.720Z" title="更新于 2025-03-26 20:30:24">2025-03-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">9.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>27分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="1-计算机系统概述"><a href="#1-计算机系统概述" class="headerlink" title="1 计算机系统概述"></a>1 计算机系统概述</h2><h3 id="1-1-操作系统的基本概念"><a href="#1-1-操作系统的基本概念" class="headerlink" title="1.1 操作系统的基本概念"></a>1.1 操作系统的基本概念</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8d729137dca34236bc4976970673c275.jpeg" alt="img"></p>
-<ol>
-<li><p>定义</p>
-<p>操作系统（Operating System，OS）是指控制和管理整个计算机系统的硬件和软件资源，并合理地组织调度计算机的工作和资源的分配；以提供给用户和其他软件方便的接口和环境；它是计算机系统中最基本的系统软件。</p>
-</li>
-<li><p>特征</p>
-<ul>
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">373</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/104.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">王道操作系统 1.计算机系统概述</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">王道操作系统 1.计算机系统概述</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-09T16:00:00.000Z" title="发表于 2024-09-10 00:00:00">2024-09-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-16T09:56:06.158Z" title="更新于 2025-07-16 17:56:06">2025-07-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">7.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>22分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="1-计算机系统概述"><a href="#1-计算机系统概述" class="headerlink" title="1 计算机系统概述"></a>1 计算机系统概述</h2><h3 id="1-1-操作系统的基本概念"><a href="#1-1-操作系统的基本概念" class="headerlink" title="1.1 操作系统的基本概念"></a>1.1 操作系统的基本概念</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/8d729137dca34236bc4976970673c275.jpeg" alt="img"></p>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094036475.png" alt="image-20250626094036475"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094113675.png" alt="image-20250626094113675"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094336947.png" alt="image-20250626094336947"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094132657.png" alt="image-20250626094132657"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094153976.png" alt="image-20250626094153976"></p>
+<p>GUI最终调用的还是系统调用</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094227171.png" alt="image-20250626094227171"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094241502.png" alt="image-20250626094241502"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094303948.png" alt="image-20250626094303948"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094405890.png" alt="image-20250626094405890"></p>
+<h4 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h4><ul>
 <li><p>并发</p>
-<p>并发指两个或多个事件在同一时间间隔内发生。这些事件<strong>宏观上是同时发生的，但微观上是交替发生</strong>的。</p>
-<p>OS的并发性是通过分时实现的。</p>
-<ul>
-<li>单核CPU同一时刻只能执行一个程序，各个程序只能并发地执行</li>
-<li>多核CPU同一时刻可以同时执行多个程序，多个程序可以并行地执行</li>
-</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094437365.png" alt="image-20250626094437365"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094458555.png" alt="image-20250626094458555"></p>
 <blockquote>
 <p><strong>并发性</strong>：两个或多个事件在同一时间间隔内发生。</p>
 <p><strong>并行性</strong>：两个或多个事件在同一时刻发生，需要硬件支持，如多流水线或多处理机硬件环境。</p>
@@ -202,26 +203,16 @@
 <p>多道程序环境下，一段时间，宏观上，多道程序同时执行某一时刻，单处理机环境下实际仅有一道程序执行，微观上程序分时交替执行</p>
 </li>
 <li><p>共享</p>
-<p>共享即资源共享，是指系统中的资源可供内存中多个并发执行的进程共同使用。</p>
-<ul>
-<li><p><strong>互斥共享方式</strong>：系统中的某些资源，虽然可以提供给多个进程使用，但一个时间段内只允许一个进程访问该资源。</p>
-<p>应用：使用QQ和微信视频。同一时间段内摄像头只能分配给其中一个进程。</p>
-</li>
-<li><p><strong>同时共享方式</strong>：系统中的某些资源，允许一个时间段内由多个进程“同时”对它们进行访问。</p>
-<p>应用：使用QQ发送文件A，同时使用微信发送文件B。宏观上看，两边都在同时读取并发送文件说明两个进程都在访问硬盘资源，从中读取数据。微观上看，两个进程是交替着访问硬盘的。</p>
-</li>
-</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094544506.png" alt="image-20250626094544506"></p>
 <blockquote>
 <p>所谓的“同时”往往是宏观上的，而在微观上，这些进程可能是交替地对该资源进行访问的（即分时共享）</p>
 </blockquote>
-<p>并发和共享是操作系统两个最基本的特征，两者之间互为存在的条件：</p>
-<ul>
-<li>①资源共享是以程序的并发为条件的，若系统不允许程序并发执行，则自然不存在资源共享问题；</li>
-<li>②若系统不能对资源共享实施有效的管理，则必将影响到程序的并发执行，甚至根本无法并发执行。</li>
-</ul>
+<p>并发和共享是操作系统两个最基本的特征，两者之间互为存在的条件</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094850860.png" alt="image-20250626094850860"></p>
 </li>
 <li><p>虚拟</p>
-<p>虚拟是指把一个物理上的实体变为若干个逻辑上的对应物。物理实体（前者）是实际存在的，而逻辑上对应物（后者）是用户感受到的。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094819805.png" alt="image-20250626094819805"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626094921636.png" alt="image-20250626094921636"></p>
 <ul>
 <li><p><strong>虚拟处理器</strong>：通过<strong>时分复用</strong>技术，让多道程序并发执行的方法，来分时使用一个处理器的。</p>
 <p>虽然只有一个处理器，但它能同时为多个用户服务，使每个终端用户都感觉有一个中央处理器（CPU）在专门为它服务。</p>
@@ -232,76 +223,14 @@
 </li>
 </ul>
 </li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626095019568.png" alt="image-20250626095019568"></p>
+<ul>
 <li><p>异步</p>
 <p>在多道程序环境下，允许多个程序并发执行，但由于资源有限，进程的执行不是一贯到底的，而是走走停停，以不可预知的速度向前推进，这就是<strong>进程的异步性</strong>。</p>
 </li>
 </ul>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/e4b8663441fd4aa5a96dee4a0ad83c56.png" alt="img"></p>
-</li>
-<li><p>功能</p>
-<p>为了给多道程序提供良好的运行环境，操作系统应具有以下几方面的功能：处理机管理、存储器管理、设备管理和文件管理。为了方便用户使用操作系统，还必须向用户提供接口。同时，操作系统可用来扩充机器，以提供更方便的服务、更高的资源利用率。</p>
-<ul>
-<li><p>操作系统是系统资源的管理者</p>
-<ul>
-<li><p><strong>处理机管理</strong></p>
-<p>即<strong>对进程的管理</strong>，包括进程控制、进程同步、进程通信、死锁处理、处理机调度等。</p>
-</li>
-<li><p><strong>存储器管理</strong></p>
-<p>方便程序运行、用户使用及提高内存的利用率，包括内存分配与回收、地址映射、内存保护与共享和内存扩充等功能。</p>
-</li>
-<li><p><strong>文件管理</strong></p>
-<p>计算机中的信息都是以文件的形式存在的，操作系统中负责文件管理的部分称为<strong>文件系统</strong>。</p>
-<p>文件管理包括文件存储空间的管理、目录管理及文件读写管理和保护等。</p>
-</li>
-<li><p><strong>设备管理</strong></p>
-<p>设备管理的主要任务是完成用户的I&#x2F;O请求，方便用户使用各种设备，并提高设备的利用率，主要包括缓冲管理、设备分配、设备处理和虚拟设备等功能。</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/bd9ef6f3b2c74d4faca3c55c3ab04330.jpeg" alt="img"></p>
-</li>
-</ul>
-</li>
-<li><p>向上层提供方便易用的服务</p>
-<ul>
-<li><p><strong>命令接口</strong></p>
-<p><strong>用户</strong>利用这些操作命令来组织和控制作业的执行。</p>
-<ul>
-<li><p><strong>联机命令接口</strong>：即交互式命令接口，适用于分时或实时系统。</p>
-<p>“雇主”说一句话，“工人”做一件事，并做出反馈，这就强调了交互性。</p>
-</li>
-<li><p><strong>脱机命令接口</strong>：即批处理命令接口，适用于批处理系统</p>
-<p>“雇主”把要“工人”做的事写在清单上，“工人”按照清单命令逐条完成这些事，这就是批处理。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>程序接口</strong></p>
-<p>程序接口由一组<strong>系统调用</strong>（也称广义指令）组成。是为编程人员提供的接口。普通用户不能直接使用程序接口，只能通过程序代码间接使用。</p>
-<p>用户通过在程序中使用<strong>系统调用命令</strong>请求OS为其提供服务。系统调用命令又称广义指令。</p>
-</li>
-<li><p><strong>GUl：图形化用户接口</strong>（Graphical User Interface）</p>
-<p>用户可以使用形象的图形界面进行操作，而不再需要记忆复杂的命令、参数。</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/b2de15f8c63a49bea26f9f0bb05b0fea.png" alt="img"></p>
-</li>
-</ul>
-</li>
-<li><p>是最接近硬件的一层软件</p>
-<p><strong>裸机</strong>：没有任何软件支持的计算机称为裸机，它仅构成计算机系统的物质基础。</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906161936845.png" alt="image-20230906161936845"></p>
-<p>在裸机上安装的操作系统，可以提供资源管理功能和方便用户的服务功能，将裸机改造成功能更强、使用更方便的机器。</p>
-<p>通常把覆盖了软件的机器成为<strong>扩充机器</strong>，又称之为<strong>虚拟机</strong>。<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/bd32e295c93c4758bcc564b84c7b652f.jpeg" alt="img"></p>
-</li>
-</ul>
-</li>
-</ol>
-<blockquote>
-<p>例：</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906162625137.png" alt="image-20230906162625137"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906162652164.png" alt="image-20230906162652164"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906162907975.png" alt="image-20230906162907975"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906162925001.png" alt="image-20230906162925001"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906163023486.png" alt="image-20230906163023486"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906163041909.png" alt="image-20230906163041909"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906163257516.png" alt="image-20230906163257516"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906163342210.png" alt="image-20230906163342210"></p>
-</blockquote>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250626095119562.png" alt="image-20250626095119562"></p>
 <h3 id="1-2-操作系统发展历程"><a href="#1-2-操作系统发展历程" class="headerlink" title="1.2 操作系统发展历程"></a>1.2 操作系统发展历程</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/512ccebf05e54369aa688c1b4c23f5a3.png" alt="img"></p>
 <ol>
 <li><p>手工操作阶段（此阶段无操作系统）</p>
@@ -314,6 +243,7 @@
 </li>
 <li>人机矛盾：CPU和I&#x2F;O速度不匹配的矛盾。</li>
 </ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716104055426.png" alt="image-20250716104055426"></p>
 </li>
 <li><p>批处理阶段（操作系统开始出现）</p>
 <ul>
@@ -329,6 +259,10 @@
 <li><strong>缺点</strong>：资源利用率仍低，高速CPU等待低速I&#x2F;O。</li>
 </ul>
 </li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716104138573.png" alt="image-20250716104138573"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716104226636.png" alt="image-20250716104226636"></p>
+<ul>
 <li><p><strong>多道批处理系统</strong>：多道程序设计技术操作系统开始出现</p>
 <p><strong>多道程序设计</strong>：允许<strong>多个程序同时进入内存</strong>并允许它们<strong>在CPU中交替地运行</strong>，这些程序共享系统中的各种硬&#x2F;软件资源。当一道程序因I&#x2F;O请求而暂停运行时，CPU便立即转去运行另一道程序。</p>
 <ul>
@@ -350,13 +284,14 @@
 </li>
 <li><strong>优点</strong>：<ul>
 <li>资源利用率高，多道程序并发执行，共享计算机资源</li>
-<li>系统吞叶量大，CPU和其他资源保持”忙碌”</li>
+<li>系统吞吐量大，CPU和其他资源保持”忙碌”</li>
 </ul>
 </li>
 <li><strong>缺点</strong>：用户响应时间长、无人机交互能力</li>
 </ul>
 </li>
 </ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716104549080.png" alt="image-20250716104549080"></p>
 </li>
 <li><p>分时操作系统</p>
 <p><strong>分时技术</strong>：计算机以<strong>时间片为单位</strong>轮流为各个用户&#x2F;作业服务，各个用户可通过终端与计算机进行交互。</p>
@@ -376,6 +311,7 @@
 </li>
 <li>缺点：无法优先处理紧急任务</li>
 </ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716104712722.png" alt="image-20250716104712722"></p>
 </li>
 <li><p>实时操作系统</p>
 <p>能在某个时间限制内完成某些紧急任务而不需要时间片排队。</p>
@@ -399,6 +335,7 @@
 <li><p>优点：能够优先处理紧急任务</p>
 </li>
 </ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716104759140.png" alt="image-20250716104759140"></p>
 </li>
 <li><p>网络操作系统和分布式计算机系统</p>
 <ul>
@@ -424,44 +361,35 @@
 <li><p>个人计算机操作系统</p>
 <p>个人计算机操作系统是目前使用最广泛的操作系统，它广泛应用于文字处理、电子表格、游戏中。</p>
 <p>常见的有Windows、Linux和MacOS等。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716104818185.png" alt="image-20250716104818185"></p>
 </li>
 </ol>
-<p> 操作系统发展历程如下图所示。</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906170455342.png" alt="image-20230906170455342"></p>
 <p> 此外，还有嵌入式操作系统、服务器操作系统、智能手机操作系统等。</p>
-<blockquote>
-<p>例</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906172127304.png" alt="image-20230906172127304"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906172205744.png" alt="image-20230906172205744"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906172222270.png" alt="image-20230906172222270"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906172239874.png" alt="image-20230906172239874"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906172347580.png" alt="image-20230906172347580"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230906172651255.png" alt="image-20230906172651255"></p>
-</blockquote>
 <h3 id="1-3-操作系统运行环境"><a href="#1-3-操作系统运行环境" class="headerlink" title="1.3 操作系统运行环境"></a>1.3 操作系统运行环境</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a077a3045c2b4565a59ef8ff808b1166.png" alt="img"></p>
-<h4 id="1-3-1-处理器运行模型"><a href="#1-3-1-处理器运行模型" class="headerlink" title="1.3.1 处理器运行模型"></a>1.3.1 处理器运行模型</h4><ol>
+<h4 id="1-3-1-处理器运行模型"><a href="#1-3-1-处理器运行模型" class="headerlink" title="1.3.1 处理器运行模型"></a>1.3.1 处理器运行模型</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716144202751.png" alt="image-20250716144202751"></p>
+<ol>
 <li><p>在计算机系统中，通常CPU执行两种不同性质的程序：</p>
 <ul>
 <li>操作系统<strong>内核程序</strong>：是用户自编程序的管理者，“管理程序”（即内核程序）要执行一些特权指令。</li>
 <li>用户自编程序：即系统外层的应用程序，或简称“应用程序”，“被管理程序”（即用户自编程序）出于安全考虑不能执行这特权指令。</li>
 </ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716143706069.png" alt="image-20250716143706069"></p>
 </li>
 <li><p>特权指令和非特权指令</p>
 <ul>
 <li><strong>特权指令</strong>：是指不允许用户直接使用的指令，如&#x2F;O指令、置中断指令，存取用于内存保护的寄存器、送程序状态字到程序状态字寄存器等的指令。</li>
 <li><strong>非特权指令</strong>：是指允许用户直接使用的指令，它不能直接访问系统中的软硬件资源，仅限于访问用户的地址空间，这也是为了防止用户程序对系统造成破坏。</li>
 </ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716143805745.png" alt="image-20250716143805745"></p>
 </li>
 <li><p>CPU的运行模式</p>
 <ul>
 <li><strong>用户态（目态）</strong>：CPU处于用户态，此时CPU只能执行非特权指令。</li>
 <li><strong>核心态（又称管态、内核态）</strong>：CPU处于核心态，此时CPU可以执行特权指令，切换到用户态的指令也是特权指令。</li>
 </ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716143928258.png" alt="image-20250716143928258"></p>
 <p>应用程序运行在用户态，操作系统内核程序运行在核心态。</p>
-<blockquote>
-<p>内核态一&gt;用户态：一条修改PSW的特权指令</p>
-<p>用户态一&gt;内核态：应用程序向操作系统请求服务时通过使用访管指令，从而产生一个中断事件将操作系统转换为核心态。</p>
-</blockquote>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716144136085.png" alt="image-20250716144136085"></p>
 </li>
 <li><p>分层管理</p>
 <ul>
@@ -516,10 +444,11 @@
 </li>
 </ol>
 <h4 id="1-3-2-中断和异常的概念"><a href="#1-3-2-中断和异常的概念" class="headerlink" title="1.3.2 中断和异常的概念"></a>1.3.2 中断和异常的概念</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c1f0c8d07faa484f8478b283b34ed545.png" alt="img"></p>
+<p>整数除以0是故障，不是终止（书上是这么写的）</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c4dd35c9c2f64460b761d6c161b32b6e.png" alt="img"></p>
 <ol>
 <li><p>中断作用</p>
-<p>让操作系统内核强行夺回CPU的控制权；使CPU从用户态变为内核态。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716144449902.png" alt="image-20250716144449902"></p>
 </li>
 <li><p>中断和异常的分类</p>
 <ul>
@@ -560,19 +489,14 @@
 <p>通常情况下，对中断和异常的具体处理过程由操作系统（和驱动程序）完成。</p>
 </li>
 </ol>
-<h4 id="1-3-3-系统调用"><a href="#1-3-3-系统调用" class="headerlink" title="1.3.3 系统调用"></a>1.3.3 系统调用</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a1a9979995c44e568b3263865f169287.png" alt="img"></p>
+<h4 id="1-3-3-系统调用"><a href="#1-3-3-系统调用" class="headerlink" title="1.3.3 系统调用"></a>1.3.3 系统调用</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716150135312.png" alt="image-20250716150135312"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716145538875.png" alt="image-20250716145538875"></p>
 <ol>
 <li><p>定义</p>
 <p>操作系统作为用户和计算机硬件之间的接口，需要向上提供一些简单易用的服务，系统调用可视为特殊的公共子程序。又称<strong>广义指令</strong>。<strong>程序接口</strong>由一组系统调用组成。目的为解决资源分配问题</p>
 </li>
 <li><p>分类</p>
-<ul>
-<li><strong>设备管理</strong>：完成设备的请求或释放，以及设备启动等功能。</li>
-<li><strong>文件管理</strong>：完成文件的读、写、创建及删除等功能。</li>
-<li><strong>进程控制</strong>：完成进程的创建、撤销、阻塞及唤醒等功能。</li>
-<li><strong>进程通信</strong>：完成进程之间的消息传递或信号传递等功能。</li>
-<li><strong>内存管理</strong>：完成内存的分配、回收以及获取作业占用内存区大小及始址等功能。</li>
-</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716145724097.png" alt="image-20250716145724097"></p>
 </li>
 <li><p>系统调用过程</p>
 <p>系统调用的处理需要由操作系统内核程序负责完成，要运行在<strong>核心态</strong>。</p>
@@ -583,7 +507,8 @@
 <ul>
 <li><p><strong>系统调用执行过程：</strong></p>
 <p>传递系统调用参数→执行陷入（trap）指令→执行相应的服务程序→返回用户态</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907104615415.png" alt="image-20230907104615415"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716145926071.png" alt="image-20250716145926071"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716150102042.png" alt="image-20250716150102042"></p>
 <ul>
 <li>当需要管理程序服务时，系统则通过硬件中断机制进入核心态，运行管理程序；</li>
 <li>也可能是程序运行出现异常情况，被动地需要管理程序的服务，这时就通过异常处理来进入核心态。</li>
@@ -615,37 +540,12 @@
 <p>注意：由用户态进入核心态，不仅状态需要切换，而且所用的堆栈也可能需要由用户堆栈切换为系统堆栈，但这个系统堆栈也是属于该进程的。</p>
 </blockquote>
 </li>
-<li><p>与库函数的区别</p>
-<ul>
-<li>有的库函数是对系统调用的进一步封装：如“创建一个新文件”的函数</li>
-<li>有的库函数没有使用系统调用：如的“取绝对值”的函数</li>
-</ul>
-</li>
 </ol>
-<blockquote>
-<p>例：</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907110731631.png" alt="image-20230907110731631"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907110712402.png" alt="image-20230907110712402"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907111326699.png" alt="image-20230907111326699"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907111012720.png" alt="image-20230907111012720"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907112051407.png" alt="image-20230907112051407"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907112105166.png" alt="image-20230907112105166"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907112801641.png" alt="image-20230907112801641"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907112817415.png" alt="image-20230907112817415"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907113824708.png" alt="image-20230907113824708"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907113836680.png" alt="image-20230907113836680"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907114514637.png" alt="image-20230907114514637"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907114540607.png" alt="image-20230907114540607"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907124502957.png" alt="image-20230907124502957"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907124527899.png" alt="image-20230907124527899"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907134939200.png" alt="image-20230907134939200"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907135000007.png" alt="image-20230907135000007"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907135104614.png" alt="image-20230907135104614"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907135130034.png" alt="image-20230907135130034"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907141021682.png" alt="image-20230907141021682"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907141044338.png" alt="image-20230907141044338"></p>
-</blockquote>
-<h3 id="1-4-操作系统结构"><a href="#1-4-操作系统结构" class="headerlink" title="1.4 操作系统结构"></a>1.4 操作系统结构</h3><ol>
+<h3 id="1-4-操作系统结构"><a href="#1-4-操作系统结构" class="headerlink" title="1.4 操作系统结构"></a>1.4 操作系统结构</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/aa53105ed5ac4766a51bcad767139145.png" alt="img"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716150451589.png" alt="image-20250716150451589"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716150638349.png" alt="image-20250716150638349"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716150830548.png" alt="image-20250716150830548"></p>
+<ol>
 <li><p>分层法</p>
 <p>分层法是将操作系统分为若干层，最底层（层0）为<strong>硬件</strong>，最高层（层N）为<strong>用户接口</strong>，每层只能调用紧邻它的低层的功能和服务（<strong>单向依赖</strong>）。</p>
 <ul>
@@ -663,27 +563,15 @@
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/28be2718e79e4495a2ff12cb08dcc5c1.png" alt="img"></p>
 </li>
 <li><p>模块化</p>
-<p>模块化是将操作系统按功能划分为若干具有一定独立性的模块。每个模块具有某方面的管理功能，并规定好各模块间的接口，使各模块之间能够通过接口进行通信。各模块还可划分成子模块，子模块之间也规定好接口。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716151349530.png" alt="image-20250716151349530"></p>
 <ul>
 <li>模块划分应考虑其划分大小，及独立性，衡量独立性有两个标准：<ul>
 <li>内聚性，模块内部各部分间联系的紧密程度。内聚性越高，模块独立性越好。</li>
 <li>耦合度，模块间相互联系和相互影响的程度。耦合度越低，模块独立性越好。</li>
 </ul>
 </li>
-<li>优点：<ul>
-<li>①提高了操作系统设计的正确性、可理解性和可维护性；</li>
-<li>②增强了操作系统的可适应性；</li>
-<li>③加速了操作系统的开发过程。</li>
+<li>优缺点看总图</li>
 </ul>
-</li>
-<li>缺点：<ul>
-<li>①模块间的接口规定很难满足对接口的实际需求。</li>
-<li>②各模块设计者齐头并进，每个决定无法建立在上一个已验证的正确决定的基础上，因此无法找到一个可靠的决定顺序。</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9f3bfea6436346f4a62579ed1446cda4.png" alt="img"></p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/aa53105ed5ac4766a51bcad767139145.png" alt="img"></p>
 </li>
 <li><p>宏内核</p>
 <p>又称<strong>大内核</strong>或<strong>单内核</strong>，是指将系统的<strong>主要功能模块</strong>都作为一个紧密联系的整体运行在核心态，从而为用户程序提供高性能的系统服务。</p>
@@ -694,9 +582,11 @@
 </ul>
 </li>
 <li><p>微内核</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716150638349.png" alt="image-20250716150638349"></p>
 <p>微内核构架，是指将内核中<strong>最基本的功能</strong>保留在内核，而将那些不需要在核心态执行的功能移到用户态执行，从而降低内核的设计复杂性。</p>
 <p>那些移出内核的操作系统代码根据分层的原则被划分成若干服务程序，它们的执行相互独立，交互则都借助于微内核进行通信。</p>
 <p>微内核架构&#x3D;微内核+多个服务器</p>
+<p><code>特点</code>：内核足够小，基于C&#x2F;S模式，应用机制与策略分离原理，采用面向对象技术</p>
 <ul>
 <li><p>微内核内容</p>
 <ul>
@@ -711,9 +601,8 @@
 <li>提供虚拟存储器管理功能的虚拟存储器服务器等，</li>
 </ul>
 <p>它们都是作为进程来实现的，运行在用户态，客户与服务器之间是借助微内核提供的消息传递机制来实现交互的。下图为单机环境下的客户&#x2F;服务器模式。</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907144344712.png" alt="image-20230907144344712"></p>
 </li>
-<li><p>微内核基本功能</p>
+<li><p><code>微内核</code>基本功能</p>
 <ul>
 <li><p>①进程（线程）管理。</p>
 <p>如进程（线程）之间通信、切换、调度以及多处理机之间的同步。</p>
@@ -734,9 +623,7 @@
 <li>④分布式计算。采用消息传递机制，使微内核系统能很好地支持分布式系统和网络系统。</li>
 </ul>
 </li>
-<li><p>微内核缺点：需要频繁地在核心态和用户态之间切换，性能低</p>
-</li>
-<li><p>应用：鸿蒙OS、实时、工业、航空及军事应用。</p>
+<li><p>微内核缺点：需要频繁地在核心态和用户态之间切换，性能低\</p>
 </li>
 </ul>
 </li>
@@ -757,8 +644,9 @@
 </ul>
 </li>
 </ol>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/35aa4842515e4bca8c92c2eebc84caad.png" alt="img"></p>
-<h3 id="1-5-操作系统引导"><a href="#1-5-操作系统引导" class="headerlink" title="1.5 操作系统引导"></a>1.5 操作系统引导</h3><ol>
+<p>解释未经抽象的硬件资源：比如说分配内存的时候，一般都是分配的经过抽象的逻辑地址，在用户看来是连续的地址空间，实际上可能在物理地址上是离散的。未经抽象的意思就是没有经过映射，也就是直接在物理地址上面找一块连续的地址空间，而不是逻辑上连续的。即少了逻辑到物理的这层映射。</p>
+<h3 id="1-5-操作系统引导"><a href="#1-5-操作系统引导" class="headerlink" title="1.5 操作系统引导"></a>1.5 操作系统引导</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716154127318.png" alt="image-20250716154127318"></p>
+<ol>
 <li><p>概念</p>
 <ul>
 <li><p>BIOS 程序（Basic Input&#x2F;Output System）</p>
@@ -776,25 +664,23 @@
 </ul>
 </li>
 <li><p>引导过程</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907152457354.png" alt="image-20230907152457354"></p>
-<p>引导过程：</p>
 <ul>
 <li><p>①CPU从一个特定主存地址开始，取指令，执行ROM中的引导程序（先进行硬件自检，再开机）</p>
 <ul>
 <li>BIOS初始化并执行引导程序进行自检,确保硬件工作正常。</li>
-<li>BIOS查找可引导设备(通常是安装有操作系统的硬盘),读取主引导记录(MBR)。</li>
 </ul>
 </li>
-<li><p>②将磁盘的第一块一一</p>
-<p>主引导记录</p>
-<p>读入内存，执行磁盘引导程序，扫描分区表</p>
+</ul>
+</li>
+</ol>
 <ul>
-<li>MBR执行,识别活动分区,查找并执行该分区的分区引导记录(PBR)。</li>
-</ul>
+<li><p>BIOS查找可引导设备(通常是安装有操作系统的硬盘),读取主引导记录(MBR)。</p>
 </li>
-<li><p>③从</p>
-<p>活动分区</p>
-<p>（又称主分区，即安装了操作系统的分区）读入分区引导记录，执行其中的程序</p>
+<li><p>②将磁盘的第一块一一主引导记录读入内存，执行磁盘引导程序，扫描分区表</p>
+<ul>
+<li><p>MBR执行,识别活动分区,查找并执行该分区的分区引导记录(PBR)。</p>
+</li>
+<li><p>③从活动分区（又称主分区，即安装了操作系统的分区）读入分区引导记录，执行其中的程序</p>
 <ul>
 <li>PBR找到分区中操作系统的启动管理器程序并加载执行。</li>
 </ul>
@@ -802,15 +688,16 @@
 <li><p>④从根目录下找到完整的操作系统初始化程序（即启动管理器）并执行，完成“开机”的一系列动作</p>
 <ul>
 <li>启动管理器进一步加载操作系统内核和关键组件到内存。</li>
-<li>操作系统内核接管硬件控制权,初始化系统,启动操作系统。</li>
+</ul>
+</li>
+<li><p>操作系统内核接管硬件控制权,初始化系统,启动操作系统。</p>
+</li>
 </ul>
 </li>
 </ul>
 <blockquote>
 <p>注：操作系统最终被加载到 RAM 中。</p>
 </blockquote>
-</li>
-</ol>
 <h3 id="1-6-虚拟机"><a href="#1-6-虚拟机" class="headerlink" title="1.6 虚拟机"></a>1.6 虚拟机</h3><ol>
 <li><p>定义</p>
 <p>使用虚拟化技术，将一台物理机器虚拟化为多台虚拟机器（Virtual Machine，VM），每个虚拟机器都可以独立运行一个操作系统。</p>
@@ -832,55 +719,13 @@
 </ul>
 </li>
 <li><p>对比</p>
-<table>
-<thead>
-<tr>
-<th align="center"></th>
-<th align="center">第一类VMM</th>
-<th align="center">第二类VMM</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">对物理资源的控制权</td>
-<td align="center">直接运行在硬件之上，能直接控制和分配物理资源</td>
-<td align="center">运行在Host OS之上，依赖于Host OS为其分配物理资源</td>
-</tr>
-<tr>
-<td align="center">资源分配方式</td>
-<td align="center">在安装Guest OS时，VMM要在原本的硬盘上自行分配存储空间，类似于”外核“的分配方式，分配未经抽象的物理硬件</td>
-<td align="center">GuestOs拥有自己的虚拟磁盘，该盘实际上是HostOs文件系统中的一个大文件。GuestOs分配到的内存是虚拟内存</td>
-</tr>
-<tr>
-<td align="center">性能</td>
-<td align="center">性能更好</td>
-<td align="center">性能更差，需要Host Os作为”中介”</td>
-</tr>
-<tr>
-<td align="center">可支持的虚拟机数量</td>
-<td align="center">更多，不需要和Host OS竞争资源，相同的硬件资源可以支持更多的虚拟机</td>
-<td align="center">更少，Host Os本身需要使用物理资源，Host OS上运行的其他进程也需要物理资源</td>
-</tr>
-<tr>
-<td align="center">虚拟机的可迁移性</td>
-<td align="center">更差</td>
-<td align="center">更好，只需导出虚拟机镜像文件即可迁移到另一台Host Os上，商业化应用更广泛</td>
-</tr>
-<tr>
-<td align="center">运行模式</td>
-<td align="center">第一类VMM运行在最高特权级（Ring 0），可以执行最高特权的指令。</td>
-<td align="center">第二类VMM部分运行在用户态、部分运行在内核态。GuestOs发出的系统调用会被VMM截获，并转化为VMM对Hostos的系统调用</td>
-</tr>
-</tbody></table>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250716155415589.png" alt="image-20250716155415589"></p>
 </li>
 </ol>
-<blockquote>
-<p>例<br><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907162533481.png" alt="image-20230907162533481"></p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/image-20230907162545296.png" alt="image-20230907162545296"></p>
-</blockquote>
 <h2 id="需要注意的点-做题总结"><a href="#需要注意的点-做题总结" class="headerlink" title="需要注意的点&amp;做题总结"></a>需要注意的点&amp;做题总结</h2><p>1.系统调用的目的是请求系统服务</p>
 <p>2.多处理器系统可以使多个进程并行执行</p>
 <p>3.进程越多CPU利用率不一定越高，因为可能发生资源竞争，产生死锁等情况，可能还会降低利用率</p>
-<p>4.批处理的缺点是缺少交互性</p>
+<p>4.批处理的主要缺点是缺少交互性</p>
 <p>5.能用汇编实现的也可以被认为可以在用户态完成的操作</p>
 <p>6.<strong>只能在核心态下执行的指令（特权指令）：</strong></p>
 <ul>
@@ -903,7 +748,7 @@
 <p>15.微内核从四个方面描述：内核足够小；基于CS模式；应用机制与策略分离原理；采用面向对象技术</p>
 <p>16.微内核里面放的可以有：进程间通信机制；低级IO；低级进程管理和调度；中断和陷入处理</p>
 <p><strong>重点：微内核只要看到让系统高效就是错的</strong></p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/09/10/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/">https://darling-123456.github.io/2024/09/10/王道操作系统学习笔记/1 计算机系统概述/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a></div><div class="post-share"><div class="social-share" data-image="/img/104.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/06/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%9A%E9%85%8D%E7%BD%AE%E4%B8%BB%E6%9C%BA%E9%80%9A%E8%BF%87DHCP%E8%8E%B7%E5%8F%96IP%E5%B9%B6%E9%80%9A%E8%BF%87%E5%9F%9F%E5%90%8D%E8%AE%BF%E9%97%AEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器"><img class="cover" src="/img/49.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器</div></div><div class="info-2"><div class="info-item-1">计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器点一点就能配置，不需要输入命令 1.实验准备实验环境：思科的模拟器  实验设备： 3个服务器，1个二层交换机（不是三层的），2个PC机，1个路由器 2个网段  192.168.1.0     255.255.255.0 （web服务器所在网段） 192.168.0.0     255.255.255.0（其余所有设备） DNS服务器 192.168.0.253  255.255.255.0 默认网关192.168.0.254 web服务器 192.168.1.1  255.255.255.0 默认网关192.168.1.254 DHCP服务器 192.168.0.252 ...</div></div></div></a><a class="pagination-related" href="/2024/09/14/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2%20%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="王道操作系统 2.进程与线程"><img class="cover" src="/img/103.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">王道操作系统 2.进程与线程</div></div><div class="info-2"><div class="info-item-1">2 进程与线程2.1 进程与线程2.1.1 进程的概念和特征   进程的概念 进程是进程实体的运行过程，是系统进行资源分配和调度的一个独立单位。  进程实现操作系统的并发性和共享性。  程序：是静态的，就是个存放在磁盘里的可执行文件，如：QQ.exe。 进程：是动态的，是程序的一次执行过程，或者是一个正在运行的程序，如：可同时启动多次QQ程序。 进程实体：即进程映像，是静态的，可理解为进程的一次时刻的状态。 作业：用户向计算机提交的一项任务，是静态的，它通常是一个批处理程序或一个后台程序。  进程实体的组成   程序控制块PCB PCB是进程存在的唯一标志，当进程被创建时，操作系统为其创建PCB，当进程结束时，会回收其PCB。  进程描述信息 进程标识符PID：当进程被创建时，操作系统会为该进程分配一个唯一的、不重复的“身份证号”–PID（Process...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.1%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%A6%82%E5%BF%B5/" title="王道操作系统 3.1 内存管理概念"><img class="cover" src="/img/102.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-17</div><div class="info-item-2">王道操作系统 3.1 内存管理概念</div></div><div class="info-2"><div class="info-item-1">3 内存管理3.1 内存管理概念3.1.1 内存管理的基本原理和要求  内存可以存放数据，程序执行前需要先放到内存中才能被CPU处理—缓和cpu和磁盘之间的速度矛盾  内存管理的概念 虽然计算机技术飞速发展，内存容量也在不断扩大，但仍然不可能将所有用户进程和系统所需的全部程序与数据放入内存，因此操作系统对内存空间进行合理的划分和有效的动态分配。操作系统对内存的划分和动态分配，就是内存管理的概念。 内存空间的主要功能有：  ① 内存空间的分配与回收：OS 要怎么记录哪些内存区域已经被分配出去了，哪些又还空闲；当进程运行结束之后，如何将进程占用的内存空间回收。 ② 内存空间的扩充：OS 利用虚拟内存技术或自动覆盖技术使得系统运行很大的程序，从逻辑上扩充内存。 ③ 地址转换：为了使编程更方便，程序员写程序时应该只需要关注指令、数据的逻辑地址。而 逻辑地址到物理地址的转换（这个过程称为地址重定位）应该由操作系统负责，其中地址重定位有三种方式。 ④...</div></div></div></a><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.2%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="王道操作系统 3.2 虚拟内存管理"><img class="cover" src="/img/101.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-17</div><div class="info-item-2">王道操作系统 3.2 虚拟内存管理</div></div><div class="info-2"><div class="info-item-1">3.2 虚拟内存管理3.2.1 虚拟内存的基本概念  传统存储管理方式的特征  传统存储管理方式 连续分配 单一连续分配 固定分区分配 动态分区分配   非连续分配 基本分页存储管理 基本分段存储管理 基本段页式存储管理      特征：  一次性： 作业必须一次性全部装入内存后，才能开始运行 。这会导致两种情况：  ①当作业很大而不能全部被装入内存时，将使该作业无法运行； ②当大量作业要求运行时，由于内存不足以容纳所有作业，只能使少数作业先运行，导致多道程序度的下降。   驻留性：作业被装入内存后，就一直驻留在内存中，其任何部分都不会被换出，直至作业运行结束。运行中的进程会因等待IO而被阻塞，可能处于长期等待状态。   ...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.2%20%E7%9B%AE%E5%BD%95/" title="王道操作系统 4.2 目录"><img class="cover" src="/img/99.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.2 目录</div></div><div class="info-2"><div class="info-item-1">4.2 目录 4.2.1 目录的基本概念 文件目录指FCB的有序集合，一个FCB就是一个文件的目录项。与文件管理系统和文件集合相关联的是文件目录，它包含有关文件的属性、位置和所有权等。  目录管理的基本要求： 从用户的角度看，目录在用户（应用程序）所需要的文件名和文件之间提供一种映射，所以目录管理要实现“按名存取”； 目录存取的效率直接影响到系统的性能，所以要提高对目录的检索速度； 在多用户系统中，应允许多个用户共享一个文件，因此目录还需要提供用于控制访问文件的信息。 此外，应允许不同用户对不同文件采用相同的名字，以便于用户按自己的习惯给文件命名，目录管理通过树形结构来解决和实现。      4.2.2...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.3%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="王道操作系统 4.3 文件系统"><img class="cover" src="/img/98.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.3 文件系统</div></div><div class="info-2"><div class="info-item-1">4.3 文件系统 4.3.1 文件系统结构 文件系统(File system)提供高效和便捷的磁盘访问，以便允许存储、定位、提取数据。  用一个例子来辅助记忆文件系统的层次结构：假设某用户请求删除文件”D:&#x2F;工作目录&#x2F;学生信息.xIsx”的最后100条记录。  用户需要通过操作系统提供的接口发出上述请求一一用户接口 由于用户提供的是文件的存放路径，因此需要操作系统一层一层地查找目录，找到对应的目录项一一文件目录系统 不同的用户对文件有不同的操作权限，因此为了保证安全，需要检查用户是否有访问权限一一存取控制模块（存取控制验证层） 验证了用户的访问权限之后，需要把用户提供的“记录号”转变为对应的逻辑地址一一逻辑文件系统与文件信息缓冲区 知道了标记录对应的逻辑地址后，还需要转换成实际的物理地址一一物理文件系统 要删除这条记录，必定要对磁盘设备发出请求一一设备管理程序模块 删除这些记录后，会有一些盘块空闲，因此要将这些空闲盘块回收一一辅助分配模块  4.3.2...</div></div></div></a><a class="pagination-related" href="/2024/09/14/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2%20%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="王道操作系统 2.进程与线程"><img class="cover" src="/img/103.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-14</div><div class="info-item-2">王道操作系统 2.进程与线程</div></div><div class="info-2"><div class="info-item-1">2 进程与线程2.1 进程与线程2.1.1 进程的概念和特征   进程的概念 进程是进程实体的运行过程，是系统进行资源分配和调度的一个独立单位。  进程实现操作系统的并发性和共享性。  程序：是静态的，就是个存放在磁盘里的可执行文件，如：QQ.exe。 进程：是动态的，是程序的一次执行过程，或者是一个正在运行的程序，如：可同时启动多次QQ程序。 进程实体：即进程映像，是静态的，可理解为进程的一次时刻的状态。 作业：用户向计算机提交的一项任务，是静态的，它通常是一个批处理程序或一个后台程序。  进程实体的组成   程序控制块PCB PCB是进程存在的唯一标志，当进程被创建时，操作系统为其创建PCB，当进程结束时，会回收其PCB。  进程描述信息 进程标识符PID：当进程被创建时，操作系统会为该进程分配一个唯一的、不重复的“身份证号”–PID（Process...</div></div></div></a><a class="pagination-related" href="/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.3%20%E7%A3%81%E7%9B%98%E5%92%8C%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98/" title="王道操作系统 5.3 磁盘和固态硬盘"><img class="cover" src="/img/95.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-23</div><div class="info-item-2">王道操作系统 5.3 磁盘和固态硬盘</div></div><div class="info-2"><div class="info-item-1">5.3 磁盘和固态硬盘5.3.1...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">369</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="toc-text">1 计算机系统概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">1.1 操作系统的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="toc-text">1.2 操作系统发展历程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">1.3 操作系统运行环境</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-1-%E5%A4%84%E7%90%86%E5%99%A8%E8%BF%90%E8%A1%8C%E6%A8%A1%E5%9E%8B"><span class="toc-text">1.3.1 处理器运行模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-2-%E4%B8%AD%E6%96%AD%E5%92%8C%E5%BC%82%E5%B8%B8%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">1.3.2 中断和异常的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-3-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="toc-text">1.3.3 系统调用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84"><span class="toc-text">1.4 操作系统结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E5%AF%BC"><span class="toc-text">1.5 操作系统引导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">1.6 虚拟机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E7%82%B9-%E5%81%9A%E9%A2%98%E6%80%BB%E7%BB%93"><span class="toc-text">需要注意的点&amp;做题总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"><img src="/img/371.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"/></a><div class="content"><a class="title" href="/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径">Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径</a><time datetime="2025-06-25T01:30:20.000Z" title="发表于 2025-06-25 09:30:20">2025-06-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络"><img src="/img/369.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络"/></a><div class="content"><a class="title" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络">深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络</a><time datetime="2025-06-21T11:21:10.000Z" title="发表于 2025-06-21 19:21:10">2025-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BA%94%E3%80%81%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第五章学习笔记 卷积神经网络"><img src="/img/368.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="深度学习与神经网络 | 邱锡鹏 | 第五章学习笔记 卷积神经网络"/></a><div class="content"><a class="title" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BA%94%E3%80%81%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第五章学习笔记 卷积神经网络">深度学习与神经网络 | 邱锡鹏 | 第五章学习笔记 卷积神经网络</a><time datetime="2025-06-21T11:21:10.000Z" title="发表于 2025-06-21 19:21:10">2025-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7.%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/" title="深度学习与神经网络 | 邱锡鹏 | 第七章学习笔记 网络优化与正则化"><img src="/img/370.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="深度学习与神经网络 | 邱锡鹏 | 第七章学习笔记 网络优化与正则化"/></a><div class="content"><a class="title" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7.%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/" title="深度学习与神经网络 | 邱锡鹏 | 第七章学习笔记 网络优化与正则化">深度学习与神经网络 | 邱锡鹏 | 第七章学习笔记 网络优化与正则化</a><time datetime="2025-06-21T11:21:10.000Z" title="发表于 2025-06-21 19:21:10">2025-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/12/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-12-Day132--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" title="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串"><img src="/img/368.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串"/></a><div class="content"><a class="title" href="/2025/06/12/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-12-Day132--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" title="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串">Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串</a><time datetime="2025-06-12T01:30:20.000Z" title="发表于 2025-06-12 09:30:20">2025-06-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/09/10/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/">https://darling-123456.github.io/2024/09/10/王道操作系统学习笔记/1 计算机系统概述/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a></div><div class="post-share"><div class="social-share" data-image="/img/104.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/06/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E5%AE%9E%E8%B7%B5%EF%BC%9A%E9%85%8D%E7%BD%AE%E4%B8%BB%E6%9C%BA%E9%80%9A%E8%BF%87DHCP%E8%8E%B7%E5%8F%96IP%E5%B9%B6%E9%80%9A%E8%BF%87%E5%9F%9F%E5%90%8D%E8%AE%BF%E9%97%AEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器"><img class="cover" src="/img/49.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器</div></div><div class="info-2"><div class="info-item-1">计算机网络学习实践：配置主机通过DHCP获取IP并通过域名访问web服务器点一点就能配置，不需要输入命令 1.实验准备实验环境：思科的模拟器  实验设备： 3个服务器，1个二层交换机（不是三层的），2个PC机，1个路由器 2个网段  192.168.1.0     255.255.255.0 （web服务器所在网段） 192.168.0.0     255.255.255.0（其余所有设备） DNS服务器 192.168.0.253  255.255.255.0 默认网关192.168.0.254 web服务器 192.168.1.1  255.255.255.0 默认网关192.168.1.254 DHCP服务器 192.168.0.252 ...</div></div></div></a><a class="pagination-related" href="/2024/09/14/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2%20%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="王道操作系统 2.进程与线程"><img class="cover" src="/img/103.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">王道操作系统 2.进程与线程</div></div><div class="info-2"><div class="info-item-1">2 进程与线程2.1 进程与线程2.1.1 进程的概念和特征   进程的概念 进程是进程实体的运行过程，是系统进行资源分配和调度的一个独立单位。  进程实现操作系统的并发性和共享性。  程序：是静态的，就是个存放在磁盘里的可执行文件，如：QQ.exe。 进程：是动态的，是程序的一次执行过程，或者是一个正在运行的程序，如：可同时启动多次QQ程序。 进程实体：即进程映像，是静态的，可理解为进程的一次时刻的状态。 作业：用户向计算机提交的一项任务，是静态的，它通常是一个批处理程序或一个后台程序。   进程实体的组成    程序控制块PCB PCB是进程存在的唯一标志，当进程被创建时，操作系统为其创建PCB，当进程结束时，会回收其PCB。  进程描述信息 进程标识符PID：当进程被创建时，操作系统会为该进程分配一个唯一的、不重复的“身份证号”–PID（Process...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.1%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%A6%82%E5%BF%B5/" title="王道操作系统 3.1 内存管理概念"><img class="cover" src="/img/102.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-17</div><div class="info-item-2">王道操作系统 3.1 内存管理概念</div></div><div class="info-2"><div class="info-item-1">3 内存管理3.1 内存管理概念3.1.1 内存管理的基本原理和要求  内存可以存放数据，程序执行前需要先放到内存中才能被CPU处理—缓和cpu和磁盘之间的速度矛盾  内存管理的概念 虽然计算机技术飞速发展，内存容量也在不断扩大，但仍然不可能将所有用户进程和系统所需的全部程序与数据放入内存，因此操作系统对内存空间进行合理的划分和有效的动态分配。操作系统对内存的划分和动态分配，就是内存管理的概念。 内存空间的主要功能有：  ① 内存空间的分配与回收：OS 要怎么记录哪些内存区域已经被分配出去了，哪些又还空闲；当进程运行结束之后，如何将进程占用的内存空间回收。 ② 内存空间的扩充：OS 利用虚拟内存技术或自动覆盖技术使得系统运行很大的程序，从逻辑上扩充内存。 ③ 地址转换：为了使编程更方便，程序员写程序时应该只需要关注指令、数据的逻辑地址。而 逻辑地址到物理地址的转换（这个过程称为地址重定位）应该由操作系统负责，其中地址重定位有三种方式。  ④...</div></div></div></a><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.2%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="王道操作系统 3.2 虚拟内存管理"><img class="cover" src="/img/101.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-17</div><div class="info-item-2">王道操作系统 3.2 虚拟内存管理</div></div><div class="info-2"><div class="info-item-1">3.2 虚拟内存管理3.2.1 虚拟内存的基本概念   传统存储管理方式的特征  传统存储管理方式     局部性原理 快表、页高速缓存及虚拟内存技术都属于高速缓存技术，这个技术所依赖的原理就是局部性原理。   虚拟存储器的定义和特征   虚拟内存技术的实现  虚拟内存的实现需要建立在离散分配的内存管理方式的基础上。  所需要的硬件支持  一定容量的内存和外存。       页表机制（或段表机制），作为主要的数据结构。 中断机构，当用户程序要访问的部分尚未调入内存时，则产生中断。   地址变换机构，逻辑地址到物理地址的变换。  3.2.2 请求分页管理方式  请求分页系统建立在基本分页系统基础之上，为了支持虚拟存储器功能而增加了请求调页功能和页面置换功能。请求分页是目前最常用的一种实现虚拟存储器的方法。  页表机制 请求分页系统在一个作业运行之前不要求全部一次性调入内存，因此在作业的运行过程中，必然会出现要访问的页面不在内存中的情况。因此在请求页表项中增加了...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.2%20%E7%9B%AE%E5%BD%95/" title="王道操作系统 4.2 目录"><img class="cover" src="/img/99.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.2 目录</div></div><div class="info-2"><div class="info-item-1">4.2 目录 4.2.1 目录的基本概念 **文件目录指FCB的有序集合，一个FCB就是一个文件的目录项。**与文件管理系统和文件集合相关联的是文件目录，它包含有关文件的属性、位置和所有权等。  目录管理的基本要求： 从用户的角度看，目录在用户（应用程序）所需要的文件名和文件之间提供一种映射，所以目录管理要实现“按名存取”； 目录存取的效率直接影响到系统的性能，所以要提高对目录的检索速度； 在多用户系统中，应允许多个用户共享一个文件，因此目录还需要提供用于控制访问文件的信息。 此外，应允许不同用户对不同文件采用相同的名字，以便于用户按自己的习惯给文件命名，目录管理通过树形结构来解决和实现。      4.2.2 目录结构 FCB和索引节点在...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.3%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="王道操作系统 4.3 文件系统"><img class="cover" src="/img/98.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.3 文件系统</div></div><div class="info-2"><div class="info-item-1">4.3 文件系统 4.3.1 文件系统结构 文件系统(File system)提供高效和便捷的磁盘访问，以便允许存储、定位、提取数据。   4.3.2...</div></div></div></a><a class="pagination-related" href="/2024/09/14/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2%20%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="王道操作系统 2.进程与线程"><img class="cover" src="/img/103.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-14</div><div class="info-item-2">王道操作系统 2.进程与线程</div></div><div class="info-2"><div class="info-item-1">2 进程与线程2.1 进程与线程2.1.1 进程的概念和特征   进程的概念 进程是进程实体的运行过程，是系统进行资源分配和调度的一个独立单位。  进程实现操作系统的并发性和共享性。  程序：是静态的，就是个存放在磁盘里的可执行文件，如：QQ.exe。 进程：是动态的，是程序的一次执行过程，或者是一个正在运行的程序，如：可同时启动多次QQ程序。 进程实体：即进程映像，是静态的，可理解为进程的一次时刻的状态。 作业：用户向计算机提交的一项任务，是静态的，它通常是一个批处理程序或一个后台程序。   进程实体的组成    程序控制块PCB PCB是进程存在的唯一标志，当进程被创建时，操作系统为其创建PCB，当进程结束时，会回收其PCB。  进程描述信息 进程标识符PID：当进程被创建时，操作系统会为该进程分配一个唯一的、不重复的“身份证号”–PID（Process...</div></div></div></a><a class="pagination-related" href="/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.3%20%E7%A3%81%E7%9B%98%E5%92%8C%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98/" title="王道操作系统 5.3 磁盘和固态硬盘"><img class="cover" src="/img/95.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-23</div><div class="info-item-2">王道操作系统 5.3 磁盘和固态硬盘</div></div><div class="info-2"><div class="info-item-1">5.3 磁盘和固态硬盘5.3.1...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">373</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="toc-text">1 计算机系统概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">1.1 操作系统的基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%BE%81"><span class="toc-text">特征</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="toc-text">1.2 操作系统发展历程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">1.3 操作系统运行环境</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-1-%E5%A4%84%E7%90%86%E5%99%A8%E8%BF%90%E8%A1%8C%E6%A8%A1%E5%9E%8B"><span class="toc-text">1.3.1 处理器运行模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-2-%E4%B8%AD%E6%96%AD%E5%92%8C%E5%BC%82%E5%B8%B8%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">1.3.2 中断和异常的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-3-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="toc-text">1.3.3 系统调用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84"><span class="toc-text">1.4 操作系统结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E5%AF%BC"><span class="toc-text">1.5 操作系统引导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">1.6 虚拟机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E7%82%B9-%E5%81%9A%E9%A2%98%E6%80%BB%E7%BB%93"><span class="toc-text">需要注意的点&amp;做题总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-30-Day136--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%B8%B2%E8%81%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6/" title="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度"><img src="/img/374.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度"/></a><div class="content"><a class="title" href="/2025/06/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-30-Day136--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%B8%B2%E8%81%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6/" title="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度">Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度</a><time datetime="2025-06-30T01:30:20.000Z" title="发表于 2025-06-30 09:30:20">2025-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-27-Day135--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%83%B9%E9%A5%AA%E6%96%99%E7%90%86/" title="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理"><img src="/img/373.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理"/></a><div class="content"><a class="title" href="/2025/06/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-27-Day135--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%83%B9%E9%A5%AA%E6%96%99%E7%90%86/" title="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理">Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理</a><time datetime="2025-06-27T01:30:20.000Z" title="发表于 2025-06-27 09:30:20">2025-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day134/" title="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列"><img src="/img/372.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列"/></a><div class="content"><a class="title" href="/2025/06/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day134/" title="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列">Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列</a><time datetime="2025-06-26T01:30:20.000Z" title="发表于 2025-06-26 09:30:20">2025-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"><img src="/img/371.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"/></a><div class="content"><a class="title" href="/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径">Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径</a><time datetime="2025-06-25T01:30:20.000Z" title="发表于 2025-06-25 09:30:20">2025-06-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络"><img src="/img/369.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络"/></a><div class="content"><a class="title" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络">深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络</a><time datetime="2025-06-21T11:21:10.000Z" title="发表于 2025-06-21 19:21:10">2025-06-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
   © 2024-<script>document.write(new Date().getFullYear())</script> 
   <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
   | 已运行 <span id="days">0</span> 天

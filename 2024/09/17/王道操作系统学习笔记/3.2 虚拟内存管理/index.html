@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>王道操作系统 3.2 虚拟内存管理 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="3.2 虚拟内存管理3.2.1 虚拟内存的基本概念  传统存储管理方式的特征  传统存储管理方式 连续分配 单一连续分配 固定分区分配 动态分区分配   非连续分配 基本分页存储管理 基本分段存储管理 基本段页式存储管理      特征：  一次性： 作业必须一次性全部装入内存后，才能开始运行 。这会导致两种情况：  ①当作业很大而不能全部被装入内存时，将使该作业无法运行； ②当大量作业要求运行时">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>王道操作系统 3.2 虚拟内存管理 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="3.2 虚拟内存管理3.2.1 虚拟内存的基本概念   传统存储管理方式的特征  传统存储管理方式     局部性原理 快表、页高速缓存及虚拟内存技术都属于高速缓存技术，这个技术所依赖的原理就是局部性原理。   虚拟存储器的定义和特征   虚拟内存技术的实现  虚拟内存的实现需要建立在离散分配的内存管理方式的基础上。  所需要的硬件支持  一定容量的内存和外存。       页表机制（或段表机制）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="王道操作系统 3.2 虚拟内存管理">
 <meta property="og:url" content="https://darling-123456.github.io/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.2%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="Darlingの妙妙屋">
-<meta property="og:description" content="3.2 虚拟内存管理3.2.1 虚拟内存的基本概念  传统存储管理方式的特征  传统存储管理方式 连续分配 单一连续分配 固定分区分配 动态分区分配   非连续分配 基本分页存储管理 基本分段存储管理 基本段页式存储管理      特征：  一次性： 作业必须一次性全部装入内存后，才能开始运行 。这会导致两种情况：  ①当作业很大而不能全部被装入内存时，将使该作业无法运行； ②当大量作业要求运行时">
+<meta property="og:description" content="3.2 虚拟内存管理3.2.1 虚拟内存的基本概念   传统存储管理方式的特征  传统存储管理方式     局部性原理 快表、页高速缓存及虚拟内存技术都属于高速缓存技术，这个技术所依赖的原理就是局部性原理。   虚拟存储器的定义和特征   虚拟内存技术的实现  虚拟内存的实现需要建立在离散分配的内存管理方式的基础上。  所需要的硬件支持  一定容量的内存和外存。       页表机制（或段表机制）">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://darling-123456.github.io/img/101.jpg">
 <meta property="article:published_time" content="2024-09-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-26T12:30:41.829Z">
+<meta property="article:modified_time" content="2025-09-19T08:47:10.599Z">
 <meta property="article:author" content="Darling">
 <meta property="article:tag" content="操作系统">
 <meta property="article:tag" content="考研">
@@ -19,7 +19,7 @@
   "url": "https://darling-123456.github.io/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.2%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/",
   "image": "https://darling-123456.github.io/img/101.jpg",
   "datePublished": "2024-09-16T16:00:00.000Z",
-  "dateModified": "2025-03-26T12:30:41.829Z",
+  "dateModified": "2025-09-19T08:47:10.599Z",
   "author": [
     {
       "@type": "Person",
@@ -181,85 +181,48 @@
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">369</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/101.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">王道操作系统 3.2 虚拟内存管理</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">王道操作系统 3.2 虚拟内存管理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-16T16:00:00.000Z" title="发表于 2024-09-17 00:00:00">2024-09-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-26T12:30:41.829Z" title="更新于 2025-03-26 20:30:41">2025-03-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">7.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h3 id="3-2-虚拟内存管理"><a href="#3-2-虚拟内存管理" class="headerlink" title="3.2 虚拟内存管理"></a>3.2 虚拟内存管理</h3><h4 id="3-2-1-虚拟内存的基本概念"><a href="#3-2-1-虚拟内存的基本概念" class="headerlink" title="3.2.1 虚拟内存的基本概念"></a>3.2.1 虚拟内存的基本概念</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5aef5c0c96cb409496ee75bfd15f5ede.png" alt="img"></p>
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">373</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/101.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">王道操作系统 3.2 虚拟内存管理</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">王道操作系统 3.2 虚拟内存管理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-16T16:00:00.000Z" title="发表于 2024-09-17 00:00:00">2024-09-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-19T08:47:10.599Z" title="更新于 2025-09-19 16:47:10">2025-09-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">6.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>19分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h3 id="3-2-虚拟内存管理"><a href="#3-2-虚拟内存管理" class="headerlink" title="3.2 虚拟内存管理"></a>3.2 虚拟内存管理</h3><h4 id="3-2-1-虚拟内存的基本概念"><a href="#3-2-1-虚拟内存的基本概念" class="headerlink" title="3.2.1 虚拟内存的基本概念"></a>3.2.1 虚拟内存的基本概念</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918205421314.png"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5aef5c0c96cb409496ee75bfd15f5ede.png" alt="img"></p>
 <ol>
 <li><p>传统存储管理方式的特征</p>
 <ul>
-<li>传统存储管理方式<ul>
-<li>连续分配<ul>
-<li>单一连续分配</li>
-<li>固定分区分配</li>
-<li>动态分区分配</li>
-</ul>
-</li>
-<li>非连续分配<ul>
-<li>基本分页存储管理</li>
-<li>基本分段存储管理</li>
-<li>基本段页式存储管理</li>
-</ul>
+<li><p>传统存储管理方式</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918205627069.png" alt="image-20250918205627069"></p>
 </li>
 </ul>
-</li>
-</ul>
-<p><strong>特征</strong>：</p>
-<ul>
-<li><p>一次性：</p>
-<p>作业必须一次性全部装入内存后，才能开始运行</p>
-<p>。这会导致两种情况：</p>
-<ul>
-<li>①当作业很大而不能全部被装入内存时，将使该作业无法运行；</li>
-<li>②当大量作业要求运行时，由于内存不足以容纳所有作业，只能使少数作业先运行，导致多道程序度的下降。</li>
-</ul>
-</li>
-<li><p><strong>驻留性</strong>：作业被装入内存后，就一直驻留在内存中，其任何部分都不会被换出，直至作业运行结束。运行中的进程会因等待IO而被阻塞，可能处于长期等待状态。</p>
-</li>
-</ul>
-<p> 由以上分析可知，许多在程序运行中不用或暂时不用的程序（数据）占据了大量的内存空间，而一些需要运行的作业又无法装入运行，显然浪费了宝贵的内存资源。</p>
 </li>
 <li><p>局部性原理</p>
 <p>快表、页高速缓存及虚拟内存技术都属于高速缓存技术，这个技术所依赖的原理就是局部性原理。</p>
-<ul>
-<li><p><strong>时间局部性</strong>。</p>
-<p>程序中的某条指令一且执行，不久后该指令可能再次执行；某数据被访问过，不久后该数据可能再次被访问。产生的原因是程序中存在着大量的循环操作。</p>
-</li>
-<li><p><strong>空间局部性</strong>。</p>
-<p>一旦程序访问了某个存储单元，在不久后，其附近的存储单元也将被访问，即程序在一段时间内所访问的地址，可能集中在一定的范围之内，因为指令通常是顺序存放、顺序执行的，数据也一般是以向量、数组、表等形式聚存储的。</p>
-</li>
-</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918205804420.png" alt="image-20250918205804420"></p>
 </li>
 <li><p>虚拟存储器的定义和特征</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/6cf1df776925434b95da82e4cd0b86b1.png" alt="img"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918210035221.png" alt="image-20250918210035221"></p>
 </li>
 <li><p>虚拟内存技术的实现</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/2b098a27ed4a4869b7802348aa271cdf.png" alt="img"></p>
 <p><strong>虚拟内存的实现需要建立在离散分配的内存管理方式的基础上。</strong></p>
-<p>访问的信息不在内存时，由操作系统负责将所需信息从外存调入内存**（请求调页功能）**</p>
-<p>内存空间不够时，将内存中暂时用不到的信息换出到外存**（页面置换功能）**</p>
 <ul>
 <li><p>所需要的硬件支持</p>
 <ul>
 <li>一定容量的内存和外存。</li>
-<li>页表机制（或段表机制），作为主要的数据结构。</li>
-<li>中断机构，当用户程序要访问的部分尚未调入内存时，则产生中断。</li>
-<li>地址变换机构，逻辑地址到物理地址的变换。</li>
 </ul>
 </li>
 </ul>
 </li>
 </ol>
+<ul>
+<li>页表机制（或段表机制），作为主要的数据结构。<ul>
+<li>中断机构，当用户程序要访问的部分尚未调入内存时，则产生中断。</li>
+</ul>
+</li>
+<li>地址变换机构，逻辑地址到物理地址的变换。</li>
+</ul>
 <h4 id="3-2-2-请求分页管理方式"><a href="#3-2-2-请求分页管理方式" class="headerlink" title="3.2.2 请求分页管理方式"></a>3.2.2 请求分页管理方式</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/168e745585454a0e83062ceaef94d592.png" alt="img"></p>
 <p> 请求分页系统建立在基本分页系统基础之上，为了支持虚拟存储器功能而增加了请求调页功能和页面置换功能。请求分页是目前最常用的一种实现虚拟存储器的方法。</p>
 <ol>
 <li><p>页表机制</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241007183902236.png" alt="image-20241007183902236"></p>
-<p>请求分页系统在一个作业运行之前不要求全部一次性调入内存，因此在作业的运行过程中，必然会出现要访问的页面不在内存中的情况。因此在请求页表项中增加了 4个字段，如下图所示。</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230918151653087.png" alt="image-20230918151653087"></p>
-<ul>
-<li><strong>状态位P</strong>：用于指示该页是否已调入内存，供程序访问时参考。</li>
-<li><strong>访问字段A</strong>：用于记录本页在一段时间内被访问的次数，或记录本页最近已有多长时间未被访问，供置换算法换出页面时参考。</li>
-<li><strong>修改位M</strong>：标识该页在调入内存后是否被修改过，以确定页面置换时是否写回外存。</li>
-<li><strong>外存地址</strong>：用于指出该页在外存上的地址，通常是物理块号，供调入该页时参考。</li>
-</ul>
+<p>请求分页系统在一个作业运行之前不要求全部一次性调入内存，因此在作业的运行过程中，必然会出现要访问的页面不在内存中的情况。因此在请求页表项中增加了 4个字段</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918210944947.png" alt="image-20250918210944947"></p>
 </li>
 <li><p>缺页中断机构</p>
 <p>在请求分页系统中，每当所要访问的页面不在内存中时，便产生一个缺页中断，请求操作系统将所缺的页调入内存。</p>
@@ -287,24 +250,19 @@
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/f3bf46c9de664c5abdd7833796a090f1.jpeg" alt="img"></p>
 <p>请求分页管理的地址变换过程，如下图所示，红框部分为新增步骤：</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230918154105795.png" alt="image-20230918154105795"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918211632486.png" alt="image-20250918211632486"></p>
 <p>①只有“写指令”才需要修改“修改位”。并且，一般来说只需修改快表中的数据，只有要将快表项删除时才需要写回内存中的慢表。这样可以减少访存次数。</p>
 <p>②和普通的中断处理一样，缺页中断处理依然需要保留CPU现场。</p>
 <p>③需要用某种“页面置换算法”来决定一个换出页面（下节内容）</p>
 <p>④换入&#x2F;换出页面都需要启动慢速的I&#x2F;O操作，可见，如果换入换出太频繁，会有很大的开销。</p>
 <p>⑤页面调入内存后，需要修改慢表，同时也需要将表项复制到快表中。</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241007184207757.png" alt="image-20241007184207757"></p>
 </li>
 </ol>
 <p>注：只有写指令才需要修改”修改位”</p>
-<h4 id="3-2-3-页框分配"><a href="#3-2-3-页框分配" class="headerlink" title="3.2.3 页框分配"></a>3.2.3 页框分配</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ca0a2f76af914b1cbad4f4370bb7a65f.png" alt="img"></p>
+<h4 id="3-2-3-页面分配策略"><a href="#3-2-3-页面分配策略" class="headerlink" title="3.2.3 页面分配策略"></a>3.2.3 页面分配策略</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ca0a2f76af914b1cbad4f4370bb7a65f.png" alt="img"></p>
 <ol>
 <li><p>驻留集大小</p>
-<p>给一个进程分配的物理页框的集合就是这个进程的驻留集。</p>
-<ul>
-<li>分配给一个进程的页框越少，驻留在主存中的进程就越多，从而可提高CPU的利用率。</li>
-<li>若一个进程在主存中的页面过少，则尽管有局部性原理，缺页率仍相对较高。</li>
-<li>若分配的页框过多，则由于局部性原理，对该进程的缺页率没有太明显的影响。</li>
-</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918214314738.png" alt="image-20250918214314738"></p>
 </li>
 <li><p>内存分配策略</p>
 <p>在请求分页系统中，可采取两种内存分配策略，即固定和可变分配策略。在进行置换时，也可采取两种策略，即全局置换和局部置换。</p>
@@ -318,20 +276,8 @@
 <p>固定分配VS可变分配：区别在于进程运行期间驻留集大小是否可变</p>
 <p>局部置换VS全局置换：区别在于发生缺页时是否只能从进程自己的页面中选择一个换出</p>
 </blockquote>
-<p>三种组合方案：</p>
-<ul>
-<li><p><strong>固定分配局部置换</strong></p>
-<p>它为每个进程分配一定数目的物理块，在整个运行期间都不改变。</p>
-<p>若进程在运行中发生缺页，则只能从该进程在内存中的页面中选出一页换出，然后再调入需要的页面。</p>
-</li>
-<li><p><strong>可变分配全局置换</strong></p>
-<p>为系统中的每个进程分配一定数目的物理块，操作系统自身也保持一个空闲物理块队列。</p>
-<p>当某进程发生缺页时，系统从空闲物理块队列中取出物理块分配给该进程，井将欲调入的页装入其中。</p>
-</li>
-<li><p><strong>可变分配局部置换</strong></p>
-<p>它为每个进程分配一定数目的物理块，当某进程发生缺页时，只允许从该进程在内存的页面中选出一页换出动态变换，频繁缺页，分配物理块，缺页率低，减少物理块</p>
-</li>
-</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918214539103.png" alt="image-20250918214539103"></p>
+<p>未锁定的意思：系统会锁定一些页面，这些页面中的内容不能置换出外存（如重要的内核数据可以设置为锁定）</p>
 </li>
 <li><p>物理块调入算法</p>
 <p>采用固定分配策略时，将系统中的空闲物理块分配给各个进程，可采用下述几种算法。</p>
@@ -343,25 +289,23 @@
 </li>
 <li><p>调入页面的时机</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c03434fb6dc04539b615b44fd4add891.png" alt="img"></p>
-<p>为确定系统将进程运行时所缺的页面调入内存的时机，可采取以下两种调页策略：</p>
-<ul>
-<li>**预调页策略：**将预计在不久后便会被访问的页面预先调入内存；主要用于进程的首次调入，由程序员指出应先调入哪些页。</li>
-<li>**请求调页策略：**进程在运行中需要访问的页面不再内存而提出请求，由系统将所需页面调入内存。每次仅调入一页，增加了磁盘I&#x2F;O开销。</li>
-</ul>
 </li>
 <li><p>从何处调入页面</p>
 <p>请求分页系统中的外存分为两部分：用于存放文件的文件区和用于存放对换页面的对换区。</p>
-<p>对换区采用连续分配方式，而文件区采用离散分配方式，因此对换区的磁盘IO速度比文件区的更快。这样，当发生缺页请求时，系统从何处将缺页调入内存就分为三种情况：</p>
+<p>对换区采用连续分配方式，而文件区采用离散分配方式，因此对换区的磁盘IO速度比文件区的更快。</p>
+<p>这样，当发生缺页请求时，系统从何处将缺页调入内存就分为三种情况：</p>
 <ul>
 <li><p><strong>系统拥有足够的对换区空间</strong></p>
 <p>可以全部从对换区调入所需页面，以提高调页速度。为此，在进程运行前，需将与该进程有关的文件从文件区复制到对换区。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918214951789.png" alt="image-20250918214951789"></p>
 </li>
 <li><p><strong>系统缺少足够的对换区空间</strong></p>
 <p>凡是不会被修改的文件都直接从文件区调入；而当换出这些页面时，由于它们未被修改而不必再将它们换出。但对于那些可能被修改的部分，在将它们换出时须调到对换区，以后需要时再从对换区调入（因为读比写的速度快）。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918215021792.png" alt="image-20250918215021792"></p>
 </li>
 <li><p><strong>UNIX方式</strong></p>
 <p>运行之前进程有关的数据全部放在文件区，故未使用过的页面，都可从文件区调入。若被使用过的页面需要换出，则写回对换区，下次需要时从对换区调入。进程请求的共享页面若被其他进程调入内存，则无须再从对换区调入。</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20241007184607619.png" alt="image-20241007184607619"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918215106202.png" alt="image-20250918215106202"></p>
 </li>
 </ul>
 </li>
@@ -383,30 +327,34 @@
 </ul>
 </li>
 </ol>
-<h4 id="3-2-4-页面置换算法"><a href="#3-2-4-页面置换算法" class="headerlink" title="3.2.4 页面置换算法"></a>3.2.4 页面置换算法</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/49b3b08359424fe5806b8f7e1816f7aa.png" alt="img"></p>
+<h4 id="3-2-4-页面置换算法"><a href="#3-2-4-页面置换算法" class="headerlink" title="3.2.4 页面置换算法"></a>3.2.4 页面置换算法</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918211942650.png" alt="image-20250918211942650"></p>
+<p>追求更少的缺页率其实就是减少换入换出这个慢速IO的次数</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/49b3b08359424fe5806b8f7e1816f7aa.png" alt="img"></p>
 <p> 进程运行时，若其访问的页面不在内存中而需将其调入，但内存已无空闲空间时，就需要从内存中调出一页程序或数据，送入磁盘的对换区，选择调出页面的算法就称为页面置换算法。</p>
 <ol>
 <li><p>最佳置换算法（OPT）</p>
 <p>选择的被淘汰页面将是以后永不使用的，或者是在最长时间内不再被访问的页面，这样可以保证获得最低的缺页率。</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/71a285fc3367ccf50d377f44e700f4fb.png" alt="img"></p>
-<p>但由于人们目前无法预知进程在内存下的页面中哪个是未来最长时间内不再被访问的，因而该算法无法实现。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918212154364.png" alt="image-20250918212154364"></p>
+<p>然而可以作为理论依据，只要其他算法越接近OPT，越说明它好</p>
 </li>
 <li><p>先进先出置换算法（FIFO）</p>
 <p>优先淘汰最早进入内存的页面，即在内存中驻留时间最久的页面。</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/047d308ca4a04dde65345bc9d2326f20.png" alt="img"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918212348911.png" alt="image-20250918212348911"></p>
 <p>该算法实现简单，只需把调入内存的页面根据先后次序链接成队列，设置一个指针总指向最早的页面。</p>
 <ul>
 <li><p>Belady异常一一当为进程分配的物理块数增大时，缺页次数不减反增的异常现象。</p>
 <p>只有FIFO算法回产生Belady异常，算法性能差。</p>
-<p>该算法与进程实际运行时的规律不适应，因为在进程中，有的页面经常被访问。</p>
+<p>该算法与进程实际运行时的规律不适应，因为在进程中，有的页面经常被访问（也可以说是先进入的页面很有可能是被经常访问的）。</p>
 </li>
 </ul>
 </li>
 <li><p>最近最久未使用置换算法（LRU）</p>
 <p>选择最近最长时间未访问过的页面予以淘汰，它认为过去一段时间内未访问过的页面，在最近的将来可能也不会被访问。</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/00d4372fa2790806a982d58b47a32b42.png" alt="img"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918212510154.png" alt="image-20250918212510154"></p>
 <p> 该算法为每个页面设置一个访问字段，来记录页面自上次被访问以来所经历的时间，淘汰页面时选择现有页面中值最大的予以淘汰。</p>
-<p> 该算法的实现需要专门的硬件支持，虽然算法性能好，但是实现困难，开销大。</p>
+<p> <strong>该算法的实现需要专门的硬件支持，虽然算法性能好，但是实现困难，开销大。</strong></p>
+<p>这个算法是最近接OPT的</p>
 </li>
 <li><p>时钟置换算法（CLOCK）&#x2F;最近未用算法（NRU）</p>
 <p>简单的CLOCK算法实现方法：</p>
@@ -416,13 +364,14 @@
 <li>当需要淘汰一个页面时，只需检查页的访问位。如果是0，就选择该页换出；如果是1，则将它置为0，暂不换出，继续检查下一个页面，</li>
 <li>若第一轮扫描中所有页面都是1，则将这些页面的访问位依次置为0后，再进行第二轮扫描（第二轮扫描中一定会有访问位为0的页面，因此简单的CLOCK算法选择一个淘汰页面最多会经过两轮扫描）</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/aabbed4621bdebbcc188e9f10763e92c.png" alt="img"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918212711894.png" alt="image-20250918212711894"></p>
 </li>
 <li><p>改进型的时钟置换算法</p>
 <ul>
 <li><p>简单时钟问题：简单的时钟置换算法仅考虑到一个页面最近是否被访问过。事实上，如果被淘汰的页面没有被修改过，就不需要执行I&#x2F;O操作写回外存。只有被淘汰的页面被修改过时，才需要写回外存。</p>
 <p>因此，除了考虑一个页面最近有没有被访问过之外，操作系统还应考虑页面有没有被修改过。在其他条件都相同时，应优先淘汰没有修改过的页面，避免I&#x2F;O操作。这就是改进型的时钟置换算法的思想。</p>
 <p>修改位&#x3D;0，表示页面没有被修改过：修改位&#x3D;1，表示页面被修改过。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250918213107462.png" alt="image-20250918213107462"></p>
 </li>
 <li><p>算法规则：将所有可能被置换的页面排成一个循环队列，用（访问位A，修改位M）表示各页面状态。</p>
 <blockquote>
@@ -448,7 +397,7 @@
 <p>若第三轮扫描失败，则重新扫描，查找第一个（0，1）的帧用于替换。</p>
 </li>
 </ul>
-<p>由于第二轮己将所有帧的访问位设为0，因此经过第三轮、第四轮扫描定会有一个帧被选中，因此改进型CLOCK置换算法选择一个淘汰页面最多会进行四轮扫描。</p>
+<p>由于第二轮己将所有帧的访问位设为0，因此经过第三轮、第四轮扫描之后定会有一个帧被选中，因此改进型CLOCK置换算法选择一个淘汰页面最多会进行四轮扫描。</p>
 </li>
 <li><p>性能：算法开销较小，性能也不错</p>
 </li>
@@ -460,6 +409,9 @@
 <ul>
 <li>定义：抖动，又称颠簸，指在页面置换过程中，刚刚换出的页面马上又要换入主存，刚刚换入的页面马上又要换出主存。</li>
 <li>抖动发生的原因：系统中同时运行的进程太多，由此分配给每个进程的物理块太少，不能满足进程正常运行的基本要求，致使每个进程在运行时频繁地出现缺页，必须请求系统将所缺页面调入内存。</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250919152136960.png" alt="image-20250919152136960"></p>
+<ul>
 <li>抖动的危害：<ul>
 <li>使得在系统中排队等待页面调入&#x2F;调出的进程数目增加。</li>
 <li>对磁盘的有效访问时间也随之急剧增加，造成每个进程的大部分时间都用于页面的换入&#x2F;换出，而几乎不能再去做任何有效的工作，</li>
@@ -471,24 +423,29 @@
 <li><p>工作集</p>
 <p>由于抖动的发生与系统为进程分配物理块的多少有关，于是又提出了关于进程工作集的概念。</p>
 <p>工作集是指在某段时间间隔内，进程要访问的页面集合。</p>
-<p> 基于局部性原理，可以用最近访问过的页面来确定工作集。一般来说，工作集$W$可由时间$t$和工作集窗口大小$Δ$来确定。例如，某进程对页面的访问次序如下：</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230918174429395.png" alt="image-20230918174429395"></p>
-<p> 假设系统为该进程设定的工作集窗口大小$Δ$为5，则在$t_1$时刻，进程的工作集为{2,3,5}，在$t_2$时刻，进程的工作集为{1,2,3,4}。</p>
-<p> 工作集大小一般会比窗口小很多，工作集反映了进程在接下来的一段时间内很有可能会频繁访问的页面集合，因此，若分配给进程的物理块小于工作集大小，则该进程就很有可能频繁缺页。</p>
-<p> 一般来说分配给进程的物理块数（即驻留集大小）要大于工作集大小。</p>
+<p> 基于局部性原理，可以用最近访问过的页面来确定工作集。一般来说，工作集$W$可由时间$t$和工作集窗口大小$Δ$来确定。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250919152308632.png" alt="image-20250919152308632"></p>
+<p> 工作集大小一般会比窗口小很多，工作集反映了进程在接下来的一段时间内很有可能会频繁访问的页面集合，因此，<strong>若分配给进程的物理块小于工作集大小，则该进程就很有可能频繁缺页。</strong></p>
+<p> <strong>一般来说分配给进程的物理块数（即驻留集大小）要大于工作集大小。</strong></p>
 </li>
 </ol>
-<h4 id="3-2-6-内存映射文件"><a href="#3-2-6-内存映射文件" class="headerlink" title="3.2.6 内存映射文件"></a>3.2.6 内存映射文件</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5e0531530b9144e989b0872d69e92963.png" alt="img"></p>
+<h4 id="3-2-6-内存映射文件"><a href="#3-2-6-内存映射文件" class="headerlink" title="3.2.6 内存映射文件"></a>3.2.6 内存映射文件</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250919153016339.png" alt="image-20250919153016339"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250919152628095.png" alt="image-20250919152628095"></p>
 <p> 内存映射文件（Memory-MappedFiles）与虚拟内存有些相似，将磁盘文件的全部或部分内容与进程虚拟地址空间的某个区域建立映射关系，便可以直接访问被映射的文件，而不必执行文件 I&#x2F;O 操作，也无须对文件内容进行缓存处理。这种特性非常适合用来管理大尺寸文件。</p>
 <ol>
 <li><p>特性</p>
 <ul>
-<li>进程可使用系统调用，请求操作系统将文件映射到进程的虚拟地址空间</li>
+<li><p>进程可使用系统调用，请求操作系统将文件映射到进程的虚拟地址空间</p>
+<ul>
 <li>以访问内存的方式读写文件</li>
 <li>进程关闭文件时，操作系统负责将文件数据写回磁盘，并解除内存映射</li>
-<li>多个进程可以映射同一个文件，方便共享</li>
+<li><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250919152738908.png" alt="image-20250919152738908"></li>
 </ul>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230918175326496.png" alt="image-20230918175326496"></p>
+</li>
+<li><p>多个进程可以映射同一个文件，方便共享。这并不难实现，操作系统只要修改对应进程对应的页表项即可</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250919152910989.png" alt="image-20250919152910989"></p>
+</li>
+</ul>
 </li>
 <li><p>优点</p>
 <ul>
@@ -592,11 +549,11 @@
 </li>
 </ul>
 </li>
-<li><p>虚拟地址寻址总流程</p>
-<p><img src="https://raw.githubusercontent.com/ZzDarker/figure/main/img/b0b9bc36ae3ba18efd06a04216caa7f.jpg" alt="b0b9bc36ae3ba18efd06a04216caa7f"></p>
-</li>
 </ol>
-<h4 id="3-2-9-本节小结"><a href="#3-2-9-本节小结" class="headerlink" title="3.2.9 本节小结"></a>3.2.9 本节小结</h4><p>1）为什么要引入虚拟内存？</p>
+<h4 id="3-2-9-页框回收"><a href="#3-2-9-页框回收" class="headerlink" title="3.2.9 页框回收"></a>3.2.9 页框回收</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250919153346554.png" alt="image-20250919153346554"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250919153422115.png" alt="image-20250919153422115"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250919153436787.png" alt="image-20250919153436787"></p>
+<h4 id="3-2-10-本节小结"><a href="#3-2-10-本节小结" class="headerlink" title="3.2.10 本节小结"></a>3.2.10 本节小结</h4><p>1）为什么要引入虚拟内存？</p>
 <pre><code>    上一节提到过，多道程序并发执行不仅使进程之间共享了处理器，而且同时共享了主存。然而，随着对处理器需求的增长，进程的执行速度会以某种合理平滑的方式慢下来。但是，若同时运行的进程太多，则需要很多的内存，当一个程序没有内存空间可用时，那么它甚至无法运行。所以，在物理上扩展内存相对有限的条件下，应尝试以一些其他可行的方式在逻辑上扩充内存。
 </code></pre>
 <p>2）虚拟内存（虚存）空间的大小由什么因素决定？</p>
@@ -608,7 +565,19 @@
 </code></pre>
 <p>3.3 本章疑难点</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/9da75b4d13904c68be3a378a0369620d.png" alt="img"></p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.2%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">https://darling-123456.github.io/2024/09/17/王道操作系统学习笔记/3.2 虚拟内存管理/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a></div><div class="post-share"><div class="social-share" data-image="/img/101.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.1%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%A6%82%E5%BF%B5/" title="王道操作系统 3.1 内存管理概念"><img class="cover" src="/img/102.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">王道操作系统 3.1 内存管理概念</div></div><div class="info-2"><div class="info-item-1">3 内存管理3.1 内存管理概念3.1.1 内存管理的基本原理和要求  内存可以存放数据，程序执行前需要先放到内存中才能被CPU处理—缓和cpu和磁盘之间的速度矛盾  内存管理的概念 虽然计算机技术飞速发展，内存容量也在不断扩大，但仍然不可能将所有用户进程和系统所需的全部程序与数据放入内存，因此操作系统对内存空间进行合理的划分和有效的动态分配。操作系统对内存的划分和动态分配，就是内存管理的概念。 内存空间的主要功能有：  ① 内存空间的分配与回收：OS 要怎么记录哪些内存区域已经被分配出去了，哪些又还空闲；当进程运行结束之后，如何将进程占用的内存空间回收。 ② 内存空间的扩充：OS 利用虚拟内存技术或自动覆盖技术使得系统运行很大的程序，从逻辑上扩充内存。 ③ 地址转换：为了使编程更方便，程序员写程序时应该只需要关注指令、数据的逻辑地址。而 逻辑地址到物理地址的转换（这个过程称为地址重定位）应该由操作系统负责，其中地址重定位有三种方式。 ④...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.2%20%E7%9B%AE%E5%BD%95/" title="王道操作系统 4.2 目录"><img class="cover" src="/img/99.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">王道操作系统 4.2 目录</div></div><div class="info-2"><div class="info-item-1">4.2 目录 4.2.1 目录的基本概念 文件目录指FCB的有序集合，一个FCB就是一个文件的目录项。与文件管理系统和文件集合相关联的是文件目录，它包含有关文件的属性、位置和所有权等。  目录管理的基本要求： 从用户的角度看，目录在用户（应用程序）所需要的文件名和文件之间提供一种映射，所以目录管理要实现“按名存取”； 目录存取的效率直接影响到系统的性能，所以要提高对目录的检索速度； 在多用户系统中，应允许多个用户共享一个文件，因此目录还需要提供用于控制访问文件的信息。 此外，应允许不同用户对不同文件采用相同的名字，以便于用户按自己的习惯给文件命名，目录管理通过树形结构来解决和实现。      4.2.2...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/09/10/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="王道操作系统 1.计算机系统概述"><img class="cover" src="/img/104.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-10</div><div class="info-item-2">王道操作系统 1.计算机系统概述</div></div><div class="info-2"><div class="info-item-1">1 计算机系统概述1.1 操作系统的基本概念  定义 操作系统（Operating...</div></div></div></a><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.1%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%A6%82%E5%BF%B5/" title="王道操作系统 3.1 内存管理概念"><img class="cover" src="/img/102.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-17</div><div class="info-item-2">王道操作系统 3.1 内存管理概念</div></div><div class="info-2"><div class="info-item-1">3 内存管理3.1 内存管理概念3.1.1 内存管理的基本原理和要求  内存可以存放数据，程序执行前需要先放到内存中才能被CPU处理—缓和cpu和磁盘之间的速度矛盾  内存管理的概念 虽然计算机技术飞速发展，内存容量也在不断扩大，但仍然不可能将所有用户进程和系统所需的全部程序与数据放入内存，因此操作系统对内存空间进行合理的划分和有效的动态分配。操作系统对内存的划分和动态分配，就是内存管理的概念。 内存空间的主要功能有：  ① 内存空间的分配与回收：OS 要怎么记录哪些内存区域已经被分配出去了，哪些又还空闲；当进程运行结束之后，如何将进程占用的内存空间回收。 ② 内存空间的扩充：OS 利用虚拟内存技术或自动覆盖技术使得系统运行很大的程序，从逻辑上扩充内存。 ③ 地址转换：为了使编程更方便，程序员写程序时应该只需要关注指令、数据的逻辑地址。而 逻辑地址到物理地址的转换（这个过程称为地址重定位）应该由操作系统负责，其中地址重定位有三种方式。 ④...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.2%20%E7%9B%AE%E5%BD%95/" title="王道操作系统 4.2 目录"><img class="cover" src="/img/99.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.2 目录</div></div><div class="info-2"><div class="info-item-1">4.2 目录 4.2.1 目录的基本概念 文件目录指FCB的有序集合，一个FCB就是一个文件的目录项。与文件管理系统和文件集合相关联的是文件目录，它包含有关文件的属性、位置和所有权等。  目录管理的基本要求： 从用户的角度看，目录在用户（应用程序）所需要的文件名和文件之间提供一种映射，所以目录管理要实现“按名存取”； 目录存取的效率直接影响到系统的性能，所以要提高对目录的检索速度； 在多用户系统中，应允许多个用户共享一个文件，因此目录还需要提供用于控制访问文件的信息。 此外，应允许不同用户对不同文件采用相同的名字，以便于用户按自己的习惯给文件命名，目录管理通过树形结构来解决和实现。      4.2.2...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.3%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="王道操作系统 4.3 文件系统"><img class="cover" src="/img/98.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.3 文件系统</div></div><div class="info-2"><div class="info-item-1">4.3 文件系统 4.3.1 文件系统结构 文件系统(File system)提供高效和便捷的磁盘访问，以便允许存储、定位、提取数据。  用一个例子来辅助记忆文件系统的层次结构：假设某用户请求删除文件”D:&#x2F;工作目录&#x2F;学生信息.xIsx”的最后100条记录。  用户需要通过操作系统提供的接口发出上述请求一一用户接口 由于用户提供的是文件的存放路径，因此需要操作系统一层一层地查找目录，找到对应的目录项一一文件目录系统 不同的用户对文件有不同的操作权限，因此为了保证安全，需要检查用户是否有访问权限一一存取控制模块（存取控制验证层） 验证了用户的访问权限之后，需要把用户提供的“记录号”转变为对应的逻辑地址一一逻辑文件系统与文件信息缓冲区 知道了标记录对应的逻辑地址后，还需要转换成实际的物理地址一一物理文件系统 要删除这条记录，必定要对磁盘设备发出请求一一设备管理程序模块 删除这些记录后，会有一些盘块空闲，因此要将这些空闲盘块回收一一辅助分配模块  4.3.2...</div></div></div></a><a class="pagination-related" href="/2024/09/14/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2%20%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="王道操作系统 2.进程与线程"><img class="cover" src="/img/103.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-14</div><div class="info-item-2">王道操作系统 2.进程与线程</div></div><div class="info-2"><div class="info-item-1">2 进程与线程2.1 进程与线程2.1.1 进程的概念和特征   进程的概念 进程是进程实体的运行过程，是系统进行资源分配和调度的一个独立单位。  进程实现操作系统的并发性和共享性。  程序：是静态的，就是个存放在磁盘里的可执行文件，如：QQ.exe。 进程：是动态的，是程序的一次执行过程，或者是一个正在运行的程序，如：可同时启动多次QQ程序。 进程实体：即进程映像，是静态的，可理解为进程的一次时刻的状态。 作业：用户向计算机提交的一项任务，是静态的，它通常是一个批处理程序或一个后台程序。  进程实体的组成   程序控制块PCB PCB是进程存在的唯一标志，当进程被创建时，操作系统为其创建PCB，当进程结束时，会回收其PCB。  进程描述信息 进程标识符PID：当进程被创建时，操作系统会为该进程分配一个唯一的、不重复的“身份证号”–PID（Process...</div></div></div></a><a class="pagination-related" href="/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.3%20%E7%A3%81%E7%9B%98%E5%92%8C%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98/" title="王道操作系统 5.3 磁盘和固态硬盘"><img class="cover" src="/img/95.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-23</div><div class="info-item-2">王道操作系统 5.3 磁盘和固态硬盘</div></div><div class="info-2"><div class="info-item-1">5.3 磁盘和固态硬盘5.3.1...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">369</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">3.2 虚拟内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">3.2.1 虚拟内存的基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-%E8%AF%B7%E6%B1%82%E5%88%86%E9%A1%B5%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-text">3.2.2 请求分页管理方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3-%E9%A1%B5%E6%A1%86%E5%88%86%E9%85%8D"><span class="toc-text">3.2.3 页框分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-4-%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-text">3.2.4 页面置换算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-5-%E6%8A%96%E5%8A%A8%E5%92%8C%E5%B7%A5%E4%BD%9C%E9%9B%86"><span class="toc-text">3.2.5 抖动和工作集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-6-%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6"><span class="toc-text">3.2.6 内存映射文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-7-%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8%E6%80%A7%E8%83%BD%E5%BD%B1%E5%93%8D%E5%9B%A0%E7%B4%A0"><span class="toc-text">3.2.7 虚拟存储器性能影响因素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-8-%E5%9C%B0%E5%9D%80%E7%BF%BB%E8%AF%91"><span class="toc-text">3.2.8 地址翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-9-%E6%9C%AC%E8%8A%82%E5%B0%8F%E7%BB%93"><span class="toc-text">3.2.9 本节小结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"><img src="/img/371.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"/></a><div class="content"><a class="title" href="/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径">Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径</a><time datetime="2025-06-25T01:30:20.000Z" title="发表于 2025-06-25 09:30:20">2025-06-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络"><img src="/img/369.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络"/></a><div class="content"><a class="title" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络">深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络</a><time datetime="2025-06-21T11:21:10.000Z" title="发表于 2025-06-21 19:21:10">2025-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BA%94%E3%80%81%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第五章学习笔记 卷积神经网络"><img src="/img/368.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="深度学习与神经网络 | 邱锡鹏 | 第五章学习笔记 卷积神经网络"/></a><div class="content"><a class="title" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BA%94%E3%80%81%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第五章学习笔记 卷积神经网络">深度学习与神经网络 | 邱锡鹏 | 第五章学习笔记 卷积神经网络</a><time datetime="2025-06-21T11:21:10.000Z" title="发表于 2025-06-21 19:21:10">2025-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7.%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/" title="深度学习与神经网络 | 邱锡鹏 | 第七章学习笔记 网络优化与正则化"><img src="/img/370.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="深度学习与神经网络 | 邱锡鹏 | 第七章学习笔记 网络优化与正则化"/></a><div class="content"><a class="title" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/7.%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/" title="深度学习与神经网络 | 邱锡鹏 | 第七章学习笔记 网络优化与正则化">深度学习与神经网络 | 邱锡鹏 | 第七章学习笔记 网络优化与正则化</a><time datetime="2025-06-21T11:21:10.000Z" title="发表于 2025-06-21 19:21:10">2025-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/12/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-12-Day132--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" title="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串"><img src="/img/368.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串"/></a><div class="content"><a class="title" href="/2025/06/12/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-12-Day132--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" title="Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串">Day132 | 灵神 | 回溯算法 | 子集型 分割回文子串</a><time datetime="2025-06-12T01:30:20.000Z" title="发表于 2025-06-12 09:30:20">2025-06-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+<h3 id="重点总结"><a href="#重点总结" class="headerlink" title="重点总结"></a>重点总结</h3><p>1.主存容量1MB，外存400MB，计算机系统地址寄存器有32位，那么虚拟存储器的最大容量是 2^32^B</p>
+<p>进程的虚拟地址空间寻址由系统的地址结构决定，这就决定了虚拟存储器的最大容量，而与主存和外存的容量没有必然联系</p>
+<p>2.造成LRU算法实现起来耗费高的原因是：需要对所有的页进行排序</p>
+<p><strong>LRU之所以需特殊要硬件支持，就是用来实现对所有页的排序了</strong></p>
+<p>3.所有页面置换策略都有可能导致抖动</p>
+<p>4.<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250919164146902.png" alt="image-20250919164146902"></p>
+<p>5.错误的说法：内存映射文件是将整个文件内容一次性加载到内存中的一种方式</p>
+<p>内存映射文件将一个文件映射到进程的虚拟地址空间的某个区域。它不是一次性加载整个文件，而是按需加载文件的部分，这样既节省空间，又方便处理大文件</p>
+<p>6.采用多级页表对提升TLB命中率没有影响</p>
+<p>7.加快虚实地址转换的措施有：加大TLB容量，让页表常驻内存</p>
+<p>8.只有FIFO会出现Belady现象</p>
+<p>9.malloc函数的返回值是虚拟地址</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.2%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">https://darling-123456.github.io/2024/09/17/王道操作系统学习笔记/3.2 虚拟内存管理/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a></div><div class="post-share"><div class="social-share" data-image="/img/101.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.1%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%A6%82%E5%BF%B5/" title="王道操作系统 3.1 内存管理概念"><img class="cover" src="/img/102.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">王道操作系统 3.1 内存管理概念</div></div><div class="info-2"><div class="info-item-1">3 内存管理3.1 内存管理概念3.1.1 内存管理的基本原理和要求  内存可以存放数据，程序执行前需要先放到内存中才能被CPU处理—缓和cpu和磁盘之间的速度矛盾  内存管理的概念 虽然计算机技术飞速发展，内存容量也在不断扩大，但仍然不可能将所有用户进程和系统所需的全部程序与数据放入内存，因此操作系统对内存空间进行合理的划分和有效的动态分配。操作系统对内存的划分和动态分配，就是内存管理的概念。 内存空间的主要功能有：  ① 内存空间的分配与回收：OS 要怎么记录哪些内存区域已经被分配出去了，哪些又还空闲；当进程运行结束之后，如何将进程占用的内存空间回收。 ② 内存空间的扩充：OS 利用虚拟内存技术或自动覆盖技术使得系统运行很大的程序，从逻辑上扩充内存。 ③ 地址转换：为了使编程更方便，程序员写程序时应该只需要关注指令、数据的逻辑地址。而 逻辑地址到物理地址的转换（这个过程称为地址重定位）应该由操作系统负责，其中地址重定位有三种方式。  ④...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.2%20%E7%9B%AE%E5%BD%95/" title="王道操作系统 4.2 目录"><img class="cover" src="/img/99.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">王道操作系统 4.2 目录</div></div><div class="info-2"><div class="info-item-1">4.2 目录 4.2.1 目录的基本概念 **文件目录指FCB的有序集合，一个FCB就是一个文件的目录项。**与文件管理系统和文件集合相关联的是文件目录，它包含有关文件的属性、位置和所有权等。  目录管理的基本要求： 从用户的角度看，目录在用户（应用程序）所需要的文件名和文件之间提供一种映射，所以目录管理要实现“按名存取”； 目录存取的效率直接影响到系统的性能，所以要提高对目录的检索速度； 在多用户系统中，应允许多个用户共享一个文件，因此目录还需要提供用于控制访问文件的信息。 此外，应允许不同用户对不同文件采用相同的名字，以便于用户按自己的习惯给文件命名，目录管理通过树形结构来解决和实现。      4.2.2 目录结构 FCB和索引节点在...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/09/10/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="王道操作系统 1.计算机系统概述"><img class="cover" src="/img/104.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-10</div><div class="info-item-2">王道操作系统 1.计算机系统概述</div></div><div class="info-2"><div class="info-item-1">1 计算机系统概述1.1...</div></div></div></a><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.1%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%A6%82%E5%BF%B5/" title="王道操作系统 3.1 内存管理概念"><img class="cover" src="/img/102.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-17</div><div class="info-item-2">王道操作系统 3.1 内存管理概念</div></div><div class="info-2"><div class="info-item-1">3 内存管理3.1 内存管理概念3.1.1 内存管理的基本原理和要求  内存可以存放数据，程序执行前需要先放到内存中才能被CPU处理—缓和cpu和磁盘之间的速度矛盾  内存管理的概念 虽然计算机技术飞速发展，内存容量也在不断扩大，但仍然不可能将所有用户进程和系统所需的全部程序与数据放入内存，因此操作系统对内存空间进行合理的划分和有效的动态分配。操作系统对内存的划分和动态分配，就是内存管理的概念。 内存空间的主要功能有：  ① 内存空间的分配与回收：OS 要怎么记录哪些内存区域已经被分配出去了，哪些又还空闲；当进程运行结束之后，如何将进程占用的内存空间回收。 ② 内存空间的扩充：OS 利用虚拟内存技术或自动覆盖技术使得系统运行很大的程序，从逻辑上扩充内存。 ③ 地址转换：为了使编程更方便，程序员写程序时应该只需要关注指令、数据的逻辑地址。而 逻辑地址到物理地址的转换（这个过程称为地址重定位）应该由操作系统负责，其中地址重定位有三种方式。  ④...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.2%20%E7%9B%AE%E5%BD%95/" title="王道操作系统 4.2 目录"><img class="cover" src="/img/99.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.2 目录</div></div><div class="info-2"><div class="info-item-1">4.2 目录 4.2.1 目录的基本概念 **文件目录指FCB的有序集合，一个FCB就是一个文件的目录项。**与文件管理系统和文件集合相关联的是文件目录，它包含有关文件的属性、位置和所有权等。  目录管理的基本要求： 从用户的角度看，目录在用户（应用程序）所需要的文件名和文件之间提供一种映射，所以目录管理要实现“按名存取”； 目录存取的效率直接影响到系统的性能，所以要提高对目录的检索速度； 在多用户系统中，应允许多个用户共享一个文件，因此目录还需要提供用于控制访问文件的信息。 此外，应允许不同用户对不同文件采用相同的名字，以便于用户按自己的习惯给文件命名，目录管理通过树形结构来解决和实现。      4.2.2 目录结构 FCB和索引节点在...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.3%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="王道操作系统 4.3 文件系统"><img class="cover" src="/img/98.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.3 文件系统</div></div><div class="info-2"><div class="info-item-1">4.3 文件系统 4.3.1 文件系统结构 文件系统(File system)提供高效和便捷的磁盘访问，以便允许存储、定位、提取数据。   4.3.2...</div></div></div></a><a class="pagination-related" href="/2024/09/14/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2%20%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="王道操作系统 2.进程与线程"><img class="cover" src="/img/103.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-14</div><div class="info-item-2">王道操作系统 2.进程与线程</div></div><div class="info-2"><div class="info-item-1">2 进程与线程2.1 进程与线程2.1.1 进程的概念和特征   进程的概念 进程是进程实体的运行过程，是系统进行资源分配和调度的一个独立单位。  进程实现操作系统的并发性和共享性。  程序：是静态的，就是个存放在磁盘里的可执行文件，如：QQ.exe。 进程：是动态的，是程序的一次执行过程，或者是一个正在运行的程序，如：可同时启动多次QQ程序。 进程实体：即进程映像，是静态的，可理解为进程的一次时刻的状态。 作业：用户向计算机提交的一项任务，是静态的，它通常是一个批处理程序或一个后台程序。   进程实体的组成    程序控制块PCB PCB是进程存在的唯一标志，当进程被创建时，操作系统为其创建PCB，当进程结束时，会回收其PCB。  进程描述信息 进程标识符PID：当进程被创建时，操作系统会为该进程分配一个唯一的、不重复的“身份证号”–PID（Process...</div></div></div></a><a class="pagination-related" href="/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.3%20%E7%A3%81%E7%9B%98%E5%92%8C%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98/" title="王道操作系统 5.3 磁盘和固态硬盘"><img class="cover" src="/img/95.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-23</div><div class="info-item-2">王道操作系统 5.3 磁盘和固态硬盘</div></div><div class="info-2"><div class="info-item-1">5.3 磁盘和固态硬盘5.3.1...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">373</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">3.2 虚拟内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">3.2.1 虚拟内存的基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-%E8%AF%B7%E6%B1%82%E5%88%86%E9%A1%B5%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-text">3.2.2 请求分页管理方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3-%E9%A1%B5%E9%9D%A2%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="toc-text">3.2.3 页面分配策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-4-%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-text">3.2.4 页面置换算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-5-%E6%8A%96%E5%8A%A8%E5%92%8C%E5%B7%A5%E4%BD%9C%E9%9B%86"><span class="toc-text">3.2.5 抖动和工作集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-6-%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6"><span class="toc-text">3.2.6 内存映射文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-7-%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8%E6%80%A7%E8%83%BD%E5%BD%B1%E5%93%8D%E5%9B%A0%E7%B4%A0"><span class="toc-text">3.2.7 虚拟存储器性能影响因素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-8-%E5%9C%B0%E5%9D%80%E7%BF%BB%E8%AF%91"><span class="toc-text">3.2.8 地址翻译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-9-%E9%A1%B5%E6%A1%86%E5%9B%9E%E6%94%B6"><span class="toc-text">3.2.9 页框回收</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-10-%E6%9C%AC%E8%8A%82%E5%B0%8F%E7%BB%93"><span class="toc-text">3.2.10 本节小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-text">重点总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-30-Day136--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%B8%B2%E8%81%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6/" title="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度"><img src="/img/374.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度"/></a><div class="content"><a class="title" href="/2025/06/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-30-Day136--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%B8%B2%E8%81%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6/" title="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度">Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度</a><time datetime="2025-06-30T01:30:20.000Z" title="发表于 2025-06-30 09:30:20">2025-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-27-Day135--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%83%B9%E9%A5%AA%E6%96%99%E7%90%86/" title="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理"><img src="/img/373.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理"/></a><div class="content"><a class="title" href="/2025/06/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-27-Day135--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%83%B9%E9%A5%AA%E6%96%99%E7%90%86/" title="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理">Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理</a><time datetime="2025-06-27T01:30:20.000Z" title="发表于 2025-06-27 09:30:20">2025-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day134/" title="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列"><img src="/img/372.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列"/></a><div class="content"><a class="title" href="/2025/06/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day134/" title="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列">Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列</a><time datetime="2025-06-26T01:30:20.000Z" title="发表于 2025-06-26 09:30:20">2025-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"><img src="/img/371.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"/></a><div class="content"><a class="title" href="/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径">Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径</a><time datetime="2025-06-25T01:30:20.000Z" title="发表于 2025-06-25 09:30:20">2025-06-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络"><img src="/img/369.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络"/></a><div class="content"><a class="title" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络">深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络</a><time datetime="2025-06-21T11:21:10.000Z" title="发表于 2025-06-21 19:21:10">2025-06-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
   © 2024-<script>document.write(new Date().getFullYear())</script> 
   <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
   | 已运行 <span id="days">0</span> 天
