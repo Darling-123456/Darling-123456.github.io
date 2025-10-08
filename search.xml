@@ -34044,6 +34044,9 @@ project(test)
 <p>7.加快虚实地址转换的措施有：加大TLB容量，让页表常驻内存</p>
 <p>8.只有FIFO会出现Belady现象</p>
 <p>9.malloc函数的返回值是虚拟地址</p>
+<p>10.记得看王道的强化课咸鱼的总结的内容，讲得很好</p>
+<p>11.TLB不存在有效位，只要有那肯定有效，而Cache存在有效位</p>
+<p>TLB也是一种相联存储器，用硬件实现</p>
 ]]></content>
       <categories>
         <category>操作系统</category>
@@ -55157,6 +55160,7 @@ $&#123;&#125;
 <p><code>存储器的层次化结构</code></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601154010601.png" alt="image-20250601154010601"></p>
 <p>主存和辅存之间的数据调动是由硬件和操作系统共同完成的，仅对应用级程序员透明</p>
+<p>多级存储系统的设置是为了降低存储成本。降低总成本的方式非常直观：它<strong>用大量价格低廉的慢速存储介质（如硬盘、磁带）作为基底，来承载绝大多数不常访问的“冷数据”；同时，仅用少量昂贵的高速存储介质（如CPU缓存、内存）来服务最活跃的“热数据”</strong>。</p>
 <p><code>存储器的分类–层次</code></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601154320686.png" alt="image-20250601154320686"></p>
 <p><code>存储器的分类–存储介质</code></p>
@@ -55187,7 +55191,7 @@ $&#123;&#125;
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601164840269.png" alt="image-20250601164840269"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601165149162.png" alt="image-20250601165149162"></p>
 <p><code>片选线作用：</code>一个内存条可能包含多块存储芯片，比如一共8块，而我们想要的数据存在第5块芯片里面，那么我们拿数据的时候就要让第5块芯片工作而其他的不工作。CS给予低电平，其他芯片为高电平。</p>
-<p><code>译码驱动：</code>其实就是在译码器和存储矩阵中间加了一个驱动，让译码器传过来的电信号更加稳定的</p>
+<p><code>译码驱动：</code>其实就是在译码器和存储矩阵中间加了一个驱动，让译码器传过来的电信号更加稳定的。</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601165640202.png" alt="image-20250601165640202"></p>
 <p><strong>寻址</strong></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601165907001.png"></p>
@@ -55195,7 +55199,7 @@ $&#123;&#125;
 <p>比如1号字节是 1，左移两位就是100，就是4，而按字寻址的编号2对应的就是字节寻址的编号4</p>
 <h3 id="2-SRAM与DRAM"><a href="#2-SRAM与DRAM" class="headerlink" title="2. SRAM与DRAM"></a>2. SRAM与DRAM</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601170332933.png" alt="image-20250601170332933"></p>
 <p>SDRAM依旧是DRAM，所以依旧要刷新的</p>
-<h4 id="1-DRAM和SRAM对比"><a href="#1-DRAM和SRAM对比" class="headerlink" title="1.DRAM和SRAM对比"></a>1.DRAM和SRAM对比</h4><p>3.2.1 的主存储器的基本组成部分就是那DRAM举例子的，可以回看一下</p>
+<h4 id="1-DRAM和SRAM对比"><a href="#1-DRAM和SRAM对比" class="headerlink" title="1.DRAM和SRAM对比"></a>1.DRAM和SRAM对比</h4><p>3.2.1 的主存储器的基本组成部分就是拿DRAM举例子的，可以回看一下</p>
 <p>RAM属于易失性半导体，SRAM和DRAM区别在于是否需要动态刷新</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601170434704.png" alt="image-20250601170434704"></p>
 <p>DRAM芯片：使用栅极电容存储信息</p>
@@ -55225,9 +55229,10 @@ $&#123;&#125;
 <p>地址线复用技术：地址线是原来的1&#x2F;2（行和列相等)且地址线分行、列两次传送。第一次送行地址到行地址缓冲器，第二次送列地址到列地址缓冲器，然后分别送到对应的译码器。</p>
 <p>突发传输方式：在寻址阶段给出数据的首地址，在传输阶段可传送多个连续存储单元的数据</p>
 <h3 id="3-只读存储器ROM"><a href="#3-只读存储器ROM" class="headerlink" title="3. 只读存储器ROM"></a>3. 只读存储器ROM</h3><p><strong>RAM和ROM可以统一编址。比如主存就是</strong></p>
+<p>RAM和ROM都可以支持随机存取。（比如ROM里面的U盘）</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601173735085.png" alt="image-20250601173735085"></p>
 <p>易失性说的是断电后数据会消失</p>
-<p>EPROM不能作为随机存储器。</p>
+<p>EPROM不能作为随机存储器，虽然可以多次改写，但是改写太繁琐，写入时间长，且写的次数有限，速度较慢，因此不能作为需要频繁读写的RAM使用</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601173343008.png"></p>
 <p>UVEPROM要擦除只能选择全部擦除或者不擦除，不能擦一部分剩下的不擦除</p>
 <p>闪存存储元件由MOS管组成，是一种半导体存储器，采用随机访问方式，可替代计算机外部存储器</p>
@@ -55243,7 +55248,7 @@ $&#123;&#125;
 <p>连续访问者五个地址的数，分别是编号0,1,2,3，4</p>
 <p>对于高位编址来说，这五个数据都在M0内存条上，而读或写完一个数据以后就要等待恢复时间，所以花费的时间就长很多</p>
 <p>而对于低位编址来说，0在M0，1在M1，2在M2，3在M3，4在M1。那我们花r的时间读完M0上面的0就可以立马去读M1上的1，而不需要等M0恢复，从而节省了很多的时间。</p>
-<p>为什么讨论的是连续访问（连续地址）的情况？因为很多情况下就是访问连续的地址比如数组</p>
+<p>为什么讨论的是连续访问（连续地址）的情况？<strong>因为很多情况下就是访问连续的地址比如数组</strong></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601201618658.png" alt="image-20250601201618658"></p>
 <p>m&#x3D;T&#x2F;r的时候就是完美衔接，这个时候就是最好的情况，没有闲置也不用等待，而且存储体的个数也最少，成本就低</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250601202410484.png" alt="image-20250601202410484"></p>
@@ -55329,6 +55334,53 @@ $&#123;&#125;
 <p>每个块相当于磁盘中的磁道，每个页相当于磁盘中的块&#x2F;扇区</p>
 <p>也就是说SSD的读写的基本单位是页也不是块</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602174945174.png" alt="image-20250602174945174"></p>
+<h3 id="3-磁盘的最小读写单位"><a href="#3-磁盘的最小读写单位" class="headerlink" title="3.磁盘的最小读写单位"></a>3.磁盘的最小读写单位</h3><p><code>问题：</code></p>
+<p>磁盘的最小读写单位是扇区，那么这个扇区的含义具体是什么呢？假如我一个盘面有8个扇区，200个磁道，那么我的最小读写单位是一个扇区里面的200条磁道的内容还是一个扇区里面的1条磁道的内容呢？</p>
+<p><code>答案：</code></p>
+<p>简单来说，<strong>磁盘的最小读写单位是一个扇区，它指的是一个特定磁道上的某一段弧区，而不是多个磁道的内容</strong>。下面这个表格能帮你快速厘清扇区、磁道和盘面这几个核心概念的关系：</p>
+<table>
+<thead>
+<tr>
+<th align="left">概念</th>
+<th align="left">定义</th>
+<th align="left">类比</th>
+<th align="left">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>扇区 (Sector)</strong></td>
+<td align="left"><strong>磁道</strong>上被划分出的<strong>弧段</strong>，是磁盘读写的最小物理单位，通常容量为512字节。</td>
+<td align="left">一个圆形跑道上的<strong>单条赛道</strong>被分成的<strong>一段一段的格子</strong>。</td>
+<td align="left">操作系统以扇区为单位对磁盘进行读写操作。</td>
+</tr>
+<tr>
+<td align="left"><strong>磁道 (Track)</strong></td>
+<td align="left">盘面上一个个<strong>同心圆</strong>轨迹39。</td>
+<td align="left">一个圆形跑道上的<strong>单条赛道</strong>。</td>
+<td align="left">磁道从外向内从0开始编号。</td>
+</tr>
+<tr>
+<td align="left"><strong>柱面 (Cylinder)</strong></td>
+<td align="left">所有盘片上<strong>半径相同的磁道</strong>在空间上形成的“圆柱面”。</td>
+<td align="left">一叠对齐的圆形跑道，<strong>相同半径的那一圈赛道</strong>共同组成一个圆柱体。</td>
+<td align="left">数据的读写按柱面进行可以提高效率。</td>
+</tr>
+<tr>
+<td align="left"><strong>盘面 (Platter Side)</strong></td>
+<td align="left">硬盘盘片的<strong>一个有效存储面</strong>。</td>
+<td align="left">一场多层圆形跑道中的<strong>某一层跑道平面</strong>。</td>
+<td align="left">每个盘面对应一个磁头。</td>
+</tr>
+</tbody></table>
+<p><code>理解扇区的读写</code></p>
+<p>根据表格中的定义，我们可以更清晰地分析你的例子：</p>
+<ul>
+<li><p><strong>你的例子</strong>：“一个盘面有8个扇区，200个磁道”。</p>
+<p><strong>正确的理解</strong>：这意味着<strong>每一条磁道</strong>都被划分成了8个弧段，即每个磁道都有8个扇区。所以，这个盘面上总共有200（条磁道）× 8（个扇区&#x2F;磁道）&#x3D; 1600个扇区。</p>
+</li>
+<li><p><strong>最小读写操作</strong>：当你需要读取或写入数据时，磁盘驱动器会定位到<strong>某个特定磁道上的某个特定扇区</strong>。一次最小的读写操作，就是针对<strong>这一个扇区</strong>（即一条磁道的一小段）进行的，而不是同时读写一个扇区编号对应的所有200条磁道，也不是读写一整条磁道</p>
+</li>
+</ul>
 <h2 id="3-5-高速缓冲存储器"><a href="#3-5-高速缓冲存储器" class="headerlink" title="3.5 高速缓冲存储器"></a>3.5 高速缓冲存储器</h2><p>1.Cache里面存储的是主存的副本。所以如果Cache有40KB，主存有200MB</p>
 <p>那存储系统的容量还是200MB，而不是200MB+40KB，因为Cache存的仅仅是副本而已</p>
 <p>2.Cache访问失效的时候，通常不仅要像CPU传递消息，还要将信息写入Cache，传递消息的数据宽度是字，写入信息的数据宽度是块。</p>
@@ -55343,6 +55395,7 @@ $&#123;&#125;
 <p>不管什么方法都会有有效位，写回法一定会有脏a位。替换控制位很少见</p>
 <p>9.组相联映射中，是几路组相联就有几个比较器。这个比较器是来看给出的主存地址具体在组内的哪个块</p>
 <p>所以 比较器里面存的就是标记位（不包含组号），因为一组有 的块数和路数相同，所以比较器的个数就是和路数相同的，一共要比较的次数也和路数一样</p>
+<p>10.直接映射不需要考虑替换策略，而全相联和组相联都需要考虑</p>
 <h3 id="1-基本原理"><a href="#1-基本原理" class="headerlink" title="1.基本原理"></a>1.基本原理</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602211304010.png" alt="image-20250602211304010"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602205157410.png" alt="image-20250602205157410"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602210202690.png" alt="image-20250602210202690"></p>
@@ -55363,6 +55416,8 @@ $&#123;&#125;
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602212923576.png" alt="image-20250602212923576"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602213002984.png" alt="image-20250602213002984"></p>
 <h3 id="3-Cache的替换算法"><a href="#3-Cache的替换算法" class="headerlink" title="3. Cache的替换算法"></a>3. Cache的替换算法</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602214715709.png" alt="image-20250602214715709"></p>
+<p>直接映射不需要考虑替换策略，而全相联和组相联都需要考虑</p>
+<p>先进先出算法也需要对每个cache行记录替换信息（会打入一个时间戳来表明多会进入的队伍）</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602213420788.png" alt="image-20250602213420788"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602213550902.png" alt="image-20250602213550902"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250602214014188.png" alt="image-20250602214014188"></p>
@@ -56033,6 +56088,8 @@ $&#123;&#125;
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605095004847.png" alt="image-20250605095004847"></p>
 <h2 id="1-CPU的功能和结构"><a href="#1-CPU的功能和结构" class="headerlink" title="1.CPU的功能和结构"></a>1.CPU的功能和结构</h2><p><code>CPU读写控制信号的作用</code>是 决定数据总线上的数据流动方向，控制存储器操作的读写类型，控制流入流出存储器信息的方向</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605105248561.png" alt="image-20250605105248561"></p>
+<p>运算器包含的寄存器：ALU,ACC,PSW,通用寄存器</p>
+<p>控制器包含的寄存器：PC,IR，MAR,MDR</p>
 <h3 id="寄存器可见性与透明性分类"><a href="#寄存器可见性与透明性分类" class="headerlink" title="寄存器可见性与透明性分类"></a><strong>寄存器可见性与透明性分类</strong></h3><table>
 <thead>
 <tr>
@@ -56097,7 +56154,7 @@ $&#123;&#125;
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605102154875.png" alt="image-20250605102154875"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605102418895.png" alt="image-20250605102418895"></p>
 <h3 id="1-运算器"><a href="#1-运算器" class="headerlink" title="1.运算器"></a>1.运算器</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605102918873.png" alt="image-20250605102847651"></p>
-<p>专用数据通路方式就是只要有数据流过，那你就给这个路径连上一条线，所以ALU和各个寄存器之间都有线，还要决定使用哪个寄存器，有需要其他硬件，所以硬件量就很大了</p>
+<p>专用数据通路方式就是只要有数据流过，那你就给这个路径连上一条线，所以ALU和各个寄存器之间都有线，还要决定使用哪个寄存器，又需要其他硬件，所以硬件量就很大了</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605103744944.png" alt="image-20250605103744944"></p>
 <p>CPU内部单总线方式：将所有寄存器的输入端和输出端都连接到一条公共的通路上。</p>
 <p>如：两个操作数分别来自主存和R0，最后结果存回R0，那么从主存中取来的操作数直接放入暂存器，就不会破坏运算前R0的内容。</p>
@@ -56138,6 +56195,31 @@ $&#123;&#125;
 <p>单周期CPU中，指令执行的所有阶段都在一个时钟周期内完成，因此其指令周期就是一个时钟周期，CPI&#x3D;1</p>
 <p>多周期CPU中，不同的类型的指令可以用不同的执行步骤，需要几个周期就分配几个周期，CPI&gt;1</p>
 <p>流水线CPU追求目标是每个时钟周期完成一条指令的执行过程（在理想情况下CPI&#x3D;1），在每个时钟周期启动一条指令，尽量让多条指令同时运行，但各自在不同的执行步骤中</p>
+<p><strong>单周期和多周期的时钟周期长短一般不同</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">对比项</th>
+<th align="left">单周期CPU</th>
+<th align="left">多周期CPU</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>时钟周期长度</strong></td>
+<td align="left"><strong>长</strong>（由最复杂指令的总时间决定，如LOAD）</td>
+<td align="left"><strong>短</strong>（由最耗时的单个微操作决定，如访存阶段）</td>
+</tr>
+<tr>
+<td align="left"><strong>决定因素</strong></td>
+<td align="left">执行时间最长的指令（从取指到写回的全过程）</td>
+<td align="left">所有微操作中最慢的一个（通常是访存操作）</td>
+</tr>
+<tr>
+<td align="left"><strong>设计哲学</strong></td>
+<td align="left"><strong>“一刀切”</strong>：所有指令，无论简单复杂，都必须适应同一个长周期</td>
+<td align="left"><strong>“分步走”</strong>：将指令分解为多个阶段，每个阶段用一个短周期完成</td>
+</tr>
+</tbody></table>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ec3e179c293e3302ba7b2e57976a3e25.jpeg" alt="在这里插入图片描述"></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605110353944.png" alt="image-20250605110353944"></p>
 <p><code>各个周期的关系</code></p>
@@ -56157,8 +56239,65 @@ $&#123;&#125;
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/a7adc8fbdba72c33320bdf85fdf423bb.png" alt="在这里插入图片描述"></p>
 <h2 id="3-数据通路的功能和基本结构"><a href="#3-数据通路的功能和基本结构" class="headerlink" title="3.数据通路的功能和基本结构"></a>3.数据通路的功能和基本结构</h2><p>数据通路的功能由控制部件送出的控制信号决定</p>
 <p>在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次</p>
-<p><strong>关于这句话的具体解释请看</strong></p>
-<p><a href="https://blog.csdn.net/m0_74795952/article/details/148477301?spm=1001.2014.3001.5501">单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系-CSDN博客</a></p>
+<p><strong>关于这句话的具体解释</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">单周期CPU</th>
+<th align="left">多周期CPU</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>指令执行方式</strong></td>
+<td align="left">所有操作在一个长时钟周期内完成</td>
+<td align="left">指令被分解为多个阶段，每个阶段占用一个较短的时钟周期</td>
+</tr>
+<tr>
+<td align="left"><strong>控制信号</strong></td>
+<td align="left"><strong>恒定不变</strong>：周期开始时生成，整个周期内保持稳定26</td>
+<td align="left"><strong>动态变化</strong>：每个周期（阶段）根据当前步骤重新生成一组信号27</td>
+</tr>
+<tr>
+<td align="left"><strong>部件使用</strong></td>
+<td align="left"><strong>一次使用</strong>：每个功能部件（如ALU、存储器）在一个指令周期内通常只工作一次2</td>
+<td align="left"><strong>多次复用</strong>：同一部件（如ALU）可在不同阶段被同一条或不同指令多次使用27</td>
+</tr>
+<tr>
+<td align="left"><strong>指令间关系</strong></td>
+<td align="left"><strong>串行执行</strong>：下一条指令必须等当前指令完全执行完毕后才开始5</td>
+<td align="left"><strong>串行执行</strong>：下一条指令仍需等待当前指令的所有步骤完成后方可开始45</td>
+</tr>
+</tbody></table>
+<p><code> 核心概念详解</code></p>
+<p><strong>单周期CPU：一次性完成所有操作</strong></p>
+<p>单周期CPU的设计理念是“一刀切”。它要求<strong>一条指令从取指、译码、执行到写回的所有操作，必须在一个固定的、相对较长的时钟周期内一气呵成</strong>。</p>
+<ul>
+<li><p><strong>控制信号为何不变</strong>：在周期开始时，控制器根据指令的操作码（Opcode）一次性生成所有需要的控制信号（如RegWrite、ALUSrc等）。由于没有中间状态，这些信号在整个周期内都保持有效，直到下个周期开始才改变。这确保了数据通路能稳定地完成整个流程。</p>
+</li>
+<li><p><strong>部件为何只用一次</strong>：因为所有操作是顺序但连续完成的，每个功能部件（如ALU在执行阶段完成计算后）在该周期内就完成了它的使命，直到下条指令到来才会再次被使用</p>
+</li>
+</ul>
+<p><strong>多周期CPU：分步走，灵活复用</strong></p>
+<p>多周期CPU则将指令执行过程<strong>分解成多个明确的阶段</strong>（如经典的取指IF、译码ID、执行EXE、访存MEM、写回WB）。每个阶段在一个较短的时钟周期内完成。</p>
+<ul>
+<li><p><strong>控制信号为何变化</strong>：控制器通常是一个<strong>有限状态机（FSM）</strong>。在每一个时钟周期（对应一个状态），它只生成当前步骤所需的控制信号。当进入下一个阶段（状态）时，控制信号会随之改变，以驱动数据通路执行新的操作。例如，在“取指”阶段需要内存读信号，而到了“写回”阶段则需要寄存器写信号。</p>
+</li>
+<li><p><strong>部件如何被复用</strong>：正是这种分步执行的机制，使得<strong>同一个物理部件可以在不同阶段被重复使用</strong>。最典型的例子是ALU：它可能在“执行”阶段用于计算算术结果，在另一个阶段又用于计算内存地址或分支目标地址。这种复用大大提高了硬件资源的利用率。</p>
+</li>
+</ul>
+<p><code>关键澄清：多周期 vs. 流水线</code></p>
+<p>“在第一条指令的执行周期执行第二条指令的取指周期”，这实际上是<strong>流水线CPU</strong>的典型特征，也是多周期CPU与流水线CPU最根本的区别</p>
+<ul>
+<li><p><strong>多周期CPU</strong>：指令之间仍然是<strong>串行执行</strong>的。必须等第一条指令彻底走完所有阶段（比如5个周期），完全退休后，第二条指令才会进入第一个阶段（取指）</p>
+</li>
+<li><p><strong>流水线CPU</strong>：它是在多周期CPU的基础上，让不同指令的不同阶段在时间上<strong>重叠起来</strong>。当第一条指令进入“执行”阶段时，第二条指令就可以进入“译码”阶段，第三条指令则可以同时进行“取指”。这样就实现了指令级的并行，极大地提高了吞吐率</p>
+</li>
+</ul>
+<p><code>总结</code></p>
+<p><strong>单周期CPU</strong>：控制信号“从一而终”，部件“一次性使用”，设计简单但效率低。</p>
+<p><strong>多周期CPU</strong>：控制信号“随阶段而变”，部件可“多次复用”，通过将任务分解提高了硬件利用率。</p>
+<p><strong>流水线CPU</strong>：在多周期的基础上，实现了指令阶段的“重叠执行”，从而实现了更高的并行度。</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605123619785.png" alt="image-20250605123619785"></p>
 <p><code>内部总线数据通路的特点：</code>结构简单，实现容易，性能较低，存在较多的冲突现象</p>
 <p><code>专用的特点：</code>结构复杂，硬件量大，不易实现，性能较高，基本不存在冲突现象</p>
@@ -56167,8 +56306,10 @@ $&#123;&#125;
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250605121334286.png" alt="image-20250605121334286"></p>
 <p>表示总线连接或者断开的部件是三态门，图中的三角形</p>
 <p>###1. 数据通路-单总线结构</p>
-<p>数据通路通常指指令执行过程中数据经过的路径以及路径上的部件。<br>数据通路&#x3D;电路+部件（组合逻辑元件+时序逻辑元件），并且由控制信号进行控制。<br>组合逻辑元件（操作元件）：不能存储，如多路选择器MUX、ALU、译码器。<br>时序逻辑元件（状态元件）：能存储，如寄存器。</p>
-<p>ALU，通用寄存器，状态寄存器，Cache，MMU，浮点运算逻辑，异常和中断处理逻辑等都是指令执行过程中数据流经的部件，都属于数据通路的一部分</p>
+<p>数据通路通常指指令执行过程中数据经过的路径以及路径上的部件。</p>
+<p>数据通路&#x3D;电路+部件（组合逻辑元件+时序逻辑元件），并且由控制信号进行控制。</p>
+<p>组合逻辑元件（操作元件）：不能存储，如多路选择器MUX、ALU、译码器。</p>
+<p>时序逻辑元件（状态元件）：能存储，如寄存器。</p>
 <p>原则上来说，每个时刻只能有一个器件发出信息，一个或者多个器件接收信息</p>
 <p><strong>数据通路-CPU内部单总线方式</strong></p>
 <p>以下内容结合1.2.2“计算机的工作过程”进行学习</p>
@@ -56738,359 +56879,6 @@ $&#123;&#125;
       <tags>
         <tag>刷题记录</tag>
         <tag>回溯算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系</title>
-    <url>/2025/06/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/2025-06-06-%E5%8D%95%E5%91%A8%E6%9C%9Fcpu%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9Fcpu%E3%80%81%E5%8D%95%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E5%A4%9A%E5%91%A8%E6%9C%9F%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E4%B8%8E%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E5%92%8C%E4%B8%93%E7%94%A8%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E5%85%B3%E7%B3%BB/</url>
-    <content><![CDATA[<h1 id="单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系"><a href="#单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系" class="headerlink" title="单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系"></a>单周期cpu和多周期cpu、单周期数据通路和多周期数据通路与总线结构数据通路和专用数据通路的关系</h1><p>笔者学王道计组第五章第二节的时候做题发现很难受，就去查了一下这相关的</p>
-<p>##1.单周期cpu和多周期cpu</p>
-<h3 id="一、核心概念"><a href="#一、核心概念" class="headerlink" title="一、核心概念"></a>一、核心概念</h3><ol>
-<li><strong>单周期CPU</strong><ul>
-<li><strong>原理</strong>：<strong>一条指令必须在1个时钟周期内完成</strong>所有操作（取指令、译码、执行、访存、写回）。</li>
-<li>特点：<ul>
-<li>时钟周期长度由最慢指令决定（如加载指令lw耗时最长）</li>
-<li>所有指令的CPI（每条指令周期数）均为1</li>
-</ul>
-</li>
-<li><strong>通俗类比</strong>：⏱️ 所有学生考试时间统一为3小时，有人1小时交卷也得等，效率低。</li>
-</ul>
-</li>
-<li><strong>多周期CPU</strong><ul>
-<li><strong>原理</strong>：<strong>将指令拆分为多个阶段</strong>（如5阶段：取指IF、译码ID、执行EXE、访存MEM、写回WB），<strong>每个阶段占1个时钟周期</strong>。</li>
-<li>特点：<ul>
-<li>不同指令的周期数不同（如加法指令需4周期，lw需5周期）</li>
-<li>时钟周期按最慢阶段设计（如访存阶段），但短指令无需等待长指令</li>
-</ul>
-</li>
-<li><strong>通俗类比</strong>：🔧 工厂流水线，不同零件加工步骤不同，每步只需1分钟，整体效率高。</li>
-</ul>
-</li>
-</ol>
-<h3 id="二、性能与优缺点"><a href="#二、性能与优缺点" class="headerlink" title="二、性能与优缺点"></a>二、性能与优缺点</h3><table>
-<thead>
-<tr>
-<th align="center"><strong>对比项</strong></th>
-<th align="center">单周期CPU</th>
-<th align="center">多周期CPU</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><strong>时钟周期长度</strong></td>
-<td align="center">长（由最长指令定）</td>
-<td align="center">短（由最长阶段定）</td>
-</tr>
-<tr>
-<td align="center"><strong>CPI</strong></td>
-<td align="center">固定为1</td>
-<td align="center">可变（平均&gt;1）</td>
-</tr>
-<tr>
-<td align="center"><strong>资源利用率</strong></td>
-<td align="center">低（简单指令空等）</td>
-<td align="center">高（按需分配周期）</td>
-</tr>
-<tr>
-<td align="center"><strong>设计复杂度</strong></td>
-<td align="center">简单（控制信号少）</td>
-<td align="center">复杂（需多状态机控制）</td>
-</tr>
-<tr>
-<td align="center"><strong>并行支持</strong></td>
-<td align="center">不支持</td>
-<td align="center">可扩展为流水线</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>💡 <strong>关键结论</strong>：多周期通过<strong>时间换效率</strong>，避免资源闲置，适合复杂指令集</p>
-</blockquote>
-<h2 id="2-单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系"><a href="#2-单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系" class="headerlink" title="2.单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系"></a>2.单周期数据通路和多周期数据通路和刚刚那两个名词是什么关系</h2><p>单周期数据通路和多周期数据通路是<strong>单周期CPU和多周期CPU的核心硬件实现结构</strong>，它们与CPU设计理念直接对应。</p>
-<h3 id="一、数据通路与CPU设计的关系"><a href="#一、数据通路与CPU设计的关系" class="headerlink" title="一、数据通路与CPU设计的关系"></a>一、数据通路与CPU设计的关系</h3><ol>
-<li><strong>单周期CPU → 单周期数据通路</strong><ul>
-<li><strong>设计思想</strong>：一条指令在<strong>一个时钟周期内完成所有操作</strong>（取指、译码、执行、访存、写回）。</li>
-<li>数据通路特点：<ul>
-<li>完整通路一次性贯通：指令执行过程不分割，数据从输入到输出流经所有功能部件</li>
-<li>无中间寄存器：结果直接传递，无需暂存中间值</li>
-<li>时钟周期长：由最慢指令（如lw）决定，需覆盖访存、ALU运算、寄存器读写等总耗时</li>
-</ul>
-</li>
-<li><strong>关系</strong>：单周期数据通路是实现单周期CPU的硬件基础，其结构决定了CPU“一刀切”的低效特性。</li>
-</ul>
-</li>
-<li><strong>多周期CPU → 多周期数据通路</strong><ul>
-<li>设计思想：将指令拆分为多个阶段（如IF&#x2F;ID&#x2F;EXE&#x2F;MEM&#x2F;WB），每个阶段占一个时钟周期</li>
-<li>数据通路特点：<ul>
-<li>分段式结构：通过中间寄存器（如IR、A、B、ALUout）分割通路，锁存阶段结果</li>
-<li>复用功能部件：如指令&#x2F;数据存储器分时复用，ALU用于不同阶段的计算</li>
-<li>时钟周期短：由最慢阶段（如MEM访存）决定，远短于单周期</li>
-</ul>
-</li>
-<li><strong>关系</strong>：多周期数据通路是多周期CPU的物理载体，支持指令按需分配时钟周期，提升效率。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="二、数据通路的核心差异对比"><a href="#二、数据通路的核心差异对比" class="headerlink" title="二、数据通路的核心差异对比"></a>二、数据通路的核心差异对比</h3><table>
-<thead>
-<tr>
-<th align="center"><strong>对比项</strong></th>
-<th align="center">单周期数据通路</th>
-<th align="center">多周期数据通路</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><strong>结构复杂度</strong></td>
-<td align="center">简单（组合逻辑为主）</td>
-<td align="center">复杂（需中间寄存器+状态机控制）</td>
-</tr>
-<tr>
-<td align="center"><strong>时钟控制</strong></td>
-<td align="center">无阶段划分，全局同步</td>
-<td align="center">分阶段控制，状态机切换</td>
-</tr>
-<tr>
-<td align="center"><strong>关键路径</strong></td>
-<td align="center">完整指令路径（如<code>lw</code>全流程）</td>
-<td align="center">单阶段路径（如仅MEM阶段）</td>
-</tr>
-<tr>
-<td align="center"><strong>资源利用率</strong></td>
-<td align="center">低（功能部件串行使用）</td>
-<td align="center">高（部件分时复用）</td>
-</tr>
-<tr>
-<td align="center"><strong>典型优化</strong></td>
-<td align="center">无</td>
-<td align="center">插入寄存器分割关键路径</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>💡 <strong>示例说明</strong>：</p>
-<ul>
-<li><p>单周期通路：lw指令需一次性完成：取指→读寄存器→ALU计算地址→访存→写回，路径长且不可中断</p>
-</li>
-<li><p>多周期通路：lw</p>
-<p>被拆分为：</p>
-<ul>
-<li><p><strong>IF</strong>：取指令 → 存IR</p>
-</li>
-<li><p><strong>ID</strong>：读寄存器 → 存A&#x2F;B</p>
-</li>
-<li><p><strong>EXE</strong>：ALU算地址 → 存ALUout</p>
-</li>
-<li><p><strong>MEM</strong>：访存 → 存DR</p>
-</li>
-<li><p>WB：写回寄存器</p>
-<p>每个阶段结果由寄存器暂存，下个时钟周期继续使用。</p>
-</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<h2 id="3-总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系"><a href="#3-总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系" class="headerlink" title="3.总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系"></a>3.总线结构数据通路和专用数据通路和刚刚这四个名词又是什么关系</h2><h3 id="一、数据通路设计方式"><a href="#一、数据通路设计方式" class="headerlink" title="一、数据通路设计方式"></a><strong>一、数据通路设计方式</strong></h3><h4 id="1-总线结构数据通路"><a href="#1-总线结构数据通路" class="headerlink" title="1. 总线结构数据通路"></a>1. <strong>总线结构数据通路</strong></h4><ul>
-<li>定义：通过共享总线连接CPU内部各部件（如寄存器、ALU、存储器接口），数据分时复用总线传输</li>
-<li>子类型：<ul>
-<li>单总线结构：所有部件共用一条总线，同一时间只能传输一个数据，效率低（如单周期CPU常用）</li>
-<li>多总线结构：使用多条总线（如双总线、三总线），支持并行数据传输，提高效率（多周期CPU可能采用）</li>
-</ul>
-</li>
-<li>特点：<ul>
-<li><strong>优点</strong>：结构简单，硬件成本低。</li>
-<li>缺点：总线冲突频繁，需分时使用，成为性能瓶颈</li>
-</ul>
-</li>
-</ul>
-<h4 id="2-专用数据通路"><a href="#2-专用数据通路" class="headerlink" title="2. 专用数据通路"></a>2. <strong>专用数据通路</strong></h4><ul>
-<li>定义：为特定操作设计独立的数据传输路径（如ALU与寄存器直连），避免共享总线</li>
-<li>特点：<ul>
-<li><strong>优点</strong>：无冲突、延迟低、性能高（适合高频操作如浮点运算）。</li>
-<li>缺点：硬件复杂、成本高、扩展性差</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="二、与CPU设计的关系"><a href="#二、与CPU设计的关系" class="headerlink" title="二、与CPU设计的关系"></a>二、与CPU设计的关系</h3><h4 id="1-单周期CPU"><a href="#1-单周期CPU" class="headerlink" title="1. 单周期CPU"></a>1. <strong>单周期CPU</strong></h4><ul>
-<li><strong>典型数据通路</strong>：多采用<strong>单总线结构</strong>。</li>
-<li>原因：单周期需在一个时钟周期完成所有操作，总线结构设计简单，但时钟周期因共享总线冲突而较长</li>
-<li>示例：lw指令需依次完成取指、译码、ALU计算、访存、写回，全程独占总线</li>
-</ul>
-<h4 id="2-多周期CPU"><a href="#2-多周期CPU" class="headerlink" title="2. 多周期CPU"></a>2. <strong>多周期CPU</strong></h4><ul>
-<li>常用数据通路：<ul>
-<li>总线结构：多采用多总线（如三总线），支持分阶段并行传输（如IF阶段取指时，EXE阶段可同时计算）</li>
-<li>专用数据通路：为关键操作（如ALU运算）设计专用路径，减少阶段间阻塞</li>
-</ul>
-</li>
-<li>优势：时钟周期短（由最慢阶段决定），资源利用率高</li>
-</ul>
-<hr>
-<h3 id="三、核心关系对比"><a href="#三、核心关系对比" class="headerlink" title="三、核心关系对比"></a><strong>三、核心关系对比</strong></h3><table>
-<thead>
-<tr>
-<th align="center"><strong>设计方式</strong></th>
-<th align="center"><strong>总线结构数据通路</strong></th>
-<th align="center"><strong>专用数据通路</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><strong>硬件复杂度</strong></td>
-<td align="center">低（共享线路）</td>
-<td align="center">高（独立线路）</td>
-</tr>
-<tr>
-<td align="center"><strong>执行效率</strong></td>
-<td align="center">较低（总线冲突）</td>
-<td align="center">高（无冲突，并行性强）</td>
-</tr>
-<tr>
-<td align="center"><strong>指令冲突</strong></td>
-<td align="center">严重（分时复用总线）</td>
-<td align="center">无（路径独立）</td>
-</tr>
-<tr>
-<td align="center"><strong>典型应用场景</strong></td>
-<td align="center">单周期CPU、简单多周期CPU</td>
-<td align="center">高性能多周期CPU、流水线CPU</td>
-</tr>
-<tr>
-<td align="center"><strong>与CPU类型关系</strong></td>
-<td align="center">单周期依赖单总线，多周期可选多总线</td>
-<td align="center">多周期&#x2F;流水线中优化关键路径</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>💡 <strong>关键总结</strong>：</p>
-<ul>
-<li><p>单周期CPU：因时间约束紧，多用单总线结构，但效率低</p>
-</li>
-<li><p>多周期CPU：灵活选择多总线或专用通路，平衡效率与复杂度</p>
-</li>
-<li><p>专用通路</p>
-<p>是总线结构的补充，用于突破性能瓶颈（如ALU密集操作）</p>
-</li>
-</ul>
-</blockquote>
-<hr>
-<h3 id="四、实例说明"><a href="#四、实例说明" class="headerlink" title="四、实例说明"></a><strong>四、实例说明</strong></h3><ol>
-<li><strong>单周期CPU + 单总线</strong><ul>
-<li>所有操作（取指、ALU、访存）串行占用同一条总线 → 时钟周期&#x3D;最长指令耗时</li>
-<li>控制信号：全局生成，无阶段切换（如PCout、MARin全程有效）</li>
-</ul>
-</li>
-<li><strong>多周期CPU + 三总线</strong><ul>
-<li>分阶段执行：IF阶段用总线1取指令，EXE阶段用总线2传ALU操作数</li>
-<li>控制信号：状态机分阶段生成（如MEM阶段激活MemRead)</li>
-</ul>
-</li>
-<li><strong>多周期CPU + 专用通路</strong><ul>
-<li>ALU输入端直连寄存器，避免总线竞争 → 加速加法运算</li>
-<li>硬件代价：需额外多路选择器和控制逻辑</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a><strong>结论</strong></h3><ul>
-<li><p><strong>总线结构</strong>（单&#x2F;多总线）是数据通路的基础设计，<strong>单周期CPU依赖它实现简单性</strong>，<strong>多周期CPU通过多总线提升效率</strong>。</p>
-</li>
-<li><p><strong>专用数据通路</strong>是高性能场景的优化手段，<strong>多用于多周期CPU的关键路径</strong>，以空间换时间。</p>
-</li>
-<li><p>关系本质：</p>
-<blockquote>
-<p>单周期CPU → 单总线为主 | 多周期CPU → 多总线&#x2F;专用通路混合 → 流水线CPU的基石</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="4-如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次"><a href="#4-如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次" class="headerlink" title="4.如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次"></a>4.如何理解在一条指令的执行过程中，单周期CPU的每个控制信号保持不变，每个部件只能使用一次。多周期CPU的控制信号可能发生改变，同一个部件可以使用多次</h2><h4 id="单周期CPU的控制信号与部件使用"><a href="#单周期CPU的控制信号与部件使用" class="headerlink" title="单周期CPU的控制信号与部件使用"></a><strong>单周期CPU的控制信号与部件使用</strong></h4><ul>
-<li><p><strong>控制信号保持不变</strong>：<br>单周期CPU在一个时钟周期内完成整条指令的所有操作（取指、译码、执行、访存、写回）。控制信号（如<code>RegWrite</code>、<code>MemRead</code>等）在周期开始时一次性生成，并在整个周期内保持恒定</p>
-<blockquote>
-<p>例如：执行<code>lw</code>指令时，控制信号<code>MemRead</code>和<code>RegWrite</code>从周期开始到结束始终有效。</p>
-</blockquote>
-</li>
-<li><p><strong>部件只能使用一次</strong>：<br>由于所有操作在一个周期内完成，每个功能部件（如ALU、存储器）只能被使用一次。例如：</p>
-<ul>
-<li>ALU在计算内存地址后便闲置，无法在同一指令中再次使用</li>
-<li>数据存储器仅在访存阶段被访问一次。</li>
-</ul>
-</li>
-</ul>
-<h4 id="2-多周期CPU的控制信号与部件使用"><a href="#2-多周期CPU的控制信号与部件使用" class="headerlink" title="2. 多周期CPU的控制信号与部件使用"></a><strong>2. 多周期CPU的控制信号与部件使用</strong></h4><ul>
-<li><p><strong>控制信号动态变化</strong>：<br>多周期CPU将指令分为多个阶段（如IF、ID、EXE、MEM、WB），每个阶段占一个时钟周期。控制信号由<strong>状态机</strong>分阶段生成，随执行阶段动态调整</p>
-<blockquote>
-<p>例如：<code>lw</code>指令在MEM阶段激活<code>MemRead</code>，在WB阶段激活<code>RegWrite</code>，而其他信号（如<code>ALUSrc</code>）可能在EXE阶段生效。</p>
-</blockquote>
-</li>
-<li><p><strong>部件可重复使用</strong>：<br>同一部件可在不同阶段被多次调用，典型例子包括：</p>
-<ul>
-<li>ALU复用：在EXE阶段计算地址，在MEM阶段可能用于分支判断（如beq指令）</li>
-<li>存储器分时复用：指令存储器（IF阶段）和数据存储器（MEM阶段）共享物理存储，但分时访问</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="核心差异对比"><a href="#核心差异对比" class="headerlink" title="核心差异对比"></a>核心差异对比</h3><table>
-<thead>
-<tr>
-<th align="center"><strong>特性</strong></th>
-<th align="center">单周期CPU</th>
-<th align="center">多周期CPU</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><strong>控制信号</strong></td>
-<td align="center">周期内恒定不变</td>
-<td align="center">分阶段动态变化（由状态机控制）</td>
-</tr>
-<tr>
-<td align="center"><strong>部件使用</strong></td>
-<td align="center">每个部件仅使用一次</td>
-<td align="center">同一部件可多次复用（如ALU、存储器）</td>
-</tr>
-<tr>
-<td align="center"><strong>设计依据</strong></td>
-<td align="center">信号全局生成，无阶段切换</td>
-<td align="center">状态机按阶段生成控制信号</td>
-</tr>
-<tr>
-<td align="center"><strong>硬件效率</strong></td>
-<td align="center">低（部件闲置率高）</td>
-<td align="center">高（资源分时复用）</td>
-</tr>
-</tbody></table>
-<hr>
-<h3 id="关键机制说明"><a href="#关键机制说明" class="headerlink" title="关键机制说明"></a>关键机制说明</h3><ol>
-<li><p><strong>单周期控制信号生成</strong>：<br>控制单元通过组合逻辑直接解析指令操作码（Opcode），一次性输出所有控制信号，无中间状态切换</p>
-</li>
-<li><p><strong>多周期控制信号生成</strong>：<br>依赖<strong>有限状态机（FSM）​</strong>​：</p>
-<ul>
-<li>每个状态对应一个执行阶段（如<code>S_IF</code>、<code>S_EXE</code>）。</li>
-<li>状态转移由当前指令类型和阶段触发，控制信号随状态改变</li>
-</ul>
-<blockquote>
-<p>例如：<code>add</code>指令在EXE阶段激活<code>ALUOp</code>，而<code>lw</code>指令在MEM阶段激活<code>MemRead</code>。</p>
-</blockquote>
-</li>
-</ol>
-<h3 id="实际影响与设计意义"><a href="#实际影响与设计意义" class="headerlink" title="实际影响与设计意义"></a>实际影响与设计意义</h3><ol>
-<li><strong>单周期局限性</strong>：<br>因控制信号固定且部件单次使用，时钟周期必须覆盖最长指令耗时（如<code>lw</code>），导致简单指令（如<code>add</code>）等待时间浪费</li>
-<li><strong>多周期灵活性</strong>：<br>通过动态控制信号和部件复用：<ul>
-<li>时钟周期缩短至最慢阶段耗时（通常为MEM访存）</li>
-<li>资源利用率提升（如ALU在空闲阶段可服务其他操作）</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这句话精准概括了两种CPU的核心差异：</p>
-<ul>
-<li><strong>单周期CPU</strong>：控制信号静态、部件一次性使用 → <strong>简单但低效</strong>。</li>
-<li>多周期CPU：控制信号动态、部件可复用 → 复杂但高效。这种差异正是多周期CPU能突破单周期性能瓶颈的关键</li>
-</ul>
-]]></content>
-      <categories>
-        <category>计算机组成原理</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-        <tag>考研</tag>
-        <tag>计算机组成原理</tag>
       </tags>
   </entry>
   <entry>
