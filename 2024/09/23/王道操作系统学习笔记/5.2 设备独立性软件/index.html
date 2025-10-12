@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>王道操作系统 5.2 设备独立性软件 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="5.2 设备独立性软件IO核心子系统   磁盘IO也属于IO调度问题 5.2.1 与设备无关的软件 与设备无关的软件是I&#x2F;O系统的最高层软件，它的下层是设备驱动程序。  设备保护： 操作系统需要实现文件保护功能，不同的用户对各个文件有不同的访问权限（如：只读、读和写等） 在UNIX系统中，设备被看做是一种特殊的文件，每个设备也会有对应的FCB。当用户请求访问某个设备时，系统根据FCB中记">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>王道操作系统 5.2 设备独立性软件 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="5.2 设备独立性软件设备独立性是指用户编程时使用的设备与实际使用的设备无关 IO核心子系统  核心子系统在开机时就调入了内存的内核区  磁盘IO也属于IO调度问题 5.2.1 与设备无关的软件 与设备无关的软件是I&#x2F;O系统的最高层软件，它的下层是设备驱动程序。  设备保护： 操作系统需要实现文件保护功能，不同的用户对各个文件有不同的访问权限（如：只读、读和写等） 在UNIX系统中，设备">
 <meta property="og:type" content="article">
 <meta property="og:title" content="王道操作系统 5.2 设备独立性软件">
 <meta property="og:url" content="https://darling-123456.github.io/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.2%20%E8%AE%BE%E5%A4%87%E7%8B%AC%E7%AB%8B%E6%80%A7%E8%BD%AF%E4%BB%B6/index.html">
 <meta property="og:site_name" content="Darlingの妙妙屋">
-<meta property="og:description" content="5.2 设备独立性软件IO核心子系统   磁盘IO也属于IO调度问题 5.2.1 与设备无关的软件 与设备无关的软件是I&#x2F;O系统的最高层软件，它的下层是设备驱动程序。  设备保护： 操作系统需要实现文件保护功能，不同的用户对各个文件有不同的访问权限（如：只读、读和写等） 在UNIX系统中，设备被看做是一种特殊的文件，每个设备也会有对应的FCB。当用户请求访问某个设备时，系统根据FCB中记">
+<meta property="og:description" content="5.2 设备独立性软件设备独立性是指用户编程时使用的设备与实际使用的设备无关 IO核心子系统  核心子系统在开机时就调入了内存的内核区  磁盘IO也属于IO调度问题 5.2.1 与设备无关的软件 与设备无关的软件是I&#x2F;O系统的最高层软件，它的下层是设备驱动程序。  设备保护： 操作系统需要实现文件保护功能，不同的用户对各个文件有不同的访问权限（如：只读、读和写等） 在UNIX系统中，设备">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://darling-123456.github.io/img/96.jpg">
 <meta property="article:published_time" content="2024-09-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-26T12:30:58.485Z">
+<meta property="article:modified_time" content="2025-10-11T15:30:53.430Z">
 <meta property="article:author" content="Darling">
 <meta property="article:tag" content="操作系统">
 <meta property="article:tag" content="考研">
@@ -19,7 +19,7 @@
   "url": "https://darling-123456.github.io/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.2%20%E8%AE%BE%E5%A4%87%E7%8B%AC%E7%AB%8B%E6%80%A7%E8%BD%AF%E4%BB%B6/",
   "image": "https://darling-123456.github.io/img/96.jpg",
   "datePublished": "2024-09-22T16:00:00.000Z",
-  "dateModified": "2025-03-26T12:30:58.485Z",
+  "dateModified": "2025-10-11T15:30:53.430Z",
   "author": [
     {
       "@type": "Person",
@@ -181,8 +181,10 @@
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">372</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/96.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">王道操作系统 5.2 设备独立性软件</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">王道操作系统 5.2 设备独立性软件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-22T16:00:00.000Z" title="发表于 2024-09-23 00:00:00">2024-09-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-26T12:30:58.485Z" title="更新于 2025-03-26 20:30:58">2025-03-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">5.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h3 id="5-2-设备独立性软件"><a href="#5-2-设备独立性软件" class="headerlink" title="5.2 设备独立性软件"></a>5.2 设备独立性软件</h3><p><code>IO核心子系统</code></p>
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">374</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/96.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">王道操作系统 5.2 设备独立性软件</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">王道操作系统 5.2 设备独立性软件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-22T16:00:00.000Z" title="发表于 2024-09-23 00:00:00">2024-09-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-11T15:30:53.430Z" title="更新于 2025-10-11 23:30:53">2025-10-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h3 id="5-2-设备独立性软件"><a href="#5-2-设备独立性软件" class="headerlink" title="5.2 设备独立性软件"></a>5.2 设备独立性软件</h3><p>设备独立性是指用户编程时使用的设备与实际使用的设备无关</p>
+<p><code>IO核心子系统</code></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/61bda631acda4b7b80db5073b37b1431.png" alt="img"></p>
+<p>核心子系统在开机时就调入了内存的内核区</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240920104214188.png" alt="image-20240920104214188"></p>
 <p><strong>磁盘IO也属于IO调度问题</strong></p>
 <h4 id="5-2-1-与设备无关的软件"><a href="#5-2-1-与设备无关的软件" class="headerlink" title="5.2.1 与设备无关的软件"></a>5.2.1 与设备无关的软件</h4><p> 与设备无关的软件是I&#x2F;O系统的最高层软件，它的下层是设备驱动程序。</p>
@@ -193,7 +195,10 @@
 </ul>
 </li>
 </ul>
-<h4 id="5-2-2-高速缓存与缓冲区"><a href="#5-2-2-高速缓存与缓冲区" class="headerlink" title="5.2.2 高速缓存与缓冲区"></a>5.2.2 高速缓存与缓冲区</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3647b19e69014f5398464e5a1b4f91d3.png" alt="img"></p>
+<h4 id="5-2-2-高速缓存与缓冲区"><a href="#5-2-2-高速缓存与缓冲区" class="headerlink" title="5.2.2 高速缓存与缓冲区"></a>5.2.2 高速缓存与缓冲区</h4><p>引入高速缓冲的主要目的是改善CPU与设备速度不匹配的问题</p>
+<p>缓冲区一般都开在内存</p>
+<p>缓冲区是一个存储区域，可以由专门的硬件寄存器组成，也可以利用内存实现</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3647b19e69014f5398464e5a1b4f91d3.png" alt="img"></p>
 <ol>
 <li><p>磁盘高速缓存（Disk Cache）</p>
 <p>操作系统中使用磁盘高速缓存技术来提高磁盘的I&#x2F;O速度，对访问高速缓存要比访问原始磁盘数据更为高效。</p>
@@ -205,130 +210,95 @@
 </ul>
 </li>
 </ul>
+<p><strong>在内存中设置磁盘缓冲区的主要目的是减少磁盘IO次数</strong></p>
 </li>
 <li><p>缓冲区（Buffer）</p>
 <ul>
 <li><p>概念：缓冲区是一个存储区域，可以由专门的硬件寄存器组成，也可利用内存作为缓冲区。</p>
-<ul>
-<li>硬件做缓冲区：使用硬件作为缓冲区的成本较高，容量也较小，一般仅用在对速度要求非常高的场合（如存储器管理中所用的联想寄存器，由于对页表的访问频率极高，因此使用速度很快的联想寄存器来存放页表项的副本）</li>
-<li>内存做缓冲区：一般情况下，更多的是利用内存作为缓冲区，“设备独立性软件”的缓冲区管理就是要组织管理好这些缓冲区</li>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011100802095.png" alt="image-20251011100802095"></p>
+</li>
 </ul>
 </li>
-<li><p>作用</p>
+</ol>
+<p>  <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011101145346.png" alt="image-20251011101145346"></p>
 <ul>
-<li>缓和CPU与I&#x2F;O设备之间速度不匹配的矛盾</li>
-<li>减少对CPU的中断频率，放宽对CPU中断相应时间的限制</li>
-<li>解决数据粒度不匹配的问题</li>
-<li>提高CPU与I&#x2F;O设备之间的并行性</li>
-<li><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240920111032379.png" alt="image-20240920111032379"></li>
-</ul>
-</li>
 <li><p><strong>单缓冲</strong></p>
-<p>若采用单缓冲的策略，操作系统会在主存中为其分配一个缓冲区（若题目中没有特别说明，一个缓冲区的大小就是一个块）。</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230921143949738.png" alt="image-20230921143949738"></p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230921141924797.png" alt="image-20230921141924797"></p>
-<blockquote>
-<p>注意：当缓冲区数据非空时，不能往缓冲区冲入数据，只能从缓冲区把数据传出；当缓冲区为空时，可以往缓冲区冲入数据，但必须把缓冲区充满以后，才能从缓冲区把数据传出。</p>
-</blockquote>
+<p>   <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011101336430.png" alt="image-20251011101336430"></p>
+<p>   <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230921143949738.png" alt="image-20230921143949738"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011101528253.png" alt="image-20251011101528253"></p>
 <p>这句话的意思应该是读缓冲区和写缓冲区都是加了PV的，是互斥的，写要一口气写满，读要一口气读完</p>
-<p>设块设备输入缓冲区时间为T，缓冲区传送至工作区时间为M，CPU处理工作区时间为C：</p>
-<ul>
-<li>若T&gt;C，从初始状态到下一个开始状态，整个过程用时为M+T</li>
-<li>若T&lt;C，从初始状态到下一个开始状态，整个过程用时为M+C</li>
-</ul>
 <p>结论：故单缓冲区处理每块数据的用时为$max(C,T)+M$。</p>
 <p>若两个相互通信的机器只设置单缓冲区，在任一时刻只能实现数据的单向传输。</p>
 </li>
 <li><p><strong>双缓冲</strong></p>
 <p>若采用双缓冲的策略，操作系统会在主存中为其分配两个缓冲区。</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230921143131283.png" alt="image-20230921143131283"></p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/374fb2a81a38402eaa89eeb08a9ea279.png" alt="img"></p>
-<p>双缓冲题目中，假设初始状态为；工作区空，其中一个缓冲区满，另一个缓冲区空</p>
-<ul>
-<li>若T&gt;C+M，则处理一块数据的平均用时为T</li>
-<li>若T&lt;C+M，意味着输入数据块速度要比处理机处理数据块速度更快，处理一个数据块的平均耗时为C+M</li>
-</ul>
-<p>结论：采用双缓冲策略，处理一个数据块的平均耗时为$Max(T,C+M)$</p>
-<p><code>使用单双缓冲区在通信时的区别</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011101833379.png" alt="image-20251011101833379"></p>
+<p>   结论：采用双缓冲策略，处理一个数据块的平均耗时为$Max(T,C+M)$</p>
+<p>   <code>使用单双缓冲区在通信时的区别</code></p>
+<p>   <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011101941264.png" alt="image-20251011101941264"></p>
+<p>   <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011101958853.png" alt="image-20251011101958853"></p>
 <blockquote>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230921144605057.png" alt="image-20230921144605057"></p>
 <p>若两个相互通信的机器只设置单缓冲区，在任一时刻只能实现数据的单向传输。</p>
 <p>若两个相互通信的机器设置双缓冲区，则同一时刻可以实现双向的数据传输。</p>
 </blockquote>
-</li>
+<ul>
 <li><p><strong>循环缓冲</strong></p>
-<p>将多个大小相等的缓冲区链接成一个循环队列。</p>
-<p>注：上图中，橙色表示已充满数据的缓冲区，绿色表示空缓冲区。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011102041810.png" alt="image-20251011102041810"></p>
 </li>
 <li><p><strong>缓冲池</strong>（这个还是看看视频的动画吧，不然太难记了）</p>
+</li>
+</ul>
 <p> 缓冲池由系统中共用的缓冲区组成。</p>
-<p>这些缓冲区按使用状况可以分为：</p>
-<ul>
-<li>空缓冲队列</li>
-<li>装满输入数据的缓冲队列（输入队列）</li>
-<li>装满输出数据的缓冲队列（输出队列）</li>
-</ul>
-<p>根据一个缓冲区在实际运算中扮演的功能不同，又设置了<strong>四种工作缓冲区</strong>：</p>
-<ul>
-<li>用于收容输入数据的工作缓冲区（hin）</li>
-<li>用于提取输入数据的工作缓冲区（sin）</li>
-<li>用于收容输出教据的工作绥冲区（hout）</li>
-<li>用于提取输出数据的工作缓冲区（sout）</li>
-</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011102215764.png" alt="image-20251011102215764"></p>
 <p><strong>工作过程：</strong></p>
 <ul>
 <li><p><strong>① 输入进程请求输入数据</strong></p>
 <p>从空缓冲队列中取出一块作为收容输入数据的工作缓冲区（hin）。冲满数据后将缓冲区挂到输入队列队尾</p>
 </li>
+</ul>
+<p>  <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011102419888.png" alt="image-20251011102419888"></p>
+<ul>
 <li><p><strong>② 计算进程想要取得一块输入数据</strong></p>
 <p>从输入队列中取得一块冲满输入数据的缓冲区作为“提取输入数据的工作缓冲区（sin）”。缓冲区读空后挂到空缓冲区队列</p>
 </li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011102340414.png" alt="image-20251011102340414"></p>
+</li>
 <li><p><strong>③ 计算进程想要将准备好的数据冲入缓冲区</strong></p>
 <p>从空缓冲队列中取出一块作为“收容输出数据的工作缓冲区（hout）”，数据冲满后将缓冲区挂到输出队列队尾</p>
-</li>
-<li><p><strong>④ 输出进程请求输出数据</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011102326534.png" alt="image-20251011102326534"></p>
+<ul>
+<li><strong>④ 输出进程请求输出数据</strong></li>
+</ul>
 <p>从输出队列中取得一块冲满输出数据的缓冲区作为“提取输出数据的工作缓冲区（sout）”。缓冲区读空后挂到空缓冲区队列</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011102359049.png" alt="image-20251011102359049"></p>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-</ol>
 <p><strong>书上有关于高速缓存和缓冲池的对比，可以看看</strong></p>
 <h4 id="5-2-3-设备的分配与回收"><a href="#5-2-3-设备的分配与回收" class="headerlink" title="5.2.3 设备的分配与回收"></a>5.2.3 设备的分配与回收</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ccb2dda496b448d6b9a9e4cbf3039177.png" alt="img"></p>
 <p><code>设备分配时应考虑的因素</code></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/47f1c21ee3514b86b040b559cdce0233.png" alt="img"></p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240920123151211.png" alt="image-20240920123151211"></p>
 <p>设备分配常用的算法：1、先来先服务算法 2、最高优先级算法</p>
 <ol>
 <li><p>设备分配概述</p>
-<p> 设备分配是指根据用户的I&#x2F;O请求分配所需的设备。分配的总原则是充分发挥设备的使用效率，尽可能地让设备忙碌，又要避免由于不合理的分配方法造成进程死锁。</p>
-<p> 从设备特性来看，分为以下三种设备：</p>
-<ul>
-<li><strong>独占式使用设备</strong>。进程分配到独占设备后，便由其独占，直至该进程释放该设备。</li>
-<li><strong>分时式共享使用设备</strong>。对于共享设备，可同时分配给多个进程，通过分时共享使用。</li>
-<li><strong>以SPOOLing方式使用外部设备</strong>。SPOOLing技术实现了虚拟设备功能，可以将设备同时分配给多个进程。这种技术实质上就是实现了对设备的I&#x2F;O操作的批处理。</li>
-</ul>
+<p>设备分配是指根据用户的I&#x2F;O请求分配所需的设备。分配的总原则是充分发挥设备的使用效率，尽可能地让设备忙碌，又要避免由于不合理的分配方法造成进程死锁。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240920123151211.png" alt="image-20240920123151211"></p>
 </li>
 <li><p>设备分配的数据结构</p>
-<p> 设备分配依据的主要数据结构有<strong>设备控制表(DCT)</strong>、<strong>控制器控制表(COCT)</strong>、<strong>通道控制表 (CHCT)<strong>和</strong>系统设备表(SDT)</strong>，各数据结构功能如下。</p>
-<ul>
-<li><p>设备控制表（DCT）：系统为每个设备配置一张DCT，用于记录设备情况</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/fb43234ad6b5478cbf540f702a37e47d.png" alt="img"></p>
-<p>系统会根据阻塞原因的不同，将进程PCB挂到不同的阻塞队列中</p>
-</li>
-<li><p>控制器控制表（COCT）：每个设备控制器都会对应一张COCT。操作系统根据COCT的信息对控制器进行操作和管理。</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/64f4658c87124ea19337605b42c1c38a.png" alt="img"></p>
-</li>
-<li><p>通道控制表（CHCT）：每个通道都会对应一张CHCT。操作系统根据CHCT的信息对通道进行操作和管理。</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ad62c94a73a747e4aebecc5bbe7bcf42.png" alt="img"></p>
-</li>
-<li><p>系统设备表（SDT）：记录了系统中全部设备的情况，每个设备对应一个表目。</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230921152258475.png" alt="image-20230921152258475"></p>
-</li>
-</ul>
 <p><code>设备、控制器、通道之间的关系</code></p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240920123838479.png" alt="image-20240920123838479"></p>
+<p>设备分配依据的主要数据结构有<strong>设备控制表(DCT)</strong>、<strong>控制器控制表(COCT)</strong>、<strong>通道控制表 (CHCT)<strong>和</strong>系统设备表(SDT)</strong>，各数据结构功能如下。</p>
+<ul>
+<li><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/fb43234ad6b5478cbf540f702a37e47d.png" alt="img"></p>
+</li>
+<li><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/64f4658c87124ea19337605b42c1c38a.png" alt="img"></p>
+</li>
+<li><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/ad62c94a73a747e4aebecc5bbe7bcf42.png" alt="img"></p>
+</li>
+<li><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011100045249.png" alt="image-20251011100045249"></p>
+</li>
+</ul>
 </li>
 <li><p>设备分配的策略</p>
 <ul>
@@ -336,6 +306,8 @@
 </li>
 <li><p><strong>设备分配方式</strong>。设备分配方式有静态分配和动态分配两种。</p>
 <ul>
+<li><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011095716471.png" alt="image-20251011095716471"></p>
+</li>
 <li><p>①静态分配：进程运行前为其分配全部所需资源，运行结束后归还资源。主要用于对独占设备的分配，它在用户作业开始执行前，由系统一次性分配该作业所要求的全部设备、控制器。</p>
 <p>静态分配方式不会出现死锁，但设备的使用效率低。</p>
 </li>
@@ -370,22 +342,10 @@
 <li><p>设备分配的步骤</p>
 <ul>
 <li><p>步骤</p>
-<ul>
-<li>① 根据进程请求的物理设备名查找SDT（注：物理设备名是进程请求分配设备时提供的参数），用设备标识符（物理设备名）和进程提供的物理设备名进行比较</li>
-<li>② 根据SDT找到DCT，若设备忙碌则将进程PCB挂到设备等待队列中，不忙碌则将设备分配给进程，查看状态是否空闲。</li>
-<li>③ 根据DCT里面存的指针找到COCT，若控制器忙碌则将进程PCB挂到控制器等待队列中，不忙碌则将控制器分配给进程。</li>
-<li>④ 根据COCT里面存的指针找到CHCT，若通道忙碌则将进程PCB挂到通道等待队列中，不忙碌则将通道分配给进程。</li>
-</ul>
-<blockquote>
-<p>注：只有设备、控制器、通道三者都分配成功时，这次设备分配才算成功，之后便可启动I&#x2F;O设备进行数据传送</p>
-</blockquote>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011100248517.png" alt="image-20251011100248517"></p>
 </li>
 <li><p>缺点</p>
-<ul>
-<li>①用户编程时必须使用“物理设备名”，底层细节对用户不透明，不方便编程</li>
-<li>②若换了一个物理设备，则程序无法运行</li>
-<li>③若进程请求的物理设备正在忙碌，则即使系统中还有同类型的设备，进程也必须阻塞等待</li>
-</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011100335164.png" alt="image-20251011100335164"></p>
 </li>
 </ul>
 </li>
@@ -393,23 +353,10 @@
 <p>改进方法：建立逻辑设备名与物理设备名的映射机制，用户编程时只需提供逻辑设备名。</p>
 <p>这是为了实现<code>设备的独立性</code>：用户在编程时使用的设备与实际设备无关。</p>
 <ul>
-<li><p><strong>逻辑设备表（LUT）</strong></p>
-<p>逻辑设备表（LUT）建立了逻辑设备名与物理设备名之间的映射关系。</p>
-<p>某用户进程第一次使用设备时使用逻辑设备名向操作系统发出请求，操作系统根据用户进程指定的设备类型（逻辑设备名）查找系统设备表，找到一个空闲设备分配给进程，并在LUT中增加相应表项。</p>
-<p>如果之后用户进程再次通过相同的逻辑设备名请求使用设备，则操作系统通过LUT表即可知道用户进程实际要使用的是哪个物理设备了，并且也能知道该设备的驱动程序入口地址。</p>
-<ul>
-<li><strong>整个系统只有一张LUT</strong>：各用户所用的逻辑设备名不允许重复，适用于单用户操作系统</li>
-<li><strong>每个用户一张LUT</strong>：不同用户的逻辑设备名可重复，适用于多用户操作系统</li>
-</ul>
-</li>
 <li><p>步骤</p>
-<ul>
-<li>① 根据进程请求的逻辑设备名查找SDT（注：用户编程时提供的逻辑设备名其实就是“<strong>设备类型</strong>”）</li>
-<li>② 查找SDT，找到用户进程指定类型的、并且空闲的设备，将其分配给该进程。操作系统在逻辑设备表（LUT）中新增一个表项。</li>
-<li>③ 根据DCT找到COCT，若控制器忙碌则将进程PCB挂到控制器等待队列中，不忙碌则将控制器分配给进程。</li>
-<li>④ 根据COCT找到CHCT，若通道忙碌则将进程PCB挂到通道等待队列中，不忙碌则将通道分配给进程</li>
-</ul>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20240920125039856.png" alt="image-20240920125039856"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011100438295.png" alt="image-20251011100438295"></p>
+<p><strong>逻辑设备表（LUT）</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011100541839.png" alt="image-20251011100541839"></p>
 </li>
 </ul>
 </li>
@@ -417,10 +364,15 @@
 <h4 id="5-2-4-SPOOLing技术（假脱机技术）"><a href="#5-2-4-SPOOLing技术（假脱机技术）" class="headerlink" title="5.2.4 SPOOLing技术（假脱机技术）"></a>5.2.4 SPOOLing技术（假脱机技术）</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/3f532b0dac754bd8a37aa79c91b04798.png" alt="img"></p>
 <ol>
 <li><p>概念</p>
+<p>SPOOLing系统主要包含三部分，即输入井输出井、输出缓冲区输出缓冲区、输入进程和输出进程。这三部分由预输入程序、井管理程序、缓输出程序管理</p>
+<p>在SPOOLing技术中，用户进程实际分配到的是外存区，即虚拟设备</p>
+<p>SPOOLing不会让进程阻塞，因为进程只需要往输出井里面输出数据就行，而设备（比如打印机），也不用空闲等待进程的输出，只需要从输出井里面拿数据然后输出，然后再拿下一个数据即可，这样就提高了设备的效率。</p>
+<p>输出进程可以根据输出井中的数据流和优先级安排打印顺序，从而平衡各个进程的等待时间和响应时间，这样就提高了系统的性能。</p>
+<p>输出进程可以减少对打印机的切换次数，从而减少系统开销，进而提高打印机的利用率</p>
+<p>SPOOLing技术是空间换时间的技术</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011094437578.png" alt="image-20251011094437185"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011094539088.png" alt="image-20251011094539088"></p>
 <ul>
-<li><p><strong>脱机技术</strong>：脱离主机的控制进行的输入&#x2F;输出操作。</p>
-<p>批处理阶段引入了脱机输入&#x2F;输出技术（用磁带完成），在外围控制机的控制下，慢速输入设备的数据先被输入到更快速的磁带上。之后主机可以从快速的磁带上读入数据，从而缓解了速度矛盾。</p>
-</li>
 <li><p><strong>SPOOLing技术</strong>：“假脱机技术”，又称“SPOOLing技术”，用软件的方式模拟脱机技术。</p>
 <p>要实现SPOOLing技术，必须要有多道程序技术的支持。系统会建立“输入进程”和“输出进程”</p>
 </li>
@@ -428,22 +380,19 @@
 </li>
 <li><p>原理</p>
 <ul>
-<li>输入井和输出井<ul>
+<li><p>输入井和输出井</p>
+<ul>
 <li>在磁盘上开辟出两个存储区域一一“输入井”和“输出井”</li>
 <li>”输入井”模拟脱机输入时的磁带，用于收容I&#x2F;O设备输入的数据</li>
 <li>“输出井”模拟脱机输出时的磁带，用于收容用户进程输出的数据</li>
 </ul>
 </li>
-<li>输入进程和输出进程<ul>
-<li>“输入进程”模拟脱机输入时的外围控制机</li>
-<li>“输出进程”模拟脱机输出时的外围控制机</li>
-</ul>
+<li><p>输入进程和输出进程</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011094740640.png" alt="image-20251011094740640"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011094806633.png" alt="image-20251011094806633"></p>
 </li>
-<li>输入缓冲区和输出缓冲区<ul>
-<li>在输入进程的控制下，“输入缓冲区”用于暂存从输入设备输入的数据，之后再转存到输入井中</li>
-<li>在输出进程的控制下，“输出缓冲区”用于暂存从输出井送来的数据，之后再传送到输出设备上</li>
-<li>注意，输入缓冲区和输出缓冲区是在内存中的缓冲区</li>
-</ul>
+<li><p>输入缓冲区和输出缓冲区</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011094830569.png" alt="image-20251011094830569"></p>
 </li>
 </ul>
 </li>
@@ -458,25 +407,20 @@
 </ul>
 </li>
 <li><p>共享打印机的原理分析</p>
-<p>SPOOLing技术可以把一台物理设备虚拟成逻辑上的多台设备，可将独占式设备改造成共享设备。</p>
-<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230921163421824.png" alt="image-20230921163421824"></p>
-<ul>
-<li>当多个用户进程提出输出打印的请求时，系统会答应它们的请求，但是并不是真正把打印机分配给他们，而是由假脱机管理进程为每个进程做两件事：<ul>
-<li>1）在磁盘输出井中为进程申请一个空闲缓冲区（也就是说，这个缓冲区是在磁盘上的），并将要打印的数据送入其中</li>
-<li>2）为用户进程申请一张空白的打印请求表，并将用户的打印请求填入表中（其实就是用来说明用户的打印数据存放位置等信息的），再将该表挂到假脱机文件队列上。</li>
-</ul>
-</li>
-</ul>
-<p>当打印机空闲时，输出进程会从文件队列的队头取出一张打印请求表，并根据表中的要求将要打印的数据从输出井传送到输出缓冲区，再输出到打印机进行打印。用这种方式可依次处理完全部的打印任务。</p>
+<p><strong>SPOOLing技术可以把一台物理设备虚拟成逻辑上的多台设备，可将独占式设备改造成共享设备。</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011094930920.png" alt="image-20251011094930920"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011095041945.png" alt="image-20251011095041945"></p>
 <blockquote>
 <p>虽然系统中只有一个台打印机，但每个进程提出打印请求时，系统都会为在输出井中为其分配一个存储区（相当于分配了一个逻辑设备），使每个用户进程都觉得自己在独占一台打印机，从而实现对打印机的共享。</p>
 </blockquote>
 </li>
 </ol>
-<h4 id="5-2-5-设备驱动程序接口"><a href="#5-2-5-设备驱动程序接口" class="headerlink" title="5.2.5 设备驱动程序接口"></a>5.2.5 设备驱动程序接口</h4><p> 要求每个设备驱动程序与操作系统之间都有着相同或相近的接口。这样会使得添加一个新设备驱动程序变得很容易，同时也便于开发人员编制设备驱动程序。</p>
-<p> 对于每种设备类型，例如磁盘，操作系统都要定义一组驱动程序必须支持的函数。</p>
-<p> 与设备无关的软件还要负责将符号化的设备名映射到适当的驱动程序上。</p>
-<p> 在UNIX和Windows中，设备是作为命名对象出现在文件系统中的，因此针对文件的常规保护规则也适用于I&#x2F;O设备。系统管理员可以为每个设备设置适当的访问权限。</p>
+<h4 id="5-2-5-IO操作举例"><a href="#5-2-5-IO操作举例" class="headerlink" title="5.2.5 IO操作举例"></a>5.2.5 IO操作举例</h4><p>用户要求使用打印机打印文件的时候，是由操作系统的文件系统和设备管理程序实现的。</p>
+<p>通过文件系统访问磁盘上的数据，然后通过设备管理程序来控制打印机的输出。打印机启动程序只能初始化打印机，不能直接访问磁盘上的数据</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011104835882.png" alt="image-20251011104835882"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011104852681.png" alt="image-20251011104852681"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011104907531.png" alt="image-20251011104907531"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251011104923074.png" alt="image-20251011104923074"></p>
 <h4 id="5-2-6-本节小结"><a href="#5-2-6-本节小结" class="headerlink" title="5.2.6 本节小结"></a>5.2.6 本节小结</h4><p>1）当处理机和外部设备的速度差距较大时，有什么办法可以解决问题？</p>
 <pre><code>    可采用缓冲技术来缓解CPU与外设速度上的矛盾，即在某个地方（一般为主存）设立一片缓冲区，外设与CPU的输入/输出都经过缓冲区，这样外设和CPU就都不用互相等待。
 </code></pre>
@@ -515,7 +459,47 @@
 <p>​			2.设备的访问权限</p>
 <p>​			3.设备的占用状态</p>
 <p>​			4.逻辑设备与物理设备的映射关系</p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.2%20%E8%AE%BE%E5%A4%87%E7%8B%AC%E7%AB%8B%E6%80%A7%E8%BD%AF%E4%BB%B6/">https://darling-123456.github.io/2024/09/23/王道操作系统学习笔记/5.2 设备独立性软件/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a></div><div class="post-share"><div class="social-share" data-image="/img/96.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.3%20%E7%A3%81%E7%9B%98%E5%92%8C%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98/" title="王道操作系统 5.3 磁盘和固态硬盘"><img class="cover" src="/img/95.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">王道操作系统 5.3 磁盘和固态硬盘</div></div><div class="info-2"><div class="info-item-1">5.3 磁盘和固态硬盘5.3.1...</div></div></div></a><a class="pagination-related" href="/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.1%20IO%E7%AE%A1%E7%90%86%E6%A6%82%E8%BF%B0/" title="王道操作系统 5.1 I/O管理概述"><img class="cover" src="/img/97.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">王道操作系统 5.1 I/O管理概述</div></div><div class="info-2"><div class="info-item-1">5.1 I&#x2F;O管理概述 5.1.1 I&#x2F;O设备注：块设备可以寻址，但是字符设备是不可寻址的  I&#x2F;O设备是将数据输入到计算机中，或者可以接收计算机输出数据的外部设备，属于计算机中的硬件部件；  设备的分类 按使用特性分类： 人机交互类外部设备：鼠标、键盘、打印机等，用于人机交互。数据传输速度慢。 存储设备：移动硬盘、光盘等，用于数据存储。数据传输速度快。 网络通信设备：调制解调器等，用于网络通信。数据传输速度介于上述二者之间。   按信息交换的单位分类： 块设备。信息交换以数据块为单位。它属于有结构设备，如磁盘等。磁盘设备的基本特征是传输速率较高、可寻址，即对它可随机地读&#x2F;写任意一块。 字符设备。信息交换以字符为单位。它属于无结构类型，如交互式终端机、打印机等。   按传输速率分类： 低速设备。传输速率仅为每秒几字节到数百字节的一类设备，如键盘、鼠标等。 中速设备。传输速率为每秒数千字节至数万字节的一类设备，如激光打印机等。 高速设备。传输速率在数百千字节至千兆字节的一类设备，如磁盘机、光盘机等。     I&#x2F;O接口   ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/09/10/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="王道操作系统 1.计算机系统概述"><img class="cover" src="/img/104.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-10</div><div class="info-item-2">王道操作系统 1.计算机系统概述</div></div><div class="info-2"><div class="info-item-1">1 计算机系统概述1.1...</div></div></div></a><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.1%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%A6%82%E5%BF%B5/" title="王道操作系统 3.1 内存管理概念"><img class="cover" src="/img/102.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-17</div><div class="info-item-2">王道操作系统 3.1 内存管理概念</div></div><div class="info-2"><div class="info-item-1">3 内存管理3.1 内存管理概念3.1.1 内存管理的基本原理和要求  内存可以存放数据，程序执行前需要先放到内存中才能被CPU处理—缓和cpu和磁盘之间的速度矛盾  内存管理的概念 虽然计算机技术飞速发展，内存容量也在不断扩大，但仍然不可能将所有用户进程和系统所需的全部程序与数据放入内存，因此操作系统对内存空间进行合理的划分和有效的动态分配。操作系统对内存的划分和动态分配，就是内存管理的概念。 内存空间的主要功能有：  ① 内存空间的分配与回收：OS 要怎么记录哪些内存区域已经被分配出去了，哪些又还空闲；当进程运行结束之后，如何将进程占用的内存空间回收。 ② 内存空间的扩充：OS 利用虚拟内存技术或自动覆盖技术使得系统运行很大的程序，从逻辑上扩充内存。 ③ 地址转换：为了使编程更方便，程序员写程序时应该只需要关注指令、数据的逻辑地址。而 逻辑地址到物理地址的转换（这个过程称为地址重定位）应该由操作系统负责，其中地址重定位有三种方式。  ④...</div></div></div></a><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.2%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="王道操作系统 3.2 虚拟内存管理"><img class="cover" src="/img/101.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-17</div><div class="info-item-2">王道操作系统 3.2 虚拟内存管理</div></div><div class="info-2"><div class="info-item-1">3.2 虚拟内存管理3.2.1 虚拟内存的基本概念   传统存储管理方式的特征  传统存储管理方式     局部性原理 快表、页高速缓存及虚拟内存技术都属于高速缓存技术，这个技术所依赖的原理就是局部性原理。   虚拟存储器的定义和特征   虚拟内存技术的实现  虚拟内存的实现需要建立在离散分配的内存管理方式的基础上。  所需要的硬件支持  一定容量的内存和外存。       页表机制（或段表机制），作为主要的数据结构。 中断机构，当用户程序要访问的部分尚未调入内存时，则产生中断。   地址变换机构，逻辑地址到物理地址的变换。  3.2.2 请求分页管理方式  请求分页系统建立在基本分页系统基础之上，为了支持虚拟存储器功能而增加了请求调页功能和页面置换功能。请求分页是目前最常用的一种实现虚拟存储器的方法。  页表机制 请求分页系统在一个作业运行之前不要求全部一次性调入内存，因此在作业的运行过程中，必然会出现要访问的页面不在内存中的情况。因此在请求页表项中增加了...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.2%20%E7%9B%AE%E5%BD%95/" title="王道操作系统 4.2 目录"><img class="cover" src="/img/99.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.2 目录</div></div><div class="info-2"><div class="info-item-1">4.2 目录 4.2.1 目录的基本概念 **文件目录指FCB的有序集合，一个FCB就是一个文件的目录项。**与文件管理系统和文件集合相关联的是文件目录，它包含有关文件的属性、位置和所有权等。  目录管理的基本要求： 从用户的角度看，目录在用户（应用程序）所需要的文件名和文件之间提供一种映射，所以目录管理要实现“按名存取”； 目录存取的效率直接影响到系统的性能，所以要提高对目录的检索速度； 在多用户系统中，应允许多个用户共享一个文件，因此目录还需要提供用于控制访问文件的信息。 此外，应允许不同用户对不同文件采用相同的名字，以便于用户按自己的习惯给文件命名，目录管理通过树形结构来解决和实现。      4.2.2 目录结构 FCB和索引节点在...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.3%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="王道操作系统 4.3 文件系统"><img class="cover" src="/img/98.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.3 文件系统</div></div><div class="info-2"><div class="info-item-1">4.3 文件系统 4.3.1 文件系统结构 文件系统(File system)提供高效和便捷的磁盘访问，以便允许存储、定位、提取数据。   4.3.2...</div></div></div></a><a class="pagination-related" href="/2024/09/14/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2%20%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="王道操作系统 2.进程与线程"><img class="cover" src="/img/103.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-14</div><div class="info-item-2">王道操作系统 2.进程与线程</div></div><div class="info-2"><div class="info-item-1">2 进程与线程2.1 进程与线程2.1.1 进程的概念和特征   进程的概念 进程是进程实体的运行过程，是系统进行资源分配和调度的一个独立单位。  进程实现操作系统的并发性和共享性。  程序：是静态的，就是个存放在磁盘里的可执行文件，如：QQ.exe。 进程：是动态的，是程序的一次执行过程，或者是一个正在运行的程序，如：可同时启动多次QQ程序。 进程实体：即进程映像，是静态的，可理解为进程的一次时刻的状态。 作业：用户向计算机提交的一项任务，是静态的，它通常是一个批处理程序或一个后台程序。   进程实体的组成    程序控制块PCB PCB是进程存在的唯一标志，当进程被创建时，操作系统为其创建PCB，当进程结束时，会回收其PCB。  进程描述信息 进程标识符PID：当进程被创建时，操作系统会为该进程分配一个唯一的、不重复的“身份证号”–PID（Process...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">372</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E8%AE%BE%E5%A4%87%E7%8B%AC%E7%AB%8B%E6%80%A7%E8%BD%AF%E4%BB%B6"><span class="toc-text">5.2 设备独立性软件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-1-%E4%B8%8E%E8%AE%BE%E5%A4%87%E6%97%A0%E5%85%B3%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="toc-text">5.2.1 与设备无关的软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-2-%E9%AB%98%E9%80%9F%E7%BC%93%E5%AD%98%E4%B8%8E%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-text">5.2.2 高速缓存与缓冲区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-3-%E8%AE%BE%E5%A4%87%E7%9A%84%E5%88%86%E9%85%8D%E4%B8%8E%E5%9B%9E%E6%94%B6"><span class="toc-text">5.2.3 设备的分配与回收</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-4-SPOOLing%E6%8A%80%E6%9C%AF%EF%BC%88%E5%81%87%E8%84%B1%E6%9C%BA%E6%8A%80%E6%9C%AF%EF%BC%89"><span class="toc-text">5.2.4 SPOOLing技术（假脱机技术）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-5-%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F%E6%8E%A5%E5%8F%A3"><span class="toc-text">5.2.5 设备驱动程序接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-6-%E6%9C%AC%E8%8A%82%E5%B0%8F%E7%BB%93"><span class="toc-text">5.2.6 本节小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%99%E9%A2%98%E6%80%BB%E7%BB%93%E6%88%96%E9%9C%80%E8%A6%81%E5%A4%9A%E5%8A%A0%E6%B3%A8%E6%84%8F%E7%9A%84%E7%82%B9"><span class="toc-text">错题总结或需要多加注意的点</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-30-Day136--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%B8%B2%E8%81%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6/" title="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度"><img src="/img/374.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度"/></a><div class="content"><a class="title" href="/2025/06/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-30-Day136--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%B8%B2%E8%81%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6/" title="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度">Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度</a><time datetime="2025-06-30T01:30:20.000Z" title="发表于 2025-06-30 09:30:20">2025-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-27-Day135--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%83%B9%E9%A5%AA%E6%96%99%E7%90%86/" title="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理"><img src="/img/373.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理"/></a><div class="content"><a class="title" href="/2025/06/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-27-Day135--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%83%B9%E9%A5%AA%E6%96%99%E7%90%86/" title="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理">Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理</a><time datetime="2025-06-27T01:30:20.000Z" title="发表于 2025-06-27 09:30:20">2025-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day134/" title="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列"><img src="/img/372.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列"/></a><div class="content"><a class="title" href="/2025/06/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day134/" title="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列">Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列</a><time datetime="2025-06-26T01:30:20.000Z" title="发表于 2025-06-26 09:30:20">2025-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"><img src="/img/371.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径"/></a><div class="content"><a class="title" href="/2025/06/25/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-25-Day133--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" title="Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径">Day133 | 灵神 | 回溯算法 | 子集型 二叉树的所有路径</a><time datetime="2025-06-25T01:30:20.000Z" title="发表于 2025-06-25 09:30:20">2025-06-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络"><img src="/img/369.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络"/></a><div class="content"><a class="title" href="/2025/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6.%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络">深度学习与神经网络 | 邱锡鹏 | 第六章学习笔记 循环神经网络</a><time datetime="2025-06-21T11:21:10.000Z" title="发表于 2025-06-21 19:21:10">2025-06-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+<p>19.为了让多个并发进程能有效地进行输入和输出，最好采用缓冲池（其他三个是专属缓冲，而缓冲池是共享的）</p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">单缓冲 &#x2F; 双缓冲 &#x2F; 循环缓冲</th>
+<th align="left">缓冲池</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>管理方式</strong></td>
+<td align="left"><strong>专属缓冲</strong>：通常为一个进程或一次固定的I&#x2F;O操作预先分配和专用</td>
+<td align="left"><strong>共享缓冲</strong>：系统级公用资源，所有进程按需申请和释放</td>
+</tr>
+<tr>
+<td align="left"><strong>缓冲区数量</strong></td>
+<td align="left">固定（1个、2个或构成循环队列的多个）</td>
+<td align="left">动态管理的多个缓冲区集合</td>
+</tr>
+<tr>
+<td align="left"><strong>资源利用率</strong></td>
+<td align="left">较低，缓冲区在闲置时也无法被其他进程使用</td>
+<td align="left"><strong>高</strong>，缓冲区在池中动态循环使用，避免空闲</td>
+</tr>
+<tr>
+<td align="left"><strong>并行性</strong></td>
+<td align="left">适用于特定进程内的I&#x2F;O与计算并行</td>
+<td align="left">支持多进程并发I&#x2F;O操作，实现CPU与I&#x2F;O设备更高程度的并行</td>
+</tr>
+<tr>
+<td align="left"><strong>适用场景</strong></td>
+<td align="left">简单的、低速的或特定的I&#x2F;O任务</td>
+<td align="left"><strong>高并发、多类型I&#x2F;O的复杂系统</strong>，如数据库、网络服务器</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>单缓冲、双缓冲、循环缓冲</strong>就像是给特定任务分配的“专车”，简单直接，但资源利用率有限。</li>
+<li><strong>缓冲池</strong>则像一个“共享汽车平台”或“出租车队”，它统一管理所有车辆（缓冲区），哪个用户（进程）有需要就分配给谁，用完即还，实现了资源的高效共享。</li>
+</ul>
+<p>20.将二进制整数转换成ASCII吗格式打印是IO库函数完成的，属于用户层软件</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.2%20%E8%AE%BE%E5%A4%87%E7%8B%AC%E7%AB%8B%E6%80%A7%E8%BD%AF%E4%BB%B6/">https://darling-123456.github.io/2024/09/23/王道操作系统学习笔记/5.2 设备独立性软件/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><a class="post-meta__tags" href="/tags/%E8%80%83%E7%A0%94/">考研</a></div><div class="post-share"><div class="social-share" data-image="/img/96.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.3%20%E7%A3%81%E7%9B%98%E5%92%8C%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98/" title="王道操作系统 5.3 磁盘和固态硬盘"><img class="cover" src="/img/95.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">王道操作系统 5.3 磁盘和固态硬盘</div></div><div class="info-2"><div class="info-item-1">5.3 磁盘和固态硬盘5.3.1 磁盘磁盘是可共享设备，但每个时刻至多能由一个作业启动它   磁盘结构    磁盘：磁盘的表面由一些磁性物质组成，可以用这些磁性物质来记录二进制数据  磁道：磁盘的盘面被划分成一个个磁道。这样的一个“圈”就是一个磁道  扇区：一个磁道又被划分成一个个扇区，每个扇区就是一个“磁盘块”各个扇区存放的数据量相同 最内侧磁道上的扇区面积最小，因此数据密度最大  盘面：磁盘有多个盘片”摞”起来，每个盘片有两个盘面。  柱面：所有盘面中相对位置相同的磁道组成柱面。    如何在磁盘中读&#x2F;写数据   磁盘的物理地址：磁盘地址用“柱面号•盘面号•扇区号”表示，可根据该地址读取一个“块”   磁盘的分类  磁头是否移动   根据盘片是否可更换      5.3.2 磁盘管理 磁盘的操作系统引导扇区产生在 对硬盘进行高级格式化的时候  磁盘初始化  一个新的磁盘只是一个磁性记录材料的空白盘。在磁盘可以存储数据之前，必须将它分成扇区，以便磁盘控制器能够进行读写操作，这个过程称为低级格式化（或称物理格式化）。 ...</div></div></div></a><a class="pagination-related" href="/2024/09/23/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5.1%20IO%E7%AE%A1%E7%90%86%E6%A6%82%E8%BF%B0/" title="王道操作系统 5.1 I/O管理概述"><img class="cover" src="/img/97.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">王道操作系统 5.1 I/O管理概述</div></div><div class="info-2"><div class="info-item-1">5.1 I&#x2F;O管理概述设备的读写本质是在设备控制器（IO接口）和主机之间传送数据  5.1.1...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/09/10/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="王道操作系统 1.计算机系统概述"><img class="cover" src="/img/104.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-10</div><div class="info-item-2">王道操作系统 1.计算机系统概述</div></div><div class="info-2"><div class="info-item-1">1 计算机系统概述1.1...</div></div></div></a><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.1%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%A6%82%E5%BF%B5/" title="王道操作系统 3.1 内存管理概念"><img class="cover" src="/img/102.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-17</div><div class="info-item-2">王道操作系统 3.1 内存管理概念</div></div><div class="info-2"><div class="info-item-1">3 内存管理3.1 内存管理概念3.1.1 内存管理的基本原理和要求  内存可以存放数据，程序执行前需要先放到内存中才能被CPU处理—缓和cpu和磁盘之间的速度矛盾  内存管理的概念 虽然计算机技术飞速发展，内存容量也在不断扩大，但仍然不可能将所有用户进程和系统所需的全部程序与数据放入内存，因此操作系统对内存空间进行合理的划分和有效的动态分配。操作系统对内存的划分和动态分配，就是内存管理的概念。 内存空间的主要功能有：  ① 内存空间的分配与回收：OS 要怎么记录哪些内存区域已经被分配出去了，哪些又还空闲；当进程运行结束之后，如何将进程占用的内存空间回收。 ② 内存空间的扩充：OS 利用虚拟内存技术或自动覆盖技术使得系统运行很大的程序，从逻辑上扩充内存。 ③ 地址转换：为了使编程更方便，程序员写程序时应该只需要关注指令、数据的逻辑地址。而 逻辑地址到物理地址的转换（这个过程称为地址重定位）应该由操作系统负责，其中地址重定位有三种方式。  ④...</div></div></div></a><a class="pagination-related" href="/2024/09/17/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.2%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="王道操作系统 3.2 虚拟内存管理"><img class="cover" src="/img/101.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-17</div><div class="info-item-2">王道操作系统 3.2 虚拟内存管理</div></div><div class="info-2"><div class="info-item-1">3.2 虚拟内存管理3.2.1 虚拟内存的基本概念   传统存储管理方式的特征  传统存储管理方式     局部性原理 快表、页高速缓存及虚拟内存技术都属于高速缓存技术，这个技术所依赖的原理就是局部性原理。   虚拟存储器的定义和特征   虚拟内存技术的实现  虚拟内存的实现需要建立在离散分配的内存管理方式的基础上。  所需要的硬件支持  一定容量的内存和外存。       页表机制（或段表机制），作为主要的数据结构。 中断机构，当用户程序要访问的部分尚未调入内存时，则产生中断。   地址变换机构，逻辑地址到物理地址的变换。  3.2.2 请求分页管理方式  请求分页系统建立在基本分页系统基础之上，为了支持虚拟存储器功能而增加了请求调页功能和页面置换功能。请求分页是目前最常用的一种实现虚拟存储器的方法。  页表机制 请求分页系统在一个作业运行之前不要求全部一次性调入内存，因此在作业的运行过程中，必然会出现要访问的页面不在内存中的情况。因此在请求页表项中增加了...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.2%20%E7%9B%AE%E5%BD%95/" title="王道操作系统 4.2 目录"><img class="cover" src="/img/99.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.2 目录</div></div><div class="info-2"><div class="info-item-1">4.2 目录 4.2.1 目录的基本概念 **文件目录指FCB的有序集合，一个FCB就是一个文件的目录项。**与文件管理系统和文件集合相关联的是文件目录，它包含有关文件的属性、位置和所有权等。  目录管理的基本要求： 从用户的角度看，目录在用户（应用程序）所需要的文件名和文件之间提供一种映射，所以目录管理要实现“按名存取”； 目录存取的效率直接影响到系统的性能，所以要提高对目录的检索速度； 在多用户系统中，应允许多个用户共享一个文件，因此目录还需要提供用于控制访问文件的信息。 此外，应允许不同用户对不同文件采用相同的名字，以便于用户按自己的习惯给文件命名，目录管理通过树形结构来解决和实现。      4.2.2 目录结构 FCB和索引节点在...</div></div></div></a><a class="pagination-related" href="/2024/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.3%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="王道操作系统 4.3 文件系统"><img class="cover" src="/img/98.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-20</div><div class="info-item-2">王道操作系统 4.3 文件系统</div></div><div class="info-2"><div class="info-item-1">4.3 文件系统 4.3.1 文件系统结构 文件系统(File system)提供高效和便捷的磁盘访问，以便允许存储、定位、提取数据。   4.3.2...</div></div></div></a><a class="pagination-related" href="/2024/09/14/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2%20%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="王道操作系统 2.进程与线程"><img class="cover" src="/img/103.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-14</div><div class="info-item-2">王道操作系统 2.进程与线程</div></div><div class="info-2"><div class="info-item-1">2 进程与线程2.1 进程与线程2.1.1 进程的概念和特征   进程的概念 进程是进程实体的运行过程，是系统进行资源分配和调度的一个独立单位。  进程实现操作系统的并发性和共享性。  程序：是静态的，就是个存放在磁盘里的可执行文件，如：QQ.exe。 进程：是动态的，是程序的一次执行过程，或者是一个正在运行的程序，如：可同时启动多次QQ程序。 进程实体：即进程映像，是静态的，可理解为进程的一次时刻的状态。 作业：用户向计算机提交的一项任务，是静态的，它通常是一个批处理程序或一个后台程序。   进程实体的组成    程序控制块PCB PCB是进程存在的唯一标志，当进程被创建时，操作系统为其创建PCB，当进程结束时，会回收其PCB。  进程描述信息 进程标识符PID：当进程被创建时，操作系统会为该进程分配一个唯一的、不重复的“身份证号”–PID（Process...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">374</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E8%AE%BE%E5%A4%87%E7%8B%AC%E7%AB%8B%E6%80%A7%E8%BD%AF%E4%BB%B6"><span class="toc-text">5.2 设备独立性软件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-1-%E4%B8%8E%E8%AE%BE%E5%A4%87%E6%97%A0%E5%85%B3%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="toc-text">5.2.1 与设备无关的软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-2-%E9%AB%98%E9%80%9F%E7%BC%93%E5%AD%98%E4%B8%8E%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-text">5.2.2 高速缓存与缓冲区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-3-%E8%AE%BE%E5%A4%87%E7%9A%84%E5%88%86%E9%85%8D%E4%B8%8E%E5%9B%9E%E6%94%B6"><span class="toc-text">5.2.3 设备的分配与回收</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-4-SPOOLing%E6%8A%80%E6%9C%AF%EF%BC%88%E5%81%87%E8%84%B1%E6%9C%BA%E6%8A%80%E6%9C%AF%EF%BC%89"><span class="toc-text">5.2.4 SPOOLing技术（假脱机技术）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-5-IO%E6%93%8D%E4%BD%9C%E4%B8%BE%E4%BE%8B"><span class="toc-text">5.2.5 IO操作举例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-6-%E6%9C%AC%E8%8A%82%E5%B0%8F%E7%BB%93"><span class="toc-text">5.2.6 本节小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%99%E9%A2%98%E6%80%BB%E7%BB%93%E6%88%96%E9%9C%80%E8%A6%81%E5%A4%9A%E5%8A%A0%E6%B3%A8%E6%84%8F%E7%9A%84%E7%82%B9"><span class="toc-text">错题总结或需要多加注意的点</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%A1%AC%E7%9B%98%E5%88%B6%E4%B8%BA%E5%90%AF%E5%8A%A8%E7%9B%98%E7%9A%84%E8%BF%87%E7%A8%8B%20&amp;&amp;%20%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%95%E5%AF%BC%E8%BF%87%E7%A8%8B/" title="硬盘制为启动盘的过程 &amp;&amp; 操作系统的引导过程"><img src="/img/375.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="硬盘制为启动盘的过程 &amp;&amp; 操作系统的引导过程"/></a><div class="content"><a class="title" href="/2025/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%A1%AC%E7%9B%98%E5%88%B6%E4%B8%BA%E5%90%AF%E5%8A%A8%E7%9B%98%E7%9A%84%E8%BF%87%E7%A8%8B%20&amp;&amp;%20%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%95%E5%AF%BC%E8%BF%87%E7%A8%8B/" title="硬盘制为启动盘的过程 &amp;&amp; 操作系统的引导过程">硬盘制为启动盘的过程 &amp;&amp; 操作系统的引导过程</a><time datetime="2025-09-19T16:00:00.000Z" title="发表于 2025-09-20 00:00:00">2025-09-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/IO%E7%B3%BB%E7%BB%9F%20-%20scanf%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/" title="I/O系统 - scanf执行过程"><img src="/img/376.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="I/O系统 - scanf执行过程"/></a><div class="content"><a class="title" href="/2025/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/IO%E7%B3%BB%E7%BB%9F%20-%20scanf%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/" title="I/O系统 - scanf执行过程">I/O系统 - scanf执行过程</a><time datetime="2025-09-19T16:00:00.000Z" title="发表于 2025-09-20 00:00:00">2025-09-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-30-Day136--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%B8%B2%E8%81%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6/" title="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度"><img src="/img/374.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度"/></a><div class="content"><a class="title" href="/2025/06/30/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-30-Day136--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E4%B8%B2%E8%81%94%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6/" title="Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度">Day136 | 灵神 | 回溯算法 | 子集型 串联字符串的最大长度</a><time datetime="2025-06-30T01:30:20.000Z" title="发表于 2025-06-30 09:30:20">2025-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-27-Day135--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%83%B9%E9%A5%AA%E6%96%99%E7%90%86/" title="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理"><img src="/img/373.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理"/></a><div class="content"><a class="title" href="/2025/06/27/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2025-06-27-Day135--%E7%81%B5%E7%A5%9E--%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95--%E5%AD%90%E9%9B%86%E5%9E%8B-%E7%83%B9%E9%A5%AA%E6%96%99%E7%90%86/" title="Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理">Day135 | 灵神 | 回溯算法 | 子集型 烹饪料理</a><time datetime="2025-06-27T01:30:20.000Z" title="发表于 2025-06-27 09:30:20">2025-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day134/" title="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列"><img src="/img/372.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列"/></a><div class="content"><a class="title" href="/2025/06/26/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/Day134/" title="Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列">Day134 | 灵神 | 回溯算法 | 子集型 字母大小写全排列</a><time datetime="2025-06-26T01:30:20.000Z" title="发表于 2025-06-26 09:30:20">2025-06-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
   © 2024-<script>document.write(new Date().getFullYear())</script> 
   <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
   | 已运行 <span id="days">0</span> 天
