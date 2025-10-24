@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>操作系统 | 进程的内存映像</title>
+      <link href="/2025/09/24/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%20%20%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%86%85%E5%AD%98%E6%98%A0%E5%83%8F/"/>
+      <url>/2025/09/24/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%20%20%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%86%85%E5%AD%98%E6%98%A0%E5%83%8F/</url>
+      
+        <content type="html"><![CDATA[<h2 id="操作系统-进程的内存映像"><a href="#操作系统-进程的内存映像" class="headerlink" title="操作系统 | 进程的内存映像"></a>操作系统 | 进程的内存映像</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250917144638764.png" alt="image-20250917144638764"></p><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250917145737103.png" alt="image-20250917145737103"></p><p>不同于存放在硬盘上的可执行程序文件，当一个程序调入内存运行时，就构成了进程的内存映像。一个进程的内存映像一般有几个要素：</p><ul><li><strong>代码段</strong>：即程序的二进制代码，代码段是只读的，可以被多个进程共享。</li><li><strong>数据段</strong>：即程序运行时加工处理的对象，包括全局变量和静态变量。</li><li><strong>进程控制块（PCB）</strong>：存放在系统区。操作系统通过PCB来控制和管理进程。</li><li><strong>堆</strong>：用来存放动态分配的变量。通过调用malloc 函数动态地向高地址分配空间。</li><li><strong>栈</strong>：用来实现函数调用。从用户空间的最大地址往低地址方向增长。</li></ul><blockquote><p>代码段和数据段在程序调入内存时就指定了大小，而堆和栈不一样。</p><p>当调用像malloc和free这样的C标准库函数时，堆可以在运行时动态地扩展和收缩。</p><p>用户栈在程序运行期间也可以动态地扩展和收缩，每次调用一个函数，栈就会增长；从一个函数返回时，栈就会收缩。</p></blockquote><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20250917145707573.png" alt="image-20250917145707573"></p><p><code>批注：</code></p><p>1.未使用区的大小是固定的</p><p>2.堆的最高地址只能到0x40000000，也就是说堆和下面三块加起来的大小的和是固定的，只能有1GB。那么堆的最大有多大还要看下面三块有多大了。</p><p>3.const定义的存在只读代码区，但是define宏定义的不在。define的在编译代码时会直接被替换为指令中的立即数。</p><ol start="4"><li>下图是一个进程在内存中的映像。</li></ol><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20230914155418540.png" alt="image-20230914155418540"></p><ul><li>其中，共享库用来存放进程用到的共享函数库代码，如printf函数等。</li><li>在只读代码段中，.iit是程序初始化时调用的_init函数；.text是用户程序的机器代码；.rodata是只读数据。</li><li>在读&#x2F;写数据段中，.data是已初始化的全局变量和静态变量；.bss是未初始化及所有初始化为0的全局变量和静态变量。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 操作系统 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 操作系统 </tag>
+            
+            <tag> 考研 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>硬盘制为启动盘的过程 &amp;&amp; 操作系统的引导过程</title>
       <link href="/2025/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%A1%AC%E7%9B%98%E5%88%B6%E4%B8%BA%E5%90%AF%E5%8A%A8%E7%9B%98%E7%9A%84%E8%BF%87%E7%A8%8B%20&amp;&amp;%20%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%95%E5%AF%BC%E8%BF%87%E7%A8%8B/"/>
       <url>/2025/09/20/%E7%8E%8B%E9%81%93%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%A1%AC%E7%9B%98%E5%88%B6%E4%B8%BA%E5%90%AF%E5%8A%A8%E7%9B%98%E7%9A%84%E8%BF%87%E7%A8%8B%20&amp;&amp;%20%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%BC%95%E5%AF%BC%E8%BF%87%E7%A8%8B/</url>
