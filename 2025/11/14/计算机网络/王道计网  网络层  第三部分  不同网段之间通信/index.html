@@ -1,0 +1,501 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Darlingの妙妙屋 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="王道计网 | 网络层 | 第三部分 | 不同网段之间通信1.NAT（看基础课做的笔记）    2.路由算法RIP和BGP都是应用层协议，只有OSPF是网络层协议 RIP端口号520，BGP端口号179          3.分层次的路由协议     4.RIP（AS内）1.基本概念  路由表距离为16直接就丢弃了 目的网络字段一般写的是网络前缀，下一跳路由字段一般写的是IP地址  2.RIP工作过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Darlingの妙妙屋">
+<meta property="og:url" content="https://darling-123456.github.io/2025/11/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%8E%8B%E9%81%93%E8%AE%A1%E7%BD%91%20%20%E7%BD%91%E7%BB%9C%E5%B1%82%20%20%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%20%20%E4%B8%8D%E5%90%8C%E7%BD%91%E6%AE%B5%E4%B9%8B%E9%97%B4%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="王道计网 | 网络层 | 第三部分 | 不同网段之间通信1.NAT（看基础课做的笔记）    2.路由算法RIP和BGP都是应用层协议，只有OSPF是网络层协议 RIP端口号520，BGP端口号179          3.分层次的路由协议     4.RIP（AS内）1.基本概念  路由表距离为16直接就丢弃了 目的网络字段一般写的是网络前缀，下一跳路由字段一般写的是IP地址  2.RIP工作过">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2025-11-14T02:48:05.986Z">
+<meta property="article:modified_time" content="2025-11-26T02:35:55.348Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="学生">
+<meta property="article:tag" content="Cpper">
+<meta property="article:tag" content="后端开发">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://darling-123456.github.io/2025/11/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%8E%8B%E9%81%93%E8%AE%A1%E7%BD%91%20%20%E7%BD%91%E7%BB%9C%E5%B1%82%20%20%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%20%20%E4%B8%8D%E5%90%8C%E7%BD%91%E6%AE%B5%E4%B9%8B%E9%97%B4%E9%80%9A%E4%BF%A1/",
+  "image": "https://darling-123456.github.io/img/avatar.jpg",
+  "datePublished": "2025-11-14T02:48:05.986Z",
+  "dateModified": "2025-11-26T02:35:55.348Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2025/11/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%8E%8B%E9%81%93%E8%AE%A1%E7%BD%91%20%20%E7%BD%91%E7%BB%9C%E5%B1%82%20%20%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%20%20%E4%B8%8D%E5%90%8C%E7%BD%91%E6%AE%B5%E4%B9%8B%E9%97%B4%E9%80%9A%E4%BF%A1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Darlingの妙妙屋',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">381</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/top.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">Darlingの妙妙屋</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-11-14T02:48:05.986Z" title="发表于 2025-11-14 10:48:05">2025-11-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-11-26T02:35:55.348Z" title="更新于 2025-11-26 10:35:55">2025-11-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="王道计网-网络层-第三部分-不同网段之间通信"><a href="#王道计网-网络层-第三部分-不同网段之间通信" class="headerlink" title="王道计网 | 网络层 | 第三部分 | 不同网段之间通信"></a>王道计网 | 网络层 | 第三部分 | 不同网段之间通信</h1><h2 id="1-NAT"><a href="#1-NAT" class="headerlink" title="1.NAT"></a>1.NAT</h2><p>（看基础课做的笔记）</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014093306515.png" alt="image-20251014093306515"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014093749069.png" alt="image-20251014093749069"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014093827842.png" alt="image-20251014093827842"></p>
+<h2 id="2-路由算法"><a href="#2-路由算法" class="headerlink" title="2.路由算法"></a>2.路由算法</h2><p>RIP和BGP都是应用层协议，只有OSPF是网络层协议</p>
+<p>RIP端口号520，BGP端口号179</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014111631062.png" alt="image-20251014111631062"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014110916958.png" alt="image-20251014110916958"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014110948790.png" alt="image-20251014110948790"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014111034585.png" alt="image-20251014111034585"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014111109046.png" alt="image-20251014111109046"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014111220230.png" alt="image-20251014111220230"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014111314665.png" alt="image-20251014111314665"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014111534484.png" alt="image-20251014111534484"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014111555218.png" alt="image-20251014111555218"></p>
+<h2 id="3-分层次的路由协议"><a href="#3-分层次的路由协议" class="headerlink" title="3.分层次的路由协议"></a>3.分层次的路由协议</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014112805600.png" alt="image-20251014112805600"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014112415421.png" alt="image-20251014112415421"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014112442325.png" alt="image-20251014112442325"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014112534698.png" alt="image-20251014112534698"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014112744396.png" alt="image-20251014112744396"></p>
+<h2 id="4-RIP（AS内）"><a href="#4-RIP（AS内）" class="headerlink" title="4.RIP（AS内）"></a>4.RIP（AS内）</h2><h3 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014112910948.png" alt="image-20251014112910948"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014113136682.png" alt="image-20251014113136682"></p>
+<p>路由表距离为16直接就丢弃了</p>
+<p>目的网络字段一般写的是网络前缀，下一跳路由字段一般写的是IP地址</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014113441129.png" alt="image-20251014113441129"></p>
+<h3 id="2-RIP工作过程"><a href="#2-RIP工作过程" class="headerlink" title="2.RIP工作过程"></a>2.RIP工作过程</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014113533486.png" alt="image-20251014113533486"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014114010714.png" alt="image-20251014114010714"></p>
+<h4 id="1-从路由器启动到收敛"><a href="#1-从路由器启动到收敛" class="headerlink" title="1.从路由器启动到收敛"></a>1.从路由器启动到收敛</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014114934794.png" alt="image-20251014114934794"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014115114634.png" alt="image-20251014115114634"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014115231097.png" alt="image-20251014115231097"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014115320251.png" alt="image-20251014115320251"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014115401906.png" alt="image-20251014115401906"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014115420714.png" alt="image-20251014115420714"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014115448288.png" alt="image-20251014115448288"></p>
+<p>收敛后，已经稳定，后面网络不发生变化的话，路由表也不会变</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014115522811.png" alt="image-20251014115522811"></p>
+<h4 id="2-动态适应网络拓扑变化"><a href="#2-动态适应网络拓扑变化" class="headerlink" title="2.动态适应网络拓扑变化"></a>2.动态适应网络拓扑变化</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014145644397.png" alt="image-20251014145644397"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014145657478.png" alt="image-20251014145657478"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014151132213.png" alt="image-20251014151132213"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014145925636.png" alt="image-20251014145925636"></p>
+<h4 id="3-RIP缺点"><a href="#3-RIP缺点" class="headerlink" title="3.RIP缺点"></a>3.RIP缺点</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014151240470.png" alt="image-20251014151240470"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014151339780.png" alt="image-20251014151339780"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014151416629.png" alt="image-20251014151416629"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014151536570.png" alt="image-20251014151536570"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014151835367.png" alt="image-20251014151835367"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014151947668.png" alt="image-20251014151947668"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152047476.png" alt="image-20251014152047476"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152058843.png" alt="image-20251014152058843"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152125383.png" alt="image-20251014152125383"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152204889.png" alt="image-20251014152204889"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152253942.png" alt="image-20251014152253942"></p>
+<h4 id="4-RIP优点"><a href="#4-RIP优点" class="headerlink" title="4.RIP优点"></a>4.RIP优点</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014151240470.png"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152541796.png" alt="image-20251014152541796"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152634407.png" alt="image-20251014152634407"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152729128.png" alt="image-20251014152729128"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152802350.png" alt="image-20251014152802350"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152821976.png" alt="image-20251014152821976"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014152832234.png" alt="image-20251014152832234"></p>
+<h3 id="3-强化课补充部分"><a href="#3-强化课补充部分" class="headerlink" title="3.强化课补充部分"></a>3.强化课补充部分</h3><p>可以看7的RIP部分</p>
+<p><code>RIP传播过程其实就像是图的广度优先遍历</code></p>
+<p>具体看下面的例子</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014183636296.png" alt="image-20251014183636296"></p>
+<p>R11-16在0时刻同时启动，30s给邻居传一次自己知道的，问过了多久A11-16全能知道到210.2.3.0和210.2.4.0怎么走</p>
+<p>先看<code>210.2.3.0</code>：</p>
+<p>1.在0时刻只有R14知道怎么到该网段，然后0时刻R14会立即告知邻居。也就是说0时刻的时候R11，R14，R15全知道怎么往.3.0这个网段走了，<strong>广度优先传播了一次</strong></p>
+<p>2.在30s时刻，R11传给R12，R15传给R13和R16，<strong>广度优先传播了第二次</strong>，所有路由器都知道怎么走了</p>
+<p>再看<code>210.2.4.0</code>：</p>
+<p>1.在0时刻只有R16知道怎么到该网段，然后0时刻R16会立即告知邻居。也就是说0时刻的时候R15，R16知道怎么往.4.0这个网段走了，<strong>广度优先传播了一次</strong></p>
+<p>2.在30s时刻，R15传给R13和R14，广度优先传播了第二次</p>
+<p>3.在60s时刻，R14传给R11，R13传给R12，所有路由器都知道怎么走了，<strong>广度优先传播了三次</strong></p>
+<h2 id="5-OSPF（AS内）"><a href="#5-OSPF（AS内）" class="headerlink" title="5.OSPF（AS内）"></a>5.OSPF（AS内）</h2><h3 id="1-特点"><a href="#1-特点" class="headerlink" title="1.特点"></a>1.特点</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014154422762.png" alt="image-20251014154422762"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014153051650.png" alt="image-20251014153051650"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014153457079.png" alt="image-20251014153457079"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014153750081.png" alt="image-20251014153750081"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014153841705.png" alt="image-20251014153841705"></p>
+<p>画成无向图是有利于理解，其实实际上是由两个节点之间相连的话就有两条有向边，这两条有向边的代价可能会不同</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014154125643.png" alt="image-20251014154125643"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014154240728.png" alt="image-20251014154240728"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014154306761.png" alt="image-20251014154306761"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014154405070.png" alt="image-20251014154405070"></p>
+<h3 id="2-基本工作原理"><a href="#2-基本工作原理" class="headerlink" title="2.基本工作原理"></a>2.基本工作原理</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014155824197.png" alt="image-20251014155824197"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014154646790.png" alt="image-20251014154646790"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014155025972.png" alt="image-20251014155025972"></p>
+<p><code>路由器构造路由表过程：</code></p>
+<p>1.构建自己的LSDB</p>
+<p>2.运行迪杰斯特拉算法找最短路</p>
+<p>3.根据迪杰斯特拉算法构造自己的路由表</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014155423917.png" alt="image-20251014155423917"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014155551689.png" alt="image-20251014155551689"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014155732616.png" alt="image-20251014155732616"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014155747260.png" alt="image-20251014155747260"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014155954244.png" alt="image-20251014155954244"></p>
+<p>可以说LSDB（这本书）是LSI，也可以说LSA（书中的章节）是LS1，可以说单链表中的某个结点（章节中的字）也是LSI</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014160141436.png" alt="image-20251014160141436"></p>
+<h3 id="3-分组类型"><a href="#3-分组类型" class="headerlink" title="3.分组类型"></a>3.分组类型</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014160213458.png" alt="image-20251014160213458"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014160452705.png" alt="image-20251014160452705"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014160555621.png" alt="image-20251014160555621"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014160723606.png" alt="image-20251014160723606"></p>
+<p>R1知道R2这个邻居之后，会立刻泛洪给R3,4,5,6，他们也会更新自己的LSDB</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014160900218.png" alt="image-20251014160900218"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014160922532.png" alt="image-20251014160922532"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014161019808.png" alt="image-20251014161019808"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014161106490.png" alt="image-20251014161106490"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014161228792.png" alt="image-20251014161228792"></p>
+<p>发送的确认信息不是LSA，而只有LSA的头信息，收到了哪些就确认哪些</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014161359769.png" alt="image-20251014161359769"></p>
+<p>比如R4会从R1和R3这两边都收到LSU分组，虽然这两个LSU分组内容一样，但都必须给对方返回LSAck</p>
+<h3 id="4-强化课补充部分"><a href="#4-强化课补充部分" class="headerlink" title="4.强化课补充部分"></a>4.强化课补充部分</h3><p>可以看7的OSPF部分</p>
+<p><strong>问题1：R4怎么知道R1和R3泛洪的是同一条信息然后不继续重复泛洪相同的信息呢？</strong></p>
+<p>通过R1的标识和序号（版本号）来识别。说明这是R1发过来的同一个版本的消息，那我R4第一次收到R1给的消息进行泛洪后，再次收到R3给的相同的信息就不需要重复泛洪了。</p>
+<p><strong>问题2：OSPF消息封装在IP数据报里面进行洪泛是如何实现的，这个IP数据报的目的IP是怎么填写的？是广播IP？</strong></p>
+<p>通过IP组播（多播）来实现的，只给相邻的路由器发，不给直连的网络发</p>
+<p><strong>问题3：R1要给Net3发数据，能不能走 R1，net2，R2，net3这条路？如果可以的话那么经过net2的代价是多少？</strong></p>
+<p>见7的OSPF部分</p>
+<p><strong>问题4：两个路由器连接一个net在OSPF中是怎么回事</strong></p>
+<p>见7OSPF复杂点的问题1</p>
+<h2 id="6-BGP（AS间）"><a href="#6-BGP（AS间）" class="headerlink" title="6.BGP（AS间）"></a>6.BGP（AS间）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251126085004171.png" alt="image-20251126085004171"></p>
+<h2 id="7-手搓AS自治系统-路由算法应用"><a href="#7-手搓AS自治系统-路由算法应用" class="headerlink" title="7.手搓AS自治系统 - 路由算法应用"></a>7.手搓AS自治系统 - 路由算法应用</h2><h3 id="1-手搓AS"><a href="#1-手搓AS" class="headerlink" title="1.手搓AS"></a>1.手搓AS</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014164620682.png" alt="image-20251014164620682"></p>
+<p>AS之间只有平级关系，AS间是否能连接取决于AS主任是否愿意</p>
+<h3 id="2-RIP"><a href="#2-RIP" class="headerlink" title="2.RIP"></a>2.RIP</h3><p><strong>RIP传播过程其实就像是图的广度优先遍历</strong>，具体看下面的例子</p>
+<p>0.0.0.0在DHCP中表示本主机</p>
+<p>而6.6.6.0&#x2F;28，即主机号全0，代表的是本网络</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014165653838.png" alt="image-20251014165653838"></p>
+<p>小登网吧老登网吧构造参见 同网段通信文章</p>
+<p><strong>一般选择R3所有IP地址中最小的IP作为R3的唯一标识，大家构建的时候的下一条字段的R3就可以写6.6.6.6，但是网络还是要写那个端口的地址</strong></p>
+<p><code>收敛过程</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014165752603.png" alt="image-20251014165752603"></p>
+<p><code>直连网络，直接交付的意思是：</code></p>
+<p>假如我的R3可以直接交付给net3，那R3的6.6.6.6就是net3的网关，就是R3可以直接转发目的地址为6.6.6.0网段的数据报，这就是直连网络</p>
+<h4 id="RIP传播过程其实就像是图的广度优先遍历"><a href="#RIP传播过程其实就像是图的广度优先遍历" class="headerlink" title="RIP传播过程其实就像是图的广度优先遍历"></a>RIP传播过程其实就像是图的广度优先遍历</h4><p>具体看下面的例子</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014183636296.png" alt="image-20251014183636296"></p>
+<p>R11-16在0时刻同时启动，30s给邻居传一次自己知道的，问过了多久A11-16全能知道到210.2.3.0和210.2.4.0怎么走</p>
+<p>先看<code>210.2.3.0</code>：</p>
+<p>1.在0时刻只有R14知道怎么到该网段，然后0时刻R14会立即告知邻居。也就是说0时刻的时候R11，R14，R15全知道怎么往.3.0这个网段走了，<strong>广度优先传播了一次</strong></p>
+<p>2.在30s时刻，R11传给R12，R15传给R13和R16，<strong>广度优先传播了第二次</strong>，所有路由器都知道怎么走了</p>
+<p>再看<code>210.2.4.0</code>：</p>
+<p>1.在0时刻只有R16知道怎么到该网段，然后0时刻R16会立即告知邻居。也就是说0时刻的时候R15，R16知道怎么往.4.0这个网段走了，<strong>广度优先传播了一次</strong></p>
+<p>2.在30s时刻，R15传给R13和R14，广度优先传播了第二次</p>
+<p>3.在60s时刻，R14传给R11，R13传给R12，所有路由器都知道怎么走了，<strong>广度优先传播了三次</strong></p>
+<h3 id="3-OSPF"><a href="#3-OSPF" class="headerlink" title="3.OSPF"></a>3.OSPF</h3><h4 id="1-简单点的OSPF"><a href="#1-简单点的OSPF" class="headerlink" title="1.简单点的OSPF"></a>1.简单点的OSPF</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014172536583.png" alt="image-20251014172536583"></p>
+<p><strong>一般选择R3所有IP地址中最小的IP作为R3的唯一标识，大家构建的时候的下一条字段的R3就可以写6.6.6.6，但是网络还是要写那个端口的地址</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014185203463.png" alt="image-20251014185203463"></p>
+<p><strong>问题1：R4怎么知道R1和R3泛洪的是同一条信息然后不继续重复泛洪相同的信息呢？</strong></p>
+<p>通过R1的标识和序号（版本号）来识别。说明这是R1发过来的同一个版本的消息，那我R4第一次收到R1给的消息进行泛洪后，再次收到R3给的相同的信息就不需要重复泛洪了。</p>
+<p><strong>问题2：OSPF消息封装在IP数据报里面进行洪泛是如何实现的，这个IP数据报的目的IP是怎么填写的？是广播IP？</strong></p>
+<p>通过IP组播（多播）来实现的，只给相邻的路由器发，不给直连的网络发</p>
+<h4 id="2-复杂一点的"><a href="#2-复杂一点的" class="headerlink" title="2.复杂一点的"></a>2.复杂一点的</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014190638849.png" alt="image-20251014190638849"></p>
+<p><strong>问题1：Net2有R1,R2，R3连接，请问是怎么连接的？</strong></p>
+<p>个人理解就是Net2里面没有其他的路由器了，这三个路由器可以和交换机连接，也可以和主机连接。R1,R2,R3和Net2相连的那个接口和Net2组成了一个局域网</p>
+<p>可以理解为R1，R2，R3同时连接了Net2中的某个交换机</p>
+<p><strong>问题2：那他们的LSDB应该是什么样子？</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014191019198.png" alt="image-20251014191019198"></p>
+<p><strong>问题3：R1要给Net3发数据，能不能走 R1，net2，R2，net3这条路？如果可以的话那么经过net2的代价是多少？</strong></p>
+<p>1.可以走这条路，因为R1，R2，R3和net2连成的网络其实就是个局域网</p>
+<p>2.其实OSPF为了简化都画的无向图，其实OSPF链路都是有向图，无向图的代价一般都是从路由器到网络，比如R1到Net2，而网络到路由器一般的代价为0，即Net2到R2代价为0（而路由器和路由器之间的无向边来回都是一样的）</p>
+<p>所以从R1经过Net2到达R2代价为1+0就等于1</p>
+<p>所以问题2的LSDB其实不全，还要加上下面这个（不过考试应该不考这么深的）</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014191824802.png" alt="image-20251014191824802"></p>
+<p><strong>问题四：如何控制洪泛的范围？</strong></p>
+<p>通过AS标识符把洪泛的范围控制在本AS内</p>
+<h3 id="4-BGP"><a href="#4-BGP" class="headerlink" title="4.BGP"></a>4.BGP</h3><p>BGP是基于TCP连接，属于应用层</p>
+<h4 id="1-各个AS之间的路由器的BGP会话（EBGP）"><a href="#1-各个AS之间的路由器的BGP会话（EBGP）" class="headerlink" title="1. 各个AS之间的路由器的BGP会话（EBGP）"></a>1. 各个AS之间的路由器的BGP会话（EBGP）</h4><p><code>边界路由器之间建立的是EBGP会话</code></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014200520329.png" alt="image-20251014200520329"></p>
+<p>边界路由也可以不配置BGP，就是图中的AS0的情况，只有一条路可以到别的AS</p>
+<p><strong>问题1：自治系统的边界路由器会有几个？</strong></p>
+<p>至少一个。图中AS1连接AS2和AS4的路由器可以是同一个，毕竟一个路由器有很多接口</p>
+<p><strong>问题2：AS5包含了9.8.5.0&#x2F;24和2.2.1.0&#x2F;24这两个网络，那AS5中有可能把这两个网络拆分，变成更小的网络吗？</strong></p>
+<p>边界路由器不用关心这个问题，已经聚合到9.8.5.0&#x2F;24和2.2.1.0&#x2F;24这两个网络了，只要知道在这两个网络就给了AS5的边界路由就完事了</p>
+<p><strong>问题3：BGP的工作过程，是怎么把信息传给其他边界路由的</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251014203600820.png" alt="image-20251014203600820"></p>
+<p><strong>1.边界路由器先检测和自己相连的其他边界路由器</strong></p>
+<p>2.比如AS5的路由51就检测到了AS3的路由32</p>
+<p>AS5的路由51发出<code>TCP请求</code>，在第三次握手就可以<strong>发送BGP Open报文</strong></p>
+<p><strong>3.路由32收到Open报文之后回复一个KeepAlive报文</strong></p>
+<p>路由51收到KeepAlive报文之后这个连接就建立完成了，相当于路由51和32之间建立了TCP连接</p>
+<p>并且双方可以通过这个连接发送BGP的各种报文</p>
+<p><strong>4.路由51给32传BGP Update报文，告知AS3的边界路由32在AS5中有哪些网络</strong></p>
+<p>具体有如下字段&lt;网络号，下一条路由，到达该网络的自治系统的路径向量&gt;，具体为</p>
+<p>&lt;9.8.5.0&#x2F;24，路由51自身，AS5&gt;</p>
+<p>&lt;2.1.1.0&#x2F;24，路由51自身，AS5&gt;</p>
+<p><strong>5.暂时忽略AS3的两台边界路由 路由31和32是如何通知 AS5里面的网段的</strong></p>
+<p>他们会进行消息共享，路31也知道了路32知道的内容</p>
+<p><strong>6.路31和路22也会建立起BGP连接</strong></p>
+<p>然后重复一样的动作</p>
+<p>但是到Update报文时内容有所不同，字段相同但内容不同，<strong>就是下一跳和路径向量得到了更新</strong></p>
+<p>&lt;网络号，下一条路由，到达该网络的自治系统的路径向量&gt;</p>
+<p>&lt;&lt;9.8.5.0&#x2F;24，路由31自身，AS3 -&gt; AS5&gt;</p>
+<p>&lt;2.1.1.0&#x2F;24，路由31自身，AS3 -&gt; AS5&gt;</p>
+<p><strong>7.路21和路11也会建立起BGP连接</strong></p>
+<p>然后重复一样的动作，还是BGP Update的内容不同</p>
+<p>&lt;&lt;9.8.5.0&#x2F;24，路由21自身，AS2 -&gt; AS3 -&gt; AS5&gt;</p>
+<p>&lt;2.1.1.0&#x2F;24，路由21自身，AS2 -&gt; AS3 -&gt; AS5&gt;</p>
+<p><strong>8.路52和路42，路由41和11都会重复相同的动作</strong></p>
+<p><strong>至此每个边界路由都知道怎么走了</strong></p>
+<p><strong>问题4：边界路由如何选择走那条路径</strong></p>
+<p>1.先看本地偏好值更高的（自定的优先级，自己配置的）</p>
+<p>2.再看路径最短的</p>
+<p>3.都一样的话再看编号，最后选一个编号最小的（BGP会给每台运行BGP协议的路由一个编号）</p>
+<p><strong>问题5：热土豆路由</strong></p>
+<p>这是AS内部的路由，一旦数据报到达边界路由器就不看这东西了</p>
+<p>AS内部的路由器会选择一条让<strong>要到别的AS的数据报</strong>更快到达边界路由器的路径**（代价最小的路）**</p>
+<p><strong>其实就是找的AS内现在拿到数据的路由到边界路由的最短路径</strong></p>
+<p>（有可能会有多个路由，所以还要选择要从哪个边界路由出去）</p>
+<p><strong>问：热土豆路由是送到边界路由器就不管了吗？假设有多个边界路由器，数据要去AS1，边界路由器1可以到AS1，边界路由器2到不了AS1，但是边界路由2比边界路由器1离得更近，那么热土豆会把数据给谁？</strong></p>
+<p><strong>答：<strong>热土豆路由在做选择时，一个</strong>基本前提</strong>是它所知的、通过BGP学习到的这些路径<strong>都是能够到达最终目的地的</strong></p>
+<p>在您的例子中，虽然边界路由器2更近，但如果BGP路由信息明确告知，只有通过边界路由器1的路径才能到达AS1，那么边界路由器2根本不会被列为到达AS1的有效下一跳选项。路由器是基于已知的有效路径进行“最近出口”的选择。</p>
+<p><strong>问题6：同一AS内部的边界路由之间是如何共享BGP消息的</strong></p>
+<h3 id="2-AS内部的路由器"><a href="#2-AS内部的路由器" class="headerlink" title="2.AS内部的路由器"></a>2.AS内部的路由器</h3><p>AS内部至少一台边界路由器，还有核心路由器（性能只比边界路由器低）和其他路由器（汇聚路由器和和接入路由器）。</p>
+<p>想要了解多点的可以去搜一搜接入层汇聚层核心层这个模式</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251015114142764.png" alt="image-20251015114142764"></p>
+<p><strong>同一AS内的两台边界路由器之间建立的会话叫做IBGP会话，AS之间的边界路由器之间建立的是EBGP会话</strong></p>
+<p><strong>三类路由器都运行IGP（如OSPF），核心和边界路由器运行BGP，普通路由器不需要运行BGP，内部普通路由器也不需要知道哪个是边界路由器，反反正OSPF等协议会把路由表构造好，然后转发数据报就行了</strong></p>
+<p>同一AS内，边界路由和边界路由，核心路由和核心路由，核心路由和边界路由之间都需要建立<strong>IBGP会话</strong>（类似笛卡尔积，就是一台运行BGP的路由器要和本AS内的所有运行BGP的路由器建立IBGP会话）</p>
+<p><strong>边界路由可以通过建立好的IBGP会话把信息同步给AS内的其他路由器</strong></p>
+<p>而核心路由器收到信息后不需要再在AS内进行洪泛，因为边界路由就路由信息精准送达了各个路由器，把这件事完成了</p>
+<p>送消息是原封不动的，比如</p>
+<p><strong>路由51给32传BGP Update报文，告知AS3的边界路由32在AS5中有哪些网络</strong></p>
+<p>具体有如下字段&lt;网络号，下一条路由，到达该网络的自治系统的路径向量&gt;，具体为</p>
+<p>&lt;9.8.5.0&#x2F;24，路由51自身，AS5&gt;</p>
+<p>&lt;2.1.1.0&#x2F;24，路由51自身，AS5&gt;</p>
+<p><strong>路由32不会修改这两台信息，而是原封不动的发给路由31，就是路由器32不会把路由51改成路由32</strong></p>
+<p>同理给 其他边界路由和核心路由发的也都是不改的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20251015145312854.png" alt="image-20251015145312854"></p>
+<p>像图中这样的边缘AS，只有边界路由器需要运行BGP，其他路由器都不用运行BGP，也不需要建立BGP会话</p>
+<p>R1作为边界路由也可以通过0.0.0.0&#x2F;0这种默认路由的方式来往自治系统外发数据</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2025/11/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%8E%8B%E9%81%93%E8%AE%A1%E7%BD%91%20%20%E7%BD%91%E7%BB%9C%E5%B1%82%20%20%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%20%20%E4%B8%8D%E5%90%8C%E7%BD%91%E6%AE%B5%E4%B9%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">https://darling-123456.github.io/2025/11/14/计算机网络/王道计网  网络层  第三部分  不同网段之间通信/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/11/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%8E%8B%E9%81%93%E8%AE%A1%E7%BD%91%20%20%E7%BD%91%E7%BB%9C%E5%B1%82%20%20%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%20%E5%90%8C%E7%BD%91%E6%AE%B5%E5%86%85%E9%80%9A%E4%BF%A1/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">王道计网 | 网络层 | 第二部分| 同网段内通信 0.ARP协议 ARP请求和响应报文中各关键字段的差异，是掌握网络通信基础的关键。下面这个表格清晰地对比了它们在两种报文中的不同。    字段 ARP请求报文 ARP响应报文    操作类型 (Operation Code) 1 (表示请求) 2 (表示响应)   源MAC地址 (Sender MAC) 请求主机的MAC地址 被请求主机的MAC地址   目的MAC地址 (Target MAC) 全0 (00:00:00:00:00:00) 请求主机的MAC地址   源IP地址 (Sender IP) 请求主机的IP地址 被请求主机的IP地址   目的IP地址 (Target IP) 要解析的目标主机的IP地址 请求主机的IP地址   以太网目的地址 (帧头部) 广播地址 (FF:FF:FF:FF:FF:FF) 请求主机的MAC地址（单播）   深入理解ARP工作过程ARP（地址解析协议）的核心任务是根据IP地址查询对应的MAC地址...</div></div></div></a><a class="pagination-related" href="/2025/11/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%8E%8B%E9%81%93%E8%AE%A1%E7%BD%91%20%20%E7%BD%91%E7%BB%9C%E5%B1%82%20%20%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%20%20IP%E7%9B%B8%E5%85%B3/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2"></div></div><div class="info-2"><div class="info-item-1">王道计网 | 网络层 | 第一部分 |...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">381</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%8B%E9%81%93%E8%AE%A1%E7%BD%91-%E7%BD%91%E7%BB%9C%E5%B1%82-%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86-%E4%B8%8D%E5%90%8C%E7%BD%91%E6%AE%B5%E4%B9%8B%E9%97%B4%E9%80%9A%E4%BF%A1"><span class="toc-text">王道计网 | 网络层 | 第三部分 | 不同网段之间通信</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-NAT"><span class="toc-text">1.NAT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="toc-text">2.路由算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%88%86%E5%B1%82%E6%AC%A1%E7%9A%84%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE"><span class="toc-text">3.分层次的路由协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-RIP%EF%BC%88AS%E5%86%85%EF%BC%89"><span class="toc-text">4.RIP（AS内）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">1.基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-RIP%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="toc-text">2.RIP工作过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%8E%E8%B7%AF%E7%94%B1%E5%99%A8%E5%90%AF%E5%8A%A8%E5%88%B0%E6%94%B6%E6%95%9B"><span class="toc-text">1.从路由器启动到收敛</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8A%A8%E6%80%81%E9%80%82%E5%BA%94%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E5%8F%98%E5%8C%96"><span class="toc-text">2.动态适应网络拓扑变化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-RIP%E7%BC%BA%E7%82%B9"><span class="toc-text">3.RIP缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-RIP%E4%BC%98%E7%82%B9"><span class="toc-text">4.RIP优点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%BC%BA%E5%8C%96%E8%AF%BE%E8%A1%A5%E5%85%85%E9%83%A8%E5%88%86"><span class="toc-text">3.强化课补充部分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-OSPF%EF%BC%88AS%E5%86%85%EF%BC%89"><span class="toc-text">5.OSPF（AS内）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%89%B9%E7%82%B9"><span class="toc-text">1.特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">2.基本工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%88%86%E7%BB%84%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.分组类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%BA%E5%8C%96%E8%AF%BE%E8%A1%A5%E5%85%85%E9%83%A8%E5%88%86"><span class="toc-text">4.强化课补充部分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-BGP%EF%BC%88AS%E9%97%B4%EF%BC%89"><span class="toc-text">6.BGP（AS间）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%89%8B%E6%90%93AS%E8%87%AA%E6%B2%BB%E7%B3%BB%E7%BB%9F-%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95%E5%BA%94%E7%94%A8"><span class="toc-text">7.手搓AS自治系统 - 路由算法应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%89%8B%E6%90%93AS"><span class="toc-text">1.手搓AS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-RIP"><span class="toc-text">2.RIP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RIP%E4%BC%A0%E6%92%AD%E8%BF%87%E7%A8%8B%E5%85%B6%E5%AE%9E%E5%B0%B1%E5%83%8F%E6%98%AF%E5%9B%BE%E7%9A%84%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E9%81%8D%E5%8E%86"><span class="toc-text">RIP传播过程其实就像是图的广度优先遍历</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-OSPF"><span class="toc-text">3.OSPF</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%AE%80%E5%8D%95%E7%82%B9%E7%9A%84OSPF"><span class="toc-text">1.简单点的OSPF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%A4%8D%E6%9D%82%E4%B8%80%E7%82%B9%E7%9A%84"><span class="toc-text">2.复杂一点的</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-BGP"><span class="toc-text">4.BGP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%90%84%E4%B8%AAAS%E4%B9%8B%E9%97%B4%E7%9A%84%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84BGP%E4%BC%9A%E8%AF%9D%EF%BC%88EBGP%EF%BC%89"><span class="toc-text">1. 各个AS之间的路由器的BGP会话（EBGP）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-AS%E5%86%85%E9%83%A8%E7%9A%84%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="toc-text">2.AS内部的路由器</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%8E%8B%E9%81%93%E8%AE%A1%E7%BD%91%20%20%E7%BD%91%E7%BB%9C%E5%B1%82%20%20%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%20%20IP%E7%9B%B8%E5%85%B3/" title="无标题">无标题</a><time datetime="2025-11-14T02:48:05.995Z" title="发表于 2025-11-14 10:48:05">2025-11-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%8E%8B%E9%81%93%E8%AE%A1%E7%BD%91%20%20%E7%BD%91%E7%BB%9C%E5%B1%82%20%20%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%20%20%E4%B8%8D%E5%90%8C%E7%BD%91%E6%AE%B5%E4%B9%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" title="无标题">无标题</a><time datetime="2025-11-14T02:48:05.986Z" title="发表于 2025-11-14 10:48:05">2025-11-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E7%8E%8B%E9%81%93%E8%AE%A1%E7%BD%91%20%20%E7%BD%91%E7%BB%9C%E5%B1%82%20%20%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%20%E5%90%8C%E7%BD%91%E6%AE%B5%E5%86%85%E9%80%9A%E4%BF%A1/" title="无标题">无标题</a><time datetime="2025-11-14T02:48:05.975Z" title="发表于 2025-11-14 10:48:05">2025-11-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%85%B3%E4%BA%8E%E4%BA%94%E6%AE%B5%E5%BC%8F%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%91%E7%A0%81%E9%98%B6%E6%AE%B5%E5%8F%96%E6%93%8D%E4%BD%9C%E6%95%B0%E5%8F%AF%E4%BB%A5%E5%8E%BB%E4%B8%BB%E5%AD%98%E4%B8%AD%E6%8B%BF%E5%90%97/" title="26考研 | 计算机组成原理 | 关于五段式指令流水线译码阶段取操作数可以去主存中拿吗"><img src="/img/380.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 计算机组成原理 | 关于五段式指令流水线译码阶段取操作数可以去主存中拿吗"/></a><div class="content"><a class="title" href="/2025/09/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%85%B3%E4%BA%8E%E4%BA%94%E6%AE%B5%E5%BC%8F%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%91%E7%A0%81%E9%98%B6%E6%AE%B5%E5%8F%96%E6%93%8D%E4%BD%9C%E6%95%B0%E5%8F%AF%E4%BB%A5%E5%8E%BB%E4%B8%BB%E5%AD%98%E4%B8%AD%E6%8B%BF%E5%90%97/" title="26考研 | 计算机组成原理 | 关于五段式指令流水线译码阶段取操作数可以去主存中拿吗">26考研 | 计算机组成原理 | 关于五段式指令流水线译码阶段取操作数可以去主存中拿吗</a><time datetime="2025-09-30T10:25:00.000Z" title="发表于 2025-09-30 18:25:00">2025-09-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%85%B3%E4%BA%8E%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%95%B0%E6%8D%AE%E5%86%92%E9%99%A9%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%9A%84%E5%9B%B0%E6%83%91%E4%BB%A5%E5%8F%8A%E6%A2%B3%E7%90%86/" title="26考研 | 计算机组成原理 | 计算机组成原理关于指令流水线数据冒险解决方案的困惑以及梳理"><img src="/img/379.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="26考研 | 计算机组成原理 | 计算机组成原理关于指令流水线数据冒险解决方案的困惑以及梳理"/></a><div class="content"><a class="title" href="/2025/09/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%85%B3%E4%BA%8E%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF%E6%95%B0%E6%8D%AE%E5%86%92%E9%99%A9%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%9A%84%E5%9B%B0%E6%83%91%E4%BB%A5%E5%8F%8A%E6%A2%B3%E7%90%86/" title="26考研 | 计算机组成原理 | 计算机组成原理关于指令流水线数据冒险解决方案的困惑以及梳理">26考研 | 计算机组成原理 | 计算机组成原理关于指令流水线数据冒险解决方案的困惑以及梳理</a><time datetime="2025-09-30T10:25:00.000Z" title="发表于 2025-09-30 18:25:00">2025-09-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+  © 2024-<script>document.write(new Date().getFullYear())</script> 
+  <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
+  | 已运行 <span id="days">0</span> 天
+  <script>
+    const start = new Date('2024-12-12');
+    const now = new Date();
+    document.getElementById('days').innerHTML = 
+      Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  </script>
+</div>
+</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Never,ever,ever,give,up" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
