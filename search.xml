@@ -59501,7 +59501,7 @@ $&#123;&#125;
       </tags>
   </entry>
   <entry>
-    <title>Go语言&amp;Goland 安装及配置教程</title>
+    <title>Go语言&amp;Goland 安装 配置教程以及常用命令</title>
     <url>/2026/05/27/Go/2026-5-27-Go%E8%AF%AD%E8%A8%80&amp;Goland-%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="Go语言-Goland-安装及配置教程"><a href="#Go语言-Goland-安装及配置教程" class="headerlink" title="Go语言&amp;Goland 安装及配置教程"></a>Go语言&amp;Goland 安装及配置教程</h1><h3 id="一、安装Go语言-Golang"><a href="#一、安装Go语言-Golang" class="headerlink" title="一、安装Go语言 (Golang)"></a>一、安装Go语言 (Golang)</h3><h4 id="1-下载安装"><a href="#1-下载安装" class="headerlink" title="1. 下载安装"></a>1. 下载安装</h4><ul>
 <li>在<a href="https://go.dev/dl/">Golang官网</a>下载（Windows版）<br><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/c3d5ffa9283d494eba7db31e16ef5ba5.png" alt="在这里插入图片描述"></li>
@@ -59555,6 +59555,54 @@ $&#123;&#125;
 <ul>
 <li>运行后可以在下方看到对应输出，成功<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/5f8b6b5696bd4fda848a97244962c19a.png" alt="在这里插入图片描述"></li>
 </ul>
+<h3 id="三、常用命令速查"><a href="#三、常用命令速查" class="headerlink" title="三、常用命令速查"></a>三、常用命令速查</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>go version</code></td>
+<td>查看Go版本</td>
+</tr>
+<tr>
+<td><code>go env</code></td>
+<td>查看环境变量</td>
+</tr>
+<tr>
+<td><code>go mod init &lt;name&gt;</code></td>
+<td>初始化模块</td>
+</tr>
+<tr>
+<td><code>go mod tidy</code></td>
+<td>整理依赖</td>
+</tr>
+<tr>
+<td><code>go run &lt;file&gt;</code></td>
+<td>运行程序</td>
+</tr>
+<tr>
+<td><code>go build</code></td>
+<td>编译程序</td>
+</tr>
+<tr>
+<td><code>go build -o &lt;name&gt;</code></td>
+<td>编译并指定输出名</td>
+</tr>
+<tr>
+<td><code>go fmt</code></td>
+<td>格式化代码</td>
+</tr>
+<tr>
+<td><code>go test</code></td>
+<td>运行测试</td>
+</tr>
+<tr>
+<td><code>go get &lt;pkg&gt;</code></td>
+<td>下载依赖</td>
+</tr>
+</tbody></table>
 ]]></content>
       <categories>
         <category>Go</category>
@@ -59888,6 +59936,805 @@ $&#123;&#125;
       </categories>
       <tags>
         <tag>git</tag>
+        <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符</title>
+    <url>/2026/05/31/Go/GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20%20%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%8A%82%20GO%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%201.%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%20hello_word%20%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%20%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F%20%E8%BF%90%E7%AE%97%E7%AC%A6%20/</url>
+    <content><![CDATA[<h1 id="GO学习笔记-第一章节-GO语言基础-1-环境安装-hello-word-基础数据类型-变量与常量-运算符"><a href="#GO学习笔记-第一章节-GO语言基础-1-环境安装-hello-word-基础数据类型-变量与常量-运算符" class="headerlink" title="GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符"></a>GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符</h1><p><strong>常用快捷键</strong></p>
+<p>1.ctrl+鼠标左键，可以直接进入这个函数，也就是 <strong>跳转到函数&#x2F;变量定义处</strong></p>
+<p>2.Alt + ←  &#x3D; 后退（回到上一个光标位置）</p>
+<p>3.Alt + →  &#x3D; 前进（去到下一个光标位置）</p>
+<p><code>使用场景：</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 你在 main.go 的第 10 行</span><br><span class="line">2. 按住 Ctrl 点击 Func1，跳转到了 utils.go 的第 50 行</span><br><span class="line">3. 按住 Ctrl 点击 Func2，跳转到了 helper.go 的第 30 行</span><br><span class="line">4. 按 Alt + ← 就回到了utils.go 的第 50 行</span><br><span class="line">5. 再按 Alt + ← 回到 main.go 的第 10 行</span><br><span class="line">6. 按 Alt + → 前进到 utils.go 的第 50 行</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531144417600.png" alt="image-20260531144417600"></p>
+<hr>
+<h2 id="一、Go开发环境搭建"><a href="#一、Go开发环境搭建" class="headerlink" title="一、Go开发环境搭建"></a>一、Go开发环境搭建</h2><p>具体内容可以看上篇博客，这里并没有配置图片</p>
+<h3 id="1-1-安装Go"><a href="#1-1-安装Go" class="headerlink" title="1.1 安装Go"></a>1.1 安装Go</h3><ul>
+<li><strong>下载地址</strong>：使用镜像站下载</li>
+<li><strong>版本选择</strong>：安装最新版本（建议1.18+，因为要使用泛型特性）</li>
+<li><strong>芯片选择</strong>：<ul>
+<li>macOS：确认是Apple芯片还是Intel芯片</li>
+<li>Linux&#x2F;Windows：直接选择对应版本</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-环境变量配置"><a href="#1-2-环境变量配置" class="headerlink" title="1.2 环境变量配置"></a>1.2 环境变量配置</h3><h4 id="macOS-Linux-bash-zsh"><a href="#macOS-Linux-bash-zsh" class="headerlink" title="macOS&#x2F;Linux (bash&#x2F;zsh)"></a>macOS&#x2F;Linux (bash&#x2F;zsh)</h4><p>在 <code>~/.zshrc</code> 或 <code>~/.bashrc</code> 中配置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Go安装路径</span></span><br><span class="line"><span class="built_in">export</span> GOROOT=/usr/local/go</span><br><span class="line"></span><br><span class="line"><span class="comment"># Go项目存放路径</span></span><br><span class="line"><span class="built_in">export</span> GOPATH=<span class="variable">$HOME</span>/go</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将Go命令加入PATH</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$GOROOT</span>/bin:<span class="variable">$GOPATH</span>/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 国内代理（推荐配置）</span></span><br><span class="line"><span class="built_in">export</span> GOPROXY=https://goproxy.cn,direct</span><br><span class="line"></span><br><span class="line"><span class="comment"># 私有库配置（如需要）</span></span><br><span class="line"><span class="comment"># export GOPRIVATE=gitlab.yourcompany.com</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><p>通过系统设置 → 环境变量：</p>
+<ul>
+<li>新建 <code>GOROOT</code>：指向Go安装目录（默认 <code>C:\Program Files\Go</code>）</li>
+<li>新建 <code>GOPATH</code>：项目存放路径</li>
+<li>编辑 <code>Path</code>：添加 <code>%GOROOT%\bin</code> 和 <code>%GOPATH%\bin</code></li>
+</ul>
+<h3 id="1-3-验证安装"><a href="#1-3-验证安装" class="headerlink" title="1.3 验证安装"></a>1.3 验证安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go version</span><br><span class="line">go <span class="built_in">env</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-IDE推荐"><a href="#1-4-IDE推荐" class="headerlink" title="1.4 IDE推荐"></a>1.4 IDE推荐</h3><p><strong>强烈推荐使用 GoLand</strong>（JetBrains出品）</p>
+<ul>
+<li>对新手友好，开箱即用</li>
+<li>自动代码补全、格式化</li>
+<li>调试功能强大</li>
+</ul>
+<p><strong>配置要点</strong>：</p>
+<ol>
+<li>设置Go SDK路径</li>
+<li>启用Go Modules</li>
+<li>配置GOPROXY代理</li>
+</ol>
+<hr>
+<h2 id="二、第一个Go程序"><a href="#二、第一个Go程序" class="headerlink" title="二、第一个Go程序"></a>二、第一个Go程序</h2><h3 id="2-1-项目初始化"><a href="#2-1-项目初始化" class="headerlink" title="2.1 项目初始化"></a>2.1 项目初始化</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建项目目录</span></span><br><span class="line"><span class="built_in">mkdir</span> hello-go</span><br><span class="line"><span class="built_in">cd</span> hello-go</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化Go模块</span></span><br><span class="line">go mod init github.com/yourname/hello-go</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-编写main-go"><a href="#2-2-编写main-go" class="headerlink" title="2.2 编写main.go"></a>2.2 编写main.go</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Hello, Go!&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-关键概念"><a href="#2-3-关键概念" class="headerlink" title="2.3 关键概念"></a>2.3 关键概念</h3><h4 id="package声明"><a href="#package声明" class="headerlink" title="package声明"></a>package声明</h4><ul>
+<li><code>package main</code>：表示这是一个可执行程序</li>
+<li><strong>必须</strong>在main包中才能运行</li>
+<li>其他包名用于库代码</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531212031526.png" alt="image-20260531212031526"></p>
+<h4 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h4><ul>
+<li>程序入口点</li>
+<li>无参数、无返回值</li>
+<li>必须在main包中</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531203444909.png" alt="image-20260531203444909"></p>
+<p>推荐写法是一个目录下就只写一个main函数</p>
+<h3 id="2-4-运行程序"><a href="#2-4-运行程序" class="headerlink" title="2.4 运行程序"></a>2.4 运行程序</h3><p>使用vscode通过命令行进行运行的话：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 方式1：直接运行</span></span><br><span class="line">go run main.go</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式2：编译后运行</span></span><br><span class="line">go build -o hello-go</span><br><span class="line">./hello-go</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式3：编译当前目录所有文件</span></span><br><span class="line">go run .</span><br></pre></td></tr></table></figure>
+
+<p>如果是golang的话直接运行就是了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531173542579.png" alt="image-20260531173542579"></p>
+<h3 id="2-5-常见错误"><a href="#2-5-常见错误" class="headerlink" title="2.5 常见错误"></a>2.5 常见错误</h3><p><strong>错误1</strong>：<code>package command line argument is not a main package</code></p>
+<ul>
+<li>原因：package名不是main</li>
+<li>解决：将<code>package xxx</code>改为<code>package main</code></li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531173200645.png" alt="image-20260531173200645"></p>
+<p><strong>错误2</strong>：<code>undefined: xxx</code></p>
+<ul>
+<li>原因：引用了其他文件的函数但没有一起编译</li>
+<li>解决：<code>go run .</code> 或 <code>go run main.go other.go</code></li>
+</ul>
+<hr>
+<h2 id="三、基本数据类型"><a href="#三、基本数据类型" class="headerlink" title="三、基本数据类型"></a>三、基本数据类型</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531212306457.png" alt="image-20260531212306457"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531213339945.png" alt="image-20260531213339945"></p>
+<h3 id="3-1-整数类型"><a href="#3-1-整数类型" class="headerlink" title="3.1 整数类型"></a>3.1 整数类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int</code></td>
+<td>4或8字节</td>
+<td>默认整数类型，根据系统决定</td>
+</tr>
+<tr>
+<td><code>int8</code></td>
+<td>1字节</td>
+<td>-128 ~ 127</td>
+</tr>
+<tr>
+<td><code>int16</code></td>
+<td>2字节</td>
+<td>-32768 ~ 32767</td>
+</tr>
+<tr>
+<td><code>int32</code></td>
+<td>4字节</td>
+<td>约-21亿 ~ 21亿</td>
+</tr>
+<tr>
+<td><code>int64</code></td>
+<td>8字节</td>
+<td>很大范围</td>
+</tr>
+<tr>
+<td><code>uint</code></td>
+<td>4或8字节</td>
+<td>无符号整数（非负）</td>
+</tr>
+<tr>
+<td><code>uint8</code></td>
+<td>1字节</td>
+<td>0 ~ 255</td>
+</tr>
+<tr>
+<td><code>uint16</code></td>
+<td>2字节</td>
+<td>0 ~ 65535</td>
+</tr>
+<tr>
+<td><code>uint32</code></td>
+<td>4字节</td>
+<td>0 ~ 约42亿</td>
+</tr>
+<tr>
+<td><code>uint64</code></td>
+<td>8字节</td>
+<td>很大范围</td>
+</tr>
+<tr>
+<td><code>uintptr</code></td>
+<td>取决于系统</td>
+<td>用于存储指针地址</td>
+</tr>
+</tbody></table>
+<p><strong>使用建议</strong>：</p>
+<ul>
+<li>遇事不决用 <code>int</code> 或 <code>uint</code></li>
+<li>需要与其他系统交互时（如序列化），明确指定字节数</li>
+<li>现代计算机不差那点内存，优先使用64位</li>
+</ul>
+<h3 id="3-2-浮点数类型"><a href="#3-2-浮点数类型" class="headerlink" title="3.2 浮点数类型"></a>3.2 浮点数类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>float32</code></td>
+<td>4字节</td>
+<td>单精度浮点数</td>
+</tr>
+<tr>
+<td><code>float64</code></td>
+<td>8字节</td>
+<td>双精度浮点数（推荐）</td>
+</tr>
+</tbody></table>
+<p><strong>使用建议</strong>：</p>
+<ul>
+<li>优先使用 <code>float64</code></li>
+<li>现代计算机不差那点内存</li>
+</ul>
+<h3 id="3-3-布尔类型"><a href="#3-3-布尔类型" class="headerlink" title="3.3 布尔类型"></a>3.3 布尔类型</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> flag <span class="type">bool</span> = <span class="literal">true</span>  <span class="comment">// 或 false</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531215006849.png" alt="image-20260531215006849"></p>
+<p><strong>问题1：<code>!(a &amp;&amp; b)</code> 等价于什么？</strong></p>
+<p><strong>答案：<code>!a || !b</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!(a &amp;&amp; b) ≡ !a || !b</span><br></pre></td></tr></table></figure>
+
+<p><strong>理解</strong>：</p>
+<ul>
+<li>“非（a 且 b）” &#x3D; “非a 或 非b”</li>
+<li>举例：不是（有钱又帅）&#x3D; 没钱 或者 不帅</li>
+</ul>
+<p><strong>问题2：<code>!(a || b)</code> 等价于什么？</strong></p>
+<p><strong>答案：<code>!a &amp;&amp; !b</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!(a || b) ≡ !a &amp;&amp; !b</span><br></pre></td></tr></table></figure>
+
+<p><strong>理解</strong>：</p>
+<ul>
+<li>“非（a 或 b）” &#x3D; “非a 且 非b”</li>
+<li>举例：不是（有钱或帅）&#x3D; 没钱 并且 不帅</li>
+</ul>
+<h3 id="3-4-字符串类型"><a href="#3-4-字符串类型" class="headerlink" title="3.4 字符串类型"></a>3.4 字符串类型</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531213453512.png" alt="image-20260531213453512"></p>
+<h4 id="两种定义方式"><a href="#两种定义方式" class="headerlink" title="两种定义方式"></a>两种定义方式</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 方式1：双引号（单行）</span></span><br><span class="line">str1 := <span class="string">&quot;Hello, Go!&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式2：反引号（支持多行，不转义）</span></span><br><span class="line">str2 := <span class="string">`Hello,</span></span><br><span class="line"><span class="string">World!</span></span><br><span class="line"><span class="string">这是多行字符串`</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531214145114.png" alt="image-20260531214145114"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531214458684.png" alt="image-20260531214458684"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;strings&quot;</span></span><br><span class="line">    <span class="string">&quot;unicode/utf8&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    str := <span class="string">&quot;Hello, 世界&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符串拼接</span></span><br><span class="line">    newStr := str + <span class="string">&quot;!&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 长度（字节数）- 注意：中文字符会占多个字节</span></span><br><span class="line">    byteLen := <span class="built_in">len</span>(str)  <span class="comment">// 13（英文1字节，中文3字节）</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 字符数量（正确统计中文）</span></span><br><span class="line">    charCount := utf8.RuneCountInString(str)  <span class="comment">// 9</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 常用strings包方法</span></span><br><span class="line">    strings.HasPrefix(str, <span class="string">&quot;Hello&quot;</span>)  <span class="comment">// true</span></span><br><span class="line">    strings.HasSuffix(str, <span class="string">&quot;世界&quot;</span>)   <span class="comment">// true</span></span><br><span class="line">    strings.Contains(str, <span class="string">&quot;llo&quot;</span>)     <span class="comment">// true</span></span><br><span class="line">    strings.Split(str, <span class="string">&quot;, &quot;</span>)         <span class="comment">// [&quot;Hello&quot;, &quot;世界&quot;]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>⚠️ 重要提醒</strong>：</p>
+<ul>
+<li><code>len()</code> 返回的是字节数，不是字符数</li>
+<li>统计中文字符数要用 <code>utf8.RuneCountInString()</code></li>
+<li>Go默认使用UTF-8编码</li>
+</ul>
+<h3 id="3-5-字节类型"><a href="#3-5-字节类型" class="headerlink" title="3.5 字节类型"></a>3.5 字节类型</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531214625250.png" alt="image-20260531214625250"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531214838566.png" alt="image-20260531214838566"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// byte 是 uint8 的别名</span></span><br><span class="line"><span class="keyword">type</span> <span class="type">byte</span> = <span class="type">uint8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串与字节切片转换</span></span><br><span class="line">str := <span class="string">&quot;hello&quot;</span></span><br><span class="line">bytes := []<span class="type">byte</span>(str)    <span class="comment">// 字符串转字节切片</span></span><br><span class="line">str2 := <span class="type">string</span>(bytes)   <span class="comment">// 字节切片转字符串</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、变量与常量"><a href="#四、变量与常量" class="headerlink" title="四、变量与常量"></a>四、变量与常量</h2><h3 id="4-1-变量声明"><a href="#4-1-变量声明" class="headerlink" title="4.1 变量声明"></a>4.1 变量声明</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531215149440.png" alt="image-20260531215149440"></p>
+<h4 id="方式1：完整声明"><a href="#方式1：完整声明" class="headerlink" title="方式1：完整声明"></a>方式1：完整声明</h4><p>var + 变量名 + 类型</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="type">int</span> = <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> b <span class="type">int64</span> = <span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="方式2：类型推断"><a href="#方式2：类型推断" class="headerlink" title="方式2：类型推断"></a>方式2：类型推断</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> c = <span class="number">20</span>        <span class="comment">// 自动推断为int</span></span><br><span class="line"><span class="keyword">var</span> d = <span class="string">&quot;hello&quot;</span>   <span class="comment">// 自动推断为string</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="方式3：简短声明（仅局部变量）"><a href="#方式3：简短声明（仅局部变量）" class="headerlink" title="方式3：简短声明（仅局部变量）"></a>方式3：简短声明（仅局部变量）</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">e := <span class="number">30</span>           <span class="comment">// 只能在函数内部使用</span></span><br><span class="line">f := <span class="number">3.14</span>         <span class="comment">// 自动推断为float64</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531220001778.png" alt="image-20260531220001778"></p>
+<h4 id="方式4：批量声明"><a href="#方式4：批量声明" class="headerlink" title="方式4：批量声明"></a>方式4：批量声明</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    x = <span class="number">1</span></span><br><span class="line">    y = <span class="number">2</span></span><br><span class="line">    z = <span class="string">&quot;hello&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-变量作用域"><a href="#4-2-变量作用域" class="headerlink" title="4.2 变量作用域"></a>4.2 变量作用域</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">// 包级变量（包内所有文件可访问）</span></span><br><span class="line"><span class="keyword">var</span> GlobalVar = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 包内私有变量（小写开头）</span></span><br><span class="line"><span class="keyword">var</span> internalVar = <span class="number">200</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 局部变量（仅在main函数内有效）</span></span><br><span class="line">    localVar := <span class="number">300</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 使用变量</span></span><br><span class="line">    <span class="built_in">println</span>(GlobalVar, internalVar, localVar)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实是不是包私有的就看你在函数外面定义的那个变量开头是大写还是小写，小写就私有，大写就共有</p>
+<p><strong>命名规范</strong>：</p>
+<ul>
+<li>使用驼峰命名（如：<code>userName</code>、<code>totalCount</code>）</li>
+<li>首字母大写：包外可访问（导出）</li>
+<li>首字母小写：包内私有</li>
+</ul>
+<p><strong>⚠️ 老师建议</strong>：尽量避免使用包级变量，使用依赖注入替代</p>
+<p>注：如果main函数外面有个全局变量aa，里面有个自己的局部变量aa，那么main调用的时候只能用自己的aa，这种问题尽量避免吧</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531220338892.png" alt="image-20260531220338892"></p>
+<h3 id="4-3-常量声明"><a href="#4-3-常量声明" class="headerlink" title="4.3 常量声明"></a>4.3 常量声明</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531220423300.png" alt="image-20260531220423300"></p>
+<h3 id="4-4-常量声明：iota枚举"><a href="#4-4-常量声明：iota枚举" class="headerlink" title="4.4 常量声明：iota枚举"></a>4.4 常量声明：iota枚举</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531220609631.png" alt="image-20260531220609631"></p>
+<p><code>iota</code> 是Go的常量计数器，从0开始，每行自动+1</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//默认是+1</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    StatusInit = <span class="literal">iota</span>     <span class="comment">// 0</span></span><br><span class="line">    StatusRunning         <span class="comment">// 1</span></span><br><span class="line">    StatusPaused          <span class="comment">// 2</span></span><br><span class="line">    StatusStopped         <span class="comment">// 3</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 更复杂的用法 让他自增的方式改变了</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    FlagA = <span class="number">1</span> &lt;&lt; <span class="literal">iota</span>     <span class="comment">// 1 (二进制: 001)</span></span><br><span class="line">    FlagB                 <span class="comment">// 2 (二进制: 010)</span></span><br><span class="line">    FlagC                 <span class="comment">// 4 (二进制: 100)</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 中断iota 重新写个const()的话iota还是从0开始的，而不是已经计数过的3或者100</span></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    StateA = <span class="literal">iota</span>         <span class="comment">// 0</span></span><br><span class="line">    StateB = <span class="number">100</span>          <span class="comment">// 100</span></span><br><span class="line">    StateC                <span class="comment">// 100（保持上一个值）</span></span><br><span class="line">    StateD = <span class="literal">iota</span>         <span class="comment">// 3（恢复计数）</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、运算符"><a href="#五、运算符" class="headerlink" title="五、运算符"></a>五、运算符</h2><h3 id="5-1-算术运算符"><a href="#5-1-算术运算符" class="headerlink" title="5.1 算术运算符"></a>5.1 算术运算符</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a, b := <span class="number">10</span>, <span class="number">3</span></span><br><span class="line"></span><br><span class="line">sum := a + b      <span class="comment">// 13</span></span><br><span class="line">diff := a - b     <span class="comment">// 7</span></span><br><span class="line">product := a * b  <span class="comment">// 30</span></span><br><span class="line">quotient := a / b <span class="comment">// 3（整数除法）</span></span><br><span class="line">remainder := a % b <span class="comment">// 1（取余）</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531212716604.png" alt="image-20260531212716604"></p>
+<p><strong>⚠️ 注意事项</strong>：</p>
+<ul>
+<li>除零会导致panic（程序崩溃）</li>
+<li>不同类型不能直接运算，需要显式转换，甚至int和int32都不能直接进行运算</li>
+</ul>
+<h3 id="5-2-类型转换"><a href="#5-2-类型转换" class="headerlink" title="5.2 类型转换"></a>5.2 类型转换</h3><p>go里面比较严格，不存在自动类型转换，只有显示转换才行，如果你不进行转换，那就只能等着报错了</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="type">int</span> = <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> b <span class="type">float64</span> = <span class="number">3.14</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误：不同类型不能直接运算</span></span><br><span class="line"><span class="comment">// c := a + b  // 编译错误</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确：显式转换</span></span><br><span class="line">c := <span class="type">float64</span>(a) + b   <span class="comment">// 13.14</span></span><br><span class="line">d := a + <span class="type">int</span>(b)       <span class="comment">// 13（会丢失小数部分）</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3-数学运算包"><a href="#5-3-数学运算包" class="headerlink" title="5.3 数学运算包"></a>5.3 数学运算包</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260531213006647.png" alt="image-20260531213006647"></p>
+<h3 id="5-4-逻辑运算符"><a href="#5-4-逻辑运算符" class="headerlink" title="5.4 逻辑运算符"></a>5.4 逻辑运算符</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">a, b := <span class="literal">true</span>, <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">a &amp;&amp; b  <span class="comment">// 与: false</span></span><br><span class="line">a || b  <span class="comment">// 或: true</span></span><br><span class="line">!a      <span class="comment">// 非: false</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>问题1：<code>!(a &amp;&amp; b)</code> 等价于什么？</strong></p>
+<p><strong>答案：<code>!a || !b</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!(a &amp;&amp; b) ≡ !a || !b</span><br></pre></td></tr></table></figure>
+
+<p><strong>理解</strong>：</p>
+<ul>
+<li>“非（a 且 b）” &#x3D; “非a 或 非b”</li>
+<li>举例：不是（有钱又帅）&#x3D; 没钱 或者 不帅</li>
+</ul>
+<p><strong>问题2：<code>!(a || b)</code> 等价于什么？</strong></p>
+<p><strong>答案：<code>!a &amp;&amp; !b</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">!(a || b) ≡ !a &amp;&amp; !b</span><br></pre></td></tr></table></figure>
+
+<p><strong>理解</strong>：</p>
+<ul>
+<li>“非（a 或 b）” &#x3D; “非a 且 非b”</li>
+<li>举例：不是（有钱或帅）&#x3D; 没钱 并且 不帅</li>
+</ul>
+<hr>
+<h2 id="六、重要注意事项"><a href="#六、重要注意事项" class="headerlink" title="六、重要注意事项"></a>六、重要注意事项</h2><h3 id="6-1-代码格式化"><a href="#6-1-代码格式化" class="headerlink" title="6.1 代码格式化"></a>6.1 代码格式化</h3><p>Go有内置的代码格式化工具，IDE保存时会自动格式化：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go <span class="built_in">fmt</span> main.go  <span class="comment"># 格式化单个文件</span></span><br><span class="line">go <span class="built_in">fmt</span> ./...    <span class="comment"># 格式化整个项目</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-未使用变量"><a href="#6-2-未使用变量" class="headerlink" title="6.2 未使用变量"></a>6.2 未使用变量</h3><p>Go是严格的，声明但未使用的变量会导致编译错误：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    a := <span class="number">10</span></span><br><span class="line">    <span class="comment">// 如果不使用a，编译会报错：a declared and not used</span></span><br><span class="line">    <span class="built_in">println</span>(a)  <span class="comment">// 使用了就不会报错</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-同名变量遮蔽"><a href="#6-3-同名变量遮蔽" class="headerlink" title="6.3 同名变量遮蔽"></a>6.3 同名变量遮蔽</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    a := <span class="number">10</span></span><br><span class="line">    &#123;</span><br><span class="line">        a := <span class="number">20</span>  <span class="comment">// 这是新的变量，遮蔽了外部的a</span></span><br><span class="line">        <span class="built_in">println</span>(a)  <span class="comment">// 20</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">println</span>(a)  <span class="comment">// 10（外部的a）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>IDE会用绿色高亮警告变量遮蔽，建议避免这种写法</strong></p>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>配置codex + deepseek过程记录</title>
+    <url>/2026/06/02/ai%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/2026-6-02-%E9%85%8D%E7%BD%AEcodex-+-deepseek%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="配置codex-deepseek过程记录"><a href="#配置codex-deepseek过程记录" class="headerlink" title="配置codex + deepseek过程记录"></a>配置codex + deepseek过程记录</h1><p>来源：<a href="https://www.bilibili.com/video/BV1q5G961Ech/?spm_id_from=333.788.top_right_bar_window_history.content.click&vd_source=7831c5b97cfc5c745eb48ff04f6515e7">Codex接入第三方API，插件没解锁？5分钟保姆级解决_哔哩哔哩_bilibili</a></p>
+<p>我仅作为自己查看来用</p>
+<p><code>注：</code></p>
+<p>一、下面三个东西要记得更新，不要忘了</p>
+<p>二、配置好以后，启动的时候需要：</p>
+<p>1.先启动ccx，存放在E盘</p>
+<p>2.启动ccswitch，放在了任务栏</p>
+<p>3.启动codex++，而不是codex，区别是codex++可以使用codex的插件</p>
+<p>三、使用的时候记得挂梯子</p>
+<p>四、下面过程中不要启动codex，后台也要退出</p>
+<h2 id="1-下载ccx"><a href="#1-下载ccx" class="headerlink" title="1.下载ccx"></a>1.下载ccx</h2><p>去<a href="https://github.com/BenedictKing/ccx">BenedictKing&#x2F;ccx: Claude &#x2F; Codex &#x2F; Gemini API Proxy - CCX</a></p>
+<p>笔者下载的是v2.8.20版本</p>
+<p>这是装好并且运行过一次的情况</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602182326235.png" alt="image-20260602182326235"></p>
+<p>1.自己创建一个ccx文件夹</p>
+<p>2.把安装包放在这个文件夹下面</p>
+<p>3.创建一个.env文件内容如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PROXY_ACCESS_KEY=123456</span><br><span class="line">PORT=3688</span><br><span class="line">ENABLE_WEB_UI=true</span><br><span class="line">APP_UI_LANGUAGE=zh</span><br></pre></td></tr></table></figure>
+
+<p>这个access_key要记住</p>
+<p>4.启动ccx并如下图所示操作</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602185528401.png" alt="image-20260602185528401"></p>
+<p>5.密码就是刚刚的access_key，我这里是123456</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602185602165.png" alt="image-20260602185602165"></p>
+<p>6.点击codex</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602185634308.png" alt="image-20260602185634308"></p>
+<ol start="7">
+<li></li>
+</ol>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602185708640.png" alt="image-20260602185708640"></p>
+<p>8.输入api key和请求地址</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602185722585.png" alt="image-20260602185722585"></p>
+<p>9.详细配置</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602185756216.png" alt="image-20260602185756216"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602185815448.png" alt="image-20260602185815448"></p>
+<p>10.把所有的open ai模型全给改成deepseek的，注意配置完了以后有个小眼睛一样的东西，如果你的模型识别不了图片，也就是没有视觉的话要把眼睛给点一下</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602185828065.png" alt="image-20260602185828065"></p>
+<ol start="11">
+<li></li>
+</ol>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602185923975.png" alt="image-20260602185923975"></p>
+<p>12.创建渠道</p>
+<h2 id="2-下载ccswitch"><a href="#2-下载ccswitch" class="headerlink" title="2.下载ccswitch"></a>2.下载ccswitch</h2><p>1.切换到openai下</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602185957682.png" alt="image-20260602185957682"></p>
+<p>2.点击右上角加号进行配置</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602190257109.png" alt="image-20260602190257109"></p>
+<p>3.写上名字deepseek和apikey，还是刚刚的那个密码</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602190412679.png" alt="image-20260602190412679"></p>
+<p>4.配置api请求地址</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602190445632.png" alt="image-20260602190445632"></p>
+<p>这个就是要往ccswitch上面配置的，复制一下</p>
+<p>5.获取模型，可以成功获取两个deepseek的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602190519524.png" alt="image-20260602190519524"></p>
+<p>6.这里配置上下文长度</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602190549791.png" alt="image-20260602190549791"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">config.toml声明上下文窗口和压缩阈值：</span><br><span class="line">model_context_window = 1000000</span><br><span class="line">model_auto_compact_token_limit = 900000</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602190623115.png" alt="image-20260602190623115"></p>
+<p>7.添加并测试</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602190640897.png" alt="image-20260602190640897"></p>
+<p>测试</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602190718004.png" alt="image-20260602190718004"></p>
+<p>8.启动codex，发现不能用插件，但是已经可以进行问答了。不能用插件很难受，所以需要codex++</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602190801491.png" alt="image-20260602190801491"></p>
+<h2 id="3-下载codex"><a href="#3-下载codex" class="headerlink" title="3.下载codex++"></a>3.下载codex++</h2><p><a href="https://github.com/BigPizzaV3/CodexPlusPlus">BigPizzaV3&#x2F;CodexPlusPlus: An enhanced tool for CodexApp, striving to make Codex better to use and more comfortable 一个CodexApp的增强工具，努力让Codex变得更好用更舒服</a></p>
+<p>笔者是v1.1.9</p>
+<p>下载安装好之后打开就发现了可以使用插件了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602191535374.png" alt="image-20260602191535374"></p>
+<p>到此结束</p>
+]]></content>
+      <categories>
+        <category>AI工具使用</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>codex</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>论文参考文献交叉引用和对齐问题</title>
+    <url>/2026/06/02/%E8%AE%BA%E6%96%87%E7%9B%B8%E5%85%B3/2026-6-02-%E8%AE%BA%E6%96%87%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E4%BA%A4%E5%8F%89%E5%BC%95%E7%94%A8%E5%92%8C%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="论文参考文献交叉引用和对齐问题"><a href="#论文参考文献交叉引用和对齐问题" class="headerlink" title="论文参考文献交叉引用和对齐问题"></a>论文参考文献交叉引用和对齐问题</h1><p>这东西真是给我恶心吐了，现在写出来给大家作为参考吧</p>
+<h2 id="1-对齐问题"><a href="#1-对齐问题" class="headerlink" title="1.对齐问题"></a>1.对齐问题</h2><p>这是一开始的模样，[1]这种的编号可以被选中，下面第二行也和第一行不对齐</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602160857484.png" alt="image-20260602160857484"></p>
+<p>然后开始修改</p>
+<p>1.全选</p>
+<p>2.右键点击段落</p>
+<p>3.缩进的特殊格式选择悬挂缩进，切换到 换行和分页选择 换行的第二个允许西文在单词中间换行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161009681.png" alt="image-20260602161009681"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161056304.png" alt="image-20260602161056304"></p>
+<p>4.结果图，没有达到预期，继续往下走</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161136077.png" alt="image-20260602161136077"></p>
+<h2 id="2-编号问题"><a href="#2-编号问题" class="headerlink" title="2.编号问题"></a>2.编号问题</h2><p>1.按住alt选中[数字]，然后按delete全给删了</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161240475.png" alt="image-20260602161240475"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161314761.png" alt="image-20260602161314761"></p>
+<p>2.选中然后点击项目符号和编号</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161400434.png" alt="image-20260602161400434"></p>
+<p>3.如下图选择然后点击列表编号的自定义</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161433107.png"></p>
+<p>4.把图一变成图二的样子然后点击确定</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161607032.png" alt="image-20260602161607032"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161549943.png" alt="image-20260602161549943"></p>
+<p>5.结果图</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161651708.png" alt="image-20260602161651708"></p>
+<h2 id="3-交叉引用"><a href="#3-交叉引用" class="headerlink" title="3.交叉引用"></a>3.交叉引用</h2><p>1.找到交叉引用的地方</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161723700.png" alt="image-20260602161723700"></p>
+<p>2.点击引用里的交叉引用</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161749068.png" alt="image-20260602161749068"></p>
+<p>3.引用内容选择段落编号，然后这个地方要插入那篇文章就选择哪篇插入就行</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161812806.png" alt="image-20260602161812806"></p>
+<p>4.这是结果，尝试ctrl+鼠标左键，应该可以跳转</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161857068.png" alt="image-20260602161857068"></p>
+<p>5.选中，右键，并点击字体</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161928027.png" alt="image-20260602161928027"></p>
+<p>6.勾选效果中的上标</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602161956906.png" alt="image-20260602161956906"></p>
+<p>7.结果图</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602162020593.png" alt="image-20260602162020593"></p>
+<p>8.简便方法</p>
+<p>8.1点击查找与替换并切换到替换</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602162046449.png" alt="image-20260602162046449"></p>
+<p>8.2 特殊格式选择任意数字</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602162117556.png" alt="image-20260602162117556"></p>
+<p>8.3 出现^#之后加上中括号，然后点击高级搜索，搜索部分选择向上，然后点击格式，选择字体，勾选上标</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602162345410.png" alt="image-20260602162345410"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260602162447880.png" alt="image-20260602162447880"></p>
+<p>8.5 最后点击替换即可</p>
+<p>这样可以一次性替换10以内的，不用一个一个点上标</p>
+<p>如果是10以及以上的，那就得点击两次 任意数字，出现两个^#即，[^#^#]，但笔者好像没有成功，如果有知道的可以在评论区告诉笔者一下</p>
+]]></content>
+      <categories>
+        <category>论文相关</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Go语言 Package 和 Import 学习笔记</title>
+    <url>/2026/05/31/Go/Go%E8%AF%AD%E8%A8%80Package%E5%92%8CImport%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="Go语言-Package-和-Import-学习笔记"><a href="#Go语言-Package-和-Import-学习笔记" class="headerlink" title="Go语言 Package 和 Import 学习笔记"></a>Go语言 Package 和 Import 学习笔记</h1><p>查看结论直接跳转到7,8,9即可</p>
+<p>本博客主要记录：同一个目录下的go文件都得是一个package里面的，不允许同一个目录的的go文件属于第二个包。也就是一个目录对应一个package，而不同目录下的想要调用当前目录的go文件里面的代码必须使用import才可以进行调用</p>
+<p>注：大小写控制的包内和包外是否可以调用，不管大小写，包内都随便调用，如果是大写，那么你在别的包使用import之后可以调用，如果是小写，那么在包外就无法被调用了</p>
+<h2 id="一、核心问题：同一个-package-的文件能否互相调用？"><a href="#一、核心问题：同一个-package-的文件能否互相调用？" class="headerlink" title="一、核心问题：同一个 package 的文件能否互相调用？"></a>一、核心问题：同一个 package 的文件能否互相调用？</h2><h3 id="1-1-问题场景"><a href="#1-1-问题场景" class="headerlink" title="1.1 问题场景"></a>1.1 问题场景</h3><blockquote>
+<p>假设 <code>hello1.go</code> 是 <code>package main</code>，<code>hello2.go</code> 也是 <code>package main</code>，那么在 <code>hello1.go</code> 中能否直接调用 <code>hello2.go</code> 中的函数？这两个文件是否属于同一个作用域？</p>
+</blockquote>
+<h3 id="1-2-答案"><a href="#1-2-答案" class="headerlink" title="1.2 答案"></a>1.2 答案</h3><p><strong>是的，可以！</strong></p>
+<p>如果两个文件满足以下条件：</p>
+<ol>
+<li>声明相同的包名（如 <code>package main</code>）</li>
+<li>在<strong>同一个目录</strong>下</li>
+</ol>
+<p>那么：</p>
+<ul>
+<li>✅ 可以直接调用对方的函数</li>
+<li>✅ 属于同一个包，共享同一个命名空间</li>
+</ul>
+<h3 id="1-3-代码示例"><a href="#1-3-代码示例" class="headerlink" title="1.3 代码示例"></a>1.3 代码示例</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// hello1.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    SayHello()  <span class="comment">// ✅ 直接调用 hello2.go 中的函数</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;from hello1&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// hello2.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SayHello</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Hello from hello2!&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-运行方式"><a href="#1-4-运行方式" class="headerlink" title="1.4 运行方式"></a>1.4 运行方式</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ❌ 错误：只运行一个文件，会报错 &quot;undefined: SayHello&quot;</span></span><br><span class="line">go run hello1.go</span><br><span class="line"></span><br><span class="line"><span class="comment"># ✅ 正确方式1：运行所有相关文件</span></span><br><span class="line">go run hello1.go hello2.go</span><br><span class="line"></span><br><span class="line"><span class="comment"># ✅ 正确方式2：运行整个目录</span></span><br><span class="line">go run .</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="二、Go-的-Package-规则详解"><a href="#二、Go-的-Package-规则详解" class="headerlink" title="二、Go 的 Package 规则详解"></a>二、Go 的 Package 规则详解</h2><h3 id="2-1-核心规则"><a href="#2-1-核心规则" class="headerlink" title="2.1 核心规则"></a>2.1 核心规则</h3><table>
+<thead>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>同目录 &#x3D; 同包</strong></td>
+<td>同一个目录下的所有 <code>.go</code> 文件必须声明相同的包名</td>
+</tr>
+<tr>
+<td><strong>包内共享</strong></td>
+<td>同一个包内的所有代码共享命名空间，可以互相访问</td>
+</tr>
+<tr>
+<td><strong>大小写控制导出</strong></td>
+<td>首字母大写 &#x3D; 可被其他包访问；首字母小写 &#x3D; 仅包内访问</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-作用域示意图"><a href="#2-2-作用域示意图" class="headerlink" title="2.2 作用域示意图"></a>2.2 作用域示意图</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────┐</span><br><span class="line">│            <span class="keyword">package</span> main                 │</span><br><span class="line">│  ┌─────────────┐  ┌─────────────┐       │</span><br><span class="line">│  │ hello1.<span class="keyword">go</span>   │  │ hello2.<span class="keyword">go</span>   │       │</span><br><span class="line">│  │             │  │             │       │</span><br><span class="line">│  │ <span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> │  │ <span class="function"><span class="keyword">func</span> <span class="title">SayHello</span><span class="params">()</span></span>     │</span><br><span class="line">│  │   SayHello()│──│             │       │</span><br><span class="line">│  └─────────────┘  └─────────────┘       │</span><br><span class="line">│                                         │</span><br><span class="line">│  ✅ 同一个作用域，可以互相访问              │</span><br><span class="line">└─────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-注意事项"><a href="#2-3-注意事项" class="headerlink" title="2.3 注意事项"></a>2.3 注意事项</h3><h4 id="1-同一目录不能有不同包名"><a href="#1-同一目录不能有不同包名" class="headerlink" title="1. 同一目录不能有不同包名"></a>1. 同一目录不能有不同包名</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ❌ 错误示例</span></span><br><span class="line"><span class="comment">// hello1.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">// hello2.go  </span></span><br><span class="line"><span class="keyword">package</span> other  <span class="comment">// 编译错误！同一目录下包名必须一致</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-函数不能重复定义"><a href="#2-函数不能重复定义" class="headerlink" title="2. 函数不能重复定义"></a>2. 函数不能重复定义</h4><p>其实就是在同一个作用域里面不能定义两个一样的函数</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ❌ 两个文件都定义了同名函数</span></span><br><span class="line"><span class="comment">// hello1.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DoSomething</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// hello2.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DoSomething</span><span class="params">()</span></span> &#123;&#125;  <span class="comment">// 错误：重复定义</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、与-C-头文件机制的对比"><a href="#三、与-C-头文件机制的对比" class="headerlink" title="三、与 C++ 头文件机制的对比"></a>三、与 C++ 头文件机制的对比</h2><h3 id="3-1-整体对比"><a href="#3-1-整体对比" class="headerlink" title="3.1 整体对比"></a>3.1 整体对比</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>C++</th>
+<th>Go</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>代码组织</strong></td>
+<td>头文件(.h) + 源文件(.cpp)</td>
+<td>包(package)</td>
+</tr>
+<tr>
+<td><strong>声明可见性</strong></td>
+<td>头文件声明</td>
+<td>首字母大小写</td>
+</tr>
+<tr>
+<td><strong>引用方式</strong></td>
+<td><code>#include &quot;xxx.h&quot;</code></td>
+<td><code>import &quot;xxx&quot;</code></td>
+</tr>
+<tr>
+<td><strong>编译单位</strong></td>
+<td>单个 .cpp 文件</td>
+<td>整个包</td>
+</tr>
+<tr>
+<td><strong>符号导出</strong></td>
+<td>所有声明都可见</td>
+<td>大写开头才导出</td>
+</tr>
+<tr>
+<td><strong>链接</strong></td>
+<td>手动管理 <code>.lib</code> 或 <code>.o</code></td>
+<td>自动处理</td>
+</tr>
+</tbody></table>
+<h3 id="3-2-同一个项目内文件共享的对比"><a href="#3-2-同一个项目内文件共享的对比" class="headerlink" title="3.2 同一个项目内文件共享的对比"></a>3.2 同一个项目内文件共享的对比</h3><p><strong>C++ 方式</strong>：需要头文件声明</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ========== hello2.h ==========</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> HELLO2_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> HELLO2_H</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SayHello</span><span class="params">()</span></span>;  <span class="comment">// 声明</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ========== hello2.cpp ==========</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;hello2.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SayHello</span><span class="params">()</span> </span>&#123;  <span class="comment">// 实现</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Hello from hello2!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ========== hello1.cpp ==========</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;hello2.h&quot;</span>  <span class="comment">// 必须include头文件才能用</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">SayHello</span>();  <span class="comment">// 调用</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Go 方式</strong>：同一个包内直接用</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ========== hello2.go ==========</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SayHello</span><span class="params">()</span></span> &#123;  <span class="comment">// 直接定义，无需头文件</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;Hello from hello2!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ========== hello1.go ==========</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="comment">// 不需要任何import！同包内直接用</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    SayHello()  <span class="comment">// 直接调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>对比总结</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Go</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同目录下的 <code>.cpp</code> 文件<strong>互不知道</strong></td>
+<td>同目录下的 <code>.go</code> 文件（同包）<strong>自动共享</strong></td>
+</tr>
+<tr>
+<td>必须用 <code>#include</code> 引入头文件</td>
+<td>不需要，同包直接用</td>
+</tr>
+<tr>
+<td>头文件 &#x3D; 声明的桥梁</td>
+<td>无需桥梁，编译器自动处理</td>
+</tr>
+</tbody></table>
+<h3 id="3-3-引用其他目录-模块代码的对比"><a href="#3-3-引用其他目录-模块代码的对比" class="headerlink" title="3.3 引用其他目录&#x2F;模块代码的对比"></a>3.3 引用其他目录&#x2F;模块代码的对比</h3><p><strong>C++ 方式</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ========== math_utils/math_utils.h ==========</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> MATH_UTILS_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MATH_UTILS_H</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>;  <span class="comment">// 声明</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Multiply</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ========== math_utils/math_utils.cpp ==========</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;math_utils.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123; <span class="keyword">return</span> a + b; &#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Multiply</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123; <span class="keyword">return</span> a * b; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ========== main.cpp ==========</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;math_utils/math_utils.h&quot;</span>  <span class="comment">// 引入其他模块</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> result = <span class="built_in">Add</span>(<span class="number">1</span>, <span class="number">2</span>);  <span class="comment">// 使用</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Go 方式</strong>：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ========== math_utils/add.go ==========</span></span><br><span class="line"><span class="keyword">package</span> math_utils  <span class="comment">// 包名</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Add</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;  <span class="comment">// 首字母大写 = 导出</span></span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">multiply</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;  <span class="comment">// 首字母小写 = 不导出</span></span><br><span class="line">    <span class="keyword">return</span> a * b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ========== main.go ==========</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;myproject/math_utils&quot;</span>  <span class="comment">// 导入其他包</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    result := math_utils.Add(<span class="number">1</span>, <span class="number">2</span>)     <span class="comment">// ✅ 可以用</span></span><br><span class="line">    <span class="comment">// math_utils.multiply(1, 2)       // ❌ 编译错误，小写不可见</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>对比总结</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Go</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>#include &quot;xxx.h&quot;</code> 引入声明</td>
+<td><code>import &quot;xxx&quot;</code> 引入整个包</td>
+</tr>
+<tr>
+<td>头文件里声明的都能用</td>
+<td>只有<strong>大写开头</strong>的能用</td>
+</tr>
+<tr>
+<td>链接时需要 <code>.lib</code> 或 <code>.o</code> 文件</td>
+<td>自动链接，无需手动管理</td>
+</tr>
+</tbody></table>
+<h3 id="3-4-完整对比图"><a href="#3-4-完整对比图" class="headerlink" title="3.4 完整对比图"></a>3.4 完整对比图</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                        C++ 头文件机制                            │</span><br><span class="line">├─────────────────────────────────────────────────────────────────┤</span><br><span class="line">│   hello2.h              hello2.cpp         hello1.cpp           │</span><br><span class="line">│   ┌─────────┐          ┌─────────┐        ┌─────────┐          │</span><br><span class="line">│   │ 声明    │◄──include│ 实现    │        │ #include│          │</span><br><span class="line">│   │void Say│          │void Say │        │ &quot;hello2&quot;│          │</span><br><span class="line">│   │Hello();│          │Hello()&#123; │        │         │          │</span><br><span class="line">│   └─────────┘          │  ...    │        │ main()&#123; │          │</span><br><span class="line">│        ▲               └─────────┘        │  SayHello()        │</span><br><span class="line">│        │                                  └─────────┘          │</span><br><span class="line">│        └────────── 必须通过头文件桥接 ──────────────┘          │</span><br><span class="line">└─────────────────────────────────────────────────────────────────┘</span><br><span class="line"></span><br><span class="line">┌─────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                        Go 包机制                                 │</span><br><span class="line">├─────────────────────────────────────────────────────────────────┤</span><br><span class="line">│   hello2.go                        hello1.go                    │</span><br><span class="line">│   ┌─────────────────────┐         ┌─────────────────────┐      │</span><br><span class="line">│   │ package main        │         │ package main        │      │</span><br><span class="line">│   │                     │         │                     │      │</span><br><span class="line">│   │ func SayHello() &#123;   │─────────│ func main() &#123;       │      │</span><br><span class="line">│   │     fmt.Println()   │ 直接用！ │     SayHello()      │      │</span><br><span class="line">│   │ &#125;                   │         │ &#125;                   │      │</span><br><span class="line">│   └─────────────────────┘         └─────────────────────┘      │</span><br><span class="line">│        同一个 package = 自动共享，无需头文件                      │</span><br><span class="line">└─────────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、Package-和-Import-的区别"><a href="#四、Package-和-Import-的区别" class="headerlink" title="四、Package 和 Import 的区别"></a>四、Package 和 Import 的区别</h2><h3 id="4-1-核心概念"><a href="#4-1-核心概念" class="headerlink" title="4.1 核心概念"></a>4.1 核心概念</h3><table>
+<thead>
+<tr>
+<th>Go 概念</th>
+<th>作用</th>
+<th>C++ 类比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>package</strong></td>
+<td>定义”我是谁”（属于哪个包）</td>
+<td><code>namespace</code> + 编译单元</td>
+</tr>
+<tr>
+<td><strong>import</strong></td>
+<td>引入”别人是谁”（使用其他包）</td>
+<td><code>#include</code> + <code>using</code></td>
+</tr>
+</tbody></table>
+<h3 id="4-2-package-定义身份"><a href="#4-2-package-定义身份" class="headerlink" title="4.2 package &#x3D; 定义身份"></a>4.2 package &#x3D; 定义身份</h3><p><strong>Go</strong>：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// hello.go</span></span><br><span class="line"><span class="keyword">package</span> myutils  <span class="comment">// 我属于 myutils 包</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Add</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;  <span class="comment">// 大写 = 导出</span></span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>C++ 类比</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// hello.cpp</span></span><br><span class="line"><span class="keyword">namespace</span> myutils &#123;  <span class="comment">// 我属于 myutils 命名空间</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">Add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a + b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>Go</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>package myutils</code></td>
+<td><code>namespace myutils &#123; ... &#125;</code></td>
+</tr>
+<tr>
+<td>定义这个文件属于哪个包</td>
+<td>定义这些代码属于哪个命名空间</td>
+</tr>
+<tr>
+<td><strong>每个文件必须声明</strong></td>
+<td>可选，不是必须的</td>
+</tr>
+</tbody></table>
+<h3 id="4-3-import-引入别人"><a href="#4-3-import-引入别人" class="headerlink" title="4.3 import &#x3D; 引入别人"></a>4.3 import &#x3D; 引入别人</h3><p><strong>Go</strong>：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// main.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;myproject/myutils&quot;</span>  <span class="comment">// 引入 myutils 包</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    myutils.Add(<span class="number">1</span>, <span class="number">2</span>)  <span class="comment">// 通过包名调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>C++ 类比</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// main.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;myutils/hello.h&quot;</span>  <span class="comment">// 引入头文件</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> myutils;    <span class="comment">// 使用命名空间</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    myutils::<span class="built_in">Add</span>(<span class="number">1</span>, <span class="number">2</span>);  <span class="comment">// 通过命名空间调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>Go</th>
+<th>C++</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>import &quot;xxx&quot;</code></td>
+<td><code>#include &quot;xxx.h&quot;</code> + 链接</td>
+</tr>
+<tr>
+<td>引入整个包的符号</td>
+<td>引入头文件的声明</td>
+</tr>
+<tr>
+<td>自动链接</td>
+<td>需要手动链接 <code>.lib</code> 或 <code>.o</code></td>
+</tr>
+</tbody></table>
+<h3 id="4-4-核心区别总结"><a href="#4-4-核心区别总结" class="headerlink" title="4.4 核心区别总结"></a>4.4 核心区别总结</h3><p>package &#x3D; 定义身份（我是谁）<br>  • 写在文件开头<br>  • 声明这个文件属于哪个包<br>  • 类似 C++ 的 namespace，但更强（目录必须对应）                   </p>
+<p>  import &#x3D; 引入别人（我要用谁）<br>  • 引入其他目录的包<br>  • 类似 C++ 的 #include + using<br>  • 但只能用大写开头的符号                                          </p>
+<p>  类比：<br>  package  →  “我是中国人”（定义身份）<br>  import   →  “我要用美国货”（引入外部资源）</p>
+<hr>
+<h2 id="五、不同目录下的情况分析"><a href="#五、不同目录下的情况分析" class="headerlink" title="五、不同目录下的情况分析"></a>五、不同目录下的情况分析</h2><h3 id="5-1-场景-A：三个文件在同一个目录，都是-package-main"><a href="#5-1-场景-A：三个文件在同一个目录，都是-package-main" class="headerlink" title="5.1 场景 A：三个文件在同一个目录，都是 package main"></a>5.1 场景 A：三个文件在同一个目录，都是 <code>package main</code></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">myproject/</span><br><span class="line">├── hello1.go    (package main)</span><br><span class="line">├── hello2.go    (package main)</span><br><span class="line">└── hello3.go    (package main)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// hello1.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Func1</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">&quot;hello1&quot;</span>) &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// hello2.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Func2</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">&quot;hello2&quot;</span>) &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// hello3.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="comment">// 不需要任何 import！直接用！</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Func1()  <span class="comment">// ✅ 直接调用</span></span><br><span class="line">    Func2()  <span class="comment">// ✅ 直接调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>结论</strong>：同目录 + 同包名 &#x3D; <strong>直接用，不需要 import</strong></p>
+<h3 id="5-2-场景-B：hello3-go-在另一个目录（错误示例）"><a href="#5-2-场景-B：hello3-go-在另一个目录（错误示例）" class="headerlink" title="5.2 场景 B：hello3.go 在另一个目录（错误示例）"></a>5.2 场景 B：hello3.go 在另一个目录（错误示例）</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">myproject/</span><br><span class="line">├── main/</span><br><span class="line">│   ├── hello1.go    (package main)</span><br><span class="line">│   └── hello2.go    (package main)</span><br><span class="line">└── other/</span><br><span class="line">    └── hello3.go    (package other)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// main/hello1.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Func1</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">&quot;hello1&quot;</span>) &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// other/hello3.go</span></span><br><span class="line"><span class="keyword">package</span> other</span><br><span class="line"></span><br><span class="line"><span class="comment">// ❌ 不能 import &quot;main&quot;！main 包不能被导入！</span></span><br><span class="line"><span class="comment">// import &quot;myproject/main&quot;  // 编译错误！</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;  <span class="comment">// ❌ 这个 main 函数也不会执行</span></span><br><span class="line">    <span class="comment">// 无法调用 Func1 和 Func2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>问题</strong>：</p>
+<ol>
+<li><code>main</code> 包是<strong>程序入口</strong>，<strong>不能被其他包 import</strong></li>
+<li>如果想让代码被其他包使用，必须放在<strong>非 main 包</strong>里</li>
+</ol>
+<h3 id="5-3-场景-C：正确做法-抽取公共代码到独立包"><a href="#5-3-场景-C：正确做法-抽取公共代码到独立包" class="headerlink" title="5.3 场景 C：正确做法 - 抽取公共代码到独立包"></a>5.3 场景 C：正确做法 - 抽取公共代码到独立包</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">myproject/</span><br><span class="line">├── myutils/</span><br><span class="line">│   ├── hello1.go    (package myutils)</span><br><span class="line">│   └── hello2.go    (package myutils)</span><br><span class="line">└── main/</span><br><span class="line">    └── hello3.go    (package main)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// myutils/hello1.go</span></span><br><span class="line"><span class="keyword">package</span> myutils</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Func1</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">&quot;hello1&quot;</span>) &#125;  <span class="comment">// 大写开头 = 导出</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// myutils/hello2.go</span></span><br><span class="line"><span class="keyword">package</span> myutils</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Func2</span><span class="params">()</span></span> &#123; <span class="built_in">println</span>(<span class="string">&quot;hello2&quot;</span>) &#125;  <span class="comment">// 大写开头 = 导出</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// main/hello3.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;myproject/myutils&quot;</span>  <span class="comment">// ✅ 导入 myutils 包</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    myutils.Func1()  <span class="comment">// ✅ 通过包名调用</span></span><br><span class="line">    myutils.Func2()  <span class="comment">// ✅ 通过包名调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-4-场景总结"><a href="#5-4-场景总结" class="headerlink" title="5.4 场景总结"></a>5.4 场景总结</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>能否调用</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同目录 + 同包名</td>
+<td>✅ <strong>直接调用</strong></td>
+<td>同一个包，共享作用域</td>
+</tr>
+<tr>
+<td>同目录 + 不同包名</td>
+<td>❌ <strong>编译错误</strong></td>
+<td>Go 要求同目录必须同包名</td>
+</tr>
+<tr>
+<td>不同目录 + import “main”</td>
+<td>❌ <strong>编译错误</strong></td>
+<td>main 包不能被 import</td>
+</tr>
+<tr>
+<td>不同目录 + 抽取到独立包</td>
+<td>✅ <strong>import 后调用</strong></td>
+<td>正确做法</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、常见错误示例"><a href="#六、常见错误示例" class="headerlink" title="六、常见错误示例"></a>六、常见错误示例</h2><h3 id="6-1-错误：import-自己所在的包"><a href="#6-1-错误：import-自己所在的包" class="headerlink" title="6.1 错误：import 自己所在的包"></a>6.1 错误：import 自己所在的包</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ❌ 错误示例</span></span><br><span class="line"><span class="comment">// hello3.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;main&quot;</span>  <span class="comment">// 编译错误！不能 import 自己所在的包</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-错误：import-main-包"><a href="#6-2-错误：import-main-包" class="headerlink" title="6.2 错误：import main 包"></a>6.2 错误：import main 包</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ❌ 错误示例</span></span><br><span class="line"><span class="comment">// other/hello3.go</span></span><br><span class="line"><span class="keyword">package</span> other</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;myproject/main&quot;</span>  <span class="comment">// 编译错误！main 包不能被 import</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-错误：同目录不同包名"><a href="#6-3-错误：同目录不同包名" class="headerlink" title="6.3 错误：同目录不同包名"></a>6.3 错误：同目录不同包名</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ❌ 错误示例</span></span><br><span class="line"><span class="comment">// hello1.go</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="comment">// hello2.go (同目录)</span></span><br><span class="line"><span class="keyword">package</span> other  <span class="comment">// 编译错误！同目录必须同包名</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="七、Go-的核心规则总结"><a href="#七、Go-的核心规则总结" class="headerlink" title="七、Go 的核心规则总结"></a>七、Go 的核心规则总结</h2><p> Go 的 package&#x2F;import 规则：                                      </p>
+<ol>
+<li><p>import 只能引入【其他包】，不能引入自己所在的包                 </p>
+</li>
+<li><p>main 包是程序入口，不能被其他包 import                        </p>
+</li>
+<li><p>同目录 &#x3D; 必须同包名 &#x3D; 不需要 import &#x3D; 直接用</p>
+</li>
+<li><p>不同目录 &#x3D; 不同包 &#x3D; 需要 import &#x3D; 通过包名调用                 </p>
+</li>
+<li><p>大写开头 &#x3D; 可被其他包使用（导出）</p>
+</li>
+<li><p>小写开头 &#x3D; 只能包内使用（私有）</p>
+</li>
+</ol>
+<hr>
+<h2 id="八、与-C-的核心差异总结"><a href="#八、与-C-的核心差异总结" class="headerlink" title="八、与 C++ 的核心差异总结"></a>八、与 C++ 的核心差异总结</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>C++</th>
+<th>Go</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>同目录文件共享</strong></td>
+<td>需要头文件声明</td>
+<td>同包自动共享</td>
+</tr>
+<tr>
+<td><strong>使用其他模块</strong></td>
+<td><code>#include &quot;xxx.h&quot;</code></td>
+<td><code>import &quot;xxx&quot;</code></td>
+</tr>
+<tr>
+<td><strong>符号可见性</strong></td>
+<td>头文件里写了就能用</td>
+<td>大写&#x3D;导出，小写&#x3D;私有</td>
+</tr>
+<tr>
+<td><strong>编译链接</strong></td>
+<td>手动管理 <code>.o</code> <code>.lib</code></td>
+<td>自动处理</td>
+</tr>
+<tr>
+<td><strong>循环依赖</strong></td>
+<td>头文件可以循环 include</td>
+<td><strong>禁止循环 import</strong></td>
+</tr>
+<tr>
+<td><strong>main 能否被引用</strong></td>
+<td>可以</td>
+<td><strong>不能被 import</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="九、总结"><a href="#九、总结" class="headerlink" title="九、总结"></a>九、总结</h2><p> <strong>Go Package 机制速查表</strong>                         </p>
+<p>• 每个文件必须声明 package                                      </p>
+<p>• 同目录必须同包名                                             </p>
+<p>• 类似 C++ 的 namespace                                        </p>
+<p>  【import &#x3D; 引入别人】                                           </p>
+<p>• 只能引入其他目录的包                                          </p>
+<p> • 不能 import 自己所在的包                                      </p>
+<p>• 不能 import main 包                                          </p>
+<p>• 类似 C++ 的 #include + using                                 </p>
+<p>  【大小写控制可见性</p>
+<p>• 大写开头 &#x3D; 导出（可被其他包使用）</p>
+<p>• 小写开头 &#x3D; 私有（只能包内使用）</p>
+<p><code>  这一条不止针对函数，而是针对所有的标识符，比如函数，变量，结构体等等</code></p>
+<p>  【同包 &#x3D; 同作用域】</p>
+<p>• 同目录 + 同包名 &#x3D; 直接用，不需要 import </p>
+<p>• 不同目录 &#x3D; 需要 import + 通过包名调用 </p>
+<p><strong>同一个目录下的go文件都得是一个package里面的，不允许同一个目录的的go文件属于第二个包。</strong></p>
+<p><strong>也就是一个目录对应一个package，而不同目录下的想要调用当前目录的go文件里面的代码必须使用import才可以进行调用</strong></p>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
         <tag>Go</tag>
       </tags>
   </entry>
