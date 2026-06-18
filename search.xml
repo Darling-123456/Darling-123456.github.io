@@ -60908,6 +60908,9 @@ $&#123;&#125;
 <h4 id="3-计时"><a href="#3-计时" class="headerlink" title="3. 计时"></a>3. 计时</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SlowFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">(start time.Time)</span></span> &#123;</span><br><span class="line">        <span class="built_in">println</span>(<span class="string">&quot;耗时:&quot;</span>, time.Since(start))</span><br><span class="line">    &#125;(time.Now())</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 执行业务逻辑...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260618162951824.png" alt="image-20260618162951824"></p>
+<p>第一个全是10，并且i的地址都是同一个。其实就是每一次都是同一个i，然后最后加完了才执行循环里面的func执行了10遍，打出来了10个10</p>
+<p>第二个是9,8,7,6,5,4,3,2,1,0，并且val的地址也一直在变。而第二个每次都把i&#x3D;1，i&#x3D;2之类的直接传给val了，每个func都不一样，都有自己的val，然后最后倒着输出出来就是9,8,7，…了</p>
+<p>第三个是9,8,7,6,5,4,3,2,1,0，并且j的地址也一直在变。j每一轮循环都是一个新的变量，所以地址也会不同，所以结果和第二个一样</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260618163512794.png" alt="image-20260618163512794"></p>
 <hr>
 <h2 id="六、控制结构"><a href="#六、控制结构" class="headerlink" title="六、控制结构"></a>六、控制结构</h2><h3 id="6-1-if-else"><a href="#6-1-if-else" class="headerlink" title="6.1 if-else"></a>6.1 if-else</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260618163914667.png" alt="image-20260618163914667"></p>
