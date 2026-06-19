@@ -60741,7 +60741,7 @@ $&#123;&#125;
   <entry>
     <title>GO学习笔记 | 第二章节 GO语言基础| 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型</title>
     <url>/2026/06/18/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%BA%8C%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="GO学习笔记-第二章节-GO语言基础-方法（函数）-控制结构-内置类型"><a href="#GO学习笔记-第二章节-GO语言基础-方法（函数）-控制结构-内置类型" class="headerlink" title="GO学习笔记 | 第二章节 GO语言基础| 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型"></a>GO学习笔记 | 第二章节 GO语言基础| 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型</h1><p><strong>核心内容</strong>：方法声明、函数式编程、控制结构（if&#x2F;for&#x2F;switch） 、内置类型<br><strong>前置知识</strong>：变量声明、常量声明（iota）、包管理</p>
+    <content><![CDATA[<h1 id="GO学习笔记-第二章节-GO语言基础-方法（函数）-控制结构-内置类型"><a href="#GO学习笔记-第二章节-GO语言基础-方法（函数）-控制结构-内置类型" class="headerlink" title="GO学习笔记 | 第二章节 GO语言基础 | 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型"></a>GO学习笔记 | 第二章节 GO语言基础 | 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型</h1><p><strong>核心内容</strong>：方法声明、函数式编程、控制结构（if&#x2F;for&#x2F;switch） 、内置类型<br><strong>前置知识</strong>：变量声明、常量声明（iota）、包管理</p>
 <hr>
 <h2 id="一、两个注意点"><a href="#一、两个注意点" class="headerlink" title="一、两个注意点"></a>一、两个注意点</h2><h3 id="1-1-GOPATH-目录结构"><a href="#1-1-GOPATH-目录结构" class="headerlink" title="1.1 GOPATH 目录结构"></a>1.1 GOPATH 目录结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GOPATH/</span><br><span class="line">├── src/      ← 源代码放在这里</span><br><span class="line">├── bin/      ← go install 安装的命令</span><br><span class="line">└── pkg/      ← go get 下载的依赖包</span><br></pre></td></tr></table></figure>
 
@@ -61253,6 +61253,493 @@ $&#123;&#125;
         <tag>Linux高性能服务器编程</tag>
         <tag>网络编程</tag>
         <tag>系统编程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在golang中创建新项目并使用git将项目推送到github仓库中（新手向）</title>
+    <url>/2026/06/19/Go/2026-6-19-%E5%9C%A8golang%E4%B8%AD%E5%88%9B%E5%BB%BA%E6%96%B0%E9%A1%B9%E7%9B%AE%E5%B9%B6%E4%BD%BF%E7%94%A8git%E5%B0%86%E9%A1%B9%E7%9B%AE%E6%8E%A8%E9%80%81%E5%88%B0github%E4%BB%93%E5%BA%93%E4%B8%AD%EF%BC%88%E6%96%B0%E6%89%8B%E5%90%91%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="在golang中创建新项目并使用git将项目推送到github仓库中（新手向）"><a href="#在golang中创建新项目并使用git将项目推送到github仓库中（新手向）" class="headerlink" title="在golang中创建新项目并使用git将项目推送到github仓库中（新手向）"></a>在golang中创建新项目并使用git将项目推送到github仓库中（新手向）</h1><p>虽然是新手向，但你起码要把git给学了才行，不能真的啥也不知道</p>
+<h2 id="1-创建github仓库"><a href="#1-创建github仓库" class="headerlink" title="1.创建github仓库"></a>1.创建github仓库</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619165313656.png" alt="image-20260619165313656"></p>
+<h2 id="2-克隆项目"><a href="#2-克隆项目" class="headerlink" title="2.克隆项目"></a>2.克隆项目</h2><p>复制下图的地址</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619165329544.png" alt="image-20260619165329544"></p>
+<p>打开git</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619165501750.png" alt="image-20260619165501750"></p>
+<p>输入以下命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/Darling-123456/go_learning.git</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-进入项目文件夹创建-gitignore文件"><a href="#3-进入项目文件夹创建-gitignore文件" class="headerlink" title="3.进入项目文件夹创建.gitignore文件"></a>3.进入项目文件夹创建.gitignore文件</h2><p><strong>绝不能把 IDE 的配置文件传上去！</strong><br>在你的项目<strong>最根目录</strong>下，新建一个名为 <code>.gitignore</code> 的文件，并在里面写上：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">.idea/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>原因</strong>：打开 GoLand 时会自动生成 <code>.idea</code> 文件夹，里面全是本地的编辑器缓存。如果不忽略，它会和你的代码一起上传，导致 GitHub 仓库非常杂乱。一旦你曾经不小心把它们 <code>add</code> 过，可以使用 <code>git rm -r --cached .idea</code> 命令将它从 Git 追踪列表中剔除。</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619165842734.png" alt="image-20260619165842734"></p>
+<h2 id="4-在golang打开这个文件夹"><a href="#4-在golang打开这个文件夹" class="headerlink" title="4.在golang打开这个文件夹"></a>4.在golang打开这个文件夹</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619170025445.png" alt="image-20260619170025445"></p>
+<h2 id="5-写入第一个go文件并创建mod文件"><a href="#5-写入第一个go文件并创建mod文件" class="headerlink" title="5.写入第一个go文件并创建mod文件"></a>5.写入第一个go文件并创建mod文件</h2><h3 id="正常流程"><a href="#正常流程" class="headerlink" title="正常流程"></a>正常流程</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619170523109.png" alt="image-20260619170523109"></p>
+<p>写好后跳转到对应的位置然后打开终端输入以下命令创建go.mod</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go mod init go_exercise</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619170645270.png" alt="image-20260619170645270"></p>
+<p>最后运行项目看到helloword</p>
+<h3 id="注意点：mod的作用"><a href="#注意点：mod的作用" class="headerlink" title="注意点：mod的作用"></a>注意点：mod的作用</h3><p><code>go.mod</code> 文件定义的是一个 <strong>“模块（Module）”</strong>。</p>
+<ul>
+<li>如果你在 <code>go_learning</code> 下执行 <code>go mod init go_learning</code>，就会生成一个 <code>go.mod</code> 文件。</li>
+<li><strong>关键点</strong>：在这个 <code>go.mod</code> 所在的文件夹下，<strong>所有的子文件夹</strong>（包括 <code>exercise</code>、<code>leetcode</code>、<code>project</code>），<strong>都会自动属于这个叫做 <code>go_learning</code> 的模块</strong>。</li>
+<li>它们内部的 Go 代码可以直接互相引用，不需要在子文件夹里再单独搞一个 <code>go.mod</code>。</li>
+</ul>
+<p><strong>如果你在子目录里单独输入 <code>go mod init</code></strong>，那就相当于告诉 Go：“这个 <code>exercise</code> 文件夹是一个<strong>完全独立的项目</strong>，和外面的 <code>go_learning</code> 没有关系。”</p>
+<ul>
+<li>这种写法叫做 <strong>“多模块工作区”</strong>，一般用在你开发微服务架构，或者<code>go_learning</code> 是一个大仓库，而 <code>exercise</code> 是一个需要发布为独立命令行工具的独立项目时。</li>
+</ul>
+<p><strong>给你一个明确的实战建议：</strong></p>
+<p>对于目前的<strong>学习阶段</strong>，<strong>在最外层 <code>go_learning</code> 执行一次 <code>go mod init go_learning</code> 就完美了</strong>。子文件夹里的代码全都在这个模块的管理范围内，省心且省事。</p>
+<h2 id="6-在golang中绑定自己的github账号"><a href="#6-在golang中绑定自己的github账号" class="headerlink" title="6.在golang中绑定自己的github账号"></a>6.在golang中绑定自己的github账号</h2><p>在设置中的版本控制中的github</p>
+<p>然后选择添加账号</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619170743486.png" alt="image-20260619170743486"></p>
+<h2 id="7-推送项目到自己的仓库"><a href="#7-推送项目到自己的仓库" class="headerlink" title="7.推送项目到自己的仓库"></a>7.推送项目到自己的仓库</h2><h3 id="1-golang中按键推送"><a href="#1-golang中按键推送" class="headerlink" title="1.golang中按键推送"></a>1.golang中按键推送</h3><p>在左侧栏中选择提交，选中自己要提交推送的内容，然后在下面提交信息中输入自己的提交信息，如下面第二张图所示</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619171100584.png" alt="image-20260619171100584"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619171221809.png" alt="image-20260619171221809"></p>
+<p>点击提交并推送，结果如图所示</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619171642894.png" alt="image-20260619171642894"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619171657302.png" alt="image-20260619171657302"></p>
+<h3 id="2-使用命令行"><a href="#2-使用命令行" class="headerlink" title="2.使用命令行"></a>2.使用命令行</h3><p>打开左侧栏底部的终端并跳转到对应的目录</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619171824478.png" alt="image-20260619171824478"></p>
+<p>这里先新添加一个go文件函数并在main中调用</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619172036981.png" alt="image-20260619172036981"></p>
+<p>在终端输入以下命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 把修改的文件添加到暂存区</span></span><br><span class="line">git add .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 提交改动到本地仓库</span></span><br><span class="line">git commit -m <span class="string">&quot;增加add函数&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 推送到 GitHub 的远程仓库</span></span><br><span class="line">git push origin main</span><br><span class="line"><span class="comment"># 如果本地分支叫 master，则用 git push origin master</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619172243876.png" alt="image-20260619172243876"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619172707331.png" alt="image-20260619172707331"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619172725255.png" alt="image-20260619172725255"></p>
+<p>至此就结束了，关于git命令更多的内容可以去看看其他git相关的博客</p>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>好用工具</tag>
+        <tag>git</tag>
+        <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GO学习笔记 | 第三章节 GO语言基础 | 接口&amp;&amp;结构体&amp;&amp;方法接收器&amp;&amp;组合&amp;&amp;泛型</title>
+    <url>/2026/06/18/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B8%89%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="GO学习笔记-第三章节-GO语言基础-接口-结构体-方法接收器-组合-泛型"><a href="#GO学习笔记-第三章节-GO语言基础-接口-结构体-方法接收器-组合-泛型" class="headerlink" title="GO学习笔记 | 第三章节 GO语言基础 | 接口&amp;&amp;结构体&amp;&amp;方法接收器&amp;&amp;组合&amp;&amp;泛型"></a>GO学习笔记 | 第三章节 GO语言基础 | 接口&amp;&amp;结构体&amp;&amp;方法接收器&amp;&amp;组合&amp;&amp;泛型</h1><p><strong>核心内容</strong>：接口、结构体、方法接收器、组合、衍生类型与类型别名、泛型<br><strong>前置知识</strong>：方法声明、函数式编程、控制结构（if&#x2F;for&#x2F;switch）、内置类型</p>
+<hr>
+<h2 id="一、课前回顾：defer-与闭包"><a href="#一、课前回顾：defer-与闭包" class="headerlink" title="一、课前回顾：defer 与闭包"></a>一、课前回顾：defer 与闭包</h2><h3 id="1-1-for-循环中-defer-的经典问题"><a href="#1-1-for-循环中-defer-的经典问题" class="headerlink" title="1.1 for 循环中 defer 的经典问题"></a>1.1 for 循环中 defer 的经典问题</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        fmt.Println(i)  <span class="comment">// 为什么输出的都是 10？</span></span><br><span class="line">    &#125;()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>原因</strong>：<code>i</code> 的地址始终是同一个，defer 延迟到函数返回前才执行，此时 <code>i</code> 已经是 10 了。</p>
+<p><strong>验证</strong>：打印地址确认</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;i 的地址: %p\n&quot;</span>, &amp;i)  <span class="comment">// 每次循环地址相同！</span></span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        fmt.Println(i)  <span class="comment">// 全是 10</span></span><br><span class="line">    &#125;()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>两种解决方案</strong>：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 方案1：传参（值传递，推荐）</span></span><br><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">(v <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">        fmt.Println(v)  <span class="comment">// 9, 8, 7, ..., 0</span></span><br><span class="line">    &#125;(i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方案2：每次循环创建新变量</span></span><br><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">    j := i  <span class="comment">// 每次循环都是全新的 j</span></span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        fmt.Println(j)  <span class="comment">// 9, 8, 7, ..., 0</span></span><br><span class="line">    &#125;()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="二、接口（Interface）"><a href="#二、接口（Interface）" class="headerlink" title="二、接口（Interface）"></a>二、接口（Interface）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260618193443953.png" alt="image-20260618193443953"></p>
+<h3 id="2-1-什么是接口"><a href="#2-1-什么是接口" class="headerlink" title="2.1 什么是接口"></a>2.1 什么是接口</h3><p>接口是一组<strong>行为的抽象</strong>——只规定「能做什么」，不关心「怎么做的」。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> List <span class="keyword">interface</span> &#123;</span><br><span class="line">    Add(index <span class="type">int</span>, value any)</span><br><span class="line">    Append(value any)</span><br><span class="line">    Delete(index <span class="type">int</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>类比理解</strong>：</p>
+<ul>
+<li>产品经理说：「我要一个能在特定位置增删改查的数据结构」→ 这就是接口</li>
+<li>你可以用数组实现、链表实现、跳表实现…… → 这些都是具体实现</li>
+<li>老板要结果，不关心是你做的还是同事做的 → 面向接口编程</li>
+</ul>
+<h3 id="2-2-接口特点"><a href="#2-2-接口特点" class="headerlink" title="2.2 接口特点"></a>2.2 接口特点</h3><ul>
+<li>只能包含<strong>方法</strong>，不能包含字段</li>
+<li>方法签名<strong>不需要</strong> <code>func</code> 关键字</li>
+<li>方法名首字母大写 &#x3D; 包外可访问，小写 &#x3D; 包内私有</li>
+</ul>
+<h3 id="2-3-接口设计原则"><a href="#2-3-接口设计原则" class="headerlink" title="2.3 接口设计原则"></a>2.3 接口设计原则</h3><blockquote>
+<p><strong>当你怀疑要不要定义接口的时候，加上接口！</strong></p>
+</blockquote>
+<ul>
+<li>声明时用接口，而不是具体实现</li>
+<li>系统的核心应该面向接口编程</li>
+<li>后续讲依赖注入时会深入讲解</li>
+</ul>
+<hr>
+<h2 id="三、结构体（Struct）"><a href="#三、结构体（Struct）" class="headerlink" title="三、结构体（Struct）"></a>三、结构体（Struct）</h2><h3 id="3-1-结构体定义"><a href="#3-1-结构体定义" class="headerlink" title="3.1 结构体定义"></a>3.1 结构体定义</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619102257676.png" alt="image-20260619102257676"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">    Age  <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> LinkedList <span class="keyword">struct</span> &#123;</span><br><span class="line">    head *Node  <span class="comment">// 指针类型</span></span><br><span class="line">    tail *Node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Node <span class="keyword">struct</span> &#123;</span><br><span class="line">    value any</span><br><span class="line">    next  *Node</span><br><span class="line">    prev  *Node</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>访问控制</strong>：大写开头 &#x3D; 包外可访问，小写开头 &#x3D; 包内私有</p>
+<h3 id="3-2-结构体初始化"><a href="#3-2-结构体初始化" class="headerlink" title="3.2 结构体初始化"></a>3.2 结构体初始化</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619102312025.png" alt="image-20260619102312025"></p>
+<h4 id="方式1：直接初始化（拿到结构体）"><a href="#方式1：直接初始化（拿到结构体）" class="headerlink" title="方式1：直接初始化（拿到结构体）"></a>方式1：直接初始化（拿到结构体）</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">u1 := User&#123;&#125;  <span class="comment">// 零值初始化</span></span><br><span class="line"></span><br><span class="line">u2 := User&#123;</span><br><span class="line">    Name: <span class="string">&quot;Tom&quot;</span>,</span><br><span class="line">    Age:  <span class="number">18</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="方式2：取地址（拿到指针）"><a href="#方式2：取地址（拿到指针）" class="headerlink" title="方式2：取地址（拿到指针）"></a>方式2：取地址（拿到指针）</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">up1 := &amp;User&#123;</span><br><span class="line">    Name: <span class="string">&quot;Tom&quot;</span>,</span><br><span class="line">    Age:  <span class="number">18</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">up2 := <span class="built_in">new</span>(User)  <span class="comment">// 等价于 &amp;User&#123;&#125; 都是零值</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619105650762.png" alt="image-20260619105650762"></p>
+<h4 id="打印结构体"><a href="#打印结构体" class="headerlink" title="打印结构体"></a>打印结构体</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">u := User&#123;Name: <span class="string">&quot;Tom&quot;</span>, Age: <span class="number">18</span>&#125;</span><br><span class="line">fmt.Printf(<span class="string">&quot;%v\n&quot;</span>, u)   <span class="comment">// &#123;Tom 18&#125;</span></span><br><span class="line">fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, u)  <span class="comment">// &#123;Name:Tom Age:18&#125;  推荐，带字段名</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-指针与-nil"><a href="#3-3-指针与-nil" class="headerlink" title="3.3 指针与 nil"></a>3.3 指针与 nil</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619105805831.png" alt="image-20260619105805831"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> up *User  <span class="comment">// 声明指针，未初始化</span></span><br><span class="line">fmt.Println(up)  <span class="comment">// &lt;nil&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 空指针访问会 panic</span></span><br><span class="line">up.Name = <span class="string">&quot;Tom&quot;</span>  <span class="comment">// panic: invalid memory address or nil pointer dereference</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>这是 Go 中最常见的错误之一</strong>。<code>nil pointer dereference</code> 意思是在 nil 上访问字段或方法。</p>
+</blockquote>
+<p>其实就是只声明但是没有初始化，那就不能用，cpp里面也是这样的。如果这个up不是user*的指针类型而是user类型的话，那就没事儿，可以直接赋值</p>
+<h3 id="3-4-结构体实现接口"><a href="#3-4-结构体实现接口" class="headerlink" title="3.4 结构体实现接口"></a>3.4 结构体实现接口</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 定义一个接口</span></span><br><span class="line"><span class="keyword">type</span> List <span class="keyword">interface</span> &#123;</span><br><span class="line">    Add(idx <span class="type">int</span>, val any)</span><br><span class="line">    Append(val any)</span><br><span class="line">    Delete(idx <span class="type">int</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 定义你的结构体</span></span><br><span class="line"><span class="keyword">type</span> LinkedList <span class="keyword">struct</span> &#123;</span><br><span class="line">    head *node <span class="comment">// 链表的头节点</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> node <span class="keyword">struct</span> &#123;</span><br><span class="line">    val  any</span><br><span class="line">    next *node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 手动实现接口要求的方法（或者用图2的IDE快捷键自动生成）</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LinkedList)</span></span> Add(idx <span class="type">int</span>, val any) &#123;</span><br><span class="line">    <span class="comment">// 实际写真正的链表插入逻辑，而不是 panic</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;在下标 %d 插入值 %v\n&quot;</span>, idx, val)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LinkedList)</span></span> Append(val any) &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;在末尾追加值 %v\n&quot;</span>, val)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LinkedList)</span></span> Delete(idx <span class="type">int</span>) &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;删除了下标 %d 的元素\n&quot;</span>, idx)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 见证奇迹的时刻：尽管我们没有写 &quot;implements List&quot;</span></span><br><span class="line"><span class="comment">// 但因为 *LinkedList 拥有所有方法，它自动实现了 List 接口！</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">UseList</span><span class="params">(list List)</span></span> &#123;</span><br><span class="line">    list.Append(<span class="number">100</span>)</span><br><span class="line">    list.Delete(<span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 我们直接可以把 *LinkedList 传给 UseList</span></span><br><span class="line">    myList := &amp;LinkedList&#123;&#125;</span><br><span class="line">    UseList(myList) <span class="comment">// 输出：在末尾追加值 100  \n 删除了下标 0 的元素</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619140211896.png" alt="image-20260619140211896"></p>
+<blockquote>
+<p><strong>核心场景</strong>：在 Go 语言中，结构体通过<strong>实现接口定义的所有方法</strong>，来间接完成「接口实现」。它是 Go 实现“多态”的基石。</p>
+</blockquote>
+<h4 id="1-核心原则：什么是-Go-的“鸭子类型”（结合幻灯片-1）"><a href="#1-核心原则：什么是-Go-的“鸭子类型”（结合幻灯片-1）" class="headerlink" title="1. 核心原则：什么是 Go 的“鸭子类型”（结合幻灯片 1）"></a>1. 核心原则：什么是 Go 的“鸭子类型”（结合幻灯片 1）</h4><p>在 Java 或 C++ 中，如果你想让一个类实现某个接口，必须显式写上 <code>implements</code> 关键字。<br>但 Go 语言完全抛弃了这种写法，遵循经典的**鸭子类型（Duck Typing）**逻辑：</p>
+<blockquote>
+<p>“当看到某个东西走起路来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这个东西就可以被称为鸭子。”</p>
+</blockquote>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619140032182.png" alt="image-20260619140032182"></p>
+<p><strong>映射到 Go 的语法中就是：</strong></p>
+<blockquote>
+<p>一个结构体<strong>不需要显式声明</strong>它实现了哪个接口。只要它<strong>恰好拥有</strong>该接口中定义的所有方法，它<strong>自动</strong>就实现了这个接口。</p>
+</blockquote>
+<h4 id="2-手动实现-vs-IDE-一键生成（结合幻灯片-2、3-和你的代码）"><a href="#2-手动实现-vs-IDE-一键生成（结合幻灯片-2、3-和你的代码）" class="headerlink" title="2. 手动实现 vs IDE 一键生成（结合幻灯片 2、3 和你的代码）"></a>2. 手动实现 vs IDE 一键生成（结合幻灯片 2、3 和你的代码）</h4><p>假设我们有一个 <code>List</code> 接口，以及一个名为 <code>LinkedList</code> 的结构体：</p>
+<p><strong>第一步：定义接口</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> List <span class="keyword">interface</span> &#123;</span><br><span class="line">    Add(idx <span class="type">int</span>, val any)</span><br><span class="line">    Append(val any)</span><br><span class="line">    Delete(idx <span class="type">int</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第二步：定义结构体</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> LinkedList <span class="keyword">struct</span> &#123;</span><br><span class="line">    head *node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> node <span class="keyword">struct</span> &#123;</span><br><span class="line">    val  any</span><br><span class="line">    next *node</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第三步：让结构体实现接口（两种方式）</strong></p>
+<ul>
+<li><p><strong>方式 A：手写（传统做法）</strong><br>自己手动给 <code>LinkedList</code> 绑定与接口签名一致的方法：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LinkedList)</span></span> Add(idx <span class="type">int</span>, val any) &#123;</span><br><span class="line">    <span class="comment">// 真正的逻辑：插入节点</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LinkedList)</span></span> Append(val any) &#123;</span><br><span class="line">    <span class="comment">// 真正的逻辑：追加节点</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LinkedList)</span></span> Delete(idx <span class="type">int</span>) &#123;</span><br><span class="line">    <span class="comment">// 真正的逻辑：删除节点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>方式 B：IDE 快捷生成</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619141439835.png" alt="image-20260619141439835"></p>
+<p>在 GoLand 或 VS Code 中，在结构体名字上右键 → <code>Generate</code> → 选择 <code>Implement Methods...</code>。<br>IDE 会弹窗让你选择要实现哪个接口。<strong>选中后，IDE 会自动帮你生成如下骨架代码</strong>：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LinkedList)</span></span> Add(idx <span class="type">int</span>, val any) &#123;</span><br><span class="line">    <span class="comment">// TODO implement me</span></span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;implement me&quot;</span>) <span class="comment">// ⚠️ 这是一个占位符，实际运行时会直接崩掉！</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Append 和 Delete 同理...</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>⚠️ 实战警告</strong>：IDE 生成的 <code>panic(&quot;implement me&quot;)</code> 仅供占位。<strong>在正式把代码提交测试前，必须删掉这行 <code>panic</code>，替换成真实的业务逻辑</strong>，否则程序一运行到这里就会直接崩溃！</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>第四步：接口与结构体的多态绑定</strong><br>在代码中，<code>*LinkedList</code> 虽然没有写 <code>implements List</code>，但因为它的方法完全匹配，它可以无缝传递给需要 <code>List</code> 类型的地方：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接收 List 接口作为参数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">UseList</span><span class="params">(list List)</span></span> &#123;</span><br><span class="line">    list.Append(<span class="number">100</span>)</span><br><span class="line">    list.Delete(<span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 我们直接可以把 *LinkedList 传给 UseList</span></span><br><span class="line">    myList := &amp;LinkedList&#123;&#125;</span><br><span class="line">    UseList(myList) <span class="comment">// ✅ 编译通过，运行成功</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-细节纠偏：为什么接收器必须是-l-LinkedList-而不是-l-LinkedList-？"><a href="#3-细节纠偏：为什么接收器必须是-l-LinkedList-而不是-l-LinkedList-？" class="headerlink" title="3. 细节纠偏：为什么接收器必须是 (l *LinkedList) 而不是 (l LinkedList)？"></a>3. 细节纠偏：为什么接收器必须是 <code>(l *LinkedList)</code> 而不是 <code>(l LinkedList)</code>？</h4><p>结合笔记前面提到的 <strong>“方法接收器”</strong> 知识，这一点至关重要：</p>
+<ul>
+<li>因为 <code>LinkedList</code> 内部包含指针（操作的是链表节点内存）。</li>
+<li>如果接收器写成 <code>(l LinkedList)</code>（值接收器），调用方法时 Go 会把整个链表<strong>深拷贝</strong>一份。你往副本里插入节点，外部的 <code>myList</code> 根本不会变。</li>
+<li>因此，<strong>必须使用指针接收器 <code>(l \*LinkedList)</code></strong>。</li>
+</ul>
+<p><strong>引出的一个陷阱：</strong><br>因为接收器是<strong>指针接收器</strong>，所以你在传递给 <code>UseList</code> 时，<strong>必须传递取地址后的对象</strong>，也就是 <code>&amp;LinkedList&#123;&#125;</code>。<br>如果你直接传值 <code>var v LinkedList; UseList(v)</code>，编译器会直接报错：</p>
+<blockquote>
+<p><code>LinkedList does not implement List (method Add has pointer receiver)</code>。因为 <code>v</code> 是一个值类型，它永远无法拥有指针接收器的方法。</p>
+</blockquote>
+<h4 id="4-底层原理：Go-接口与-C-模板的区别（解除困惑）"><a href="#4-底层原理：Go-接口与-C-模板的区别（解除困惑）" class="headerlink" title="4. 底层原理：Go 接口与 C++ 模板的区别（解除困惑）"></a>4. 底层原理：Go 接口与 C++ 模板的区别（解除困惑）</h4><table>
+<thead>
+<tr>
+<th align="left">语言对比</th>
+<th align="left">C++ 模板</th>
+<th align="left">Go 接口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>类型逻辑</strong></td>
+<td align="left"><strong>编译期多态</strong>。编译器针对 <code>int</code>、<code>string</code> 等具体类型分别生成独立的二进制代码。</td>
+<td align="left"><strong>运行时多态</strong>。接口变量在运行时动态持有具体的结构体实例，本质类似于 C++ 的 <code>virtual</code> 虚函数。</td>
+</tr>
+<tr>
+<td align="left"><strong>代码膨胀</strong></td>
+<td align="left">使用模板会导致编译出的二进制文件变大（因为生成了多份代码）。</td>
+<td align="left">接口使用的代码量基本恒定，不会因为类型变多而膨胀。</td>
+</tr>
+<tr>
+<td align="left"><strong>类比</strong></td>
+<td align="left">像是一个超级打印机的<strong>模具</strong>，每个不同材质都要压一张新纸。</td>
+<td align="left">像是一个<strong>通用插排</strong>，甭管你是手机充电器还是电脑插头，只要插头形状（方法签名）合适，插上就能用。</td>
+</tr>
+</tbody></table>
+<h4 id="5-避坑指南与黄金法则"><a href="#5-避坑指南与黄金法则" class="headerlink" title="5. 避坑指南与黄金法则"></a>5. 避坑指南与黄金法则</h4><ol>
+<li><strong>接口只看“能力”，不看“出身”</strong>：只要方法列表匹配，用户自定义的结构体，甚至别人的第三方库结构体，都可以直接当成你的接口使用，无需修改第三方库。</li>
+<li><strong>方法签名严格对应</strong>：必须完全拷贝接口里的方法名、参数类型、返回值类型，少一个参数或多一个返回值，都无法实现接口。</li>
+<li><strong>慎用 <code>any</code>（<code>interface&#123;&#125;</code>）</strong>：如果接口的方法里用了 <code>any</code>，虽然看着通用，但接收方需要频繁做<strong>类型断言</strong>（强制类型转换），会丢失 Go 的类型安全检查。实战中，通常推荐配合泛型（如 <code>[T any]</code>）来使用。</li>
+</ol>
+<h4 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h4><p><strong>一句口诀带你记住 Go 的结构体与接口：</strong></p>
+<blockquote>
+<p><strong>接口定行为，结构体备方法。全都有，自动合；少一个，报编译错。</strong><br><strong>为了改数据，接收器永远优先选指针！</strong></p>
+</blockquote>
+<h4 id="7-如果还是不理解就看下面的例子吧"><a href="#7-如果还是不理解就看下面的例子吧" class="headerlink" title="7.如果还是不理解就看下面的例子吧"></a>7.如果还是不理解就看下面的例子吧</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 定义一个“动物”的行为规范（接口）</span></span><br><span class="line"><span class="comment">// 不管是猫还是狗，它们都有“叫”的能力</span></span><br><span class="line"><span class="keyword">type</span> Animal <span class="keyword">interface</span> &#123;</span><br><span class="line">    Speak() <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 定义具体的动物结构体（狗和猫）</span></span><br><span class="line"><span class="keyword">type</span> Dog <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Cat <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 让狗和猫实现 Animal 接口（绑定方法）</span></span><br><span class="line"><span class="comment">// 狗叫的方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Dog)</span></span> Speak() <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%s: 汪汪汪！&quot;</span>, d.Name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 猫叫的方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c Cat)</span></span> Speak() <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%s: 喵喵喵～&quot;</span>, c.Name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 编写一个面向接口的函数（多态的体现）</span></span><br><span class="line"><span class="comment">// 这个函数不需要关心传进来的是狗还是猫，它只关心对方是不是 Animal</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">LetAnimalSpeak</span><span class="params">(a Animal)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 调用接口的方法，Go 会动态帮你分发到具体的实现上</span></span><br><span class="line">    fmt.Println(a.Speak())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 创建具体的对象</span></span><br><span class="line">    myDog := Dog&#123;Name: <span class="string">&quot;旺财&quot;</span>&#125;</span><br><span class="line">    myCat := Cat&#123;Name: <span class="string">&quot;咪咪&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把具体对象传给接口函数</span></span><br><span class="line">    LetAnimalSpeak(myDog) <span class="comment">// 输出：旺财: 汪汪汪！</span></span><br><span class="line">    LetAnimalSpeak(myCat) <span class="comment">// 输出：咪咪: 喵喵喵～</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="底层原理解析（多态的“魔法”所在）"><a href="#底层原理解析（多态的“魔法”所在）" class="headerlink" title="底层原理解析（多态的“魔法”所在）"></a>底层原理解析（多态的“魔法”所在）</h5><p>结合你前面的笔记，你可以这样理解这个案例：</p>
+<ol>
+<li><strong>没有写 <code>implements</code> 也能实现多态</strong>：在 Java 里你可能得写 <code>class Dog implements Animal</code>。但在 Go 里面，因为 <code>Dog</code> 和 <code>Cat</code> 都有 <code>Speak() string</code> 这个方法，它们<strong>自动</strong>就变成了 <code>Animal</code>。这就是我们说的<strong>鸭子类型</strong>（只要走起路来像鸭子，叫起来像鸭子，它就是鸭子）。</li>
+<li><strong>底层是怎么动起来的？</strong><br>当 <code>LetAnimalSpeak(myDog)</code> 运行时，Go 的底层会把 <code>myDog</code> 装进一个 <code>Animal</code> 类型的“接口盒子”里。这个盒子里既存了<strong>具体的对象</strong>（旺财），也存了<strong>对象的方法指针</strong>（狗的 <code>Speak</code> 方法在哪里）。<br>当程序执行 <code>a.Speak()</code> 时，它会去盒子里找具体是谁在叫，然后<strong>动态分发</strong>给对应的代码执行。这就是经典的<strong>运行时多态</strong>。</li>
+</ol>
+<h5 id="结合刚讲的内容，给你一个“避坑提醒”"><a href="#结合刚讲的内容，给你一个“避坑提醒”" class="headerlink" title="结合刚讲的内容，给你一个“避坑提醒”"></a>结合刚讲的内容，给你一个“避坑提醒”</h5><p>如果你的方法接收器<strong>用了指针</strong>，比如 <code>func (d *Dog) Speak() string</code>：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接收器改成指针</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d *Dog)</span></span> Speak() <span class="type">string</span> &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么在 <code>main</code> 函数里，<strong>不能</strong>直接传 <code>myDog</code>（值类型）给 <code>LetAnimalSpeak()</code>。编译器会报错：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">cannot use myDog (variable of <span class="keyword">type</span> Dog) as Animal value in argument to LetAnimalSpeak: Dog does not implement Animal (method Speak has pointer receiver)</span><br></pre></td></tr></table></figure>
+
+<p><strong>怎么解？</strong><br><strong>遇事不决用指针</strong>。在创建对象时就直接用指针，或者调用的时候取地址：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">myDog := &amp;Dog&#123;Name: <span class="string">&quot;旺财&quot;</span>&#125; <span class="comment">// 创建指针</span></span><br><span class="line">LetAnimalSpeak(myDog)       <span class="comment">// 完美通过</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line">myDog := Dog&#123;Name: <span class="string">&quot;旺财&quot;</span>&#125;</span><br><span class="line">LetAnimalSpeak(&amp;myDog)      <span class="comment">// 使用 &amp; 取地址，完美通过</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>小建议</strong>：在实际后端开发里，如果一个结构体里有切片、Map 或者你需要修改它的状态，<strong>强烈建议统一用指针接收器 (<code>\*Type</code>) 来实现接口</strong>，这样不仅多态能用，还能避免值拷贝带来的内存浪费和数据无法修改的坑。</p>
+<hr>
+<h2 id="四、方法接收器（Method-Receiver）"><a href="#四、方法接收器（Method-Receiver）" class="headerlink" title="四、方法接收器（Method Receiver）"></a>四、方法接收器（Method Receiver）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619111751323.png" alt="image-20260619111751323"></p>
+<h3 id="4-1-两种接收器"><a href="#4-1-两种接收器" class="headerlink" title="4.1 两种接收器"></a>4.1 两种接收器</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 值接收器</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u User)</span></span> ChangeName(name <span class="type">string</span>) &#123;</span><br><span class="line">    u.Name = name  <span class="comment">// 修改的是副本，原对象不变！</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针接收器</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *User)</span></span> ChangeAge(age <span class="type">int</span>) &#123;</span><br><span class="line">    u.Age = age  <span class="comment">// 修改的是原对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-核心区别"><a href="#4-2-核心区别" class="headerlink" title="4.2 核心区别"></a>4.2 核心区别</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619132507892.png" alt="image-20260619132507892"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">u1 := User&#123;Name: <span class="string">&quot;Tom&quot;</span>, Age: <span class="number">18</span>&#125;</span><br><span class="line"></span><br><span class="line">u1.ChangeAge(<span class="number">35</span>)   <span class="comment">// 指针接收器 → 可以修改</span></span><br><span class="line">fmt.Println(u1.Age)  <span class="comment">// 35</span></span><br><span class="line"></span><br><span class="line">u1.ChangeName(<span class="string">&quot;Jerry&quot;</span>)  <span class="comment">// 值接收器 → 修改不了！</span></span><br><span class="line">fmt.Println(u1.Name)    <span class="comment">// 还是 &quot;Tom&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>原理</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">值接收器：</span><br><span class="line">  u1.ChangeName(&quot;Jerry&quot;)</span><br><span class="line">  → 复制一个 u1 的副本 → 修改副本 → 原 u1 不变</span><br><span class="line"></span><br><span class="line">指针接收器：</span><br><span class="line">  u1.ChangeAge(35)</span><br><span class="line">  → 复制指针（指向同一个 u1）→ 修改原 u1 → 原 u1 改变</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-黄金法则"><a href="#4-3-黄金法则" class="headerlink" title="4.3 黄金法则"></a>4.3 黄金法则</h3><blockquote>
+<p><strong>遇事不决，用指针！</strong></p>
+</blockquote>
+<ul>
+<li>用指针最多遇到 nil 指针，一眼能看出来</li>
+<li>用值接收器可能想改数据却改不了，debug 半天找不到原因</li>
+<li><strong>例外</strong>：不可变对象设计（后面课程会总结）</li>
+</ul>
+<h3 id="4-4-互相调用（语法糖）"><a href="#4-4-互相调用（语法糖）" class="headerlink" title="4.4 互相调用（语法糖）"></a>4.4 互相调用（语法糖）</h3><p>Go 编译器会自动帮你转换：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 结构体可以调指针方法</span></span><br><span class="line">u := User&#123;&#125;</span><br><span class="line">u.ChangeAge(<span class="number">18</span>)  <span class="comment">// 编译器自动转: (&amp;u).ChangeAge(18)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针可以调结构体方法</span></span><br><span class="line">up := &amp;User&#123;&#125;</span><br><span class="line">up.ChangeName(<span class="string">&quot;Tom&quot;</span>)  <span class="comment">// 编译器自动转: (*up).ChangeName(&quot;Tom&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-5-结构体自引用必须用指针"><a href="#4-5-结构体自引用必须用指针" class="headerlink" title="4.5 结构体自引用必须用指针"></a>4.5 结构体自引用必须用指针</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619133036089.png" alt="image-20260619133036089"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 编译错误：invalid recursive type</span></span><br><span class="line"><span class="keyword">type</span> Node <span class="keyword">struct</span> &#123;</span><br><span class="line">    value any</span><br><span class="line">    next  Node  <span class="comment">// 不能直接包含自己！</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确：用指针</span></span><br><span class="line"><span class="keyword">type</span> Node <span class="keyword">struct</span> &#123;</span><br><span class="line">    value any</span><br><span class="line">    next  *Node  <span class="comment">// 指针可以</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、组合（Composition）"><a href="#五、组合（Composition）" class="headerlink" title="五、组合（Composition）"></a>五、组合（Composition）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619140641763.png" alt="image-20260619140641763"></p>
+<h3 id="5-1-Go-没有继承，只有组合"><a href="#5-1-Go-没有继承，只有组合" class="headerlink" title="5.1 Go 没有继承，只有组合"></a>5.1 Go 没有继承，只有组合</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">    Age  <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 组合：把 User 嵌入到别的结构体</span></span><br><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span> &#123;</span><br><span class="line">    User      <span class="comment">// 组合 User</span></span><br><span class="line">    Grade <span class="type">string</span></span><br><span class="line">    Class <span class="type">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-组合的效果"><a href="#5-2-组合的效果" class="headerlink" title="5.2 组合的效果"></a>5.2 组合的效果</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">s := Student&#123;</span><br><span class="line">    User: User&#123;Name: <span class="string">&quot;Tom&quot;</span>, Age: <span class="number">18</span>&#125;,</span><br><span class="line">    Grade: <span class="string">&quot;大一&quot;</span>,</span><br><span class="line">    Class: <span class="string">&quot;1班&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以直接访问组合进来的字段</span></span><br><span class="line">fmt.Println(s.Name)   <span class="comment">// &quot;Tom&quot;（不用 s.User.Name）</span></span><br><span class="line">fmt.Println(s.Age)    <span class="comment">// 18</span></span><br><span class="line">fmt.Println(s.Grade)  <span class="comment">// &quot;大一&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>本质</strong>：组合就是把一个结构体嵌到另一个里面，字段会被「提升」到外层，可以直接访问。</p>
+<h3 id="5-3-模拟「继承」"><a href="#5-3-模拟「继承」" class="headerlink" title="5.3 模拟「继承」"></a>5.3 模拟「继承」</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619145234690.png" alt="image-20260619145234690"></p>
+<p>输出的是hello，Inner，而不是outer</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义基础行为</span></span><br><span class="line"><span class="keyword">type</span> Base <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b Base)</span></span> SayHello() &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Hello from Base&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子结构体组合 Base</span></span><br><span class="line"><span class="keyword">type</span> Child <span class="keyword">struct</span> &#123;</span><br><span class="line">    Base</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    c := Child&#123;&#125;</span><br><span class="line">    c.SayHello()  <span class="comment">// &quot;Hello from Base&quot;（直接调用 Base 的方法）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：这不是真正的继承，Go 没有多态，但通过接口可以实现类似效果。</p>
+<hr>
+<h2 id="六、衍生类型与类型别名"><a href="#六、衍生类型与类型别名" class="headerlink" title="六、衍生类型与类型别名"></a>六、衍生类型与类型别名</h2><h3 id="6-1-衍生类型（Defined-Type）"><a href="#6-1-衍生类型（Defined-Type）" class="headerlink" title="6.1 衍生类型（Defined Type）"></a>6.1 衍生类型（Defined Type）</h3><h4 id="一、基本概念与特性"><a href="#一、基本概念与特性" class="headerlink" title="一、基本概念与特性"></a>一、基本概念与特性</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619133350366.png" alt="image-20260619133350366"></p>
+<p>Go 语言中，通过 <code>type</code> 关键字，可以利用一个已有的类型（基础类型或结构体）定义出一个<strong>全新的类型</strong>。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Fish <span class="keyword">struct</span> &#123; Age <span class="type">int</span> &#125;</span><br><span class="line"><span class="keyword">type</span> FakeFish Fish  <span class="comment">// FakeFish 就是基于 Fish 衍生出来的新类型</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>核心原则：</strong> 衍生类型在底层内存布局上与原类型完全一致，但在编译器的类型系统中，两者是彻底独立、互不相干的两种类型。</p>
+<p>f2不能调用fish的方法，但是可以调用fish里面的字段</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Integer <span class="type">int</span>  <span class="comment">// Integer 是新类型，和 int 不同</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a Integer = <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> b <span class="type">int</span> = <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// a = b  // 编译错误！类型不同，需要显式转换</span></span><br><span class="line">a = Integer(b)  <span class="comment">// 正确</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>特点</strong>：</p>
+<ul>
+<li>和原类型是<strong>不同类型</strong>，需要显式转换</li>
+<li>可以为它定义<strong>自己的方法</strong></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(i Integer)</span></span> Double() Integer &#123;</span><br><span class="line">    <span class="keyword">return</span> i * <span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二、与-C-等传统语言的对比"><a href="#二、与-C-等传统语言的对比" class="headerlink" title="二、与 C++ 等传统语言的对比"></a>二、与 C++ 等传统语言的对比</h4><p>很多初学者会把它和 C++ 的概念混淆，这里做一下对比：</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>写法</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C++ (<code>typedef</code>)</td>
+<td><code>typedef int MyInt;</code></td>
+<td>仅是别名，<code>MyInt</code> 和 <code>int</code> 在任何地方都可以互换使用。</td>
+</tr>
+<tr>
+<td>C++ (继承)</td>
+<td><code>class B : public A &#123;&#125;</code></td>
+<td>继承方法和数据，<code>B</code> 自动拥有 <code>A</code> 的所有属性和方法，关系紧密。</td>
+</tr>
+<tr>
+<td>Go (衍生类型)</td>
+<td><code>type MyInt int</code></td>
+<td>全新独立类型，底层内存一样，但绑定方法完全不同，需显式强转才能互转。</td>
+</tr>
+</tbody></table>
+<h4 id="三、衍生类型的核心用途（到底有什么用？）"><a href="#三、衍生类型的核心用途（到底有什么用？）" class="headerlink" title="三、衍生类型的核心用途（到底有什么用？）"></a>三、衍生类型的核心用途（到底有什么用？）</h4><p>真实开发中，衍生类型主要有以下三大应用场景：</p>
+<h5 id="1-实现编译时的”类型安全”（防止鸡同鸭讲）"><a href="#1-实现编译时的”类型安全”（防止鸡同鸭讲）" class="headerlink" title="1. 实现编译时的”类型安全”（防止鸡同鸭讲）"></a>1. 实现编译时的”类型安全”（防止鸡同鸭讲）</h5><p>利用类型隔离，防止混用不同含义的数据。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Celsius <span class="type">float64</span></span><br><span class="line"><span class="keyword">type</span> Fahrenheit <span class="type">float64</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tempC Celsius = <span class="number">100</span></span><br><span class="line"><span class="keyword">var</span> tempF Fahrenheit = <span class="number">212</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// tempC = tempF  // ❌ 编译报错，类型不匹配！必须在设计层面就区分开。</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-给基础类型（int、string）增加方法"><a href="#2-给基础类型（int、string）增加方法" class="headerlink" title="2. 给基础类型（int、string）增加方法"></a>2. 给基础类型（<code>int</code>、<code>string</code>）增加方法</h5><p>Go 语言不允许给基础类型直接绑定方法，但通过衍生类型可以”曲线救国”。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> MyInt <span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 给衍生出的新类型增加方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m MyInt)</span></span> IsEven() <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> m%<span class="number">2</span> == <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> n MyInt = <span class="number">10</span></span><br><span class="line"><span class="built_in">println</span>(n.IsEven()) <span class="comment">// ✅ 成功输出 true</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="3-扩展第三方库"><a href="#3-扩展第三方库" class="headerlink" title="3. 扩展第三方库"></a>3. 扩展第三方库</h5><p>无法修改第三方库源码，但想借用它的数据结构并扩展自己的方法。</p>
+<ul>
+<li><p><strong>错误做法：</strong> 试图在外部包给第三方结构体写方法</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f SomePkg.Fish)</span></span> Swim() <span class="comment">// ❌ 编译报错：不能为远程包的类型定义新方法。</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>正确做法：</strong> 在自己的包内定义衍生类型 <code>type MyFish SomePkg.Fish</code>，然后把原类型的数据”映射”进来，再给自己的类型加方法。</p>
+</li>
+</ul>
+<h4 id="四、字段与方法的底层逻辑"><a href="#四、字段与方法的底层逻辑" class="headerlink" title="四、字段与方法的底层逻辑"></a>四、字段与方法的底层逻辑</h4><h5 id="1-字段的访问与转换（数据拷贝）"><a href="#1-字段的访问与转换（数据拷贝）" class="headerlink" title="1. 字段的访问与转换（数据拷贝）"></a>1. 字段的访问与转换（数据拷贝）</h5><p>衍生类型之间可以互相转换，但遵循值拷贝（浅拷贝）原则：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Fish <span class="keyword">struct</span> &#123; Age <span class="type">int</span> &#125;</span><br><span class="line"><span class="keyword">type</span> FakeFish Fish</span><br><span class="line"></span><br><span class="line">f2 := FakeFish&#123;Age: <span class="number">10</span>&#125;</span><br><span class="line">f3 := Fish(f2) <span class="comment">// ✅ 类型强转，此时发生了&quot;值拷贝&quot;，f3 获取了全新的内存空间</span></span><br><span class="line"></span><br><span class="line">f3.Age = <span class="number">20</span></span><br><span class="line">fmt.Println(f2.Age) <span class="comment">// 仍然输出 10，互不干扰</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>⚠️ <strong>隐藏陷阱（如果是切片 &#x2F; Map）：</strong> 如果结构体里面有切片或者 Map，转换时底层数组&#x2F;哈希表是共享的。如果修改了 <code>f3</code> 切片里面的元素，<code>f2</code> 读到的数据也会改变。修改切片长度或重新赋值则不影响。</p>
+</blockquote>
+<h5 id="2-方法不共享，需要独立绑定"><a href="#2-方法不共享，需要独立绑定" class="headerlink" title="2. 方法不共享，需要独立绑定"></a>2. 方法不共享，需要独立绑定</h5><p>衍生类型<strong>不会继承</strong>原类型的方法。</p>
+<ul>
+<li><code>Fish</code> 身上的方法，<code>FakeFish</code> 统统没有。</li>
+<li>需要给 <code>FakeFish</code> 重新定义它自己的方法：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 给全新类型 FakeFish 绑定全新方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f FakeFish)</span></span> FakeSwim() &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;FakeFish 专属方法&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>互转调用：</strong> 如果要用原类型 <code>Fish</code> 的方法，必须把衍生类型强转回去：<code>Fish(f2).SomeMethod()</code>。</p>
+<h4 id="五、关于接口的重要陷阱"><a href="#五、关于接口的重要陷阱" class="headerlink" title="五、关于接口的重要陷阱"></a>五、关于接口的重要陷阱</h4><p>最后的警告非常关键：<strong>衍生类型实现了接口，不等于原类型也实现了接口。</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Speaker <span class="keyword">interface</span> &#123; Speak() <span class="type">string</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f FakeFish)</span></span> Speak() <span class="type">string</span> &#123; <span class="keyword">return</span> <span class="string">&quot;咕噜咕噜&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 此时，FakeFish 实现了 Speaker 接口</span></span><br><span class="line"><span class="keyword">var</span> s Speaker = FakeFish&#123;&#125; <span class="comment">// ✅ 正确</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 但是 Fish 并没有 Speak 方法，它不能赋值给 Speaker</span></span><br><span class="line"><span class="comment">// var s2 Speaker = Fish&#123;&#125; // ❌ 编译报错！</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="六、总结（一句话看懂-Go-的设计哲学）"><a href="#六、总结（一句话看懂-Go-的设计哲学）" class="headerlink" title="六、总结（一句话看懂 Go 的设计哲学）"></a>六、总结（一句话看懂 Go 的设计哲学）</h4><p>Go 使用 <code>type</code> 衍生类型，意在把「数据（字段）」和「行为（方法）」<strong>彻底解耦</strong>。</p>
+<p>你完全可以使用底层相同的内存结构（数据），通过强转借用过来；同时抛弃旧的行为，重新定义一套属于你自己的新方法。这种设计避免了传统 OOP 语言中复杂的类继承层级和多态重写带来的混乱，代码更加安全、克制且清晰。</p>
+<h3 id="6-2-类型别名（Type-Alias）"><a href="#6-2-类型别名（Type-Alias）" class="headerlink" title="6.2 类型别名（Type Alias）"></a>6.2 类型别名（Type Alias）</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619133849533.png" alt="image-20260619133849533"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> MyInt = <span class="type">int</span>  <span class="comment">// MyInt 就是 int，完全等价</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a MyInt = <span class="number">10</span></span><br><span class="line"><span class="keyword">var</span> b <span class="type">int</span> = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">a = b  <span class="comment">// 正确，不需要转换</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>特点</strong>：</p>
+<ul>
+<li>和原类型<strong>完全等价</strong></li>
+<li>只是换了个名字</li>
+<li><strong>使用场景</strong>：向后兼容、代码迁移</li>
+</ul>
+<h3 id="6-3-对比"><a href="#6-3-对比" class="headerlink" title="6.3 对比"></a>6.3 对比</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>衍生类型 <code>type A B</code></th>
+<th>类型别名 <code>type A = B</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>是否新类型</td>
+<td>是</td>
+<td>不是</td>
+</tr>
+<tr>
+<td>方法</td>
+<td>独立</td>
+<td>共享</td>
+</tr>
+<tr>
+<td>转换</td>
+<td>需要显式转换</td>
+<td>不需要</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、泛型（Generics）"><a href="#七、泛型（Generics）" class="headerlink" title="七、泛型（Generics）"></a>七、泛型（Generics）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619145900221.png" alt="image-20260619145900221"></p>
+<p>**<code>[T any]</code> 在语法上，就相当于 C++ 里的 <code>template &lt;typename T&gt;</code>。**所以T是可以随便改的，可以改成 M any，y any等等</p>
+<h3 id="7-1-为什么需要泛型"><a href="#7-1-为什么需要泛型" class="headerlink" title="7.1 为什么需要泛型"></a>7.1 为什么需要泛型</h3><p><strong>没有泛型的问题</strong>：<code>any</code> 什么都能放，完全控制不住类型</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> List <span class="keyword">struct</span> &#123;</span><br><span class="line">    data []any</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">l := List&#123;&#125;</span><br><span class="line">l.data = <span class="built_in">append</span>(l.data, <span class="number">10</span>)       <span class="comment">// int</span></span><br><span class="line">l.data = <span class="built_in">append</span>(l.data, <span class="number">3.14</span>)     <span class="comment">// float64</span></span><br><span class="line">l.data = <span class="built_in">append</span>(l.data, <span class="string">&quot;hello&quot;</span>)  <span class="comment">// string</span></span><br><span class="line"><span class="comment">// 乱了！什么类型都有！</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>泛型解决</strong>：约束类型，编译期就能发现问题</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> List[T any] <span class="keyword">struct</span> &#123;</span><br><span class="line">    data []T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">l := List[<span class="type">int</span>]&#123;&#125;</span><br><span class="line">l.data = <span class="built_in">append</span>(l.data, <span class="number">10</span>)     <span class="comment">// 可以</span></span><br><span class="line">l.data = <span class="built_in">append</span>(l.data, <span class="number">3.14</span>)   <span class="comment">// 编译错误！</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-泛型基本语法"><a href="#7-2-泛型基本语法" class="headerlink" title="7.2 泛型基本语法"></a>7.2 泛型基本语法</h3><h4 id="结构体泛型"><a href="#结构体泛型" class="headerlink" title="结构体泛型"></a>结构体泛型</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> LinkedList[T any] <span class="keyword">struct</span> &#123;</span><br><span class="line">    head *Node[T]</span><br><span class="line">    tail *Node[T]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Node[T any] <span class="keyword">struct</span> &#123;</span><br><span class="line">    value T</span><br><span class="line">    next  *Node[T]</span><br><span class="line">    prev  *Node[T]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619150307367.png" alt="image-20260619150307367"></p>
+<h4 id="方法泛型"><a href="#方法泛型" class="headerlink" title="方法泛型"></a>方法泛型</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Sum</span>[<span class="title">T</span> <span class="title">any</span>]<span class="params">(nums ...T)</span></span> T &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619151414226.png" alt="image-20260619151414226"></p>
+<h3 id="7-3-泛型约束"><a href="#7-3-泛型约束" class="headerlink" title="7.3 泛型约束"></a>7.3 泛型约束</h3><p><code>any</code> 太宽泛，不能做运算。需要<strong>类型约束</strong>。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 编译错误：any 不支持 +</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Sum</span>[<span class="title">T</span> <span class="title">any</span>]<span class="params">(nums ...T)</span></span> T &#123;</span><br><span class="line">    <span class="keyword">var</span> result T</span><br><span class="line">    <span class="keyword">for</span> _, n := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        result = result + n  <span class="comment">// 错误！</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>解决方案：定义约束接口</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 定义一个「数字」约束</span></span><br><span class="line"><span class="keyword">type</span> Number <span class="keyword">interface</span> &#123;</span><br><span class="line">    ~<span class="type">int</span> | ~<span class="type">int8</span> | ~<span class="type">int16</span> | ~<span class="type">int32</span> | ~<span class="type">int64</span> |</span><br><span class="line">    ~<span class="type">uint</span> | ~<span class="type">uint8</span> | ~<span class="type">uint16</span> | ~<span class="type">uint32</span> | ~<span class="type">uint64</span> |</span><br><span class="line">    ~<span class="type">float32</span> | ~<span class="type">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用约束</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Sum</span>[<span class="title">T</span> <span class="title">Number</span>]<span class="params">(nums ...T)</span></span> T &#123;</span><br><span class="line">    <span class="keyword">var</span> result T</span><br><span class="line">    <span class="keyword">for</span> _, n := <span class="keyword">range</span> nums &#123;</span><br><span class="line">        result = result + n  <span class="comment">// 现在可以了</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line">Sum(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)         <span class="comment">// int</span></span><br><span class="line">Sum(<span class="number">1.5</span>, <span class="number">2.5</span>, <span class="number">3.5</span>)   <span class="comment">// float64</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-符号的含义"><a href="#7-4-符号的含义" class="headerlink" title="7.4 ~ 符号的含义"></a>7.4 <code>~</code> 符号的含义</h3><p><code>~</code> 表示<strong>包含该类型的衍生类型</strong>。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Integer <span class="type">int</span>  <span class="comment">// 衍生类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 没有 ~：不包含衍生类型</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Sum1</span>[<span class="title">T</span> <span class="title">int</span> | <span class="title">float64</span>]<span class="params">(nums ...T)</span></span> T &#123;&#125;</span><br><span class="line">Sum1(Integer(<span class="number">10</span>))  <span class="comment">// 编译错误</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 有 ~：包含衍生类型</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Sum2</span>[<span class="title">T</span> ~<span class="title">int</span> | ~<span class="title">float64</span>]<span class="params">(nums ...T)</span></span> T &#123;&#125;</span><br><span class="line">Sum2(Integer(<span class="number">10</span>))  <span class="comment">// 可以</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-5-常用内置约束"><a href="#7-5-常用内置约束" class="headerlink" title="7.5 常用内置约束"></a>7.5 常用内置约束</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// any：任意类型（等价于 interface&#123;&#125;）</span></span><br><span class="line"><span class="keyword">type</span> Any <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// comparable：可比较类型（支持 == 和 !=）</span></span><br><span class="line"><span class="keyword">type</span> Comparable <span class="keyword">interface</span> &#123;</span><br><span class="line">    comparable</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="八、第一周总结"><a href="#八、第一周总结" class="headerlink" title="八、第一周总结"></a>八、第一周总结</h2><h3 id="8-1-核心知识点"><a href="#8-1-核心知识点" class="headerlink" title="8.1 核心知识点"></a>8.1 核心知识点</h3><table>
+<thead>
+<tr>
+<th>主题</th>
+<th>关键内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>变量与常量</td>
+<td>大小写控制可见性、iota</td>
+</tr>
+<tr>
+<td>方法</td>
+<td>多返回值、defer、闭包</td>
+</tr>
+<tr>
+<td>控制结构</td>
+<td>if&#x2F;for&#x2F;switch、for-range 陷阱</td>
+</tr>
+<tr>
+<td>内置类型</td>
+<td>数组（基本不用）、切片（底层共享）、map（遍历随机）</td>
+</tr>
+<tr>
+<td>接口</td>
+<td>行为抽象、面向接口编程</td>
+</tr>
+<tr>
+<td>结构体</td>
+<td>初始化、指针、方法接收器</td>
+</tr>
+<tr>
+<td>组合</td>
+<td>代码复用、Go 没有继承</td>
+</tr>
+<tr>
+<td>泛型</td>
+<td>类型参数、约束、<code>~</code> 符号</td>
+</tr>
+</tbody></table>
+<h3 id="8-2-重要原则"><a href="#8-2-重要原则" class="headerlink" title="8.2 重要原则"></a>8.2 重要原则</h3><ol>
+<li><strong>大小写控制可见性</strong>：大写 &#x3D; 导出，小写 &#x3D; 私有</li>
+<li><strong>遇事不决用指针</strong>：避免值传递的坑</li>
+<li><strong>面向接口编程</strong>：声明用接口，实现用结构体</li>
+<li><strong>组合而非继承</strong>：Go 没有继承，只有组合</li>
+</ol>
+<h3 id="8-3-常见错误速查"><a href="#8-3-常见错误速查" class="headerlink" title="8.3 常见错误速查"></a>8.3 常见错误速查</h3><table>
+<thead>
+<tr>
+<th>错误</th>
+<th>原因</th>
+<th>解决</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>no new variables</code></td>
+<td><code>:=</code> 左边没有新变量</td>
+<td>至少有一个新变量</td>
+</tr>
+<tr>
+<td><code>nil pointer dereference</code></td>
+<td>空指针访问</td>
+<td>检查是否为 nil</td>
+</tr>
+<tr>
+<td><code>invalid recursive type</code></td>
+<td>结构体自引用没用指针</td>
+<td>改成指针</td>
+</tr>
+<tr>
+<td><code>for-range</code> 取地址</td>
+<td>迭代变量地址相同</td>
+<td>用索引访问</td>
+</tr>
+<tr>
+<td>值接收器改不了数据</td>
+<td>改的是副本</td>
+<td>改用指针接收器</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>Go</tag>
       </tags>
   </entry>
 </search>
