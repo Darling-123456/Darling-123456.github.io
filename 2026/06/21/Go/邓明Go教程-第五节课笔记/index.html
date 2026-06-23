@@ -1,0 +1,606 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门核心内容：跨域问题（CORS）、中间件（Middleware）、GORM 增删改查、Docker Compose 启动数据库、项目分层设计前置知识：Gin 路由注册、请求绑定、参数校验  一、跨域问题（CORS） 1.1 什么是跨域？ 当你用浏览器打开前端页面，前端向后端发请求时，如果前端和后端的「">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门">
+<meta property="og:url" content="https://darling-123456.github.io/2026/06/21/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%BA%94%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门核心内容：跨域问题（CORS）、中间件（Middleware）、GORM 增删改查、Docker Compose 启动数据库、项目分层设计前置知识：Gin 路由注册、请求绑定、参数校验  一、跨域问题（CORS） 1.1 什么是跨域？ 当你用浏览器打开前端页面，前端向后端发请求时，如果前端和后端的「">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/403.jpg">
+<meta property="article:published_time" content="2026-06-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-21T09:29:10.190Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="Go">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/403.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门",
+  "url": "https://darling-123456.github.io/2026/06/21/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%BA%94%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/",
+  "image": "https://darling-123456.github.io/img/403.jpg",
+  "datePublished": "2026-06-20T16:00:00.000Z",
+  "dateModified": "2026-06-21T09:29:10.190Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2026/06/21/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%BA%94%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">407</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">50</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">26</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/403.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-20T16:00:00.000Z" title="发表于 2026-06-21 00:00:00">2026-06-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-21T09:29:10.190Z" title="更新于 2026-06-21 17:29:10">2026-06-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Go/">Go</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="GO学习笔记-第五章节-用户基本功能与-Gin｜GORM-入门-跨域、中间件与-GORM-入门"><a href="#GO学习笔记-第五章节-用户基本功能与-Gin｜GORM-入门-跨域、中间件与-GORM-入门" class="headerlink" title="GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门"></a>GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门</h1><p><strong>核心内容</strong>：跨域问题（CORS）、中间件（Middleware）、GORM 增删改查、Docker Compose 启动数据库、项目分层设计<br><strong>前置知识</strong>：Gin 路由注册、请求绑定、参数校验</p>
+<hr>
+<h2 id="一、跨域问题（CORS）"><a href="#一、跨域问题（CORS）" class="headerlink" title="一、跨域问题（CORS）"></a>一、跨域问题（CORS）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621101452455.png" alt="image-20260621101452455"></p>
+<h3 id="1-1-什么是跨域？"><a href="#1-1-什么是跨域？" class="headerlink" title="1.1 什么是跨域？"></a>1.1 什么是跨域？</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621101512547.png" alt="image-20260621101512547"></p>
+<p>当你用浏览器打开前端页面，前端向后端发请求时，如果<strong>前端和后端的「家」不一样</strong>，浏览器就会阻止这次请求——这就是跨域。</p>
+<p><strong>怎么判断是不是「同一家」？</strong> 浏览器看三个东西：</p>
+<table>
+<thead>
+<tr>
+<th>判定维度</th>
+<th>举例：同一家</th>
+<th>举例：不是同一家</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>协议</td>
+<td>都是 <code>http://</code></td>
+<td><code>http://</code> vs <code>https://</code></td>
+</tr>
+<tr>
+<td>域名</td>
+<td>都是 <code>localhost</code></td>
+<td><code>qq.com</code> vs <code>wechat.com</code></td>
+</tr>
+<tr>
+<td>端口</td>
+<td>都是 <code>:3000</code></td>
+<td><code>:3000</code> vs <code>:8080</code></td>
+</tr>
+</tbody></table>
+<p><strong>三个只要有一个不同，浏览器就认为是跨域，直接拦住。</strong></p>
+<blockquote>
+<p>为什么浏览器要多管闲事？防止黑客在你的网页里植入恶意脚本，偷偷往别的服务器发请求。</p>
+</blockquote>
+<p><strong>怎么识别跨域错误？</strong> 打开浏览器 F12 → Console，看到 <code>CORS</code> 或 <code>Access-Control-Allow-Origin</code> 关键词，就是跨域问题。</p>
+<h3 id="1-2-跨域是怎么被拦住的？"><a href="#1-2-跨域是怎么被拦住的？" class="headerlink" title="1.2 跨域是怎么被拦住的？"></a>1.2 跨域是怎么被拦住的？</h3><p>前端发请求前，浏览器会先发一个**「试探请求」**（Preflight Request），问后端：</p>
+<blockquote>
+<p>「喂，你是 localhost:8080 对吧？有个 localhost:3000 的页面想请求你，你接不接受？」</p>
+</blockquote>
+<p>后端必须明确回答「我接受」，浏览器才会把真正的请求发过去。</p>
+<p>Preflight 请求的特征：</p>
+<ul>
+<li>请求方法是 <strong>OPTIONS</strong>（不是 GET&#x2F;POST）</li>
+<li>你在 Network 面板会看到同一个路径有<strong>两条请求</strong>：第一条是 OPTIONS（预检），第二条才是真正的 GET&#x2F;POST</li>
+</ul>
+<p><strong>一句话总结</strong>：浏览器先派个侦察兵（OPTIONS）去问后端同不同意，同意了主力部队（真正的请求）才出发。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621101818562.png" alt="image-20260621101818562"></p>
+<h3 id="1-3-后端怎么告诉浏览器「我接受」？"><a href="#1-3-后端怎么告诉浏览器「我接受」？" class="headerlink" title="1.3 后端怎么告诉浏览器「我接受」？"></a>1.3 后端怎么告诉浏览器「我接受」？</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621101924448.png" alt="image-20260621101924448"></p>
+<p>后端在 OPTIONS 请求的响应里加上特殊的响应头：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://localhost:3000</span><br><span class="line">Access-Control-Allow-Methods: POST, GET, OPTIONS</span><br><span class="line">Access-Control-Allow-Headers: Content-Type, Authorization</span><br><span class="line">Access-Control-Allow-Credentials: true</span><br><span class="line">Access-Control-Max-Age: 43200</span><br></pre></td></tr></table></figure>
+
+<p>逐个解释：</p>
+<table>
+<thead>
+<tr>
+<th>响应头</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Allow-Origin</code></td>
+<td>允许哪个前端来源访问。写 <code>*</code> 表示谁都行（<strong>有坑，见 1.4</strong>）</td>
+</tr>
+<tr>
+<td><code>Allow-Methods</code></td>
+<td>允许哪些 HTTP 方法</td>
+</tr>
+<tr>
+<td><code>Allow-Headers</code></td>
+<td>允许请求带哪些自定义头</td>
+</tr>
+<tr>
+<td><code>Allow-Credentials</code></td>
+<td>是否允许携带 Cookie &#x2F; Authorization</td>
+</tr>
+<tr>
+<td><code>Max-Age</code></td>
+<td>这次预检的有效期（秒），有效期内部再重复预检</td>
+</tr>
+</tbody></table>
+<h3 id="1-4-⚠️-Allow-Origin-的坑"><a href="#1-4-⚠️-Allow-Origin-的坑" class="headerlink" title="1.4 ⚠️ Allow-Origin: * 的坑"></a>1.4 ⚠️ <code>Allow-Origin: *</code> 的坑</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有风险：当 Allow-Credentials = true 时，不能用 *</span></span><br><span class="line">Access-Control-Allow-Origin: *</span><br><span class="line">Access-Control-Allow-Credentials: <span class="literal">true</span></span><br><span class="line"><span class="comment">// 浏览器会拒绝执行！must not be the wildcard when credentials is &quot;include&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>正确做法</strong>：要么用具体的 origin（如 <code>http://localhost:3000</code>），要么动态获取请求的 origin 并写到响应头里。</p>
+<blockquote>
+<p>用函数动态返回 origin，一行代码搞定，灵活可控。</p>
+</blockquote>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621104012599.png" alt="image-20260621104012599"></p>
+<p>图中就是用的函数动态返回origin</p>
+<p><strong>规范上，只有“当 <code>Allow-Credentials</code> 为 <code>true</code> 时，才不能使用 <code>\*</code>”。如果 <code>Allow-Credentials</code> 是 <code>false</code>（或者不加这个头），使用 <code>\*</code> 是合法的。</strong></p>
+<p>不过在实际业务场景中，这个担忧是合理的，因为<strong>只要涉及跨域携带 Cookie 或 Token，<code>Credentials</code> 就必须为 <code>true</code></strong>。一旦这个开关开了，通配符 <code>*</code> 就会直接被浏览器拦截。</p>
+<h4 id="1-正确且严谨的-CORS-规则"><a href="#1-正确且严谨的-CORS-规则" class="headerlink" title="1. 正确且严谨的 CORS 规则"></a>1. 正确且严谨的 CORS 规则</h4><table>
+<thead>
+<tr>
+<th align="left"><code>Allow-Credentials</code></th>
+<th align="left"><code>Allow-Origin</code></th>
+<th align="left">浏览器行为</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><code>false</code></strong> (或不传)</td>
+<td align="left"><strong><code>\*</code></strong></td>
+<td align="left">✅ <strong>正常通过</strong></td>
+<td align="left">允许所有来源，但不带凭证。</td>
+</tr>
+<tr>
+<td align="left"><strong><code>true</code></strong></td>
+<td align="left"><strong><code>\*</code></strong></td>
+<td align="left">🚫 <strong>拒绝执行</strong></td>
+<td align="left"><strong>这是安全禁令</strong>，浏览器会报你图片里的错误。</td>
+</tr>
+<tr>
+<td align="left"><strong><code>true</code></strong></td>
+<td align="left"><strong><code>http://localhost:3000</code></strong></td>
+<td align="left">✅ <strong>正常通过</strong></td>
+<td align="left">必须指定具体的、精确的源。</td>
+</tr>
+</tbody></table>
+<h4 id="2-为什么-true-绝对不能配合-？"><a href="#2-为什么-true-绝对不能配合-？" class="headerlink" title="2. 为什么 true 绝对不能配合 *？"></a>2. 为什么 <code>true</code> 绝对不能配合 <code>*</code>？</h4><p>这是非常<strong>硬核的安全限制</strong>。</p>
+<ul>
+<li>如果 <code>Access-Control-Allow-Origin: *</code>，意味着<strong>任何</strong>网站（哪怕是一个恶意钓鱼网站 <code>http://evil.com</code>）都可以向你的服务器发请求。</li>
+<li>如果同时 <code>Access-Control-Allow-Credentials: true</code>，意味着<strong>任何网站</strong>发来的请求，浏览器都会<strong>自动带上</strong>用户登录在当前浏览器里的 Cookie。</li>
+<li><strong>结果</strong>：一个恶意网站只要贴一张 <code>&lt;img&gt;</code> 标签或者写一段 JS 脚本，就可以利用用户之前登录过的身份，向你的服务器发起攻击（比如 CSRF 跨站请求伪造，或者盗取数据）。这是绝对不允许的。</li>
+</ul>
+<h3 id="1-5-Gin-中解决跨域：官方-CORS-中间件"><a href="#1-5-Gin-中解决跨域：官方-CORS-中间件" class="headerlink" title="1.5 Gin 中解决跨域：官方 CORS 中间件"></a>1.5 Gin 中解决跨域：官方 CORS 中间件</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621102142892.png" alt="image-20260621102142892"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621104012599.png" alt="image-20260621104012599"></p>
+<p>Gin 提供了现成的 CORS 插件，不需自己造轮子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">    <span class="string">&quot;github.com/gin-contrib/cors&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    server := gin.Default()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 CORS 中间件</span></span><br><span class="line">    server.Use(cors.New(cors.Config&#123;</span><br><span class="line">        AllowOrigins:     []<span class="type">string</span>&#123;<span class="string">&quot;http://localhost:3000&quot;</span>&#125;,</span><br><span class="line">        AllowMethods:     []<span class="type">string</span>&#123;<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;GET&quot;</span>, <span class="string">&quot;OPTIONS&quot;</span>&#125;,</span><br><span class="line">        AllowHeaders:     []<span class="type">string</span>&#123;<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;Authorization&quot;</span>&#125;,</span><br><span class="line">        AllowCredentials: <span class="literal">true</span>,</span><br><span class="line">        MaxAge:           <span class="number">12</span> * time.Hour,</span><br><span class="line">        <span class="comment">// AllowOriginFunc 也支持函数动态判断</span></span><br><span class="line">    &#125;))</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...注册路由</span></span><br><span class="line">    server.Run(<span class="string">&quot;:8080&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键点</strong>：</p>
+<ul>
+<li><code>AllowOrigin</code> 要和前端请求头里的 <code>Origin</code> 一一对应</li>
+<li><code>AllowHeaders</code> 要和前端请求头里的自定义 Header 一一对应</li>
+<li>配完后在 Network 面板看 OPTIONS 请求是否返回 <code>204 No Content</code>，是就说明跨域搞定了</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621104903048.png" alt="image-20260621104903048"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621104929169.png" alt="image-20260621104929169"></p>
+<hr>
+<h2 id="二、中间件（Middleware）"><a href="#二、中间件（Middleware）" class="headerlink" title="二、中间件（Middleware）"></a>二、中间件（Middleware）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621102640073.png" alt="image-20260621102640073"></p>
+<h3 id="2-1-中间件是干什么的？"><a href="#2-1-中间件是干什么的？" class="headerlink" title="2.1 中间件是干什么的？"></a>2.1 中间件是干什么的？</h3><p>把中间件想象成<strong>安检通道</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">浏览器请求 → [安检1] → [安检2] → 你的业务逻辑 → 响应</span><br></pre></td></tr></table></figure>
+
+<p>所有请求都要先经过安检，安检通过了才能到达你的业务代码。<strong>所有业务都关心的公共问题</strong>（如跨域、登录校验、日志、限流），用中间件统一解决，不需要每个接口都写一遍。</p>
+<p>这种编程思想叫 <strong>AOP（面向切面编程）</strong>——把横切关注点集中处理。</p>
+<h3 id="2-2-中间件-vs-路由处理函数"><a href="#2-2-中间件-vs-路由处理函数" class="headerlink" title="2.2 中间件 vs 路由处理函数"></a>2.2 中间件 vs 路由处理函数</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621102945287.png" alt="image-20260621102945287"></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 路由处理函数：只作用于这一条路由</span></span><br><span class="line">server.GET(<span class="string">&quot;/hello&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(ctx *gin.Context)</span></span> &#123;</span><br><span class="line">    ctx.String(<span class="number">200</span>, <span class="string">&quot;hello&quot;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 中间件：作用于 server 上注册的所有路由</span></span><br><span class="line">server.Use(<span class="function"><span class="keyword">func</span><span class="params">(ctx *gin.Context)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 请求到达前</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;安检通过&quot;</span>)</span><br><span class="line">    ctx.Next()  <span class="comment">// 继续交给下一个中间件或业务逻辑</span></span><br><span class="line">    <span class="comment">// 响应返回后</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>ctx.Next()</code> 是关键的枢纽——调用它，请求才会继续往后走。不调用 <code>ctx.Next()</code>，请求就被拦截了。</p>
+</blockquote>
+<h3 id="2-3-中间件的执行顺序"><a href="#2-3-中间件的执行顺序" class="headerlink" title="2.3 中间件的执行顺序"></a>2.3 中间件的执行顺序</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server.Use(middleware1)  <span class="comment">// 先注册</span></span><br><span class="line">server.Use(middleware2)  <span class="comment">// 后注册</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 请求流程：</span></span><br><span class="line"><span class="comment">// → middleware1 前半段 → middleware2 前半段 → 业务逻辑 → middleware2 后半段 → middleware1 后半段</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>先注册的先执行</strong>，和叠洋葱一样——一层层进去，再一层层出来。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621103936487.png" alt="image-20260621103936487"></p>
+<h3 id="2-4-怎么用现成的中间件？"><a href="#2-4-怎么用现成的中间件？" class="headerlink" title="2.4 怎么用现成的中间件？"></a>2.4 怎么用现成的中间件？</h3><p>Gin 官方维护了一系列中间件：<a target="_blank" rel="noopener" href="https://github.com/gin-contrib">github.com&#x2F;gin-contrib</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以 CORS 中间件为例</span></span><br><span class="line">go get github.com/gin-contrib/cors</span><br></pre></td></tr></table></figure>
+
+<p>然后在代码里 <code>server.Use(cors.New(...))</code> 即可。</p>
+<blockquote>
+<p>官方中间件质量参差不齐，有些有并发问题，用之前最好看一眼源码。目前 CORS 中间件是可靠的。</p>
+</blockquote>
+<hr>
+<h2 id="三、GORM-入门"><a href="#三、GORM-入门" class="headerlink" title="三、GORM 入门"></a>三、GORM 入门</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621125419434.png" alt="image-20260621125419434"></p>
+<h3 id="3-1-什么是-GORM"><a href="#3-1-什么是-GORM" class="headerlink" title="3.1 什么是 GORM"></a>3.1 什么是 GORM</h3><p>GORM 是 Go 语言最流行的 <strong>ORM 框架</strong>（对象关系映射）。简单说就是：<strong>用 Go 的结构体来操作数据库，不用手写 SQL</strong>。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621125501867.png" alt="image-20260621125501867"></p>
+<ul>
+<li>支持 MySQL、PostgreSQL、SQLite、SQL Server 等</li>
+<li>支持增删改查、事务、关联关系、自动建表</li>
+<li>有完整的中文文档</li>
+</ul>
+<h4 id="模型定义"><a href="#模型定义" class="headerlink" title="模型定义"></a>模型定义</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621141951889.png" alt="image-20260621141951889"></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义表结构</span></span><br><span class="line"><span class="keyword">type</span> Product <span class="keyword">struct</span> &#123;</span><br><span class="line">  gorm.Model</span><br><span class="line">  Code  <span class="type">string</span></span><br><span class="line">  Price <span class="type">uint</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621142441800.png" alt="image-20260621142441800"></p>
+<h3 id="3-2-快速起步"><a href="#3-2-快速起步" class="headerlink" title="3.2 快速起步"></a>3.2 快速起步</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621125641895.png" alt="image-20260621125641895"></p>
+<h3 id="泛型-API-v1-30-0"><a href="#泛型-API-v1-30-0" class="headerlink" title="泛型 API (&gt;&#x3D; v1.30.0)"></a>泛型 API (&gt;&#x3D; v1.30.0)</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">  <span class="string">&quot;context&quot;</span></span><br><span class="line">  <span class="string">&quot;gorm.io/driver/sqlite&quot;</span></span><br><span class="line">  <span class="string">&quot;gorm.io/gorm&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义表结构</span></span><br><span class="line"><span class="keyword">type</span> Product <span class="keyword">struct</span> &#123;</span><br><span class="line">  gorm.Model</span><br><span class="line">  Code  <span class="type">string</span></span><br><span class="line">  Price <span class="type">uint</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 1. 连接数据库</span></span><br><span class="line">  db, err := gorm.Open(sqlite.Open(<span class="string">&quot;test.db&quot;</span>), &amp;gorm.Config&#123;&#125;)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;连接数据库失败&quot;</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ctx := context.Background()</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 自动建表</span></span><br><span class="line">  db.AutoMigrate(&amp;Product&#123;&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建</span></span><br><span class="line">  err = gorm.G[Product](db).Create(ctx, &amp;Product&#123;Code: <span class="string">&quot;D42&quot;</span>, Price: <span class="number">100</span>&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 查询</span></span><br><span class="line">  product, err := gorm.G[Product](db).Where(<span class="string">&quot;id = ?&quot;</span>, <span class="number">1</span>).First(ctx) <span class="comment">// 查找对应主键的产品</span></span><br><span class="line">  products, err := gorm.G[Product](db).Where(<span class="string">&quot;code = ?&quot;</span>, <span class="string">&quot;D42&quot;</span>).Find(ctx) <span class="comment">// 查找 code 为 D42 的所有产品</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 更新 - 将产品价格更新为 200</span></span><br><span class="line">  err = gorm.G[Product](db).Where(<span class="string">&quot;id = ?&quot;</span>, product.ID).Update(ctx, <span class="string">&quot;Price&quot;</span>, <span class="number">200</span>)</span><br><span class="line">  <span class="comment">// 更新 - 更新多个字段</span></span><br><span class="line">  err = gorm.G[Product](db).Where(<span class="string">&quot;id = ?&quot;</span>, product.ID).Updates(ctx, Product&#123;Code: <span class="string">&quot;D42&quot;</span>, Price: <span class="number">100</span>&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 删除 - 删除产品</span></span><br><span class="line">  err = gorm.G[Product](db).Where(<span class="string">&quot;id = ?&quot;</span>, product.ID).Delete(ctx)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="传统-API"><a href="#传统-API" class="headerlink" title="传统 API"></a>传统 API</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">  <span class="string">&quot;gorm.io/driver/sqlite&quot;</span></span><br><span class="line">  <span class="string">&quot;gorm.io/gorm&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Product <span class="keyword">struct</span> &#123;</span><br><span class="line">  gorm.Model</span><br><span class="line">  Code  <span class="type">string</span></span><br><span class="line">  Price <span class="type">uint</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  db, err := gorm.Open(sqlite.Open(<span class="string">&quot;test.db&quot;</span>), &amp;gorm.Config&#123;&#125;)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;连接数据库失败&quot;</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 自动建表</span></span><br><span class="line">  db.AutoMigrate(&amp;Product&#123;&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建</span></span><br><span class="line">  db.Create(&amp;Product&#123;Code: <span class="string">&quot;D42&quot;</span>, Price: <span class="number">100</span>&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 查询</span></span><br><span class="line">  <span class="keyword">var</span> product Product</span><br><span class="line">  db.First(&amp;product, <span class="number">1</span>) <span class="comment">// 查找对应主键的产品</span></span><br><span class="line">  db.First(&amp;product, <span class="string">&quot;code = ?&quot;</span>, <span class="string">&quot;D42&quot;</span>) <span class="comment">// 查找 code 为 D42 的所有产品</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 更新 - 将产品价格更新为 200</span></span><br><span class="line">  db.Model(&amp;product).Update(<span class="string">&quot;Price&quot;</span>, <span class="number">200</span>)</span><br><span class="line">  <span class="comment">// 更新 - 更新多个字段</span></span><br><span class="line">db.Model(&amp;product).Updates(Product&#123;Price: <span class="number">200</span>, Code: <span class="string">&quot;F42&quot;</span>&#125;) <span class="comment">// 仅更新非零字段</span></span><br><span class="line">  db.Model(&amp;product).Updates(<span class="keyword">map</span>[<span class="type">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">&quot;Price&quot;</span>: <span class="number">200</span>, <span class="string">&quot;Code&quot;</span>: <span class="string">&quot;F42&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 删除 - 删除产品</span></span><br><span class="line">  db.Delete(&amp;product, <span class="number">1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-Debug-模式"><a href="#3-3-Debug-模式" class="headerlink" title="3.3 Debug 模式"></a>3.3 Debug 模式</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db = db.Debug()  <span class="comment">// 开启后，每次数据库操作都会打印 SQL 到控制台</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>开发阶段一定要开！</strong> 可以看到 GORM 实际生成的 SQL，确保和预期一致。</p>
+<h3 id="3-4-MySQL-的连接字符串"><a href="#3-4-MySQL-的连接字符串" class="headerlink" title="3.4 MySQL 的连接字符串"></a>3.4 MySQL 的连接字符串</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户名:密码@tcp(主机:端口)/数据库名?charset=utf8mb4&amp;parseTime=True</span><br></pre></td></tr></table></figure>
+
+<p>示例：<code>root:root@tcp(localhost:13316)/vbook?charset=utf8mb4&amp;parseTime=True</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[username[:password]@] [protocol[(address) ]]/dbname[?param1=value1&amp; ...&amp;paramN=valueN]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是博主的</span></span><br><span class="line">db, err := gorm.Open(mysql.Open(<span class="string">&quot;root:040725ge@tcp(localhost:3306)/test&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>不需要死记。复制公司已有项目的配置，改账号密码就行。</p>
+</blockquote>
+<h3 id="3-5-AutoMigrate：自动建表"><a href="#3-5-AutoMigrate：自动建表" class="headerlink" title="3.5 AutoMigrate：自动建表"></a>3.5 AutoMigrate：自动建表</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.AutoMigrate(&amp;User&#123;&#125;, &amp;Article&#123;&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表不存在 → 建表</li>
+<li>表已存在 → 同步字段（新增列）</li>
+<li><strong>不会删除已有列</strong>，也不支持改名</li>
+<li>生产环境慎用，一般只在开发&#x2F;测试中用</li>
+</ul>
+<h3 id="3-6-软删除"><a href="#3-6-软删除" class="headerlink" title="3.6 软删除"></a>3.6 软删除</h3><p>GORM 默认开启软删除：执行 <code>Delete</code> 时并不真正删除数据，而是设置 <code>deleted_at</code> 字段为当前时间。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.Delete(&amp;product)  <span class="comment">// 实际 SQL: UPDATE products SET deleted_at=NOW() WHERE id=?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询时自动过滤已软删除的记录</span></span><br><span class="line">db.First(&amp;product, <span class="number">1</span>)  <span class="comment">// WHERE deleted_at IS NULL</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 真要硬删除</span></span><br><span class="line">db.Unscoped().Delete(&amp;product)  <span class="comment">// DELETE FROM products WHERE id=?</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>老师观点：ORM 框架不应该内置软删除，这应该是应用层自己封装的事情。</p>
+</blockquote>
+<h3 id="3-7-GORM-的「坑」：Builder-模式返回值"><a href="#3-7-GORM-的「坑」：Builder-模式返回值" class="headerlink" title="3.7 GORM 的「坑」：Builder 模式返回值"></a>3.7 GORM 的「坑」：Builder 模式返回值</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db = db.Debug()  <span class="comment">// Debug 返回的是新的 DB 实例，必须重新赋值！</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果写成这样就无效：</span></span><br><span class="line">db.Debug()       <span class="comment">// 返回的新实例被丢弃了</span></span><br><span class="line">db.Create(...)   <span class="comment">// 不会打印 SQL</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>所有链式调用都要记得把返回值接住。</strong></p>
+<h3 id="3-8-学习方法"><a href="#3-8-学习方法" class="headerlink" title="3.8 学习方法"></a>3.8 学习方法</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621141752100.png" alt="image-20260621141752100"></p>
+<ul>
+<li>GORM 中文文档很全面，不需要死记硬背</li>
+<li><code>Where</code>、<code>First</code>、<code>Update</code> 等方法大多接受 <code>interface&#123;&#125;</code>，传 string、map、struct 行为不同</li>
+<li><strong>一切以 SQL 输出为准</strong>——打开 debug 模式，看生成的 SQL 是否符合预期</li>
+</ul>
+<hr>
+<h2 id="四、Docker-Compose-启动-MySQL"><a href="#四、Docker-Compose-启动-MySQL" class="headerlink" title="四、Docker Compose 启动 MySQL"></a>四、Docker Compose 启动 MySQL</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621142530377.png" alt="image-20260621142530377"></p>
+<h3 id="4-1-为什么用-Docker"><a href="#4-1-为什么用-Docker" class="headerlink" title="4.1 为什么用 Docker"></a>4.1 为什么用 Docker</h3><p>不用在本机装 MySQL，一行命令就能起一个干净的环境，用完就停，不污染系统。</p>
+<h3 id="4-2-配置文件：docker-compose-yaml"><a href="#4-2-配置文件：docker-compose-yaml" class="headerlink" title="4.2 配置文件：docker-compose.yaml"></a>4.2 配置文件：<code>docker-compose.yaml</code></h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.0&#x27;</span></span><br><span class="line"><span class="comment"># 我这个 docker compose 由几个服务组成</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mysql8:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:8.0</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">--default-authentication-plugin=mysql_native_password</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">你的密码（空格不要删）</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="comment">#      - 初始化脚本</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./script/mysql/:/docker-entrypoint-initdb.d/</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="comment">#      - 外部访问用 13316</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;13316:3306&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>关键点</strong>：</p>
+<ul>
+<li><code>ports</code> 的格式是 <code>本机端口:容器端口</code></li>
+<li><code>volumes</code> 可挂载初始化脚本：容器启动时自动执行 <code>init.sql</code></li>
+</ul>
+<h3 id="4-3-init-sql-示例"><a href="#4-3-init-sql-示例" class="headerlink" title="4.3 init.sql 示例"></a>4.3 init.sql 示例</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database webook;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-常用命令"><a href="#4-4-常用命令" class="headerlink" title="4.4 常用命令"></a>4.4 常用命令</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621171442586.png" alt="image-20260621171442586"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动（前台，能看到日志）</span></span><br><span class="line">docker compose up</span><br><span class="line"></span><br><span class="line"><span class="comment"># 后台启动</span></span><br><span class="line">docker compose up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止并清理</span></span><br><span class="line">docker compose down</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止但不删数据，只要不是compose down，那就不会删数据</span></span><br><span class="line">Ctrl + C</span><br></pre></td></tr></table></figure>
+
+<p><strong>怎么确认启动成功？</strong> 看到日志中 <code>ready for connections</code> 就表示 MySQL 就绪了。</p>
+<h4 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h4><p>执行up命令的时候失败了，可能原因是你没有启动docker，需要先启动。另外拉取mysql的时候需要等待一段时间，这是成功后的截图</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621164802109.png" alt="image-20260621164802109"></p>
+<h3 id="4-5-GoLand-连接数据库"><a href="#4-5-GoLand-连接数据库" class="headerlink" title="4.5 GoLand 连接数据库"></a>4.5 GoLand 连接数据库</h3><p>GoLand 内置数据库工具：右侧边栏 → Database → <code>+</code> → Data Source → MySQL</p>
+<p>填写连接信息：</p>
+<ul>
+<li>Host: <code>localhost</code></li>
+<li>Port: <code>13316</code>（和 docker-compose 里映射的一致）</li>
+<li>User: <code>root</code></li>
+<li>Password: <code>你的密码</code>（和docker-ccompose里面一致）</li>
+<li>Database: <code>webook</code></li>
+</ul>
+<p>点 <code>Test Connection</code> → 看到 <code>Succeeded</code> 即成功。</p>
+<p><code>注意：</code></p>
+<p>如果要让你下载mysql驱动的话那就直接下载，不用有顾虑</p>
+<p>然后测试连接一定要弄通顺，注意端口是13316不是3306，注意密码是和配置文件里面的一样而不是和你电脑上面那个mysql的密码一样</p>
+<hr>
+<h2 id="五、项目分层设计"><a href="#五、项目分层设计" class="headerlink" title="五、项目分层设计"></a>五、项目分层设计</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621171543012.png" alt="image-20260621171543012"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621171617258.png" alt="image-20260621171617258"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621171719922.png" alt="image-20260621171719922"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621172630821.png" alt="image-20260621172630821"></p>
+<table>
+<thead>
+<tr>
+<th>包</th>
+<th>职责</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>domain</code></td>
+<td>业务领域对象，和真实世界对应</td>
+<td><code>User</code>、<code>Article</code></td>
+</tr>
+<tr>
+<td><code>repository</code></td>
+<td>数据存储的抽象接口</td>
+<td><code>UserRepository</code> 定义 <code>FindByID</code></td>
+</tr>
+<tr>
+<td><code>dao</code></td>
+<td>具体的数据库操作</td>
+<td><code>UserDAO</code> 用 GORM 实现查询</td>
+</tr>
+<tr>
+<td><code>service</code></td>
+<td>组合各种 repository，完成业务功能</td>
+<td><code>UserService</code> 调用 <code>UserRepository</code> + <code>Cache</code></td>
+</tr>
+</tbody></table>
+<p><strong>核心思想</strong>：</p>
+<ul>
+<li><code>repository</code> 只关心「存数据」这件事，不关心存到哪（DB、缓存、文件、甚至 RPC 调用）</li>
+<li><code>dao</code> 才是真正操作数据库的地方</li>
+<li><code>service</code> 是总指挥，调度资源完成业务</li>
+<li><code>domain</code> 中的对象可能和数据库表结构<strong>不一样</strong></li>
+</ul>
+<hr>
+<h2 id="六、核心概念速查"><a href="#六、核心概念速查" class="headerlink" title="六、核心概念速查"></a>六、核心概念速查</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>一句话解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>跨域</td>
+<td>前端和后端不同源，浏览器不让发请求</td>
+</tr>
+<tr>
+<td>Preflight (OPTIONS)</td>
+<td>浏览器先问后端「同不同意」，同意了才发真正请求</td>
+</tr>
+<tr>
+<td>CORS 中间件</td>
+<td>后端在响应里加上 <code>Allow-Origin</code> 等头，告诉浏览器「我同意」</td>
+</tr>
+<tr>
+<td>Middleware</td>
+<td>请求和业务逻辑之间的安检通道，解决所有路由的公共问题</td>
+</tr>
+<tr>
+<td><code>ctx.Next()</code></td>
+<td>中间件里放行请求去下一站</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>用结构体操作数据库，不用手写 SQL</td>
+</tr>
+<tr>
+<td>AutoMigrate</td>
+<td>自动根据结构体建表或更新表结构</td>
+</tr>
+<tr>
+<td>软删除</td>
+<td>Delete 时只标记删除时间，不真删数据</td>
+</tr>
+<tr>
+<td>Docker Compose</td>
+<td>一键启动 MySQL，用完即停</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2026/06/21/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%BA%94%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/">https://darling-123456.github.io/2026/06/21/Go/邓明Go教程-第五节课笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/tags/Go/">Go</a></div><div class="post-share"><div class="social-share" data-image="/img/403.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/20/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/2026-6-20-LeetCode-Hot100--Day8--%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" title="LeetCode Hot100 | Day8 | 两数之和"><img class="cover" src="/img/399.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">LeetCode Hot100 | Day8 | 两数之和</div></div><div class="info-2"><div class="info-item-1">LeetCode Hot100 | Day8 | 两数之和1.两数之和1. 两数之和 - 力扣（LeetCode） 还是老套路，哈希表里面存储nums[i]和下标i，然后去检查如果nums[i]作为第一个数字可行与否，也就是判断target-nums[i]的值在不在数组中，如果可行的话直接返回，如果不行的话就插入当前的nums[i]和其下标 CPP版本 1234567891011121314class Solution &#123;public:    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;        unordered_map&lt;int,int&gt; s;        for(int i=0;i&lt;nums.size();i++)        &#123;            if(s.find(target-nums[i])!=s.end())                return...</div></div></div></a><a class="pagination-related" href="/2026/06/21/Go/%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%A4%8D%E7%9B%98--%E7%AC%AC%E5%9B%9B%E8%AE%B2%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" title="GO学习笔记 | 第四讲注册功能相关内容复盘"><img class="cover" src="/img/402.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">GO学习笔记 | 第四讲注册功能相关内容复盘</div></div><div class="info-2"><div class="info-item-1">GO学习笔记 | 第四讲注册功能相关内容复盘1. Engine vs ContextEngine：gin.Default() 返回一个 *gin.Engine，它是整个 HTTP 服务器的抽象。一个 Engine &#x3D; 一个逻辑服务器，绑定一个端口。可以启动多个 Engine 监听不同端口（比如 :8080 给用户，:8081 给后台管理）。 Context：*gin.Context 代表一次请求。每个 HTTP 请求到达时，Gin 创建一个 Context，把 Request（输入）和 Writer（输出）都包进去，然后传给路由处理函数。请求结束，Context 销毁。 一句话：Engine 是长生命周期（进程级），Context 是短生命周期（一次请求）。  2. 参数路由 vs 通配路由1234567891011// 参数路由：匹配路径中的一段server.GET(&quot;/users/:name&quot;, handler)// /users/zhangsan  → 匹配，ctx.Param(&quot;name&quot;) =...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/05/27/Go/2026-5-27-Go%E8%AF%AD%E8%A8%80&Goland-%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/" title="Go语言&amp;Goland 安装 配置教程以及常用命令"><img class="cover" src="/img/390.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-27</div><div class="info-item-2">Go语言&amp;Goland 安装 配置教程以及常用命令</div></div><div class="info-2"><div class="info-item-1">Go语言&amp;Goland 安装及配置教程一、安装Go语言 (Golang)1. 下载安装 在Golang官网下载（Windows版） 一直NEXT 修改安装路径 Finish  2. 配置环境变量 计算机（右键）→属性→高级系统设置→（点击）环境变量 GOROOT：Go的安装路径新建一个系统变量 GOPATH：自定义一个工作区目录（存放代码、依赖库等）新建一个系统变量检查GOPATH用户变量（要与上面的系统变量一致） PATH：go的bin目录，通常安装golang后，系统会自动配置检查一下  3. 安装验证打开终端，运行： 1go version  # 显示版本号   1go env     # 查看Go环境配置    二、安装Goland IDE1. 下载安装 在GoLand官网下载 修改安装路径 勾选快捷方式 安装 不要勾选运行，直接点击完成  2. 首次配置配置之前需要激活，这个大家可以自行上拼夕夕进行搜索，或者扭头用vscode也可以 基本配置： 打开Goland → File → Settings → Go → GOROOT，点击...</div></div></div></a><a class="pagination-related" href="/2026/05/31/Go/GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20%20%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%8A%82%20GO%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%201.%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%20hello_word%20%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%20%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F%20%E8%BF%90%E7%AE%97%E7%AC%A6%20/" title="GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符"><img class="cover" src="/img/393.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-31</div><div class="info-item-2">GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符</div></div><div class="info-2"><div class="info-item-1">GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符常用快捷键 1.ctrl+鼠标左键，可以直接进入这个函数，也就是 跳转到函数&#x2F;变量定义处 2.Alt + ←  &#x3D; 后退（回到上一个光标位置） 3.Alt + →  &#x3D; 前进（去到下一个光标位置） 使用场景： 1234561. 你在 main.go 的第 10 行2. 按住 Ctrl 点击 Func1，跳转到了 utils.go 的第 50 行3. 按住 Ctrl 点击 Func2，跳转到了 helper.go 的第 30 行4. 按 Alt + ← 就回到了utils.go 的第 50 行5. 再按 Alt + ← 回到 main.go 的第 10 行6. 按 Alt + → 前进到 utils.go 的第 50 行    一、Go开发环境搭建具体内容可以看上篇博客，这里并没有配置图片 1.1...</div></div></div></a><a class="pagination-related" href="/2026/05/31/Go/Go%E8%AF%AD%E8%A8%80Package%E5%92%8CImport%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Go语言 Package 和 Import 学习笔记"><img class="cover" src="/img/392.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-31</div><div class="info-item-2">Go语言 Package 和 Import 学习笔记</div></div><div class="info-2"><div class="info-item-1">Go语言 Package 和 Import 学习笔记查看结论直接跳转到7,8,9即可 本博客主要记录：同一个目录下的go文件都得是一个package里面的，不允许同一个目录的的go文件属于第二个包。也就是一个目录对应一个package，而不同目录下的想要调用当前目录的go文件里面的代码必须使用import才可以进行调用 注：大小写控制的包内和包外是否可以调用，不管大小写，包内都随便调用，如果是大写，那么你在别的包使用import之后可以调用，如果是小写，那么在包外就无法被调用了 一、核心问题：同一个 package 的文件能否互相调用？1.1 问题场景 假设 hello1.go 是 package main，hello2.go 也是 package main，那么在 hello1.go 中能否直接调用 hello2.go 中的函数？这两个文件是否属于同一个作用域？  1.2 答案是的，可以！ 如果两个文件满足以下条件：  声明相同的包名（如 package main） 在同一个目录下  那么：  ✅ 可以直接调用对方的函数 ✅ 属于同一个包，共享同一个命名空间  1.3...</div></div></div></a><a class="pagination-related" href="/2026/06/18/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%BA%8C%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第二章节 GO语言基础| 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型"><img class="cover" src="/img/396.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-18</div><div class="info-item-2">GO学习笔记 | 第二章节 GO语言基础| 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型</div></div><div class="info-2"><div class="info-item-1">GO学习笔记 | 第二章节 GO语言基础 | 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型核心内容：方法声明、函数式编程、控制结构（if&#x2F;for&#x2F;switch） 、内置类型前置知识：变量声明、常量声明（iota）、包管理  一、两个注意点1.1 GOPATH 目录结构1234GOPATH/├── src/      ← 源代码放在这里├── bin/      ← go install 安装的命令└── pkg/      ← go get 下载的依赖包  注意事项：  项目代码放在 src 目录下 如果不在 src 目录下，需要显式指定模块名 依赖缓存问题：可以删除整个 pkg/mod 目录重新拉取  1.2 iota 回顾123456789101112const (    A = iota  // 0    B         // 1    C         // 2)// 复杂用法（了解即可）const (    Flag1 = 1 &lt;&lt; iota  // 1 (二进制: 001)    Flag2    ...</div></div></div></a><a class="pagination-related" href="/2026/06/19/Go/2026-6-19-%E5%9C%A8golang%E4%B8%AD%E5%88%9B%E5%BB%BA%E6%96%B0%E9%A1%B9%E7%9B%AE%E5%B9%B6%E4%BD%BF%E7%94%A8git%E5%B0%86%E9%A1%B9%E7%9B%AE%E6%8E%A8%E9%80%81%E5%88%B0github%E4%BB%93%E5%BA%93%E4%B8%AD%EF%BC%88%E6%96%B0%E6%89%8B%E5%90%91%EF%BC%89/" title="在golang中创建新项目并使用git将项目推送到github仓库中（新手向）"><img class="cover" src="/img/398.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-19</div><div class="info-item-2">在golang中创建新项目并使用git将项目推送到github仓库中（新手向）</div></div><div class="info-2"><div class="info-item-1">在golang中创建新项目并使用git将项目推送到github仓库中（新手向）虽然是新手向，但你起码要把git给学了才行，不能真的啥也不知道 1.创建github仓库 2.克隆项目复制下图的地址  打开git  输入以下命令 1git clone https://github.com/Darling-123456/go_learning.git  3.进入项目文件夹创建.gitignore文件绝不能把 IDE 的配置文件传上去！在你的项目最根目录下，新建一个名为 .gitignore 的文件，并在里面写上： 1.idea/   原因：打开 GoLand 时会自动生成 .idea 文件夹，里面全是本地的编辑器缓存。如果不忽略，它会和你的代码一起上传，导致 GitHub 仓库非常杂乱。一旦你曾经不小心把它们 add 过，可以使用 git rm -r --cached .idea 命令将它从 Git 追踪列表中剔除。   4.在golang打开这个文件夹 5.写入第一个go文件并创建mod文件正常流程 写好后跳转到对应的位置然后打开终端输入以下命令创建go.mod 1go mod...</div></div></div></a><a class="pagination-related" href="/2026/06/18/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B8%89%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第三章节 GO语言基础 | 接口&amp;&amp;结构体&amp;&amp;方法接收器&amp;&amp;组合&amp;&amp;泛型"><img class="cover" src="/img/397.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-18</div><div class="info-item-2">GO学习笔记 | 第三章节 GO语言基础 | 接口&amp;&amp;结构体&amp;&amp;方法接收器&amp;&amp;组合&amp;&amp;泛型</div></div><div class="info-2"><div class="info-item-1">GO学习笔记 | 第三章节 GO语言基础 | 接口&amp;&amp;结构体&amp;&amp;方法接收器&amp;&amp;组合&amp;&amp;泛型核心内容：接口、结构体、方法接收器、组合、衍生类型与类型别名、泛型前置知识：方法声明、函数式编程、控制结构（if&#x2F;for&#x2F;switch）、内置类型  一、课前回顾：defer 与闭包1.1 for 循环中 defer 的经典问题12345for i := 0; i &lt; 10; i++ &#123;    defer func() &#123;        fmt.Println(i)  // 为什么输出的都是 10？    &#125;()&#125;  原因：i 的地址始终是同一个，defer 延迟到函数返回前才执行，此时 i 已经是 10 了。 验证：打印地址确认 123456for i := 0; i &lt; 10; i++ &#123;    fmt.Printf(&quot;i 的地址: %p\n&quot;, &amp;i)  // 每次循环地址相同！    defer func()...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">407</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">50</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">26</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%BA%94%E7%AB%A0%E8%8A%82-%E7%94%A8%E6%88%B7%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E4%B8%8E-Gin%EF%BD%9CGORM-%E5%85%A5%E9%97%A8-%E8%B7%A8%E5%9F%9F%E3%80%81%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%B8%8E-GORM-%E5%85%A5%E9%97%A8"><span class="toc-text">GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%EF%BC%88CORS%EF%BC%89"><span class="toc-text">一、跨域问题（CORS）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AF%E8%B7%A8%E5%9F%9F%EF%BC%9F"><span class="toc-text">1.1 什么是跨域？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E8%B7%A8%E5%9F%9F%E6%98%AF%E6%80%8E%E4%B9%88%E8%A2%AB%E6%8B%A6%E4%BD%8F%E7%9A%84%EF%BC%9F"><span class="toc-text">1.2 跨域是怎么被拦住的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%90%8E%E7%AB%AF%E6%80%8E%E4%B9%88%E5%91%8A%E8%AF%89%E6%B5%8F%E8%A7%88%E5%99%A8%E3%80%8C%E6%88%91%E6%8E%A5%E5%8F%97%E3%80%8D%EF%BC%9F"><span class="toc-text">1.3 后端怎么告诉浏览器「我接受」？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E2%9A%A0%EF%B8%8F-Allow-Origin-%E7%9A%84%E5%9D%91"><span class="toc-text">1.4 ⚠️ Allow-Origin: * 的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%AD%A3%E7%A1%AE%E4%B8%94%E4%B8%A5%E8%B0%A8%E7%9A%84-CORS-%E8%A7%84%E5%88%99"><span class="toc-text">1. 正确且严谨的 CORS 规则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88-true-%E7%BB%9D%E5%AF%B9%E4%B8%8D%E8%83%BD%E9%85%8D%E5%90%88-%EF%BC%9F"><span class="toc-text">2. 为什么 true 绝对不能配合 *？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-Gin-%E4%B8%AD%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%EF%BC%9A%E5%AE%98%E6%96%B9-CORS-%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-text">1.5 Gin 中解决跨域：官方 CORS 中间件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%88Middleware%EF%BC%89"><span class="toc-text">二、中间件（Middleware）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%98%AF%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-text">2.1 中间件是干什么的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E4%B8%AD%E9%97%B4%E4%BB%B6-vs-%E8%B7%AF%E7%94%B1%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0"><span class="toc-text">2.2 中间件 vs 路由处理函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-text">2.3 中间件的执行顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%80%8E%E4%B9%88%E7%94%A8%E7%8E%B0%E6%88%90%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9F"><span class="toc-text">2.4 怎么用现成的中间件？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81GORM-%E5%85%A5%E9%97%A8"><span class="toc-text">三、GORM 入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E4%BB%80%E4%B9%88%E6%98%AF-GORM"><span class="toc-text">3.1 什么是 GORM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="toc-text">模型定义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%BF%AB%E9%80%9F%E8%B5%B7%E6%AD%A5"><span class="toc-text">3.2 快速起步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B-API-v1-30-0"><span class="toc-text">泛型 API (&gt;&#x3D; v1.30.0)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F-API"><span class="toc-text">传统 API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Debug-%E6%A8%A1%E5%BC%8F"><span class="toc-text">3.3 Debug 模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-MySQL-%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">3.4 MySQL 的连接字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-AutoMigrate%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%BB%BA%E8%A1%A8"><span class="toc-text">3.5 AutoMigrate：自动建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E8%BD%AF%E5%88%A0%E9%99%A4"><span class="toc-text">3.6 软删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7-GORM-%E7%9A%84%E3%80%8C%E5%9D%91%E3%80%8D%EF%BC%9ABuilder-%E6%A8%A1%E5%BC%8F%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">3.7 GORM 的「坑」：Builder 模式返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-8-%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95"><span class="toc-text">3.8 学习方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Docker-Compose-%E5%90%AF%E5%8A%A8-MySQL"><span class="toc-text">四、Docker Compose 启动 MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8-Docker"><span class="toc-text">4.1 为什么用 Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%9Adocker-compose-yaml"><span class="toc-text">4.2 配置文件：docker-compose.yaml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-init-sql-%E7%A4%BA%E4%BE%8B"><span class="toc-text">4.3 init.sql 示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">4.4 常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">可能遇到的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-GoLand-%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">4.5 GoLand 连接数据库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%A1%B9%E7%9B%AE%E5%88%86%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="toc-text">五、项目分层设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E9%80%9F%E6%9F%A5"><span class="toc-text">六、核心概念速查</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/06/21/Go/2026-6-21-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--Docker%E5%AE%89%E8%A3%85/" title="GO学习笔记 | Docker安装"><img src="/img/408.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="GO学习笔记 | Docker安装"/></a><div class="content"><a class="title" href="/2026/06/21/Go/2026-6-21-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--Docker%E5%AE%89%E8%A3%85/" title="GO学习笔记 | Docker安装">GO学习笔记 | Docker安装</a><time datetime="2026-06-21T08:00:00.000Z" title="发表于 2026-06-21 16:00:00">2026-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/21/Go/2026-6-21-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--%E5%88%B7leetcode%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E7%82%B9/" title="GO学习笔记 | 刷leetcode中常用的go基础语法点"><img src="/img/406.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="GO学习笔记 | 刷leetcode中常用的go基础语法点"/></a><div class="content"><a class="title" href="/2026/06/21/Go/2026-6-21-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--%E5%88%B7leetcode%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E7%82%B9/" title="GO学习笔记 | 刷leetcode中常用的go基础语法点">GO学习笔记 | 刷leetcode中常用的go基础语法点</a><time datetime="2026-06-21T07:00:00.000Z" title="发表于 2026-06-21 15:00:00">2026-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/21/Go/GO%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | GO面试要点笔记（持续更新）"><img src="/img/405.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="GO学习笔记 | GO面试要点笔记（持续更新）"/></a><div class="content"><a class="title" href="/2026/06/21/Go/GO%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | GO面试要点笔记（持续更新）">GO学习笔记 | GO面试要点笔记（持续更新）</a><time datetime="2026-06-21T06:00:00.000Z" title="发表于 2026-06-21 14:00:00">2026-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/21/Go/2026-6-21-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AEgorm%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" title="GO学习笔记 | 安装和配置gorm过程中遇到的问题"><img src="/img/404.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="GO学习笔记 | 安装和配置gorm过程中遇到的问题"/></a><div class="content"><a class="title" href="/2026/06/21/Go/2026-6-21-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AEgorm%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" title="GO学习笔记 | 安装和配置gorm过程中遇到的问题">GO学习笔记 | 安装和配置gorm过程中遇到的问题</a><time datetime="2026-06-21T05:14:00.000Z" title="发表于 2026-06-21 13:14:00">2026-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/21/Go/%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%A4%8D%E7%9B%98--%E7%AC%AC%E5%9B%9B%E8%AE%B2%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" title="GO学习笔记 | 第四讲注册功能相关内容复盘"><img src="/img/402.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="GO学习笔记 | 第四讲注册功能相关内容复盘"/></a><div class="content"><a class="title" href="/2026/06/21/Go/%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%A4%8D%E7%9B%98--%E7%AC%AC%E5%9B%9B%E8%AE%B2%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" title="GO学习笔记 | 第四讲注册功能相关内容复盘">GO学习笔记 | 第四讲注册功能相关内容复盘</a><time datetime="2026-06-21T01:30:00.000Z" title="发表于 2026-06-21 09:30:00">2026-06-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+  © 2024-<script>document.write(new Date().getFullYear())</script> 
+  <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
+  | 已运行 <span id="days">0</span> 天
+  <script>
+    const start = new Date('2024-12-12');
+    const now = new Date();
+    document.getElementById('days').innerHTML = 
+      Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  </script>
+</div>
+</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Never,ever,ever,give,up" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
