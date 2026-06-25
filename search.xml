@@ -63171,7 +63171,7 @@ $&#123;&#125;
   </entry>
   <entry>
     <title>GO学习笔记 | 第六章节 用户基本功能与 Gin｜GORM 入门| 分层架构、密码加密与登录校验</title>
-    <url>/2026/06/21/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AD%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
+    <url>/2026/06/25/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AD%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="GO学习笔记-第六章节-用户基本功能与-Gin｜GORM-入门-分层架构、密码加密与登录校验"><a href="#GO学习笔记-第六章节-用户基本功能与-Gin｜GORM-入门-分层架构、密码加密与登录校验" class="headerlink" title="GO学习笔记 | 第六章节 用户基本功能与 Gin｜GORM 入门| 分层架构、密码加密与登录校验"></a>GO学习笔记 | 第六章节 用户基本功能与 Gin｜GORM 入门| 分层架构、密码加密与登录校验</h1><p><strong>核心内容</strong>：项目分层落地（handler-service-repository-dao）、bcrypt 密码加密、Cookie&#x2F;Session 机制、登录校验中间件、用户注册完整链路<br><strong>前置知识</strong>：Gin 路由与中间件、GORM 增删改查、Docker Compose</p>
 <hr>
 <h2 id="一、项目分层架构落地"><a href="#一、项目分层架构落地" class="headerlink" title="一、项目分层架构落地"></a>一、项目分层架构落地</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260623145926058.png" alt="image-20260623145926058"></p>
