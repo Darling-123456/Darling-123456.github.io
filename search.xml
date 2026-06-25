@@ -61433,7 +61433,7 @@ $&#123;&#125;
 <ul>
 <li>因为 <code>LinkedList</code> 内部包含指针（操作的是链表节点内存）。</li>
 <li>如果接收器写成 <code>(l LinkedList)</code>（值接收器），调用方法时 Go 会把整个链表<strong>深拷贝</strong>一份。你往副本里插入节点，外部的 <code>myList</code> 根本不会变。</li>
-<li>因此，<strong>必须使用指针接收器 <code>(l \*LinkedList)</code></strong>。</li>
+<li>因此，<strong>必须使用指针接收器 <code>(l *LinkedList)</code></strong>。</li>
 </ul>
 <p><strong>引出的一个陷阱：</strong><br>因为接收器是<strong>指针接收器</strong>，所以你在传递给 <code>UseList</code> 时，<strong>必须传递取地址后的对象</strong>，也就是 <code>&amp;LinkedList&#123;&#125;</code>。<br>如果你直接传值 <code>var v LinkedList; UseList(v)</code>，编译器会直接报错：</p>
 <blockquote>
@@ -61488,7 +61488,7 @@ $&#123;&#125;
 <p><strong>怎么解？</strong><br><strong>遇事不决用指针</strong>。在创建对象时就直接用指针，或者调用的时候取地址：</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line">myDog := &amp;Dog&#123;Name: <span class="string">&quot;旺财&quot;</span>&#125; <span class="comment">// 创建指针</span></span><br><span class="line">LetAnimalSpeak(myDog)       <span class="comment">// 完美通过</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line">myDog := Dog&#123;Name: <span class="string">&quot;旺财&quot;</span>&#125;</span><br><span class="line">LetAnimalSpeak(&amp;myDog)      <span class="comment">// 使用 &amp; 取地址，完美通过</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>小建议</strong>：在实际后端开发里，如果一个结构体里有切片、Map 或者你需要修改它的状态，<strong>强烈建议统一用指针接收器 (<code>\*Type</code>) 来实现接口</strong>，这样不仅多态能用，还能避免值拷贝带来的内存浪费和数据无法修改的坑。</p>
+<p><strong>小建议</strong>：在实际后端开发里，如果一个结构体里有切片、Map 或者你需要修改它的状态，<strong>强烈建议统一用指针接收器 (<code>*Type</code>) 来实现接口</strong>，这样不仅多态能用，还能避免值拷贝带来的内存浪费和数据无法修改的坑。</p>
 <hr>
 <h2 id="四、方法接收器（Method-Receiver）"><a href="#四、方法接收器（Method-Receiver）" class="headerlink" title="四、方法接收器（Method Receiver）"></a>四、方法接收器（Method Receiver）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260619111751323.png" alt="image-20260619111751323"></p>
 <h3 id="4-1-两种接收器"><a href="#4-1-两种接收器" class="headerlink" title="4.1 两种接收器"></a>4.1 两种接收器</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 值接收器</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u User)</span></span> ChangeName(name <span class="type">string</span>) &#123;</span><br><span class="line">    u.Name = name  <span class="comment">// 修改的是副本，原对象不变！</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针接收器</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *User)</span></span> ChangeAge(age <span class="type">int</span>) &#123;</span><br><span class="line">    u.Age = age  <span class="comment">// 修改的是原对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -62550,6 +62550,64 @@ $&#123;&#125;
 <p>熟练封装中间件的能力，能体现出我对 Gin 底层链式调用源码的理解。”</p>
 </blockquote>
 <p>这样回答，展现了具备<strong>模块化封装、业务落地、和源码深度</strong>的能力，会是非常大的加分项！</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625093738978.png" alt="image-20260625093738978"></p>
+<h3 id="1-什么是-Cookie，什么是-Session？"><a href="#1-什么是-Cookie，什么是-Session？" class="headerlink" title="1. 什么是 Cookie，什么是 Session？"></a>1. 什么是 Cookie，什么是 Session？</h3><ul>
+<li><strong>Cookie</strong>：是**客户端（浏览器）**保存的一小段数据（大小通常限制在 4KB）。服务器通过 HTTP 响应头 <code>Set-Cookie</code> 将其发送给浏览器，浏览器会在下次同源请求时自动携带该数据。常用于保存 Session ID 或用户偏好设置。</li>
+<li><strong>Session</strong>：是<strong>服务端</strong>保存的用户状态数据。当用户登录成功后，服务器会生成一个唯一的 <code>Session ID</code>，并将用户信息（如 UserID、过期时间）存放到服务端的存储中（如内存、Redis 或数据库）。服务器把 Session ID 发给客户端，客户端保存（通常通过 Cookie），后续请求时携带该 ID，服务器以此识别用户身份。</li>
+<li><strong>Go 实践</strong>：Go 标准库 <code>net/http</code> 提供了 <code>Cookie</code> 结构体。常用的第三方库是 <code>gorilla/sessions</code>，它封装了对 Cookie 和 Session 的操作。</li>
+</ul>
+<h3 id="2-Cookie-和-Session-比起来有什么缺点？"><a href="#2-Cookie-和-Session-比起来有什么缺点？" class="headerlink" title="2. Cookie 和 Session 比起来有什么缺点？"></a>2. Cookie 和 Session 比起来有什么缺点？</h3><p>注意这里问的是 <strong>Cookie 的缺点</strong>，相比服务端的 Session，Cookie 的短板主要体现在：</p>
+<ol>
+<li><strong>安全性低</strong>：数据存储在客户端（明文可见），极易被篡改或窃取（尤其是没有设置 <code>HttpOnly</code> 和 <code>Secure</code> 属性时）。而 Session 数据存储在服务端，用户无法修改。</li>
+<li><strong>存储量小</strong>：单个 Cookie 最大约 4KB，无法存储复杂或大量的用户数据。</li>
+<li><strong>带宽消耗</strong>：每次 HTTP 请求都会携带所有未过期的 Cookie（包括不必要的），浪费网络带宽。</li>
+<li><strong>无法主动失效</strong>：服务端无法直接删除客户端的 Cookie。而 Session 存储在服务端，后端可以随时将 Session 销毁，从而实现强制用户下线。</li>
+<li><strong>跨域限制</strong>：Cookie 受同源策略（Same-origin Policy）的限制，跨域请求无法自动携带 Cookie，在前后端分离场景下不如 Authorization Token 灵活。</li>
+</ol>
+<h3 id="3-Session-ID-可以放在哪里？（重点：Cookie-禁用的问题）"><a href="#3-Session-ID-可以放在哪里？（重点：Cookie-禁用的问题）" class="headerlink" title="3. Session ID 可以放在哪里？（重点：Cookie 禁用的问题）"></a>3. Session ID 可以放在哪里？（重点：Cookie 禁用的问题）</h3><ul>
+<li><strong>默认方式：</strong> <strong>Cookie</strong>，浏览器自动处理携带。</li>
+<li><strong>备选方案（应对 Cookie 禁用）：</strong><ol>
+<li><strong>URL 重写（URL Rewriting）</strong>：将 Session ID 直接拼接到 URL 的参数中（如 <code>http://example.com/home?session_id=abcdef</code>），服务器解析 URL 参数获取。<strong>（面试官点名要提的方案）</strong></li>
+<li><strong>隐藏表单字段（Hidden Form Field）</strong>：在 HTML 表单中嵌入一个 <code>&lt;input type=&quot;hidden&quot; name=&quot;session_id&quot; value=&quot;...&quot; /&gt;</code>，提交后后端解析。</li>
+<li><strong>自定义请求头（Authorization）</strong>：前端在 JS 中获取 Session ID，在 Ajax&#x2F;API 请求时手动放入 <code>Authorization: Bearer &#123;session_id&#125;</code> 请求头中（特别适合移动端 App 或前后端分离架构）。</li>
+</ol>
+</li>
+</ul>
+<h3 id="4-用户密码加密算法选取有什么注意事项？你用的是什么？"><a href="#4-用户密码加密算法选取有什么注意事项？你用的是什么？" class="headerlink" title="4. 用户密码加密算法选取有什么注意事项？你用的是什么？"></a>4. 用户密码加密算法选取有什么注意事项？你用的是什么？</h3><ul>
+<li><strong>注意事项（避坑指南）：</strong><ol>
+<li><strong>坚决不用</strong>：明文存储、MD5、SHA1、SHA256 等<strong>快速哈希算法</strong>（因为它们计算极快，很容易被现代的 GPU&#x2F;ASIC 暴力破解或彩虹表攻击）。</li>
+<li><strong>必须加盐</strong>：为了防止彩虹表攻击，每个用户的密码在加密前必须加上<strong>随机生成的盐值（Salt）</strong>，且盐值需要与哈希结果一起保存（或者盐值可以由固定的业务密钥+用户ID生成）。</li>
+<li><strong>使用慢速哈希算法</strong>：这是为了防止暴力破解，要让加密一秒钟只能算几次。</li>
+</ol>
+</li>
+<li><strong>具体用什么？</strong><ul>
+<li><strong>Argon2</strong>：2015 年密码哈希竞赛的获胜者，目前 OWASP 公认最安全的算法（但 Go 标准库未直接提供，需用 <code>golang.org/x/crypto/argon2</code>）。</li>
+<li><strong>bcrypt</strong>：<strong>工业界最常用</strong>。Go 标准库提供 <code>golang.org/x/crypto/bcrypt</code>。使用简单，自带盐值管理，支持调节计算代价（Cost Factor）。<strong>（面试强烈推荐回答这个）</strong>。</li>
+<li><strong>scrypt &#x2F; PBKDF2</strong>：也可。</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-怎么做登录校验？核心是利用-Gin-的-middleware（中间件）。"><a href="#5-怎么做登录校验？核心是利用-Gin-的-middleware（中间件）。" class="headerlink" title="5. 怎么做登录校验？核心是利用 Gin 的 middleware（中间件）。"></a>5. 怎么做登录校验？核心是利用 Gin 的 middleware（中间件）。</h3><p>登录和鉴权在 Gin 项目里的标准实现流程：</p>
+<ol>
+<li><strong>登录接口（无需鉴权）</strong>：<ul>
+<li>接收用户名&#x2F;密码。</li>
+<li>查库比对哈希密码。</li>
+<li>验证成功生成一个 Token（如 JWT 或 Session ID），并返回给前端。</li>
+</ul>
+</li>
+<li><strong>中间件拦截（核心）</strong>：<ul>
+<li>定义一个 Gin 的 <code>Middleware</code> 函数。</li>
+<li>在每个受保护的 API 请求进来时，先执行这个中间件。</li>
+</ul>
+</li>
+<li><strong>中间件内部逻辑</strong>：<ul>
+<li>从请求头（<code>Authorization</code>）或 Cookie 中获取 Token。</li>
+<li>验证 Token 是否有效（如 JWT 校验签名、检查过期时间；或者去 Redis 查 Session 是否存在）。</li>
+<li><strong>验证失败</strong>：调用 <code>c.AbortWithStatusJSON(401, ...)</code> 中断请求，直接返回 401 未登录&#x2F;未授权。</li>
+<li><strong>验证成功</strong>：将解析出的 <code>UserID</code> 等用户信息通过 <code>c.Set(&quot;userId&quot;, userID)</code> 存入 <code>gin.Context</code> 中，然后调用 <code>c.Next()</code> 将请求放行给后续的业务 Handler 处理。</li>
+</ul>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>Go</category>
@@ -63083,6 +63141,467 @@ $&#123;&#125;
       <tags>
         <tag>学习笔记</tag>
         <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GO学习笔记 | git使用记录（持续更新）</title>
+    <url>/2026/06/25/Go/2026-6-25-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--git%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="git使用记录（持续更新）"><a href="#git使用记录（持续更新）" class="headerlink" title="git使用记录（持续更新）"></a>git使用记录（持续更新）</h1><p>记录一下使用git的过程</p>
+<p>起初是学习的go课程是21周的，我想把每周学的东西单独做个提交，顺带练练git，就尝试建立分支什么的</p>
+<h2 id="week2"><a href="#week2" class="headerlink" title="week2"></a>week2</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;week2: 登录注册 + session中间件&quot;</span><br><span class="line">git branch week2          # 从当前 commit 创建分支，但你还留在 master 上</span><br><span class="line">git push origin master</span><br><span class="line">git push origin week2</span><br></pre></td></tr></table></figure>
+
+<p>这是master分支，而week2分支和这个一样的</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625103037944.png" alt="image-20260625103037944"></p>
+<p>但是我的week2里面本意是只想放项目相关的代码的，所以执行了以下命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout week2                     <span class="comment"># 切到 week2 分支</span></span><br><span class="line">git <span class="built_in">rm</span> -r gin/ gorm/ go_exercise/ homework/ leetcode/ <span class="comment"># 删掉这些目录</span></span><br><span class="line">git commit -m <span class="string">&quot;week2: 登录+注册功能&quot;</span></span><br><span class="line">git push origin week2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625103338788.png" alt="image-20260625103338788"></p>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+        <tag>学习笔记</tag>
+        <tag>Go</tag>
+        <tag>Gin</tag>
+        <tag>Session</tag>
+        <tag>JWT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GO学习笔记 | 第六章节 用户基本功能与 Gin｜GORM 入门| 分层架构、密码加密与登录校验</title>
+    <url>/2026/06/21/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AD%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="GO学习笔记-第六章节-用户基本功能与-Gin｜GORM-入门-分层架构、密码加密与登录校验"><a href="#GO学习笔记-第六章节-用户基本功能与-Gin｜GORM-入门-分层架构、密码加密与登录校验" class="headerlink" title="GO学习笔记 | 第六章节 用户基本功能与 Gin｜GORM 入门| 分层架构、密码加密与登录校验"></a>GO学习笔记 | 第六章节 用户基本功能与 Gin｜GORM 入门| 分层架构、密码加密与登录校验</h1><p><strong>核心内容</strong>：项目分层落地（handler-service-repository-dao）、bcrypt 密码加密、Cookie&#x2F;Session 机制、登录校验中间件、用户注册完整链路<br><strong>前置知识</strong>：Gin 路由与中间件、GORM 增删改查、Docker Compose</p>
+<hr>
+<h2 id="一、项目分层架构落地"><a href="#一、项目分层架构落地" class="headerlink" title="一、项目分层架构落地"></a>一、项目分层架构落地</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260623145926058.png" alt="image-20260623145926058"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260623150135620.png" alt="image-20260623150135620"></p>
+<h3 id="0-改造代码"><a href="#0-改造代码" class="headerlink" title="0.改造代码"></a>0.改造代码</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260623153152547.png" alt="image-20260623153152547"></p>
+<h3 id="1-1-为什么要分层？"><a href="#1-1-为什么要分层？" class="headerlink" title="1.1 为什么要分层？"></a>1.1 为什么要分层？</h3><p>这次要解决的第一个问题是：<strong>数据库代码放在哪？</strong></p>
+<p>如果所有代码都堆在一个文件里，很快会变成一坨「意大利面条」。分层之后，每一层只干一件事，修改一处不影响其他地方。</p>
+<h3 id="1-2-四层架构"><a href="#1-2-四层架构" class="headerlink" title="1.2 四层架构"></a>1.2 四层架构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">请求 → handler（处理 HTTP）</span><br><span class="line">         ↓</span><br><span class="line">       service（业务逻辑）</span><br><span class="line">         ↓</span><br><span class="line">       repository（存储抽象）</span><br><span class="line">         ↓</span><br><span class="line">       dao（数据库操作）</span><br></pre></td></tr></table></figure>
+
+<p>逐层说明：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>职责</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>handler</code></td>
+<td>接收 HTTP 请求，调用 service，返回 HTTP 响应</td>
+<td>前台接待</td>
+</tr>
+<tr>
+<td><code>service</code></td>
+<td>核心业务逻辑，组合各种 repository</td>
+<td>业务经理</td>
+</tr>
+<tr>
+<td><code>repository</code></td>
+<td>「存数据」的抽象接口，不管存到哪（DB&#x2F;缓存&#x2F;文件&#x2F;RPC）</td>
+<td>仓储接口</td>
+</tr>
+<tr>
+<td><code>dao</code></td>
+<td>真正操作数据库的代码（GORM 在这里）</td>
+<td>仓库管理员</td>
+</tr>
+</tbody></table>
+<p><strong>核心规则</strong>：上层可以调下层，下层<strong>不能</strong>调上层。handler 可以用 service 的类型，但 service 不能用 handler 的类型。</p>
+<h3 id="1-3-domain：业务领域对象"><a href="#1-3-domain：业务领域对象" class="headerlink" title="1.3 domain：业务领域对象"></a>1.3 domain：业务领域对象</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// domain/user.go —— 业务意义上的「用户」</span></span><br><span class="line"><span class="keyword">package</span> domain</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    Email    <span class="type">string</span></span><br><span class="line">    Password <span class="type">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个 <code>User</code> 是业务层面的概念——和注册表单对应，但和数据库表<strong>可能不一样</strong>。</p>
+<h3 id="1-4-dao：数据库模型"><a href="#1-4-dao：数据库模型" class="headerlink" title="1.4 dao：数据库模型"></a>1.4 dao：数据库模型</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624154438776.png" alt="image-20260624154438776"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624150329166.png" alt="image-20260624150329166"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// dao/user.go —— 直接对应数据库表</span></span><br><span class="line"><span class="keyword">package</span> dao</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    ID       <span class="type">int64</span>  <span class="string">`gorm:&quot;primaryKey;autoIncrement&quot;`</span></span><br><span class="line">    Email    <span class="type">string</span> <span class="string">`gorm:&quot;uniqueIndex&quot;`</span>  <span class="comment">// 唯一索引</span></span><br><span class="line">    Password <span class="type">string</span></span><br><span class="line">    Ctime    <span class="type">int64</span>  <span class="comment">// 创建时间（毫秒数）</span></span><br><span class="line">    Utime    <span class="type">int64</span>  <span class="comment">// 更新时间（毫秒数）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624150650021.png" alt="image-20260624150650021"></p>
+<p><strong>为什么 dao.User 和 domain.User 是分开的？</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>domain.User</th>
+<th>dao.User</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>含义</td>
+<td>业务上的用户</td>
+<td>数据库里的用户</td>
+</tr>
+<tr>
+<td>字段</td>
+<td>Email, Password</td>
+<td>加上 ID, Ctime, Utime</td>
+</tr>
+<tr>
+<td>是否和数据库耦合</td>
+<td>否</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<p>随着业务复杂，两者差异会越来越大。比如数据库里存的是 <code>int64</code> 毫秒数，业务里想用 <code>time.Time</code>，转换就在 dao ↔ domain 之间完成。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624151213606.png" alt="image-20260624151213606"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624154507249.png" alt="image-20260624154507249"></p>
+<h3 id="1-5-完整调用链：以注册为例"><a href="#1-5-完整调用链：以注册为例" class="headerlink" title="1.5 完整调用链：以注册为例"></a>1.5 完整调用链：以注册为例</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">handler.SignUp(ctx)</span><br><span class="line">  → 从 ctx.Bind 拿到请求数据</span><br><span class="line">  → 构建 domain.User&#123;Email, Password&#125;</span><br><span class="line">  → service.SignUp(ctx, user)</span><br><span class="line">      → 业务校验（如邮箱是否已存在）</span><br><span class="line">      → repository.Create(ctx, user)</span><br><span class="line">          → dao.Insert(ctx, daoUser)</span><br><span class="line">              → db.Create(&amp;daoUser)  // 真正执行 SQL</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-6-组装：main-函数中的依赖注入"><a href="#1-6-组装：main-函数中的依赖注入" class="headerlink" title="1.6 组装：main 函数中的依赖注入"></a>1.6 组装：main 函数中的依赖注入</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624154545904.png" alt="image-20260624154545904"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624154620410.png" alt="image-20260624154620410"></p>
+<p>所有分层的组件在 <code>main.go</code> 中统一组装：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 1. 数据库</span></span><br><span class="line">    db, err := gorm.Open(mysql.Open(<span class="string">&quot;root:root@tcp(localhost:13316)/vbook&quot;</span>))</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="built_in">panic</span>(err)  <span class="comment">// 初始化阶段失败直接退出</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 各层组装</span></span><br><span class="line">    userDAO := dao.NewUserDAO(db)</span><br><span class="line">    userRepo := repository.NewUserRepository(userDAO)</span><br><span class="line">    userSvc := service.NewUserService(userRepo)</span><br><span class="line">    userHandler := web.NewUserHandler(userSvc)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 注册路由</span></span><br><span class="line">    server := gin.Default()</span><br><span class="line">    userHandler.RegisterRoutes(server)</span><br><span class="line"></span><br><span class="line">    server.Run(<span class="string">&quot;:8080&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624154640374.png" alt="image-20260624154640374"></p>
+<p><strong>关键原则</strong>：</p>
+<ul>
+<li>只在 <code>main</code> 函数中 <code>panic</code>——初始化失败，应用就不应该启动</li>
+<li>其他任何地方用 <code>error</code> 返回值，不要 <code>panic</code></li>
+</ul>
+<hr>
+<h2 id="二、密码加密"><a href="#二、密码加密" class="headerlink" title="二、密码加密"></a>二、密码加密</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624160448533.png" alt="image-20260624160448533"></p>
+<h3 id="2-1-为什么必须加密？"><a href="#2-1-为什么必须加密？" class="headerlink" title="2.1 为什么必须加密？"></a>2.1 为什么必须加密？</h3><ul>
+<li>数据库泄露 &#x3D; 所有用户明文密码泄露</li>
+<li>用户往往在多个网站用同一个密码——一个站炸了就全炸了</li>
+<li>防外鬼（黑客），也防内鬼（同事直接看数据库）</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624160512970.png" alt="image-20260624160512970"></p>
+<h3 id="2-2-加密放在哪一层？"><a href="#2-2-加密放在哪一层？" class="headerlink" title="2.2 加密放在哪一层？"></a>2.2 加密放在哪一层？</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624161606356.png" alt="image-20260624161606356"></p>
+<p>四种选项各有道理：</p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>理由</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>service</code></td>
+<td>加密是业务概念，产品经理要求「密码必须加密」</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>repository</code></td>
+<td>加密是存储概念——存到仓库的东西就应该加密</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>dao</code></td>
+<td>只有数据库才需要加密，放缓存不加密</td>
+<td>绕开 dao 访问 repository 会拿到明文</td>
+</tr>
+<tr>
+<td><code>domain</code></td>
+<td>密码是 User 自己的事，User 自己负责加密</td>
+<td><code>u.Encrypt()</code> 这种写法比较别扭</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>放在 service 层</strong>——代码最直观，最容易读懂。选择不同位置会影响后续接口设计，但没有标准答案。</p>
+</blockquote>
+<h3 id="2-3-加密算法选择：bcrypt"><a href="#2-3-加密算法选择：bcrypt" class="headerlink" title="2.3 加密算法选择：bcrypt"></a>2.3 加密算法选择：bcrypt</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624161924336.png" alt="image-20260624161924336"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624162022289.png" alt="image-20260624162022289"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*   /web/user_test.go    这是一个测试文件*/</span></span><br><span class="line"><span class="keyword">package</span> web</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;github.com/stretchr/testify/assert&quot;</span></span><br><span class="line">	<span class="string">&quot;golang.org/x/crypto/bcrypt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TesstEncrypt</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">	password := <span class="string">&quot;123456&quot;</span></span><br><span class="line">	encrypted, err := bcrypt.GenerateFromPassword([]<span class="type">byte</span>(password), bcrypt.DefaultCost)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		t.Fatal(err)</span><br><span class="line">	&#125;</span><br><span class="line">	err = bcrypt.CompareHashAndPassword(encrypted, []<span class="type">byte</span>(password))</span><br><span class="line">	assert.NoError(t, err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*   /service/user.go     */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(svc *UserService)</span></span> SignUp(ctx context.Context, u domain.User) <span class="type">error</span> &#123;</span><br><span class="line">	hash, err := bcrypt.GenerateFromPassword([]<span class="type">byte</span>(u.Password), bcrypt.DefaultCost)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	u.Password = <span class="type">string</span>(hash)</span><br><span class="line">	<span class="keyword">return</span> svc.repo.Create(ctx, u)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>bcrypt 的特点</strong>：</p>
+<ul>
+<li>相同的密码每次加密结果<strong>不同</strong>（内置随机盐）</li>
+<li><strong>不可逆</strong>——无法从密文解密出明文</li>
+<li>天然抗彩虹表攻击</li>
+<li><code>DefaultCost</code> 控制计算强度（值越大越慢，也越难暴力破解）</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624163218597.png" alt="image-20260624163218597"></p>
+<h3 id="2-4-时间字段用毫秒数而非-time-Time"><a href="#2-4-时间字段用毫秒数而非-time-Time" class="headerlink" title="2.4 时间字段用毫秒数而非 time.Time"></a>2.4 时间字段用毫秒数而非 time.Time</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 不用 time.Time（时区是个大坑）</span></span><br><span class="line"><span class="comment">// 用 int64 毫秒数</span></span><br><span class="line">Ctime <span class="type">int64</span></span><br><span class="line">Utime <span class="type">int64</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>原因</strong>：<code>time.Time</code> 带时区信息，应用层和数据库层各有时区概念，双重时区极易出错。直接用毫秒数，简单粗暴不出错。</p>
+<hr>
+<h2 id="三、并发邮箱冲突问题"><a href="#三、并发邮箱冲突问题" class="headerlink" title="三、并发邮箱冲突问题"></a>三、并发邮箱冲突问题</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624164327133.png" alt="image-20260624164327133"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//  /dao/user.go</span></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	ErrUserDuplicateEmail = errors.New(<span class="string">&quot;邮箱冲突&quot;</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(dao *UserDAO)</span></span> Insert(ctx context.Context, u User) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="comment">//毫秒数</span></span><br><span class="line">	now := time.Now().UnixMilli()</span><br><span class="line">	u.Utime = now</span><br><span class="line">	u.Ctime = now</span><br><span class="line">	err := dao.db.WithContext(ctx).Create(&amp;u).Error</span><br><span class="line">	<span class="keyword">if</span> mysqlErr, ok := err.(*mysql.MySQLError); ok &#123;</span><br><span class="line">		<span class="keyword">const</span> uniqueConflictsErrNo <span class="type">uint16</span> = <span class="number">1062</span></span><br><span class="line">		<span class="keyword">if</span> mysqlErr.Number == uniqueConflictsErrNo &#123;</span><br><span class="line">			<span class="comment">//邮箱冲突</span></span><br><span class="line">			<span class="keyword">return</span> ErrUserDuplicateEmail</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-问题场景"><a href="#3-1-问题场景" class="headerlink" title="3.1 问题场景"></a>3.1 问题场景</h3><p>两个用户<strong>同时</strong>用同一个邮箱注册：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">时间线:</span><br><span class="line">线程A: 查邮箱 → 不存在 → 准备插入</span><br><span class="line">线程B:       查邮箱 → 不存在 → 准备插入</span><br><span class="line">线程A: 插入成功</span><br><span class="line">线程B: 插入失败（唯一索引冲突）</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-解决方案"><a href="#3-2-解决方案" class="headerlink" title="3.2 解决方案"></a>3.2 解决方案</h3><p><strong>靠数据库的唯一索引兜底</strong>：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    Email <span class="type">string</span> <span class="string">`gorm:&quot;uniqueIndex&quot;`</span>  <span class="comment">// 唯一索引</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>先查询+插入不是原子的，并发下一定会冲突</li>
+<li>数据库唯一索引是最后的防线——插入冲突就返回「邮箱已被注册」</li>
+<li><strong>不需要分布式锁</strong>——邮箱冲突概率极低（&lt; 1‰），为极端情况牺牲 99.9% 的正常请求不值得</li>
+</ul>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624170832291.png" alt="image-20260624170832291"></p>
+<h2 id="四、用户注册完整实现"><a href="#四、用户注册完整实现" class="headerlink" title="四、用户注册完整实现"></a>四、用户注册完整实现</h2><h3 id="4-1-handler-层"><a href="#4-1-handler-层" class="headerlink" title="4.1 handler 层"></a>4.1 handler 层</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> web</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;go_learning/webook_project/webook/internal/domain&quot;</span></span><br><span class="line">	<span class="string">&quot;go_learning/webook_project/webook/internal/service&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;regexp&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	emailPattern    = <span class="string">`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]&#123;2,&#125;$`</span></span><br><span class="line">	passwordPattern = <span class="string">`^[a-zA-Z0-9!@#$%^&amp;*]&#123;8,&#125;$`</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在userhandler中定义和用户有关的路由</span></span><br><span class="line"><span class="keyword">type</span> UserHandler <span class="keyword">struct</span> &#123;</span><br><span class="line">	svc              *service.UserService</span><br><span class="line">	emailCompiled    *regexp.Regexp</span><br><span class="line">	passwordCompiled *regexp.Regexp</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewUserHandler</span><span class="params">(svc *service.UserService)</span></span> *UserHandler &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;UserHandler&#123;</span><br><span class="line">		svc:              svc,</span><br><span class="line">		emailCompiled:    regexp.MustCompile(emailPattern),</span><br><span class="line">		passwordCompiled: regexp.MustCompile(passwordPattern),</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> RegisterRoutes(server *gin.Engine) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//不分组的写法</span></span><br><span class="line">	<span class="comment">//注册</span></span><br><span class="line">	server.POST(<span class="string">&quot;/users/signup&quot;</span>, u.SignUp)</span><br><span class="line">	<span class="comment">//登录</span></span><br><span class="line">	server.POST(<span class="string">&quot;/users/login&quot;</span>, u.Login)</span><br><span class="line">	<span class="comment">//编辑</span></span><br><span class="line">	server.POST(<span class="string">&quot;/users/edit&quot;</span>, u.Edit)</span><br><span class="line">	<span class="comment">//用户信息</span></span><br><span class="line">	server.GET(<span class="string">&quot;/users/profile&quot;</span>, u.Profile)</span><br><span class="line">	<span class="comment">/*//分组</span></span><br><span class="line"><span class="comment">	ug := server.Group(&quot;/users&quot;)</span></span><br><span class="line"><span class="comment">	ug.GET(&quot;/profile&quot;, u.Profile)</span></span><br><span class="line"><span class="comment">	ug.POST(&quot;/signup&quot;, u.SignUp)</span></span><br><span class="line"><span class="comment">	ug.POST(&quot;/login&quot;, u.Login)</span></span><br><span class="line"><span class="comment">	ug.POST(&quot;/edit&quot;, u.Edit)*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注册</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> SignUp(ctx *gin.Context) &#123;</span><br><span class="line">	<span class="keyword">type</span> SignUpReq <span class="keyword">struct</span> &#123;</span><br><span class="line">		Email           <span class="type">string</span> <span class="string">`json:&quot;email&quot;`</span></span><br><span class="line">		ConfirmPassword <span class="type">string</span> <span class="string">`json:&quot;confirmPassword&quot;`</span></span><br><span class="line">		Password        <span class="type">string</span> <span class="string">`json:&quot;password&quot;`</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> req SignUpReq</span><br><span class="line">	<span class="keyword">if</span> err := ctx.Bind(&amp;req); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;绑定失败:&quot;</span>, err)</span><br><span class="line">		ctx.String(http.StatusBadRequest, <span class="string">&quot;请求格式错误，请检查输入&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Printf(<span class="string">&quot;收到注册请求: %+v\n&quot;</span>, req)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 校验邮箱</span></span><br><span class="line">	<span class="keyword">if</span> !u.emailCompiled.MatchString(req.Email) &#123;</span><br><span class="line">		ctx.String(http.StatusBadRequest, <span class="string">&quot;邮箱格式不对&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 校验密码</span></span><br><span class="line">	<span class="keyword">if</span> !u.passwordCompiled.MatchString(req.Password) &#123;</span><br><span class="line">		ctx.String(http.StatusBadRequest, <span class="string">&quot;密码必须不少于8位&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 校验确认密码</span></span><br><span class="line">	<span class="keyword">if</span> req.Password != req.ConfirmPassword &#123;</span><br><span class="line">		ctx.String(http.StatusBadRequest, <span class="string">&quot;两次输入密码不一致&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	err := u.svc.SignUp(ctx, domain.User&#123;</span><br><span class="line">		Email:    req.Email,</span><br><span class="line">		Password: req.Password,</span><br><span class="line">	&#125;)</span><br><span class="line">	<span class="keyword">if</span> err == service.ErrUserDuplicateEmail &#123;</span><br><span class="line">		ctx.String(http.StatusOK, <span class="string">&quot;邮箱冲突&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		ctx.String(http.StatusOK, <span class="string">&quot;系统错误&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	ctx.String(http.StatusOK, <span class="string">&quot;注册成功&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//数据库操作</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 登录</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> Login(ctx *gin.Context) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编辑</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> Edit(ctx *gin.Context) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用户信息</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> Profile(ctx *gin.Context) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-service-层"><a href="#4-2-service-层" class="headerlink" title="4.2 service 层"></a>4.2 service 层</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> service</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;go_learning/webook_project/webook/internal/domain&quot;</span></span><br><span class="line">	<span class="string">&quot;go_learning/webook_project/webook/internal/repository&quot;</span></span><br><span class="line">	<span class="string">&quot;go_learning/webook_project/webook/internal/repository/dao&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/crypto/bcrypt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ErrUserDuplicateEmail = dao.ErrUserDuplicateEmail</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> UserService <span class="keyword">struct</span> &#123;</span><br><span class="line">	repo *repository.UserRepository</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewUserService</span><span class="params">(repo *repository.UserRepository)</span></span> *UserService &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;UserService&#123;</span><br><span class="line">		repo: repo,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(svc *UserService)</span></span> SignUp(ctx context.Context, u domain.User) <span class="type">error</span> &#123;</span><br><span class="line">	hash, err := bcrypt.GenerateFromPassword([]<span class="type">byte</span>(u.Password), bcrypt.DefaultCost)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	u.Password = <span class="type">string</span>(hash)</span><br><span class="line">	<span class="keyword">return</span> svc.repo.Create(ctx, u)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-repository-层"><a href="#4-3-repository-层" class="headerlink" title="4.3 repository 层"></a>4.3 repository 层</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> repository</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;go_learning/webook_project/webook/internal/domain&quot;</span></span><br><span class="line">	<span class="string">&quot;go_learning/webook_project/webook/internal/repository/dao&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ErrUserDuplicateEmail = dao.ErrUserDuplicateEmail</span><br><span class="line"></span><br><span class="line"><span class="comment">//var ErrUserDuplicateEmailv1 = fmt.Errorf(&quot;%w 邮箱冲突&quot;, dao.ErrUserDuplicateEmail)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> UserRepository <span class="keyword">struct</span> &#123;</span><br><span class="line">	dao *dao.UserDAO</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewUserRepository</span><span class="params">(dao *dao.UserDAO)</span></span> *UserRepository &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;UserRepository&#123;</span><br><span class="line">		dao: dao,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *UserRepository)</span></span> Create(ctx context.Context, u domain.User) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> r.dao.Insert(ctx, dao.User&#123;</span><br><span class="line">		Email:    u.Email,</span><br><span class="line">		Password: u.Password,</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *UserRepository)</span></span> FindById(<span class="type">int64</span>) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>Create</code> 而非 <code>SignUp</code>——repository 层面没有「注册」的概念，只有「创建数据」。</p>
+</blockquote>
+<h3 id="4-4-dao-层"><a href="#4-4-dao-层" class="headerlink" title="4.4 dao 层"></a>4.4 dao 层</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> dao</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;errors&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;github.com/go-sql-driver/mysql&quot;</span></span><br><span class="line">	<span class="string">&quot;gorm.io/gorm&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	ErrUserDuplicateEmail = errors.New(<span class="string">&quot;邮箱冲突&quot;</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> UserDAO <span class="keyword">struct</span> &#123;</span><br><span class="line">	db *gorm.DB</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewUserDAO</span><span class="params">(db *gorm.DB)</span></span> *UserDAO &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;UserDAO&#123;</span><br><span class="line">		db: db,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(dao *UserDAO)</span></span> Insert(ctx context.Context, u User) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="comment">//毫秒数</span></span><br><span class="line">	now := time.Now().UnixMilli()</span><br><span class="line">	u.Utime = now</span><br><span class="line">	u.Ctime = now</span><br><span class="line">	err := dao.db.WithContext(ctx).Create(&amp;u).Error</span><br><span class="line">	<span class="keyword">if</span> mysqlErr, ok := err.(*mysql.MySQLError); ok &#123;</span><br><span class="line">		<span class="keyword">const</span> uniqueConflictsErrNo <span class="type">uint16</span> = <span class="number">1062</span></span><br><span class="line">		<span class="keyword">if</span> mysqlErr.Number == uniqueConflictsErrNo &#123;</span><br><span class="line">			<span class="comment">//邮箱冲突</span></span><br><span class="line">			<span class="keyword">return</span> ErrUserDuplicateEmail</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> err</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">	Id       <span class="type">int64</span>  <span class="string">`gorm:&quot;primary_key,AUTO_INCREMENT&quot;`</span></span><br><span class="line">	Email    <span class="type">string</span> <span class="string">`gorm:&quot;unique&quot;`</span></span><br><span class="line">	Password <span class="type">string</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//创建时间，毫秒数</span></span><br><span class="line">	Ctime <span class="type">int64</span></span><br><span class="line">	<span class="comment">//更新时间，毫秒数</span></span><br><span class="line">	Utime <span class="type">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-5-每层独立的错误定义"><a href="#4-5-每层独立的错误定义" class="headerlink" title="4.5 每层独立的错误定义"></a>4.5 每层独立的错误定义</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// dao/error.go</span></span><br><span class="line"><span class="keyword">var</span> ErrDuplicateEmail = errors.New(<span class="string">&quot;邮箱冲突&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// service/error.go</span></span><br><span class="line"><span class="keyword">var</span> ErrDuplicateEmail = dao.ErrDuplicateEmail  <span class="comment">// 偷懒：直接用别名</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>为什么要每层都定义？</strong> 保证每层只和下一层耦合（service 不直接依赖 dao 的错误类型），换底层实现时不影响上层。</p>
+<hr>
+<h2 id="五、用户登录实现"><a href="#五、用户登录实现" class="headerlink" title="五、用户登录实现"></a>五、用户登录实现</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624172316204.png" alt="image-20260624172316204"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624172626686.png" alt="image-20260624172626686"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 登录 web/user.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> Login(ctx *gin.Context) &#123;</span><br><span class="line">	<span class="keyword">type</span> LoginReq <span class="keyword">struct</span> &#123;</span><br><span class="line">		Email    <span class="type">string</span> <span class="string">`json:&quot;email&quot;`</span></span><br><span class="line">		Password <span class="type">string</span> <span class="string">`json:&quot;password&quot;`</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> req LoginReq</span><br><span class="line">	<span class="keyword">if</span> err := ctx.Bind(&amp;req); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	err := u.svc.Login(ctx, req.Email, req.Password)</span><br><span class="line">	<span class="keyword">if</span> err == service.ErrInvalidUserPassword &#123;</span><br><span class="line">		ctx.String(http.StatusOK, <span class="string">&quot;用户名或密码不对&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		ctx.String(http.StatusOK, <span class="string">&quot;系统错误&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	ctx.String(http.StatusOK, <span class="string">&quot;登陆成功&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//  service/user.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(svc *UserService)</span></span> Login(ctx context.Context, email, password <span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="comment">//先找用户</span></span><br><span class="line">	u, err := svc.repo.FindByEmail(ctx, email)</span><br><span class="line">	<span class="keyword">if</span> err == repository.ErrUserNotFound &#123;</span><br><span class="line">		<span class="keyword">return</span> ErrInvalidUserPassword</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//比较密码</span></span><br><span class="line">	err = bcrypt.CompareHashAndPassword([]<span class="type">byte</span>(u.Password), []<span class="type">byte</span>(password))</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> ErrUserDuplicateEmail</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// repository/user.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *UserRepository)</span></span> FindByEmail(ctx context.Context, email <span class="type">string</span>) (domain.User, <span class="type">error</span>) &#123;</span><br><span class="line">	u, err := r.dao.FindByEmail(ctx, email)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> domain.User&#123;&#125;, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> domain.User&#123;</span><br><span class="line">		Email:    u.Email,</span><br><span class="line">		Password: u.Password,</span><br><span class="line">	&#125;, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// dao/user.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(dao *UserDAO)</span></span> FindByEmail(ctx context.Context, email <span class="type">string</span>) (User, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">var</span> u User</span><br><span class="line">	err := dao.db.WithContext(ctx).Where(<span class="string">&quot;email=?&quot;</span>, email).First(&amp;u).Error</span><br><span class="line">	<span class="keyword">return</span> u, err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>安全要点</strong>：用户名不存在和密码错误返回<strong>同一个错误信息</strong>——不让攻击者通过错误信息判断邮箱是否已注册。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624175842723.png" alt="image-20260624175842723"></p>
+<hr>
+<h2 id="六、HTTP-无状态-Cookie-Session"><a href="#六、HTTP-无状态-Cookie-Session" class="headerlink" title="六、HTTP 无状态 &amp; Cookie &amp; Session"></a>六、HTTP 无状态 &amp; Cookie &amp; Session</h2><h3 id="6-1-HTTP-是无状态的"><a href="#6-1-HTTP-是无状态的" class="headerlink" title="6.1 HTTP 是无状态的"></a>6.1 HTTP 是无状态的</h3><p>你登录成功后，下次再发请求，服务器<strong>完全不记得你是谁</strong>。HTTP 协议本身不保存任何客户端状态。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624180444457.png" alt="image-20260624180444457"></p>
+<h3 id="6-2-Cookie：浏览器端的键值对"><a href="#6-2-Cookie：浏览器端的键值对" class="headerlink" title="6.2 Cookie：浏览器端的键值对"></a>6.2 Cookie：浏览器端的键值对</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624190247422.png" alt="image-20260624190247422"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Cookie <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name     <span class="type">string</span></span><br><span class="line">    Value    <span class="type">string</span></span><br><span class="line">    Path     <span class="type">string</span></span><br><span class="line">    Domain   <span class="type">string</span></span><br><span class="line">    Expires  time.Time</span><br><span class="line">    MaxAge   <span class="type">int</span></span><br><span class="line">    Secure   <span class="type">bool</span></span><br><span class="line">    HttpOnly <span class="type">bool</span></span><br><span class="line">    SameSite SameSite</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Name</code></td>
+<td>Cookie 的名字</td>
+</tr>
+<tr>
+<td><code>Value</code></td>
+<td>Cookie 的值</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td>作用路径。设 <code>/</code> 表示整站可用；设 <code>/admin</code> 只在 <code>/admin</code> 下发送</td>
+</tr>
+<tr>
+<td><code>Domain</code></td>
+<td>作用域名。设 <code>example.com</code> 则 <code>www.example.com</code> 和 <code>api.example.com</code> 都能用。不设默认当前域名</td>
+</tr>
+<tr>
+<td><code>Expires</code></td>
+<td>过期时间（绝对时间）。设过去的时间就是删除</td>
+</tr>
+<tr>
+<td><code>MaxAge</code></td>
+<td>存活秒数（相对时间）。0 &#x3D; 删除，负数 &#x3D; 会话级（浏览器关了就没）。和 <code>Expires</code> 同时设的话 <code>MaxAge</code> 优先</td>
+</tr>
+<tr>
+<td><code>Secure</code></td>
+<td><code>true</code> 时只在 HTTPS 下发送，HTTP 不发送</td>
+</tr>
+<tr>
+<td><code>HttpOnly</code></td>
+<td><code>true</code> 时 JS 的 <code>document.cookie</code> 读不到，只能 HTTP 传输。防 XSS 偷 cookie</td>
+</tr>
+<tr>
+<td><code>SameSite</code></td>
+<td><code>Lax</code> &#x2F; <code>Strict</code> &#x2F; <code>None</code>，防 CSRF。<code>Strict</code> 最严（任何跨站都不发），<code>Lax</code> 允许点击链接时带，<code>None</code> 不限制（必须配合 <code>Secure: true</code>）</td>
+</tr>
+</tbody></table>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624190645673.png" alt="image-20260624190645673"></p>
+<p>Gin 里设置 Cookie：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">ctx.SetCookie(<span class="string">&quot;token&quot;</span>, <span class="string">&quot;abc123&quot;</span>, <span class="number">3600</span>, <span class="string">&quot;/&quot;</span>, <span class="string">&quot;localhost&quot;</span>, <span class="literal">false</span>, <span class="literal">true</span>)</span><br><span class="line"><span class="comment">//             name     value    maxAge path domain     secure httpOnly</span></span><br></pre></td></tr></table></figure>
+
+<p>最后两个 <code>Secure</code>、<code>HttpOnly</code> 生产环境建议都设 <code>true</code>。</p>
+<p><strong>Cookie 的安全属性</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>含义</th>
+<th>生产环境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>HttpOnly</code></td>
+<td>JS 脚本读不到</td>
+<td><strong>必须设为 true</strong></td>
+</tr>
+<tr>
+<td><code>Secure</code></td>
+<td>只在 HTTPS 下传输</td>
+<td><strong>必须设为 true</strong></td>
+</tr>
+<tr>
+<td><code>SameSite</code></td>
+<td>不允许跨站携带</td>
+<td>按需设置</td>
+</tr>
+<tr>
+<td><code>Domain</code></td>
+<td>生效域名范围</td>
+<td>最小化原则</td>
+</tr>
+<tr>
+<td><code>Path</code></td>
+<td>生效路径</td>
+<td>最小化原则</td>
+</tr>
+<tr>
+<td><code>Expires</code> &#x2F; <code>MaxAge</code></td>
+<td>过期时间</td>
+<td>按需设置</td>
+</tr>
+</tbody></table>
+<p><strong>Cookie 最大的问题</strong>：存在浏览器端，用户可以改，木马可以偷。不适合存敏感数据。</p>
+<h3 id="6-3-Session：服务端存储"><a href="#6-3-Session：服务端存储" class="headerlink" title="6.3 Session：服务端存储"></a>6.3 Session：服务端存储</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624190710007.png" alt="image-20260624190710007"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">登录成功 → 服务端创建 Session（存 userID 等） → 返回 sessionID 给浏览器</span><br><span class="line">下次请求 → 浏览器带上 sessionID → 服务端根据 sessionID 找到对应数据</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Session 数据存在服务端（内存&#x2F;Redis&#x2F;数据库），用户看不到</p>
+</li>
+<li><p>浏览器只拿一个 sessionID（存在 Cookie 里）</p>
+</li>
+<li><p><strong>Session 是认 ID 不认人的</strong>——拿到 sessionID 就等于拿到身份</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624190803147.png" alt="image-20260624190803147"></p>
+</li>
+</ul>
+<h3 id="6-4-Session-ID-的传递方式"><a href="#6-4-Session-ID-的传递方式" class="headerlink" title="6.4 Session ID 的传递方式"></a>6.4 Session ID 的传递方式</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624190833239.png" alt="image-20260624190833239"></p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>示例</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cookie</td>
+<td>自动带</td>
+<td>最常用</td>
+</tr>
+<tr>
+<td>Header</td>
+<td><code>Authorization: xxx</code></td>
+<td>Cookie 被禁用时</td>
+</tr>
+<tr>
+<td>URL 参数</td>
+<td><code>?token=xxx</code></td>
+<td>较少用</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、Gin-Session-中间件"><a href="#七、Gin-Session-中间件" class="headerlink" title="七、Gin Session 中间件"></a>七、Gin Session 中间件</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624191010726.png" alt="image-20260624191010726"></p>
+<h3 id="7-1-引入-Session-插件"><a href="#7-1-引入-Session-插件" class="headerlink" title="7.1 引入 Session 插件"></a>7.1 引入 Session 插件</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initWebServer</span><span class="params">()</span></span> *gin.Engine &#123;</span><br><span class="line">	server := gin.Default()</span><br><span class="line">	<span class="comment">// CORS 配置，允许前端跨域请求</span></span><br><span class="line">	server.Use(cors.New(cors.Config&#123;</span><br><span class="line">		AllowOrigins:     []<span class="type">string</span>&#123;<span class="string">&quot;http://localhost:3000&quot;</span>&#125;,</span><br><span class="line">		AllowMethods:     []<span class="type">string</span>&#123;<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;POST&quot;</span>, <span class="string">&quot;PUT&quot;</span>, <span class="string">&quot;DELETE&quot;</span>, <span class="string">&quot;OPTIONS&quot;</span>&#125;,</span><br><span class="line">		AllowHeaders:     []<span class="type">string</span>&#123;<span class="string">&quot;Origin&quot;</span>, <span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;Authorization&quot;</span>&#125;,</span><br><span class="line">		AllowCredentials: <span class="literal">true</span>,</span><br><span class="line">		MaxAge:           <span class="number">12</span> * time.Hour,</span><br><span class="line">	&#125;))</span><br><span class="line">	<span class="comment">//步骤一</span></span><br><span class="line">	store := cookie.NewStore([]<span class="type">byte</span>(<span class="string">&quot;your-secret-key&quot;</span>))</span><br><span class="line">	server.Use(sessions.Sessions(<span class="string">&quot;mysession&quot;</span>, store))</span><br><span class="line">	<span class="comment">//步骤三</span></span><br><span class="line">	server.Use(middleware.NewLoginMiddlewareBuilder().Build())</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> server</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Session 数据的存储层次</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Session 壳（Cookie 中的 sessionID）</span><br><span class="line">   ↓ 指向</span><br><span class="line">Store（真正存数据的地方——目前是 Cookie，后续可换成 Redis）</span><br><span class="line">   ↓ 存着</span><br><span class="line">你的业务数据（如 userID=123）</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-登录时设置-Session"><a href="#7-2-登录时设置-Session" class="headerlink" title="7.2 登录时设置 Session"></a>7.2 登录时设置 Session</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//web/user.go</span></span><br><span class="line"><span class="comment">// 登录</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> Login(ctx *gin.Context) &#123;</span><br><span class="line">	<span class="keyword">type</span> LoginReq <span class="keyword">struct</span> &#123;</span><br><span class="line">		Email    <span class="type">string</span> <span class="string">`json:&quot;email&quot;`</span></span><br><span class="line">		Password <span class="type">string</span> <span class="string">`json:&quot;password&quot;`</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> req LoginReq</span><br><span class="line">	<span class="keyword">if</span> err := ctx.Bind(&amp;req); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	user, err := u.svc.Login(ctx, req.Email, req.Password)</span><br><span class="line">	<span class="keyword">if</span> err == service.ErrInvalidUserPassword &#123;</span><br><span class="line">		ctx.String(http.StatusOK, <span class="string">&quot;用户名或密码不对&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		ctx.String(http.StatusOK, <span class="string">&quot;系统错误&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//步骤2</span></span><br><span class="line">	<span class="comment">//在这里登陆成功了,设置session</span></span><br><span class="line">	sess := sessions.Default(ctx)</span><br><span class="line">	<span class="comment">//可以随便设置值了</span></span><br><span class="line">	sess.Set(<span class="string">&quot;userID&quot;</span>, user.Id)</span><br><span class="line">	sess.Save()</span><br><span class="line">	ctx.String(http.StatusOK, <span class="string">&quot;登录成功&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-3-登录校验中间件"><a href="#7-3-登录校验中间件" class="headerlink" title="7.3 登录校验中间件"></a>7.3 登录校验中间件</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624191650107.png" alt="image-20260624191650107"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260624194718627.png" alt="image-20260624194718627"></p>
+<p>图中的CheckLogin就是代码里面的build</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 用 Builder 模式——方便后续扩展字段</span></span><br><span class="line"><span class="comment">//web/middleware/login.go</span></span><br><span class="line"><span class="keyword">package</span> middleware</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;github.com/gin-contrib/sessions&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> LoginMiddlewareBuilder <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewLoginMiddlewareBuilder</span><span class="params">()</span></span> *LoginMiddlewareBuilder &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;LoginMiddlewareBuilder&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LoginMiddlewareBuilder)</span></span> Build() gin.HandlerFunc &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(ctx *gin.Context)</span></span> &#123;</span><br><span class="line">		<span class="comment">//不需要登录校验的路由</span></span><br><span class="line">		<span class="keyword">if</span> ctx.Request.URL.Path == <span class="string">&quot;/users/login&quot;</span> ||</span><br><span class="line">			ctx.Request.URL.Path == <span class="string">&quot;/users/signup&quot;</span> &#123;</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		sess := sessions.Default(ctx)</span><br><span class="line">		<span class="comment">/*if sess == nil &#123;</span></span><br><span class="line"><span class="comment">			//说明没有登录</span></span><br><span class="line"><span class="comment">			ctx.AbortWithStatus(http.StatusUnauthorized)</span></span><br><span class="line"><span class="comment">			return</span></span><br><span class="line"><span class="comment">		&#125;*/</span></span><br><span class="line">		id := sess.Get(<span class="string">&quot;userId&quot;</span>)</span><br><span class="line">		<span class="keyword">if</span> id == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">//说明没有登录</span></span><br><span class="line">			ctx.AbortWithStatus(http.StatusUnauthorized)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-分组注册——区分需要登录和不需要登录的路由"><a href="#7-4-分组注册——区分需要登录和不需要登录的路由" class="headerlink" title="7.4 分组注册——区分需要登录和不需要登录的路由"></a>7.4 分组注册——区分需要登录和不需要登录的路由</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 不需要登录的路由</span></span><br><span class="line">server.POST(<span class="string">&quot;/users/signup&quot;</span>, handler.SignUp)</span><br><span class="line">server.POST(<span class="string">&quot;/users/login&quot;</span>, handler.Login)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要登录的路由——单独分组，统一添加登录校验中间件</span></span><br><span class="line">authGroup := server.Group(<span class="string">&quot;/users&quot;</span>)</span><br><span class="line">authGroup.Use(NewLoginMiddlewareBuilder().</span><br><span class="line">    IgnorePaths(<span class="string">&quot;/users/signup&quot;</span>, <span class="string">&quot;/users/login&quot;</span>).</span><br><span class="line">    Build())</span><br><span class="line">authGroup.GET(<span class="string">&quot;/profile&quot;</span>, handler.Profile)</span><br><span class="line">authGroup.POST(<span class="string">&quot;/edit&quot;</span>, handler.Edit)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>免登录接口：</strong> <code>server.POST(&quot;/users/signup&quot;, ...)</code> 和 <code>server.POST(&quot;/users/login&quot;, ...)</code> 直接注册在主引擎上，<strong>完全不经过任何身份验证中间件</strong>。用户不用登录就能注册和登录。</li>
+<li><strong>受保护接口：</strong> <code>authGroup := server.Group(&quot;/users&quot;)</code> 创建了一个专门的路由组（这个组的根路径是 <code>/users</code>）。</li>
+<li><strong>挂载中间件：</strong> 通过 <code>authGroup.Use(...)</code> 挂载了登录校验中间件。<strong>重点在于 <code>IgnorePaths(&quot;/users/signup&quot;, &quot;/users/login&quot;)</code></strong>。这通常是个自定义的中间件功能，它意味着：<ul>
+<li>虽然这个分组里的所有路由（如 <code>/users/profile</code>）都会触发中间件进行校验。</li>
+<li>但是，如果请求的路径是 <code>/users/signup</code> 和 <code>/users/login</code>，<strong>中间件会特殊处理，直接“放行”</strong>，不做登录校验。这被业界俗称为**“白名单”或“放行路径”**。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>或者更简洁：直接分两个 group，一个不加中间件，一个加。</p>
+</blockquote>
+<h3 id="直接分两个-group是什么意思？"><a href="#直接分两个-group是什么意思？" class="headerlink" title="直接分两个 group是什么意思？"></a>直接分两个 group是什么意思？</h3><p>这是业界常见的两种方案，面试时也是高频考点：</p>
+<ul>
+<li><p><strong>方案一（代码中展示的方案）：用“黑名单&#x2F;白名单”机制（IgnoredPaths）。</strong></p>
+<ul>
+<li><strong>特点</strong>：所有路由都挂在同一个组下，依赖中间件内部去判断“哪些路径不需要鉴权”。</li>
+<li><strong>优劣势</strong>：代码紧凑，只有一个路由组。但<strong>缺点是逻辑耦合</strong>，如果放行路径越来越多，中间件内部会变得比较臃肿，容易出错。</li>
+</ul>
+</li>
+<li><p><strong>方案二（注释中提到的方案）：物理分离。</strong></p>
+<ul>
+<li><p><strong>特点</strong>：把路由分成两个完全独立的路由组（物理隔离）。</p>
+<p>go</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1. 公开路由组（不加中间件）</span></span><br><span class="line">publicGroup := server.Group(<span class="string">&quot;/public&quot;</span>)</span><br><span class="line">publicGroup.POST(<span class="string">&quot;/users/signup&quot;</span>, handler.SignUp)</span><br><span class="line">publicGroup.POST(<span class="string">&quot;/users/login&quot;</span>, handler.Login)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 私有路由组（加中间件）</span></span><br><span class="line">authGroup := server.Group(<span class="string">&quot;/api/v1/users&quot;</span>)</span><br><span class="line">authGroup.Use(NewLoginMiddlewareBuilder().Build()) <span class="comment">// 不加 IgnorePaths</span></span><br><span class="line">authGroup.GET(<span class="string">&quot;/profile&quot;</span>, handler.Profile)</span><br><span class="line">authGroup.POST(<span class="string">&quot;/edit&quot;</span>, handler.Edit)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>优劣势</strong>：<strong>代码职责分离极其清晰</strong>。完全不需要在中间件里做 if&#x2F;else 的路径放行判断，性能略微提升，可维护性极佳。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="八、核心概念速查"><a href="#八、核心概念速查" class="headerlink" title="八、核心概念速查"></a>八、核心概念速查</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>一句话解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>分层架构</td>
+<td>handler → service → repository → dao，上层调下层</td>
+</tr>
+<tr>
+<td>domain 对象</td>
+<td>业务意义上的实体，不关心怎么存</td>
+</tr>
+<tr>
+<td>dao 对象</td>
+<td>直接对应数据库表结构</td>
+</tr>
+<tr>
+<td>bcrypt</td>
+<td>不可逆加密，每次加密结果不同，天然抗彩虹表</td>
+</tr>
+<tr>
+<td>HTTP 无状态</td>
+<td>服务器不记得你上次是谁</td>
+</tr>
+<tr>
+<td>Cookie</td>
+<td>浏览器端键值对，不安全但方便</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>服务端存数据，浏览器只拿 ID</td>
+</tr>
+<tr>
+<td><code>HttpOnly</code> + <code>Secure</code></td>
+<td>Cookie 安全双保险，生产必开</td>
+</tr>
+<tr>
+<td>唯一索引</td>
+<td>数据库级别防重复的最后防线</td>
+</tr>
+<tr>
+<td>Builder 模式</td>
+<td>方便后续给中间件加扩展参数</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>Go</tag>
+        <tag>Gin</tag>
+        <tag>Session</tag>
+        <tag>GORM</tag>
+        <tag>bcrypt</tag>
       </tags>
   </entry>
 </search>
