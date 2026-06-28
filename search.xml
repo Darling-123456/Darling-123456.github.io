@@ -59942,7 +59942,8 @@ $&#123;&#125;
   <entry>
     <title>GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符</title>
     <url>/2026/05/31/Go/GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20%20%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%8A%82%20GO%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%201.%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%20hello_word%20%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%20%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F%20%E8%BF%90%E7%AE%97%E7%AC%A6%20/</url>
-    <content><![CDATA[<h1 id="GO学习笔记-第一章节-GO语言基础-1-环境安装-hello-word-基础数据类型-变量与常量-运算符"><a href="#GO学习笔记-第一章节-GO语言基础-1-环境安装-hello-word-基础数据类型-变量与常量-运算符" class="headerlink" title="GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符"></a>GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符</h1><p><strong>常用快捷键</strong></p>
+    <content><![CDATA[<h1 id="GO学习笔记-第一章节-GO语言基础-1-环境安装-hello-word-基础数据类型-变量与常量-运算符"><a href="#GO学习笔记-第一章节-GO语言基础-1-环境安装-hello-word-基础数据类型-变量与常量-运算符" class="headerlink" title="GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符"></a>GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符</h1><p><code>代码仓库地址：</code><a href="https://github.com/Darling-123456/go_learning">Darling-123456&#x2F;go_learning: go学习过程记录</a></p>
+<p><strong>常用快捷键</strong></p>
 <p>1.ctrl+鼠标左键，可以直接进入这个函数，也就是 <strong>跳转到函数&#x2F;变量定义处</strong></p>
 <p>2.Alt + ←  &#x3D; 后退（回到上一个光标位置）</p>
 <p>3.Alt + →  &#x3D; 前进（去到下一个光标位置）</p>
@@ -60741,7 +60742,8 @@ $&#123;&#125;
   <entry>
     <title>GO学习笔记 | 第二章节 GO语言基础| 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型</title>
     <url>/2026/06/18/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%BA%8C%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="GO学习笔记-第二章节-GO语言基础-方法（函数）-控制结构-内置类型"><a href="#GO学习笔记-第二章节-GO语言基础-方法（函数）-控制结构-内置类型" class="headerlink" title="GO学习笔记 | 第二章节 GO语言基础 | 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型"></a>GO学习笔记 | 第二章节 GO语言基础 | 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型</h1><p><strong>核心内容</strong>：方法声明、函数式编程、控制结构（if&#x2F;for&#x2F;switch） 、内置类型<br><strong>前置知识</strong>：变量声明、常量声明（iota）、包管理</p>
+    <content><![CDATA[<h1 id="GO学习笔记-第二章节-GO语言基础-方法（函数）-控制结构-内置类型"><a href="#GO学习笔记-第二章节-GO语言基础-方法（函数）-控制结构-内置类型" class="headerlink" title="GO学习笔记 | 第二章节 GO语言基础 | 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型"></a>GO学习笔记 | 第二章节 GO语言基础 | 方法（函数）&amp;&amp; 控制结构 &amp;&amp; 内置类型</h1><p><code>代码仓库地址：</code><a href="https://github.com/Darling-123456/go_learning">Darling-123456&#x2F;go_learning: go学习过程记录</a></p>
+<p><strong>核心内容</strong>：方法声明、函数式编程、控制结构（if&#x2F;for&#x2F;switch） 、内置类型<br><strong>前置知识</strong>：变量声明、常量声明（iota）、包管理</p>
 <hr>
 <h2 id="一、两个注意点"><a href="#一、两个注意点" class="headerlink" title="一、两个注意点"></a>一、两个注意点</h2><h3 id="1-1-GOPATH-目录结构"><a href="#1-1-GOPATH-目录结构" class="headerlink" title="1.1 GOPATH 目录结构"></a>1.1 GOPATH 目录结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GOPATH/</span><br><span class="line">├── src/      ← 源代码放在这里</span><br><span class="line">├── bin/      ← go install 安装的命令</span><br><span class="line">└── pkg/      ← go get 下载的依赖包</span><br></pre></td></tr></table></figure>
 
@@ -61851,7 +61853,8 @@ $&#123;&#125;
   <entry>
     <title>GO学习笔记 | 第四章节 用户基本功能与 Gin &amp;&amp; GORM 入门 | Gin 框架入门与用户注册</title>
     <url>/2026/06/19/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%9B%9B%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="GO学习笔记-第四章节-用户基本功能与-Gin｜GORM-入门-Gin-框架入门与用户注册"><a href="#GO学习笔记-第四章节-用户基本功能与-Gin｜GORM-入门-Gin-框架入门与用户注册" class="headerlink" title="GO学习笔记 | 第四章节 用户基本功能与 Gin｜GORM 入门 | Gin 框架入门与用户注册"></a>GO学习笔记 | 第四章节 用户基本功能与 Gin｜GORM 入门 | Gin 框架入门与用户注册</h1><p><strong>核心内容</strong>：Gin 框架入门、路由注册、请求处理与绑定、参数校验、项目目录结构<br><strong>前置知识</strong>：Go 基础语法、接口、结构体、方法接收器</p>
+    <content><![CDATA[<h1 id="GO学习笔记-第四章节-用户基本功能与-Gin｜GORM-入门-Gin-框架入门与用户注册"><a href="#GO学习笔记-第四章节-用户基本功能与-Gin｜GORM-入门-Gin-框架入门与用户注册" class="headerlink" title="GO学习笔记 | 第四章节 用户基本功能与 Gin｜GORM 入门 | Gin 框架入门与用户注册"></a>GO学习笔记 | 第四章节 用户基本功能与 Gin｜GORM 入门 | Gin 框架入门与用户注册</h1><p><code>代码仓库地址：</code><a href="https://github.com/Darling-123456/go_learning">Darling-123456&#x2F;go_learning: go学习过程记录</a></p>
+<p><strong>核心内容</strong>：Gin 框架入门、路由注册、请求处理与绑定、参数校验、项目目录结构<br><strong>前置知识</strong>：Go 基础语法、接口、结构体、方法接收器</p>
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260620105714961.png" alt="image-20260620105714961"></p>
 <hr>
 <h2 id="一、Gin-框架入门"><a href="#一、Gin-框架入门" class="headerlink" title="一、Gin 框架入门"></a>一、Gin 框架入门</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260620110610164.png" alt="image-20260620110610164"></p>
@@ -62608,6 +62611,81 @@ $&#123;&#125;
 </ul>
 </li>
 </ol>
+<h2 id="第三周"><a href="#第三周" class="headerlink" title="第三周"></a>第三周</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260628172417776.png" alt="image-20260628172417776"></p>
+<h3 id="一、-刷新-Session-过期时间的几种办法（深入分析优缺点）"><a href="#一、-刷新-Session-过期时间的几种办法（深入分析优缺点）" class="headerlink" title="一、 刷新 Session 过期时间的几种办法（深入分析优缺点）"></a>一、 刷新 Session 过期时间的几种办法（深入分析优缺点）</h3><p>面试官想考察对**“滑动窗口”与“固定时间”**的理解，以及在高并发下的权衡。</p>
+<p><strong>1. 方案一：滑动窗口策略（每访问一次就刷新过期时间）</strong></p>
+<ul>
+<li><strong>做法</strong>：用户每发起一次请求，就把 Session 在 Redis&#x2F;内存中的过期时间重置为 <code>30分钟</code>。</li>
+<li><strong>优点</strong>：最符合用户直觉，只要用户一直操作，就不会掉线。</li>
+<li><strong>缺点（一定要说出）</strong>：<strong>高并发下写压力极大</strong>。在 Redis 或 Goroutine 中频繁执行 <code>EXPIRE</code> 命令会造成巨大的 I&#x2F;O 负载。如果 Session 存储在 Go 内存中，频繁读写还要加锁，锁竞争会很严重。</li>
+<li><strong>Go优化手段</strong>：在 Redis 中使用 Lua 脚本（原子操作）将“判断是否存在”和“延长过期时间”合并在一次请求中，减少 RTT。</li>
+</ul>
+<p><strong>2. 方案二：固定时间刷新（主动续期）</strong></p>
+<ul>
+<li><strong>做法</strong>：比如初始有效期是 7 天，每次登录时颁发一个新的 Session ID。</li>
+<li><strong>优点</strong>：极大减少了对存储系统的写操作，只有登录或踢下线才需要写数据库。</li>
+<li><strong>缺点</strong>：容易出现**“正在操作但突然掉线”**的糟糕体验（比如用户正在填写一个长表单，7天时间刚好到，请求就失败了）。</li>
+</ul>
+<p><strong>3. 方案三：被动续期（惰性刷新）</strong></p>
+<ul>
+<li><strong>做法</strong>：设置一个长过期时间（如 24 小时）。在每次请求校验时，检查 Session 剩余时间是否小于阈值（比如小于 5 分钟）。如果小于，才去刷新过期时间。</li>
+<li><strong>优点</strong>：平衡了方案一和方案二的优缺点，大部分请求不需要读写存储。</li>
+<li><strong>缺点</strong>：需要多做一次“剩余时间”的判断逻辑。</li>
+</ul>
+<p><strong>👉 面试话术建议：</strong></p>
+<blockquote>
+<p>“如果让我来设计，我会优先考虑<strong>惰性刷新</strong>。因为它不仅能保持用户的体验，还能极大地减少高并发时对 Redis 的 I&#x2F;O 压力，只有快过期的时候才去写一次。如果是项目初期并发量不大，为了简单，使用<strong>滑动窗口</strong>也没问题。”</p>
+</blockquote>
+<hr>
+<h3 id="二、-增强登录安全性"><a href="#二、-增强登录安全性" class="headerlink" title="二、 增强登录安全性"></a>二、 增强登录安全性</h3><p>这里集中考察 Web 安全常识（XSS, CSRF, 中间人攻击）。</p>
+<p><strong>1. 如何保护 Session ID？</strong></p>
+<ul>
+<li><p><strong>HTTPS 协议（TLS）</strong>：最根本的防线，防止中间人抓包直接拿到 Cookie。</p>
+</li>
+<li><p><strong>Cookie 的 Secure 属性</strong>：设置为 <code>true</code>。告诉浏览器这个 Cookie <strong>只能通过 HTTPS 协议发送</strong>，绝对不能通过 HTTP 明文传递。</p>
+</li>
+<li><p><strong>Cookie 的 HttpOnly 属性</strong>：设置为 <code>true</code>。<strong>防止 XSS 攻击</strong>，恶意 JavaScript 脚本无法通过 <code>document.cookie</code> 读取到你的 Session ID。</p>
+</li>
+<li><p><strong>Go 代码实现示意（Gin&#x2F;原生 net&#x2F;http）</strong>：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">cookie := &amp;http.Cookie&#123;</span><br><span class="line">    Name:     <span class="string">&quot;session_id&quot;</span>,</span><br><span class="line">    Value:    sessionID,</span><br><span class="line">    HttpOnly: <span class="literal">true</span>,</span><br><span class="line">    Secure:   <span class="literal">true</span>, <span class="comment">// 生产环境必须为 true</span></span><br><span class="line">    SameSite: http.SameSiteStrictMode, <span class="comment">// 防止 CSRF 攻击</span></span><br><span class="line">    Path:     <span class="string">&quot;/&quot;</span>,</span><br><span class="line">    MaxAge:   <span class="number">86400</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>2. Session ID 或 JWT 泄露后如何保护用户？</strong></p>
+<ul>
+<li><strong>核心思路：绑定“设备指纹”</strong>（ User-Agent 就是最简单的指纹）。</li>
+<li><strong>做法</strong>：<ul>
+<li><strong>登录时记录</strong>：用户登录成功后，除了生成 Token，还在 Redis 或数据库记录本次登录的 <code>User-Agent</code>、<code>Client-IP</code>、甚至加密后的 <code>Device-ID</code>。</li>
+<li><strong>校验时对比</strong>：每次请求验证 Token 是否合法时，<strong>额外对比</strong>当前请求的 <code>User-Agent</code> 和 IP 是否与签发 Token 时的记录一致。</li>
+</ul>
+</li>
+<li><strong>局限性</strong>：IP 会变（比如公司内网、移动端 4G&#x2F;5G 切换），所以不能仅以 IP 不符就拒绝访问。正确的做法是<strong>增加安全等级</strong>：如果 IP 或 User-Agent 发生了剧烈变化，要求用户进行<strong>二次验证（短信&#x2F;邮箱验证码）</strong>。</li>
+<li><strong>JWT 泄露的痛点</strong>：JWT 自身无法被服务端“吊销”（除非结合黑名单）。因此针对 JWT，通常结合**“短时效 Access Token（如15分钟） + 长时效 Refresh Token（如7天）”**的双 Token 机制，强迫前端定期刷新 Token，从而缩短泄露危害的时间窗口。</li>
+</ul>
+<hr>
+<h3 id="三、-保护-Web-服务（限流与防护）"><a href="#三、-保护-Web-服务（限流与防护）" class="headerlink" title="三、 保护 Web 服务（限流与防护）"></a>三、 保护 Web 服务（限流与防护）</h3><p><strong>1. 限流分类与算法：</strong></p>
+<ul>
+<li><strong>针对 IP 限流</strong>：限制单个 IP 的请求频率（如每秒 100 次）。防止恶意爬虫或单个 IP 的 DDoS。</li>
+<li><strong>针对整个集群限流</strong>：限制整个网关入口的总流量（如每秒 10000 次），防止大促或攻击打崩后端服务。</li>
+<li><strong>限流算法（一定要讲区别）</strong>：<ul>
+<li><strong>令牌桶算法</strong>：允许一定程度突发流量（Go 中常用 <code>golang.org/x/time/rate</code> 库）。可以应对流量洪峰，但后端压力会瞬间上升。</li>
+<li><strong>漏桶算法</strong>：强行平滑流量，即使突发流量也恒定速率处理。对后端最友好，但容易拒绝突发合法请求。</li>
+</ul>
+</li>
+<li><strong>分布式限流实现</strong>：<ul>
+<li>在 Go 项目中，一般使用 <strong>Redis + Lua 脚本</strong> 或者 <strong>Redis 的 <code>INCR</code> 和 <code>EXPIRE</code> 命令</strong> 来实现滑动窗口&#x2F;计数器限流，做到整个集群共享限流信息。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. 其他的 Web 保护措施（可以拓展说明）：</strong></p>
+<ul>
+<li><strong>参数校验与 XSS&#x2F;SQL 注入</strong>：Go 框架（如 Gorm、Sqlx）一般都带有预编译防注入。但输入参数也要严格校验长度、类型，防止各种奇葩数据。</li>
+<li><strong>WAF (Web 应用防火墙)</strong>：如果有条件，网关层部署 WAF 拦截恶意请求。</li>
+<li><strong>熔断与降级</strong>：如果下游服务挂了，不能再把压力透传过去。</li>
+</ul>
+<hr>
+<h3 id="💡面试“话术”小抄"><a href="#💡面试“话术”小抄" class="headerlink" title="💡面试“话术”小抄"></a>💡面试“话术”小抄</h3><blockquote>
+<p><strong>面试开场白（当被问到上述问题时）：</strong><br>“关于 Session 安全这一块，我在实际项目开发中有过几个维度的考量。首先肯定是要用 HTTPS 并且把 Cookie 的 <code>HttpOnly</code> 和 <code>Secure</code> 设置为 <code>true</code>。这是最基本的。<br>其次，在防止 Session 泄露方面，我除了用这两个属性，还会在登录的时候额外记录下 <code>User-Agent</code> 等信息，在请求校验时进行一致性比对，如果发现差异，我会返回 403 并让用户强制重新登录，以此来提高安全性。<br>关于限流，目前的主流方案是令牌桶，但在 Go 中实现分布式限流，我会结合 Redis 做一个滑动窗口计数器，用 Lua 脚本保证原子性……”</p>
+</blockquote>
+<p><strong>建议：</strong><br>图中最后一段话非常关键。<strong>不要只背概念</strong>，考前找一张纸，把自己平时写的 Go 代码（比如用 Gin 怎么设 Cookie，用 Redis 怎么设 <code>EXPIRE</code>）当作真实案例写下来。面试时**“顺着自己的代码逻辑”**去讲，会显得非常有实践感，比背诵教科书更得面试官喜欢</p>
 ]]></content>
       <categories>
         <category>Go</category>
@@ -62620,7 +62698,8 @@ $&#123;&#125;
   <entry>
     <title>GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门</title>
     <url>/2026/06/21/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%BA%94%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="GO学习笔记-第五章节-用户基本功能与-Gin｜GORM-入门-跨域、中间件与-GORM-入门"><a href="#GO学习笔记-第五章节-用户基本功能与-Gin｜GORM-入门-跨域、中间件与-GORM-入门" class="headerlink" title="GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门"></a>GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门</h1><p><strong>核心内容</strong>：跨域问题（CORS）、中间件（Middleware）、GORM 增删改查、Docker Compose 启动数据库、项目分层设计<br><strong>前置知识</strong>：Gin 路由注册、请求绑定、参数校验</p>
+    <content><![CDATA[<h1 id="GO学习笔记-第五章节-用户基本功能与-Gin｜GORM-入门-跨域、中间件与-GORM-入门"><a href="#GO学习笔记-第五章节-用户基本功能与-Gin｜GORM-入门-跨域、中间件与-GORM-入门" class="headerlink" title="GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门"></a>GO学习笔记 | 第五章节 用户基本功能与 Gin｜GORM 入门| 跨域、中间件与 GORM 入门</h1><p><code>代码仓库地址：</code><a href="https://github.com/Darling-123456/go_learning">Darling-123456&#x2F;go_learning: go学习过程记录</a></p>
+<p><strong>核心内容</strong>：跨域问题（CORS）、中间件（Middleware）、GORM 增删改查、Docker Compose 启动数据库、项目分层设计<br><strong>前置知识</strong>：Gin 路由注册、请求绑定、参数校验</p>
 <hr>
 <h2 id="一、跨域问题（CORS）"><a href="#一、跨域问题（CORS）" class="headerlink" title="一、跨域问题（CORS）"></a>一、跨域问题（CORS）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621101452455.png" alt="image-20260621101452455"></p>
 <h3 id="1-1-什么是跨域？"><a href="#1-1-什么是跨域？" class="headerlink" title="1.1 什么是跨域？"></a>1.1 什么是跨域？</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260621101512547.png" alt="image-20260621101512547"></p>
@@ -62964,7 +63043,8 @@ $&#123;&#125;
   <entry>
     <title>GO学习笔记 | 第四讲注册功能相关内容复盘</title>
     <url>/2026/06/21/Go/%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%A4%8D%E7%9B%98--%E7%AC%AC%E5%9B%9B%E8%AE%B2%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/</url>
-    <content><![CDATA[<h1 id="GO学习笔记-第四讲注册功能相关内容复盘"><a href="#GO学习笔记-第四讲注册功能相关内容复盘" class="headerlink" title="GO学习笔记 | 第四讲注册功能相关内容复盘"></a>GO学习笔记 | 第四讲注册功能相关内容复盘</h1><h2 id="1-Engine-vs-Context"><a href="#1-Engine-vs-Context" class="headerlink" title="1. Engine vs Context"></a>1. Engine vs Context</h2><p><strong>Engine</strong>：<code>gin.Default()</code> 返回一个 <code>*gin.Engine</code>，它是整个 HTTP 服务器的抽象。一个 Engine &#x3D; 一个逻辑服务器，绑定一个端口。可以启动多个 Engine 监听不同端口（比如 <code>:8080</code> 给用户，<code>:8081</code> 给后台管理）。</p>
+    <content><![CDATA[<h1 id="GO学习笔记-第四讲注册功能相关内容复盘"><a href="#GO学习笔记-第四讲注册功能相关内容复盘" class="headerlink" title="GO学习笔记 | 第四讲注册功能相关内容复盘"></a>GO学习笔记 | 第四讲注册功能相关内容复盘</h1><p><code>代码仓库地址：</code><a href="https://github.com/Darling-123456/go_learning">Darling-123456&#x2F;go_learning: go学习过程记录</a></p>
+<h2 id="1-Engine-vs-Context"><a href="#1-Engine-vs-Context" class="headerlink" title="1. Engine vs Context"></a>1. Engine vs Context</h2><p><strong>Engine</strong>：<code>gin.Default()</code> 返回一个 <code>*gin.Engine</code>，它是整个 HTTP 服务器的抽象。一个 Engine &#x3D; 一个逻辑服务器，绑定一个端口。可以启动多个 Engine 监听不同端口（比如 <code>:8080</code> 给用户，<code>:8081</code> 给后台管理）。</p>
 <p><strong>Context</strong>：<code>*gin.Context</code> 代表<strong>一次请求</strong>。每个 HTTP 请求到达时，Gin 创建一个 Context，把 Request（输入）和 Writer（输出）都包进去，然后传给路由处理函数。请求结束，Context 销毁。</p>
 <p>一句话：<strong>Engine 是长生命周期（进程级），Context 是短生命周期（一次请求）。</strong></p>
 <hr>
@@ -63146,7 +63226,8 @@ $&#123;&#125;
   <entry>
     <title>GO学习笔记 | git使用记录（持续更新）</title>
     <url>/2026/06/25/Go/2026-6-25-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--git%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/</url>
-    <content><![CDATA[<h1 id="git使用记录（持续更新）"><a href="#git使用记录（持续更新）" class="headerlink" title="git使用记录（持续更新）"></a>git使用记录（持续更新）</h1><p>记录一下使用git的过程</p>
+    <content><![CDATA[<h1 id="git使用记录（持续更新）"><a href="#git使用记录（持续更新）" class="headerlink" title="git使用记录（持续更新）"></a>git使用记录（持续更新）</h1><p><code>代码仓库地址：</code><a href="https://github.com/Darling-123456/go_learning">Darling-123456&#x2F;go_learning: go学习过程记录</a></p>
+<p>记录一下使用git的过程</p>
 <p>起初是学习的go课程是21周的，我想把每周学的东西单独做个提交，顺带练练git，就尝试建立分支什么的</p>
 <h2 id="week2"><a href="#week2" class="headerlink" title="week2"></a>week2</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;week2: 登录注册 + session中间件&quot;</span><br><span class="line">git branch week2          # 从当前 commit 创建分支，但你还留在 master 上</span><br><span class="line">git push origin master</span><br><span class="line">git push origin week2</span><br></pre></td></tr></table></figure>
 
@@ -63156,6 +63237,9 @@ $&#123;&#125;
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout week2                     <span class="comment"># 切到 week2 分支</span></span><br><span class="line">git <span class="built_in">rm</span> -r gin/ gorm/ go_exercise/ homework/ leetcode/ <span class="comment"># 删掉这些目录</span></span><br><span class="line">git commit -m <span class="string">&quot;week2: 登录+注册功能&quot;</span></span><br><span class="line">git push origin week2</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625103338788.png" alt="image-20260625103338788"></p>
+<h2 id="week3"><a href="#week3" class="headerlink" title="week3"></a>week3</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch week3     <span class="comment"># 先创建分支</span></span><br><span class="line">git checkout week3   <span class="comment"># 再切过去</span></span><br><span class="line"><span class="comment">#git checkout -b week3上面两条等于这条</span></span><br><span class="line">git add webook_project/</span><br><span class="line">git commit -m <span class="string">&quot;week3: JWT 登录 + 中间件验签 + 刷新&quot;</span></span><br><span class="line">git push origin week3</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627175132678.png" alt="image-20260627175132678"></p>
 ]]></content>
       <categories>
         <category>Go</category>
@@ -63171,7 +63255,7 @@ $&#123;&#125;
   </entry>
   <entry>
     <title>GO学习笔记 | 第六章节 用户基本功能与 Gin｜GORM 入门| 分层架构、密码加密与登录校验</title>
-    <url>/2026/06/25/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AD%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
+    <url>/2026/06/21/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AD%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="GO学习笔记-第六章节-用户基本功能与-Gin｜GORM-入门-分层架构、密码加密与登录校验"><a href="#GO学习笔记-第六章节-用户基本功能与-Gin｜GORM-入门-分层架构、密码加密与登录校验" class="headerlink" title="GO学习笔记 | 第六章节 用户基本功能与 Gin｜GORM 入门| 分层架构、密码加密与登录校验"></a>GO学习笔记 | 第六章节 用户基本功能与 Gin｜GORM 入门| 分层架构、密码加密与登录校验</h1><p><strong>核心内容</strong>：项目分层落地（handler-service-repository-dao）、bcrypt 密码加密、Cookie&#x2F;Session 机制、登录校验中间件、用户注册完整链路<br><strong>前置知识</strong>：Gin 路由与中间件、GORM 增删改查、Docker Compose</p>
 <hr>
 <h2 id="一、项目分层架构落地"><a href="#一、项目分层架构落地" class="headerlink" title="一、项目分层架构落地"></a>一、项目分层架构落地</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260623145926058.png" alt="image-20260623145926058"></p>
@@ -63602,6 +63686,372 @@ $&#123;&#125;
         <tag>Session</tag>
         <tag>GORM</tag>
         <tag>bcrypt</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GO学习笔记 | window安装kubectl并配置到环境变量</title>
+    <url>/2026/06/28/Go/2026-6-28-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--window%E5%AE%89%E8%A3%85kubectl%E5%B9%B6%E9%85%8D%E7%BD%AE%E5%88%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/</url>
+    <content><![CDATA[<h1 id="window安装kubectl并配置到环境变量"><a href="#window安装kubectl并配置到环境变量" class="headerlink" title="window安装kubectl并配置到环境变量"></a>window安装kubectl并配置到环境变量</h1><p>找了半天发现没啥好教程，感觉这样弄还行，遂发出来</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260628180924943.png" alt="image-20260628180924943"></p>
+<p>在windows下用管理员运行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">winget install Kubernetes.kubectl</span><br></pre></td></tr></table></figure>
+
+<p>这是目前 Windows 下最快、最省心的方法，它会自动帮你下载文件并配置到系统环境变量（PATH）里，装完就能直接用。</p>
+<p>安装完成后输入下面的命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl version --client</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#成功之后的</span></span><br><span class="line">C:\Users\xxx&gt;kubectl version --client</span><br><span class="line">Client Version: v1.34.1</span><br><span class="line">Kustomize Version: v5.7.1</span><br></pre></td></tr></table></figure>
+
+<p>如果输出系统无法执行制定程序的话，输入这个命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">where kubectl</span><br></pre></td></tr></table></figure>
+
+<p>它会给你打印出 Windows 到底是从哪个文件夹里找的 <code>kubectl.exe</code>。</p>
+<ul>
+<li>如果是类似 <code>C:\Users\你的用户名\kubectl.exe</code>，那绝对就是那个 2KB 的坏文件。<strong>找到它之后，去那个文件夹里，把这个 <code>kubectl.exe</code> 删掉！</strong></li>
+</ul>
+<p>然后重新输入，看看是不是输出版本号就行了</p>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>Go</tag>
+        <tag>JWT</tag>
+        <tag>Docker</tag>
+        <tag>Kubernetes</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GO学习笔记 | 第七章节 JWT、Redis 入门与 K8s 部署实战| Session 深入与 JWT 入门</title>
+    <url>/2026/06/25/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B8%83%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h1 id="GO学习笔记-第七章节-JWT、Redis-入门与-K8s-部署实战-Session-深入与-JWT-入门"><a href="#GO学习笔记-第七章节-JWT、Redis-入门与-K8s-部署实战-Session-深入与-JWT-入门" class="headerlink" title="GO学习笔记 | 第七章节 JWT、Redis 入门与 K8s 部署实战| Session 深入与 JWT 入门"></a>GO学习笔记 | 第七章节 JWT、Redis 入门与 K8s 部署实战| Session 深入与 JWT 入门</h1><p><code>代码仓库地址：</code><a href="https://github.com/Darling-123456/go_learning">Darling-123456&#x2F;go_learning: go学习过程记录</a></p>
+<p><strong>核心内容</strong>：多实例 Session 共享、面向接口编程实践、Session 刷新机制、JWT 结构原理与登录校验<br><strong>前置知识</strong>：Gin Session 中间件、Cookie&#x2F;Session 机制、分层架构</p>
+<hr>
+<h2 id="一、Debug-技巧：分层断点定位"><a href="#一、Debug-技巧：分层断点定位" class="headerlink" title="一、Debug 技巧：分层断点定位"></a>一、Debug 技巧：分层断点定位</h2><h3 id="1-1-请求经过的完整链路"><a href="#1-1-请求经过的完整链路" class="headerlink" title="1.1 请求经过的完整链路"></a>1.1 请求经过的完整链路</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">浏览器请求 → 日志确认到达</span><br><span class="line">  → Middleware 1 → Middleware 2 → Middleware 3</span><br><span class="line">  → handler（业务入口）</span><br><span class="line">    → service（业务逻辑）</span><br><span class="line">      → repository（存储抽象）</span><br><span class="line">        → dao（数据库操作）</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-定位问题的策略"><a href="#1-2-定位问题的策略" class="headerlink" title="1.2 定位问题的策略"></a>1.2 定位问题的策略</h3><ol>
+<li><strong>先看 Gin 日志</strong>：确认后端是否收到请求（有请求一定有日志）</li>
+<li><strong>在 handler 入口打断点</strong>：看是否到达业务逻辑（没到就是中间件拦截了）</li>
+<li><strong>逐层打断点</strong>：web → service → repository → dao，每层入口一个断点，看哪层没进去</li>
+<li><strong>分支全覆盖</strong>：每个 if&#x2F;else 分支都打断点，确认走了哪个分支</li>
+</ol>
+<blockquote>
+<p>定位问题本质上是经验——踩坑多了，看错误信息就知道在哪。亲手写的代码定位更快。</p>
+</blockquote>
+<hr>
+<h2 id="二、Session-Store：数据存哪？"><a href="#二、Session-Store：数据存哪？" class="headerlink" title="二、Session Store：数据存哪？"></a>二、Session Store：数据存哪？</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625135446388.png" alt="image-20260625135446388"></p>
+<h3 id="2-1-回顾-Session-的存储结构"><a href="#2-1-回顾-Session-的存储结构" class="headerlink" title="2.1 回顾 Session 的存储结构"></a>2.1 回顾 Session 的存储结构</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625135502856.png" alt="image-20260625135502856"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Cookie（my_session = abc123）</span><br><span class="line">  ↓ 指向</span><br><span class="line">Store（真正存数据的地方）</span><br><span class="line">  ↓ 存着</span><br><span class="line">业务数据（如 userId=123）</span><br></pre></td></tr></table></figure>
+
+<p><strong>Cookie 里永远只放 sessionID，真正的数据在 Store 里。</strong></p>
+<h3 id="2-2-五种-Store-实现"><a href="#2-2-五种-Store-实现" class="headerlink" title="2.2 五种 Store 实现"></a>2.2 五种 Store 实现</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625140045564.png"></p>
+<p>Gin Session 插件提供了多种 Store：</p>
+<table>
+<thead>
+<tr>
+<th>Store</th>
+<th>数据存哪</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cookie</code></td>
+<td>Cookie 本身</td>
+<td>数据不敏感、量很小（基本不用）</td>
+</tr>
+<tr>
+<td><code>memstore</code></td>
+<td>进程内存</td>
+<td>开发 &#x2F; 测试 &#x2F; 单实例</td>
+</tr>
+<tr>
+<td><code>redis</code></td>
+<td>Redis</td>
+<td><strong>生产多实例（最常用）</strong></td>
+</tr>
+<tr>
+<td><code>gorm</code></td>
+<td>数据库（MySQL&#x2F;PG 等）</td>
+<td>没有 Redis 时的备选</td>
+</tr>
+<tr>
+<td><code>mongodb</code> &#x2F; <code>postgres</code></td>
+<td>对应数据库</td>
+<td>特殊场景</td>
+</tr>
+</tbody></table>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625135922873.png" alt="image-20260625135922873"></p>
+<h3 id="2-3-Memstore：单实例可用"><a href="#2-3-Memstore：单实例可用" class="headerlink" title="2.3 Memstore：单实例可用"></a>2.3 Memstore：单实例可用</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;github.com/gin-contrib/sessions&quot;</span></span><br><span class="line">    <span class="string">&quot;github.com/gin-contrib/sessions/memstore&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成安全的密钥对（32 或 64 字节）</span></span><br><span class="line">store := memstore.NewStore(</span><br><span class="line">    []<span class="type">byte</span>(<span class="string">&quot;32-or-64-byte-encryption-key&quot;</span>),</span><br><span class="line">    []<span class="type">byte</span>(<span class="string">&quot;32-or-64-byte-authentication-key&quot;</span>),</span><br><span class="line">)</span><br><span class="line">store.Options(sessions.Options&#123;</span><br><span class="line">    HttpOnly: <span class="literal">true</span>,</span><br><span class="line">    Secure:   <span class="literal">false</span>,  <span class="comment">// 开发环境 false，生产必须 true</span></span><br><span class="line">    MaxAge:   <span class="number">3600</span>,</span><br><span class="line">&#125;)</span><br><span class="line">server.Use(sessions.Sessions(<span class="string">&quot;mysession&quot;</span>, store))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>密钥用随机生成器生成，越长越安全。公网生成也没关系——别人不知道你用在哪。</p>
+</blockquote>
+<h3 id="2-4-多实例部署的问题"><a href="#2-4-多实例部署的问题" class="headerlink" title="2.4 多实例部署的问题"></a>2.4 多实例部署的问题</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625140705485.png" alt="image-20260625140705485"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">实例A（登录了，memstore 有 session）</span><br><span class="line">实例B（没有 session，判定未登录）</span><br></pre></td></tr></table></figure>
+
+<p><strong>Memstore 的数据只在当前进程内存里，实例 A 和实例 B 不互通。</strong> 用户请求被负载均衡到实例 B 时，就变成「未登录」。</p>
+<p><strong>解决方案</strong>：用 Redis 做集中式 Session 存储——所有实例共享同一个 Redis。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker-compose.yaml</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.0&#x27;</span></span><br><span class="line"><span class="comment"># 我这个 docker compose 由几个服务组成</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mysql8:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:8.0</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">--default-authentication-plugin=mysql_native_password</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">040725ge</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="comment">#      - 初始化脚本</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./script/mysql/:/docker-entrypoint-initdb.d/</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="comment">#      - 外部访问用 13316</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;13316:3306&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">&#x27;redis:latest&#x27;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ALLOW_EMPTY_PASSWORD=yes</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;6379:6379&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625151044943.png" alt="image-20260625151044943"></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initWebServer</span><span class="params">()</span></span> *gin.Engine &#123;</span><br><span class="line">	server := gin.Default()</span><br><span class="line">	<span class="comment">// CORS 配置，允许前端跨域请求</span></span><br><span class="line">	server.Use(cors.New(cors.Config&#123;</span><br><span class="line">		AllowOrigins:     []<span class="type">string</span>&#123;<span class="string">&quot;http://localhost:3000&quot;</span>&#125;,</span><br><span class="line">		AllowMethods:     []<span class="type">string</span>&#123;<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;POST&quot;</span>, <span class="string">&quot;PUT&quot;</span>, <span class="string">&quot;DELETE&quot;</span>, <span class="string">&quot;OPTIONS&quot;</span>&#125;,</span><br><span class="line">		AllowHeaders:     []<span class="type">string</span>&#123;<span class="string">&quot;Origin&quot;</span>, <span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;Authorization&quot;</span>&#125;,</span><br><span class="line">		AllowCredentials: <span class="literal">true</span>,</span><br><span class="line">		MaxAge:           <span class="number">12</span> * time.Hour,</span><br><span class="line">	&#125;))</span><br><span class="line">	<span class="comment">//步骤一</span></span><br><span class="line">	<span class="comment">//store := cookie.NewStore([]byte(&quot;your-secret-key&quot;))</span></span><br><span class="line">	store, err := redis.NewStore(<span class="number">16</span>, <span class="string">&quot;tcp&quot;</span>,</span><br><span class="line">		<span class="string">&quot;localhost:6379&quot;</span>, <span class="string">&quot;root&quot;</span>, <span class="string">&quot;&quot;</span>,</span><br><span class="line">		[]<span class="type">byte</span>(<span class="string">&quot;qOYZLAuWmwkxAKG6bijwru9ghNNS9rHc&quot;</span>),</span><br><span class="line">		[]<span class="type">byte</span>(<span class="string">&quot;8Mv11Olt6x3DX97rUE1exp9XISEMSZJl&quot;</span>))</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	server.Use(sessions.Sessions(<span class="string">&quot;mysession&quot;</span>, store))</span><br><span class="line">	<span class="comment">//步骤三 链式调用</span></span><br><span class="line">	server.Use(middleware.NewLoginMiddlewareBuilder().</span><br><span class="line">		IgnorePaths(<span class="string">&quot;/users/signup&quot;</span>).</span><br><span class="line">		IgnorePaths(<span class="string">&quot;/users/login&quot;</span>).Build())</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> server</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>把步骤一的cookie实现的session换成了redis</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#启动docker里面的redis的命令，记得把webook-redis-1换成你自己容器里面的redis的名字</span></span><br><span class="line">docker <span class="built_in">exec</span> -it webook-redis-1 redis-cli</span><br><span class="line"><span class="comment">#查看容器名字</span></span><br><span class="line">docker ps</span><br><span class="line"><span class="comment">#redis检测现在正在发生什么的命令</span></span><br><span class="line">monitor</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625150530253.png" alt="image-20260625150530253"></p>
+<p>这是登录过程中的redis的样子的体现</p>
+<hr>
+<h2 id="三、面向接口编程：第一次真正感受到好处"><a href="#三、面向接口编程：第一次真正感受到好处" class="headerlink" title="三、面向接口编程：第一次真正感受到好处"></a>三、面向接口编程：第一次真正感受到好处</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625151551525.png" alt="image-20260625151551525"></p>
+<h3 id="Store-是接口，可以随便换"><a href="#Store-是接口，可以随便换" class="headerlink" title="Store 是接口，可以随便换"></a>Store 是接口，可以随便换</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// sessions.Sessions 接收的是 sessions.Store 接口</span></span><br><span class="line"><span class="comment">// 不是具体实现！</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 开发环境：内存</span></span><br><span class="line">store := memstore.NewStore(key, authKey)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生产环境：Redis（只改这一行！）</span></span><br><span class="line">store, _ := redis.NewStore(<span class="number">10</span>, <span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;localhost:6379&quot;</span>, <span class="string">&quot;&quot;</span>, key, authKey)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 其他代码完全不动</span></span><br><span class="line">server.Use(sessions.Sessions(<span class="string">&quot;mysession&quot;</span>, store))</span><br></pre></td></tr></table></figure>
+
+<p><strong>换了 Store 之后</strong>：</p>
+<ul>
+<li>handler 代码：不用改</li>
+<li>service 代码：不用改</li>
+<li>登录校验中间件：不用改</li>
+<li>只在 <code>main.go</code> 的初始化里换一行</li>
+</ul>
+<p>这就是面向接口编程的核心价值——<strong>依赖接口而非具体实现，底层可以随意替换。</strong></p>
+<hr>
+<h2 id="四、Session-配置详解"><a href="#四、Session-配置详解" class="headerlink" title="四、Session 配置详解"></a>四、Session 配置详解</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625164817493.png" alt="image-20260625164817493"></p>
+<h3 id="4-1-Options-控制的是-Cookie"><a href="#4-1-Options-控制的是-Cookie" class="headerlink" title="4.1 Options 控制的是 Cookie"></a>4.1 Options 控制的是 Cookie</h3><p>里面的字段都是cookie的字段</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">sess.Options(sessions.Options&#123;</span><br><span class="line">    Path:     <span class="string">&quot;/&quot;</span>,</span><br><span class="line">    Domain:   <span class="string">&quot;&quot;</span>,</span><br><span class="line">    MaxAge:   <span class="number">3600</span>,       <span class="comment">// 过期时间（秒）</span></span><br><span class="line">    Secure:   <span class="literal">true</span>,       <span class="comment">// 仅 HTTPS 传输（生产必开）</span></span><br><span class="line">    HttpOnly: <span class="literal">true</span>,       <span class="comment">// JS 不可读（生产必开）</span></span><br><span class="line">    SameSite: http.SameSiteLaxMode,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键提醒</strong>：</p>
+<ul>
+<li><code>Secure: true</code> 开启后，HTTP 协议下 Cookie 不会生效——开发环境先用 <code>false</code></li>
+<li><code>MaxAge</code> 设为负数 → Cookie 立即过期 → 实现退出登录</li>
+</ul>
+<h3 id="4-2-退出登录"><a href="#4-2-退出登录" class="headerlink" title="4.2 退出登录"></a>4.2 退出登录</h3><p>把maxage设置为负数就是退出登录</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 退出登录</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> Logout(ctx *gin.Context) &#123;</span><br><span class="line">	sess := sessions.Default(ctx)</span><br><span class="line">	sess.Options(sessions.Options&#123;MaxAge: <span class="number">-1</span>&#125;)</span><br><span class="line">	sess.Save()</span><br><span class="line">	ctx.String(http.StatusOK, <span class="string">&quot;退出登录&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、Session-刷新（Sliding-Expiration）"><a href="#五、Session-刷新（Sliding-Expiration）" class="headerlink" title="五、Session 刷新（Sliding Expiration）"></a>五、Session 刷新（Sliding Expiration）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625163543320.png" alt="image-20260625163543320"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625165502881.png" alt="image-20260625165502881"></p>
+<h3 id="5-1-需求"><a href="#5-1-需求" class="headerlink" title="5.1 需求"></a>5.1 需求</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625170817021.png" alt="image-20260625170817021"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625170916733.png" alt="image-20260625170916733"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625171010454.png" alt="image-20260625171010454"></p>
+<ul>
+<li>登录态保持 30 分钟</li>
+<li>用户活跃使用时自动续期</li>
+<li>实现思路：在登录校验中间件里检测上次刷新时间，超过阈值就刷新</li>
+</ul>
+<h3 id="5-2-实现方案"><a href="#5-2-实现方案" class="headerlink" title="5.2 实现方案"></a>5.2 实现方案</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> middleware</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;github.com/gin-contrib/sessions&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> LoginMiddlewareBuilder <span class="keyword">struct</span> &#123;</span><br><span class="line">	paths []<span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewLoginMiddlewareBuilder</span><span class="params">()</span></span> *LoginMiddlewareBuilder &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;LoginMiddlewareBuilder&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LoginMiddlewareBuilder)</span></span> IgnorePaths(path <span class="type">string</span>) *LoginMiddlewareBuilder &#123;</span><br><span class="line">	l.paths = <span class="built_in">append</span>(l.paths, path)</span><br><span class="line">	<span class="keyword">return</span> l</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LoginMiddlewareBuilder)</span></span> Build() gin.HandlerFunc &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(ctx *gin.Context)</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, path := <span class="keyword">range</span> l.paths &#123;</span><br><span class="line">			<span class="keyword">if</span> ctx.Request.URL.Path == path &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//不需要登录校验的路由</span></span><br><span class="line">		<span class="comment">/*if ctx.Request.URL.Path == &quot;/users/login&quot; ||</span></span><br><span class="line"><span class="comment">			ctx.Request.URL.Path == &quot;/users/signup&quot; &#123;</span></span><br><span class="line"><span class="comment">			return</span></span><br><span class="line"><span class="comment">		&#125;*/</span></span><br><span class="line">		sess := sessions.Default(ctx)</span><br><span class="line"></span><br><span class="line">		<span class="comment">/*------*/</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">/*if sess == nil &#123;</span></span><br><span class="line"><span class="comment">			//说明没有登录</span></span><br><span class="line"><span class="comment">			ctx.AbortWithStatus(http.StatusUnauthorized)</span></span><br><span class="line"><span class="comment">			return</span></span><br><span class="line"><span class="comment">		&#125;*/</span></span><br><span class="line">		id := sess.Get(<span class="string">&quot;userId&quot;</span>)</span><br><span class="line">		<span class="keyword">if</span> id == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">//说明没有登录</span></span><br><span class="line">			ctx.AbortWithStatus(http.StatusUnauthorized)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		updateTime := sess.Get(<span class="string">&quot;update_time&quot;</span>)</span><br><span class="line">		sess.Set(<span class="string">&quot;userId&quot;</span>, id)</span><br><span class="line">		sess.Options(sessions.Options&#123;</span><br><span class="line">			MaxAge: <span class="number">60</span> * <span class="number">30</span>,</span><br><span class="line">		&#125;)</span><br><span class="line">		now := time.Now().UnixMilli()</span><br><span class="line">		<span class="comment">//说明还没刷新过，刚登陆</span></span><br><span class="line">		<span class="keyword">if</span> updateTime == <span class="literal">nil</span> &#123;</span><br><span class="line">			sess.Set(<span class="string">&quot;update_time&quot;</span>, now)</span><br><span class="line">			sess.Save()</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//Update_time是有的，也就是说不是刚登陆，每隔60秒刷一次</span></span><br><span class="line">		updateTimeVal, ok := updateTime.(<span class="type">int64</span>)</span><br><span class="line">		<span class="keyword">if</span> !ok &#123;</span><br><span class="line">			ctx.AbortWithStatus(http.StatusInternalServerError)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> now-updateTimeVal &gt; <span class="number">60</span>*<span class="number">1000</span> &#123;</span><br><span class="line">			sess.Set(<span class="string">&quot;update_time&quot;</span>, now)</span><br><span class="line">			sess.Save()</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>要点</strong>：</p>
+<ul>
+<li>刷新不是登录本身的概念，是管理 Session 的概念——放在中间件里而非登录逻辑里</li>
+<li>每次刷新要重新保存所有数据（<code>userId</code> 也要重新放回去）</li>
+<li>刷新时要重新设置 <code>MaxAge</code></li>
+</ul>
+<hr>
+<h2 id="六、JWT（JSON-Web-Token）"><a href="#六、JWT（JSON-Web-Token）" class="headerlink" title="六、JWT（JSON Web Token）"></a>六、JWT（JSON Web Token）</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625180839198.png" alt="image-20260625180839198"></p>
+<h3 id="6-1-为什么要学-JWT？"><a href="#6-1-为什么要学-JWT？" class="headerlink" title="6.1 为什么要学 JWT？"></a>6.1 为什么要学 JWT？</h3><p>Session 需要服务端存储（内存&#x2F;Redis），JWT 是无状态的——<strong>数据直接编码在 Token 里</strong>，服务端不需要存。</p>
+<h3 id="6-2-JWT-的结构"><a href="#6-2-JWT-的结构" class="headerlink" title="6.2 JWT 的结构"></a>6.2 JWT 的结构</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625183113667.png" alt="image-20260625183113667"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOjEyM30.签名部分</span><br><span class="line">    ↓                      ↓              ↓</span><br><span class="line">  Header               Payload         Signature</span><br><span class="line">  (Base64编码)        (Base64编码数据)  (防篡改签名)</span><br></pre></td></tr></table></figure>
+
+<p>以 <code>.</code> 分割的三段：</p>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>内容</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Header（红色）</td>
+<td>签名算法类型（如 HS512）</td>
+<td>告诉如何验证</td>
+</tr>
+<tr>
+<td>Payload（紫色）</td>
+<td>真正的数据（如 <code>userId:123</code>）</td>
+<td>业务数据</td>
+</tr>
+<tr>
+<td>Signature（蓝色）</td>
+<td>用密钥对前两段签名</td>
+<td><strong>防篡改</strong></td>
+</tr>
+</tbody></table>
+<p><strong>防篡改原理</strong>：攻击者改了 Payload → 重新算签名 → 和蓝色段对不上 → 服务端直接拒绝。没有密钥就算不出正确的签名。</p>
+<h3 id="6-3-JWT-库选择"><a href="#6-3-JWT-库选择" class="headerlink" title="6.3 JWT 库选择"></a>6.3 JWT 库选择</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260625183531129.png" alt="image-20260625183531129"></p>
+<p>Go 的标准 JWT 库：<a href="https://github.com/golang-jwt/jwt/v5">github.com&#x2F;golang-jwt&#x2F;jwt&#x2F;v5</a></p>
+<blockquote>
+<p>老师不建议用 Gin 的 JWT 插件——封装过于复杂，屏蔽了 JWT 核心理解。直接用原始 API 更清晰。</p>
+</blockquote>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260626152630191.png" alt="image-20260626152630191"></p>
+<h4 id="1-Raw-string"><a href="#1-Raw-string" class="headerlink" title="1. Raw string"></a>1. <code>Raw string</code></h4><ul>
+<li><strong>含义</strong>：原始的 JWT <strong>字符串</strong>。</li>
+<li><strong>对应标准</strong>：完整的 JWT，即类似 <code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3T1WWT51SzEqFRI</code> 这种格式。</li>
+<li><strong>用途</strong>：通常用于调试、日志记录，或者当需要对 Token 做特殊字符串处理时使用（不过正常情况下不需要用到它）。</li>
+</ul>
+<h4 id="2-Method-SigningMethod"><a href="#2-Method-SigningMethod" class="headerlink" title="2. Method SigningMethod"></a>2. <code>Method SigningMethod</code></h4><ul>
+<li><strong>含义</strong>：代表<strong>签名算法</strong>的接口对象。</li>
+<li><strong>对应标准</strong>：JWT 头部的 <code>alg</code>（算法）字段。</li>
+<li><strong>用途</strong>：包含了用于生成和验证签名的加密方法。常见的实现有 <code>jwt.SigningMethodHS256</code>（HMAC-SHA256）、<code>jwt.SigningMethodRS256</code>（RSA-SHA256）等。</li>
+<li><strong>开发注意</strong>：在解析 Token 时，这个字段在验证前是空的，验证后库会根据 JWT 的头部自动赋予正确的值。</li>
+</ul>
+<h4 id="3-Header-map-string-interface"><a href="#3-Header-map-string-interface" class="headerlink" title="3. Header map[string]interface{}"></a>3. <code>Header map[string]interface&#123;&#125;</code></h4><ul>
+<li><strong>含义</strong>：JWT 的<strong>头部数据</strong>，是一个 Go 的 Map。</li>
+<li><strong>对应标准</strong>：JWT 的第一部分。</li>
+<li><strong>用途</strong>：包含 <code>alg</code>（加密算法）和 <code>typ</code>（类型，通常是 <code>&quot;JWT&quot;</code>），以及你也可以在此放入自定义的头部信息。</li>
+</ul>
+<h4 id="4-Claims-Claims"><a href="#4-Claims-Claims" class="headerlink" title="4. Claims Claims"></a>4. <code>Claims Claims</code></h4><ul>
+<li><strong>含义</strong>：JWT 的<strong>载荷</strong>（Payload）数据。这里的 <code>Claims</code> 是一个接口类型。</li>
+<li><strong>对应标准</strong>：JWT 的第二部分（加密前的 JSON 数据）。</li>
+<li><strong>用途</strong>：这是业务核心。开发者需要自己定义结构体来实现这个 <code>Claims</code> 接口（比如包含 <code>UserId</code>、<code>Username</code> 以及标准时间 <code>exp</code> 等）。你验证完 Token 后，<strong>业务数据就从这里获取</strong>。</li>
+</ul>
+<h4 id="5-Signature-byte"><a href="#5-Signature-byte" class="headerlink" title="5. Signature []byte"></a>5. <code>Signature []byte</code></h4><ul>
+<li><strong>含义</strong>：<strong>签名</strong>数据，以 <code>[]byte</code> 字节切片的形式存储。</li>
+<li><strong>对应标准</strong>：JWT 的第三部分（加密后的二进制数据）。</li>
+<li><strong>用途</strong>：这是 JWT 防篡改的核心。当解析 Token 时，库会拿着你的密钥，用 <code>Method</code> 里的算法，把 <code>Header</code> 和 <code>Claims</code> 重新加密算出一个签名，然后对比这个 <code>Signature</code> 是否一致。</li>
+</ul>
+<h4 id="6-Valid-bool"><a href="#6-Valid-bool" class="headerlink" title="6. Valid bool"></a>6. <code>Valid bool</code></h4><ul>
+<li><strong>含义</strong>：代表<strong>当前 Token 是否有效</strong>。</li>
+<li><strong>用途</strong>：<ul>
+<li>如果 JWT 解析成功，签名验证通过，<strong>并且</strong>没有过期，该字段为 <code>true</code>。</li>
+<li>如果签名对不上、或者 Token 过期、或者解析失败，该字段为 <code>false</code>。</li>
+</ul>
+</li>
+<li><strong>开发注意</strong>：通常你在拦截器（Middleware）里拿到 Token 对象后，<strong>必须检查 <code>token.Valid</code> 是否为 <code>true</code></strong>，才能允许后续的请求通过。</li>
+</ul>
+<h3 id="6-4-签名算法选择"><a href="#6-4-签名算法选择" class="headerlink" title="6.4 签名算法选择"></a>6.4 签名算法选择</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 对称加密（推荐入门）</span></span><br><span class="line">jwt.SigningMethodHS256   <span class="comment">// HMAC-SHA256, key 32 字节</span></span><br><span class="line">jwt.SigningMethodHS384   <span class="comment">// HMAC-SHA384, key 48 字节</span></span><br><span class="line">jwt.SigningMethodHS512   <span class="comment">// HMAC-SHA512, key 64 字节</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 非对称加密（更安全，生产推荐）</span></span><br><span class="line">jwt.SigningMethodRS256   <span class="comment">// RSA-SHA256</span></span><br><span class="line">jwt.SigningMethodES256   <span class="comment">// ECDSA-SHA256</span></span><br><span class="line">jwt.SigningMethodEdDSA   <span class="comment">// Ed25519</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>HS 系列：密钥相同，简单；用 HS512 即可</li>
+<li>RS&#x2F;ES 系列：公私钥分离，更安全但更复杂</li>
+</ul>
+<h3 id="6-5-登录时生成-JWT"><a href="#6-5-登录时生成-JWT" class="headerlink" title="6.5 登录时生成 JWT"></a>6.5 登录时生成 JWT</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// JWT实现的登录</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> LoginJWT(ctx *gin.Context) &#123;</span><br><span class="line">	<span class="keyword">type</span> LoginReq <span class="keyword">struct</span> &#123;</span><br><span class="line">		Email    <span class="type">string</span> <span class="string">`json:&quot;email&quot;`</span></span><br><span class="line">		Password <span class="type">string</span> <span class="string">`json:&quot;password&quot;`</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> req LoginReq</span><br><span class="line">	<span class="keyword">if</span> err := ctx.Bind(&amp;req); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	user, err := u.svc.Login(ctx, req.Email, req.Password)</span><br><span class="line">	<span class="keyword">if</span> err == service.ErrInvalidUserPassword &#123;</span><br><span class="line">		ctx.String(http.StatusOK, <span class="string">&quot;用户名或密码不对&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		ctx.String(http.StatusOK, <span class="string">&quot;系统错误&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//jwt登录</span></span><br><span class="line">    <span class="comment">// 创建 JWT Token</span></span><br><span class="line">	token := jwt.New(jwt.SigningMethodHS512)</span><br><span class="line">    <span class="comment">// 用密钥签名</span></span><br><span class="line">	tokenStr, err := token.SignedString([]<span class="type">byte</span>(<span class="string">&quot;qOYZLAuWmwkxAKG6bijwru9ghNNS9rHc&quot;</span>))</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		ctx.String(http.StatusInternalServerError, <span class="string">&quot;系统错误&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	ctx.Header(<span class="string">&quot;x-jwt-token&quot;</span>, tokenStr)</span><br><span class="line">	fmt.Println(tokenStr)</span><br><span class="line">	fmt.Println(user)</span><br><span class="line">	ctx.String(http.StatusOK, <span class="string">&quot;登录成功&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-6-JWT-登录校验中间件"><a href="#6-6-JWT-登录校验中间件" class="headerlink" title="6.6 JWT 登录校验中间件"></a>6.6 JWT 登录校验中间件</h3><p>这个还没有携带uid等数据，只是完成了简单登录</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> middleware</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/golang-jwt/jwt/v5&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// jwt的登录校验</span></span><br><span class="line"><span class="keyword">type</span> LoginJWTMiddlewareBuilder <span class="keyword">struct</span> &#123;</span><br><span class="line">	paths []<span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewLoginJWTMiddlewareBuilder</span><span class="params">()</span></span> *LoginJWTMiddlewareBuilder &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;LoginJWTMiddlewareBuilder&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LoginJWTMiddlewareBuilder)</span></span> IgnorePaths(path <span class="type">string</span>) *LoginJWTMiddlewareBuilder &#123;</span><br><span class="line">	l.paths = <span class="built_in">append</span>(l.paths, path)</span><br><span class="line">	<span class="keyword">return</span> l</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LoginJWTMiddlewareBuilder)</span></span> Build() gin.HandlerFunc &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(ctx *gin.Context)</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, path := <span class="keyword">range</span> l.paths &#123;</span><br><span class="line">			<span class="keyword">if</span> ctx.Request.URL.Path == path &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">         <span class="comment">// Step 1: 从 Authorization 请求头取 Token</span></span><br><span class="line">		<span class="comment">//用JWT进行校验</span></span><br><span class="line">		tokenHeader := ctx.GetHeader(<span class="string">&quot;Authorization&quot;</span>)</span><br><span class="line">		<span class="keyword">if</span> tokenHeader == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">			<span class="comment">//没登录 返回401</span></span><br><span class="line">			ctx.AbortWithStatus(http.StatusUnauthorized)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">        <span class="comment">// Step 2: 解析 &quot;Bearer &lt;token&gt;&quot; 格式</span></span><br><span class="line">		<span class="comment">//按照空格切割</span></span><br><span class="line">		segs := strings.Split(tokenHeader, <span class="string">&quot;.&quot;</span>)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(segs) != <span class="number">2</span> &#123;</span><br><span class="line">			<span class="comment">//没登录 有人瞎搞</span></span><br><span class="line">			ctx.AbortWithStatus(http.StatusUnauthorized)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		tokenStr := segs[<span class="number">1</span>]</span><br><span class="line">         <span class="comment">// Step 3: 验证签名</span></span><br><span class="line">		token, err := jwt.Parse(tokenStr, <span class="function"><span class="keyword">func</span><span class="params">(token *jwt.Token)</span></span> (<span class="keyword">interface</span>&#123;&#125;, <span class="type">error</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> []<span class="type">byte</span>(<span class="string">&quot;qOYZLAuWmwkxAKG6bijwru9ghNNS9rHc&quot;</span>), <span class="literal">nil</span></span><br><span class="line">		&#125;)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">//没登录</span></span><br><span class="line">			ctx.AbortWithStatus(http.StatusUnauthorized)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//err为nil，token不为nil</span></span><br><span class="line">		<span class="keyword">if</span> token == <span class="literal">nil</span> || !token.Valid &#123;</span><br><span class="line">			<span class="comment">//没登录</span></span><br><span class="line">			ctx.AbortWithStatus(http.StatusUnauthorized)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-7-JWT携带数据"><a href="#6-7-JWT携带数据" class="headerlink" title="6.7 JWT携带数据"></a>6.7 JWT携带数据</h3><h4 id="前置：定义-Claims-结构体"><a href="#前置：定义-Claims-结构体" class="headerlink" title="前置：定义 Claims 结构体"></a>前置：定义 Claims 结构体</h4><p>为什么需要自定义 Claims？</p>
+<p>用 <code>jwt.MapClaims</code> 存 <code>userId</code>，但它是 <code>map[string]interface&#123;&#125;</code>——取值时需要知道 key 和类型，没有编译期检查。用<strong>自定义结构体</strong>解决。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> UserClaims <span class="keyword">struct</span> &#123;</span><br><span class="line">    jwt.RegisteredClaims        <span class="comment">// 嵌入标准 claims（ExpiresAt、IssuedAt 等）</span></span><br><span class="line">    Uid <span class="type">int64</span>                   <span class="comment">// 自定义字段：用户 ID</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>jwt.RegisteredClaims</code> 提供了 <code>ExpiresAt</code>，<code>Uid</code> 是自己要携带的业务数据。</p>
+<h4 id="前置：改造-CORS-中间件"><a href="#前置：改造-CORS-中间件" class="headerlink" title="前置：改造 CORS 中间件"></a>前置：改造 CORS 中间件</h4><p>之前 CORS 配置里没允许 <code>Authorization</code> 头，需要加上：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">server.Use(cors.New(cors.Config&#123;</span><br><span class="line">    AllowOrigins:     []<span class="type">string</span>&#123;<span class="string">&quot;http://localhost:3000&quot;</span>&#125;,</span><br><span class="line">    AllowMethods:     []<span class="type">string</span>&#123;<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;GET&quot;</span>, <span class="string">&quot;OPTIONS&quot;</span>&#125;,</span><br><span class="line">    AllowHeaders:     []<span class="type">string</span>&#123;<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;Authorization&quot;</span>&#125;,  <span class="comment">// ← 加上Authorization！</span></span><br><span class="line">    AllowCredentials: <span class="literal">true</span>,</span><br><span class="line">    MaxAge:           <span class="number">12</span> * time.Hour,</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+
+<h4 id="步骤一：登录时签发-——-把-userId-塞进-token"><a href="#步骤一：登录时签发-——-把-userId-塞进-token" class="headerlink" title="步骤一：登录时签发 —— 把 userId 塞进 token"></a>步骤一：登录时签发 —— 把 userId 塞进 token</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//  middleware/login_jwt.go</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> LoginJWT(ctx *gin.Context) &#123;</span><br><span class="line">    <span class="comment">// 1. 校验邮箱密码（和 Session 版一样）</span></span><br><span class="line">    user, err := u.svc.Login(ctx, req.Email, req.Password)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 创建 claims，把 userId 塞进去</span></span><br><span class="line">    claims := UserClaims&#123;</span><br><span class="line">        RegisteredClaims: jwt.RegisteredClaims&#123;</span><br><span class="line">            ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute)), <span class="comment">// 1 分钟过期</span></span><br><span class="line">        &#125;,</span><br><span class="line">        Uid: user.Id,   <span class="comment">// ← 核心：把 userId 写进 token</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 签名生成 token</span></span><br><span class="line">    token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)</span><br><span class="line">    tokenStr, _ := token.SignedString([]<span class="type">byte</span>(<span class="string">&quot;密钥&quot;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 返回给前端</span></span><br><span class="line">    ctx.Header(<span class="string">&quot;x-jwt-token&quot;</span>, tokenStr)</span><br><span class="line">    ctx.String(http.StatusOK, <span class="string">&quot;登录成功&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>token 解码后长这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Header:  &#123;&quot;alg&quot;:&quot;HS512&quot;,&quot;typ&quot;:&quot;JWT&quot;&#125;</span><br><span class="line">Payload: &#123;&quot;Uid&quot;:1,&quot;exp&quot;:1719480000&#125;    ← userId 就在里面</span><br><span class="line">Signature: 密钥签名</span><br></pre></td></tr></table></figure>
+
+<p><strong>和 Session 的核心区别</strong>：Session 版是把 userId 存 Redis，JWT 版是直接写在 token 里给前端。</p>
+<h4 id="步骤二：中间件验签-——-从-token-里取出-userId"><a href="#步骤二：中间件验签-——-从-token-里取出-userId" class="headerlink" title="步骤二：中间件验签 —— 从 token 里取出 userId"></a>步骤二：中间件验签 —— 从 token 里取出 userId</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LoginJWTMiddlewareBuilder)</span></span> Build() gin.HandlerFunc &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(ctx *gin.Context)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 1. 从 Authorization 头取 token</span></span><br><span class="line">        tokenHeader := ctx.GetHeader(<span class="string">&quot;Authorization&quot;</span>)  <span class="comment">// &quot;Bearer eyJhbG...&quot;</span></span><br><span class="line">        segs := strings.SplitN(tokenHeader, <span class="string">&quot; &quot;</span>, <span class="number">2</span>)</span><br><span class="line">        tokenStr := segs[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 验签 + 解析，claims 会被自动填充</span></span><br><span class="line">        claims := &amp;web.UserClaims&#123;&#125;</span><br><span class="line">        token, _ := jwt.ParseWithClaims(tokenStr, claims,</span><br><span class="line">            <span class="function"><span class="keyword">func</span><span class="params">(token *jwt.Token)</span></span> (<span class="keyword">interface</span>&#123;&#125;, <span class="type">error</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> []<span class="type">byte</span>(<span class="string">&quot;密钥&quot;</span>), <span class="literal">nil</span></span><br><span class="line">            &#125;,</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 把 claims 存入 Gin 的 context，后续 handler 直接拿</span></span><br><span class="line">        ctx.Set(<span class="string">&quot;claims&quot;</span>, claims)</span><br><span class="line">        ctx.Set(<span class="string">&quot;userId&quot;</span>, claims.Uid)   <span class="comment">// ← 业务代码直接用</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>验签通过后，<code>claims.Uid</code> 就是登录时塞进去的 <code>user.Id</code>。</p>
+<h4 id="步骤三：Handler-使用-——-直接取-claims"><a href="#步骤三：Handler-使用-——-直接取-claims" class="headerlink" title="步骤三：Handler 使用 —— 直接取 claims"></a>步骤三：Handler 使用 —— 直接取 claims</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> ProfileJWT(ctx *gin.Context) &#123;</span><br><span class="line">    c, _ := ctx.Get(<span class="string">&quot;claims&quot;</span>)</span><br><span class="line">    claims := c.(*UserClaims)       <span class="comment">// 类型断言</span></span><br><span class="line">    <span class="built_in">println</span>(claims.Uid)             <span class="comment">// 拿到当前登录用户的 ID</span></span><br><span class="line">    <span class="comment">// ... 查数据库，返回用户信息 ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不用查 Redis，不用查 Session，中间件已经把 userId 放好了，直接拿。</p>
+<h4 id="完整链路"><a href="#完整链路" class="headerlink" title="完整链路"></a>完整链路</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">登录：POST /users/login</span><br><span class="line">  → 查数据库验密码</span><br><span class="line">  → claims&#123;Uid: 1, ExpiresAt: 1分钟后&#125;</span><br><span class="line">  → 签名 → token 字符串</span><br><span class="line">  → x-jwt-token 响应头返回</span><br><span class="line"></span><br><span class="line">后续请求：GET /users/profile</span><br><span class="line">  → Authorization: Bearer eyJhbG...</span><br><span class="line">  → 中间件验签 → claims&#123;Uid: 1&#125;</span><br><span class="line">  → ctx.Set(&quot;userId&quot;, 1)</span><br><span class="line">  → ProfileJWT → ctx.Get(&quot;claims&quot;) → 拿到 userId</span><br></pre></td></tr></table></figure>
+
+<h4 id="JWT-刷新"><a href="#JWT-刷新" class="headerlink" title="JWT 刷新"></a>JWT 刷新</h4><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 中间件里：剩余不足 50 秒时自动续期</span></span><br><span class="line"><span class="keyword">if</span> claims.ExpiresAt.Sub(now) &lt; time.Second*<span class="number">50</span> &#123;</span><br><span class="line">    claims.ExpiresAt = jwt.NewNumericDate(time.Now().Add(time.Minute))</span><br><span class="line">    tokenStr, _ = token.SignedString([]<span class="type">byte</span>(<span class="string">&quot;密钥&quot;</span>))</span><br><span class="line">    <span class="keyword">if</span> err!=<span class="literal">nil</span>&#123;</span><br><span class="line">        log.<span class="built_in">println</span>(<span class="string">&quot;jwt token刷新失败&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    ctx.Header(<span class="string">&quot;x-jwt-token&quot;</span>, tokenStr)   <span class="comment">// 新 token 返回</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前端从响应头拿新 token，替换旧的，实现”滑动过期”。</p>
+<hr>
+<blockquote>
+<p>和 Session 版的关键区别：JWT 的 userId <strong>在 token 里</strong>（客户端自证），不需要 Redis 存状态。</p>
+</blockquote>
+<h3 id="6-8-JWT-vs-Session"><a href="#6-8-JWT-vs-Session" class="headerlink" title="6.8 JWT vs Session"></a>6.8 JWT vs Session</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>Session</th>
+<th>JWT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>状态</td>
+<td>有状态（服务端存数据）</td>
+<td>无状态（数据在 Token 里）</td>
+</tr>
+<tr>
+<td>扩展性</td>
+<td>需要共享存储（Redis）</td>
+<td>天然支持多实例</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>Session ID 被盗 &#x3D; 身份被盗</td>
+<td>Token 被盗 &#x3D; 身份被盗（有效期短可缓解）</td>
+</tr>
+<tr>
+<td>数据量</td>
+<td>随意存</td>
+<td>不适合大量数据（Token 会很长）</td>
+</tr>
+<tr>
+<td>吊销</td>
+<td>服务端删掉即可</td>
+<td>需要黑名单机制</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>实际项目中经常混用：JWT 存基本信息 + Session 存敏感数据。</p>
+</blockquote>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627162643827.png" alt="image-20260627162643827"></p>
+<h3 id="6-9-JWT登录全流程"><a href="#6-9-JWT登录全流程" class="headerlink" title="6.9 JWT登录全流程"></a>6.9 JWT登录全流程</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627104116664.png" alt="image-20260627104116664"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627104134470.png" alt="image-20260627104134470"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627161759683.png" alt="image-20260627161759683"></p>
+<hr>
+<h2 id="七、核心概念速查"><a href="#七、核心概念速查" class="headerlink" title="七、核心概念速查"></a>七、核心概念速查</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>一句话解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Store 接口</td>
+<td>Session 数据的存储抽象，内存&#x2F;Redis&#x2F;数据库都能实现</td>
+</tr>
+<tr>
+<td>Memstore</td>
+<td>基于进程内存，单实例可用，多实例数据不互通</td>
+</tr>
+<tr>
+<td>面向接口</td>
+<td>依赖接口不依赖实现，换 Store 只改一行初始化代码</td>
+</tr>
+<tr>
+<td>MaxAge</td>
+<td>Cookie&#x2F;Session 过期时间，设负数即删除</td>
+</tr>
+<tr>
+<td>滑动刷新</td>
+<td>用户活跃时自动延长 Session 有效期</td>
+</tr>
+<tr>
+<td>JWT 三段式</td>
+<td>Header.Payload.Signature，<code>.</code> 分割</td>
+</tr>
+<tr>
+<td>Signature</td>
+<td>用密钥对前两段签名，保证数据未被篡改</td>
+</tr>
+<tr>
+<td><code>Bearer</code> 前缀</td>
+<td>JWT 放在 Authorization 头的标准格式</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+        <tag>学习笔记</tag>
+        <tag>Go</tag>
+        <tag>Gin</tag>
+        <tag>Session</tag>
+        <tag>JWT</tag>
       </tags>
   </entry>
 </search>
