@@ -1,0 +1,464 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化 | Darlingの妙妙屋</title><meta name="author" content="Darling"><meta name="copyright" content="Darling"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化代码仓库地址：Darling-123456&#x2F;go_learning: go学习过程记录 核心内容：系统保护（限流 + 登录安全增强）前置知识：JWT 登录校验、Gin 中间件、Redis 基础  一、保护登录系统概述 功能做完之后，只要跟浏览器&#x2F;终端用户打交道，就必须考虑一个问题：怎么保护好">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化">
+<meta property="og:url" content="https://darling-123456.github.io/2026/06/27/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AB%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Darlingの妙妙屋">
+<meta property="og:description" content="GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化代码仓库地址：Darling-123456&#x2F;go_learning: go学习过程记录 核心内容：系统保护（限流 + 登录安全增强）前置知识：JWT 登录校验、Gin 中间件、Redis 基础  一、保护登录系统概述 功能做完之后，只要跟浏览器&#x2F;终端用户打交道，就必须考虑一个问题：怎么保护好">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://darling-123456.github.io/img/400.jpg">
+<meta property="article:published_time" content="2026-06-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-01T05:45:47.488Z">
+<meta property="article:author" content="Darling">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="JWT">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://darling-123456.github.io/img/400.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化",
+  "url": "https://darling-123456.github.io/2026/06/27/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AB%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/",
+  "image": "https://darling-123456.github.io/img/400.jpg",
+  "datePublished": "2026-06-26T16:00:00.000Z",
+  "dateModified": "2026-07-01T05:45:47.488Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Darling",
+      "url": "https://darling-123456.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://darling-123456.github.io/2026/06/27/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AB%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":true,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Darling","link":"链接: ","source":"来源: Darlingの妙妙屋","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">414</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">26</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/400.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/test.jpg" alt="Logo"><span class="site-name">Darlingの妙妙屋</span></a><a class="nav-page-title" href="/"><span class="site-name">GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 休闲</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐汇</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-26T16:00:00.000Z" title="发表于 2026-06-27 00:00:00">2026-06-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-01T05:45:47.488Z" title="更新于 2026-07-01 13:45:47">2026-07-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Go/">Go</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="GO学习笔记-第八章节-JWT、Redis-入门与-K8s-部署实战-JWT-深化"><a href="#GO学习笔记-第八章节-JWT、Redis-入门与-K8s-部署实战-JWT-深化" class="headerlink" title="GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化"></a>GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化</h1><p><code>代码仓库地址：</code><a target="_blank" rel="noopener" href="https://github.com/Darling-123456/go_learning">Darling-123456&#x2F;go_learning: go学习过程记录</a></p>
+<p><strong>核心内容</strong>：系统保护（限流 + 登录安全增强）<br><strong>前置知识</strong>：JWT 登录校验、Gin 中间件、Redis 基础</p>
+<hr>
+<h2 id="一、保护登录系统概述"><a href="#一、保护登录系统概述" class="headerlink" title="一、保护登录系统概述"></a>一、保护登录系统概述</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627183821858.png" alt="image-20260627183821858"></p>
+<p>功能做完之后，只要跟浏览器&#x2F;终端用户打交道，就必须考虑一个问题：<strong>怎么保护好你的系统？</strong> 分两个方面：</p>
+<ol>
+<li><strong>正常用户会不会搞崩你的系统？</strong>——按产品设计的正常用法，系统能不能撑住？</li>
+<li><strong>如果有人不按套路出牌（攻击者），你的系统能撑住吗？</strong></li>
+</ol>
+<blockquote>
+<p>对中小公司来说，第一条基本不是问题；大公司两条都要考虑。</p>
+</blockquote>
+<p><strong>最明显的漏洞</strong>：注册和登录。任何人都可以注册&#x2F;登录，攻击者用脚本构造高并发请求，就能把系统和数据库一起打崩。注册影响新用户接入，登录影响已有用户——这是<strong>非常关键的路径</strong>，必须保护好。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627183857226.png" alt="image-20260627183857226"></p>
+<p>保护手段：<strong>限流</strong> + <strong>登录辅助信息校验</strong>。</p>
+<hr>
+<h2 id="二、限流：限制请求数量"><a href="#二、限流：限制请求数量" class="headerlink" title="二、限流：限制请求数量"></a>二、限流：限制请求数量</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627183912958.png"></p>
+<h3 id="2-1-什么是限流？"><a href="#2-1-什么是限流？" class="headerlink" title="2.1 什么是限流？"></a>2.1 什么是限流？</h3><p>核心思路：<strong>限制每个人发的请求数量</strong>，或者<strong>限制系统处理的请求速率</strong>。你用脚本刷几千几万个请求？没关系，我根据处理能力来处理，超出的直接拒绝。</p>
+<p>常见限流算法：滑动窗口、固定窗口、令牌桶、漏桶。</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627183946217.png" alt="image-20260627183946217"></p>
+<h3 id="2-2-限流的基本问题"><a href="#2-2-限流的基本问题" class="headerlink" title="2.2 限流的基本问题"></a>2.2 限流的基本问题</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627184014415.png" alt="image-20260627184014415"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627184032727.png" alt="image-20260627184032727"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260627184131197.png" alt="image-20260627184131197"></p>
+<h3 id="2-3-为什么用-Redis-做限流？"><a href="#2-3-为什么用-Redis-做限流？" class="headerlink" title="2.3 为什么用 Redis 做限流？"></a>2.3 为什么用 Redis 做限流？</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">用户请求 → 负载均衡 → 实例A  ← 本地计数，只有实例A知道</span><br><span class="line">                    → 实例B  ← 不知道实例A已经计了多少</span><br><span class="line"></span><br><span class="line">                  ↓ 解决</span><br><span class="line"></span><br><span class="line">用户请求 → 负载均衡 → 实例A ─┐</span><br><span class="line">                    → 实例B ─┤→ Redis（统一计数）</span><br></pre></td></tr></table></figure>
+
+<p><strong>单体应用多实例部署</strong>时，用户请求不一定落到同一台机器上，必须用 Redis 做集中式计数。</p>
+<h3 id="2-4-滑动窗口的并发陷阱"><a href="#2-4-滑动窗口的并发陷阱" class="headerlink" title="2.4 滑动窗口的并发陷阱"></a>2.4 滑动窗口的并发陷阱</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">假设一分钟限 3 个请求，当前时间 01:02，窗口 = [00:02, 01:02]</span><br><span class="line"></span><br><span class="line">时间轴上 4 个请求：00:00, 00:01, 00:02, 00:03</span><br><span class="line">                     ↑        ↑</span><br><span class="line">              这两个不在窗口内，移除</span><br><span class="line">                    窗口内剩：00:02, 00:03（2个请求）</span><br><span class="line"></span><br><span class="line">同一时刻 2 个请求同时到达：</span><br><span class="line">  请求A：窗口有 2 个 → 还能处理 → 通过 → 记入窗口（3个）</span><br><span class="line">  请求B：窗口有 2 个 → 还能处理 → 通过 → 记入窗口（4个！）</span><br><span class="line"></span><br><span class="line">你实际处理了 4 个请求，限流失效！</span><br></pre></td></tr></table></figure>
+
+<p>这是典型的**「检查再做某事」并发场景**——必须做成<strong>原子操作</strong>。</p>
+<p><strong>为什么本地锁没用？</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">实例A ──加锁──→ 锁住了A的进程</span><br><span class="line">实例B ────────→ 完全不受影响，照样处理</span><br></pre></td></tr></table></figure>
+
+<p>多实例部署下，只能用<strong>分布式锁</strong>跨进程竞争同一把锁。</p>
+<blockquote>
+<p>业务开发里本地锁基本用不上，要么无锁实现最终一致性，要么分布式锁。</p>
+</blockquote>
+<h3 id="2-5-Redis-限流实现（了解即可）"><a href="#2-5-Redis-限流实现（了解即可）" class="headerlink" title="2.5 Redis 限流实现（了解即可）"></a>2.5 Redis 限流实现（了解即可）</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 核心思路（伪代码）</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *RedisSlidingWindowLimiter)</span></span> Allow(key <span class="type">string</span>) <span class="type">bool</span> &#123;</span><br><span class="line">    now := time.Now()</span><br><span class="line">    windowStart := now.Add(-l.window)  <span class="comment">// 窗口起始时间</span></span><br><span class="line">    <span class="comment">// 1. 删除窗口外的记录</span></span><br><span class="line">    <span class="comment">// 2. 统计窗口内的请求数</span></span><br><span class="line">    <span class="comment">// 3. 如果 &lt; 阈值，记入新请求，返回 true；否则 false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>手写滑动窗口限流是高级工程师面试题，初级了解概念即可。</p>
+</blockquote>
+<h3 id="2-6-Gin-中接入限流"><a href="#2-6-Gin-中接入限流" class="headerlink" title="2.6 Gin 中接入限流"></a>2.6 Gin 中接入限流</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局限流中间件</span></span><br><span class="line">server.Use(ratelimit.NewBuilder().</span><br><span class="line">    SetRedis(redisClient).</span><br><span class="line">    SetWindow(time.Minute, <span class="number">100</span>).  <span class="comment">// 每分钟 100 次</span></span><br><span class="line">    Build())</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-7-项目中使用的限流"><a href="#2-7-项目中使用的限流" class="headerlink" title="2.7 项目中使用的限流"></a>2.7 项目中使用的限流</h3><p><code>路径：pkg/ginx/middlewares/ratelimit</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//builder.go</span></span><br><span class="line"><span class="keyword">package</span> ratelimit</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	_ <span class="string">&quot;embed&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/redis/go-redis/v9&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Builder <span class="keyword">struct</span> &#123;</span><br><span class="line">	prefix   <span class="type">string</span></span><br><span class="line">	cmd      redis.Cmdable</span><br><span class="line">	interval time.Duration</span><br><span class="line">	<span class="comment">// 阈值</span></span><br><span class="line">	rate <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//go:embed slide_window.lua</span></span><br><span class="line"><span class="keyword">var</span> luaScript <span class="type">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewBuilder</span><span class="params">(cmd redis.Cmdable, interval time.Duration, rate <span class="type">int</span>)</span></span> *Builder &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;Builder&#123;</span><br><span class="line">		cmd:      cmd,</span><br><span class="line">		prefix:   <span class="string">&quot;ip-limiter&quot;</span>,</span><br><span class="line">		interval: interval,</span><br><span class="line">		rate:     rate,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Builder)</span></span> Prefix(prefix <span class="type">string</span>) *Builder &#123;</span><br><span class="line">	b.prefix = prefix</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Builder)</span></span> Build() gin.HandlerFunc &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(ctx *gin.Context)</span></span> &#123;</span><br><span class="line">		limited, err := b.limit(ctx)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Println(err)</span><br><span class="line">			<span class="comment">// 这一步很有意思，就是如果这边出错了</span></span><br><span class="line">			<span class="comment">// 要怎么办？</span></span><br><span class="line">			ctx.AbortWithStatus(http.StatusInternalServerError)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> limited &#123;</span><br><span class="line">			log.Println(err)</span><br><span class="line">			ctx.AbortWithStatus(http.StatusTooManyRequests)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		ctx.Next()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Builder)</span></span> limit(ctx *gin.Context) (<span class="type">bool</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	key := fmt.Sprintf(<span class="string">&quot;%s:%s&quot;</span>, b.prefix, ctx.ClientIP())</span><br><span class="line">	<span class="keyword">return</span> b.cmd.Eval(ctx, luaScript, []<span class="type">string</span>&#123;key&#125;,</span><br><span class="line">		b.interval.Milliseconds(), b.rate, time.Now().UnixMilli()).Bool()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//slide_window.lua 滑动窗口</span><br><span class="line"><span class="comment">-- 1, 2, 3, 4, 5, 6, 7 这是你的元素</span></span><br><span class="line"><span class="comment">-- ZREMRANGEBYSCORE key1 0 6</span></span><br><span class="line"><span class="comment">-- 7 执行完之后</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 限流对象</span></span><br><span class="line"><span class="keyword">local</span> key = KEYS[<span class="number">1</span>]</span><br><span class="line"><span class="comment">-- 窗口大小</span></span><br><span class="line"><span class="keyword">local</span> window = <span class="built_in">tonumber</span>(ARGV[<span class="number">1</span>])</span><br><span class="line"><span class="comment">-- 阈值</span></span><br><span class="line"><span class="keyword">local</span> threshold = <span class="built_in">tonumber</span>( ARGV[<span class="number">2</span>])</span><br><span class="line"><span class="keyword">local</span> now = <span class="built_in">tonumber</span>(ARGV[<span class="number">3</span>])</span><br><span class="line"><span class="comment">-- 窗口的起始时间</span></span><br><span class="line"><span class="keyword">local</span> <span class="built_in">min</span> = now - window</span><br><span class="line"></span><br><span class="line">redis.call(<span class="string">&#x27;ZREMRANGEBYSCORE&#x27;</span>, key, <span class="string">&#x27;-inf&#x27;</span>, <span class="built_in">min</span>)</span><br><span class="line"><span class="keyword">local</span> cnt = redis.call(<span class="string">&#x27;ZCOUNT&#x27;</span>, key, <span class="string">&#x27;-inf&#x27;</span>, <span class="string">&#x27;+inf&#x27;</span>)</span><br><span class="line"><span class="comment">-- local cnt = redis.call(&#x27;ZCOUNT&#x27;, key, min, &#x27;+inf&#x27;)</span></span><br><span class="line"><span class="keyword">if</span> cnt &gt;= threshold <span class="keyword">then</span></span><br><span class="line">    <span class="comment">-- 执行限流</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;true&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="comment">-- 把 score 和 member 都设置成 now</span></span><br><span class="line">    redis.call(<span class="string">&#x27;ZADD&#x27;</span>, key, now, now)</span><br><span class="line">    redis.call(<span class="string">&#x27;PEXPIRE&#x27;</span>, key, window)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;false&quot;</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>面试的时候也可以说自己实现了基于redis的ip限流</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.go里面跟着改</span></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;github.com/gin-contrib/sessions/redis&quot;</span></span><br><span class="line">	rateLimitredis <span class="string">&quot;github.com/redis/go-redis/v9&quot;</span> <span class="comment">//用于限流的别名，这两个redis重名了</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>第一个 <code>redis</code>（<code>github.com/gin-contrib/sessions/redis</code>）</strong><br>是 Gin session 中间件的 <strong>Redis 存储后端</strong>。当用户登录后，服务器会把 session 数据（比如 session ID、user ID、登录状态、过期时间等）序列化后存到 Redis 里。<br>你代码里的 <code>redis.NewStore</code> 就是创建这个存储实例，之后 <code>sessions.Sessions(&quot;mysession&quot;, store)</code> 会用它在 Redis 中读写 session，实现登录态保持。</li>
+<li><strong>第二个 <code>rateLimitredis</code>（<code>github.com/redis/go-redis/v9</code>）</strong><br>是 <strong>通用的 Redis 客户端</strong>，你拿它来给限流中间件提供连接，用于记录和统计请求次数。</li>
+</ul>
+<p>它们两个<strong>包名默认都叫 <code>redis</code></strong>，所以在同一个文件里同时直接用会冲突。<br>通过给通用客户端起别名 <code>rateLimitredis</code> 已经解决了这个问题，很正确。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.go里面跟着改</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initWebServer</span><span class="params">()</span></span> *gin.Engine &#123;</span><br><span class="line">	server := gin.Default()</span><br><span class="line">    <span class="comment">//改动就是加了下面这行</span></span><br><span class="line">	redisClient := rateLimitredis.NewClient(&amp;rateLimitredis.Options&#123;</span><br><span class="line">		Addr: <span class="string">&quot;localhost:6379&quot;</span>,</span><br><span class="line">	&#125;)</span><br><span class="line">	<span class="comment">//第二个和第三个参数是在多少时间内允许多少请求</span></span><br><span class="line">	server.Use(ratelimit.NewBuilder(redisClient, time.Second, <span class="number">100</span>).Build())</span><br><span class="line">	<span class="comment">// CORS 配置，允许前端跨域请求</span></span><br><span class="line">	server.Use(cors.New(cors.Config&#123;</span><br><span class="line">		AllowOrigins:     []<span class="type">string</span>&#123;<span class="string">&quot;http://localhost:3000&quot;</span>&#125;,</span><br><span class="line">		AllowMethods:     []<span class="type">string</span>&#123;<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;POST&quot;</span>, <span class="string">&quot;PUT&quot;</span>, <span class="string">&quot;DELETE&quot;</span>, <span class="string">&quot;OPTIONS&quot;</span>&#125;,</span><br><span class="line">		AllowHeaders:     []<span class="type">string</span>&#123;<span class="string">&quot;Origin&quot;</span>, <span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;Authorization&quot;</span>&#125;,</span><br><span class="line">		AllowCredentials: <span class="literal">true</span>,</span><br><span class="line">		<span class="comment">//不加这个前端拿不到x-jwt-token</span></span><br><span class="line">		ExposeHeaders: []<span class="type">string</span>&#123;<span class="string">&quot;x-jwt-token&quot;</span>&#125;,</span><br><span class="line">		MaxAge:        <span class="number">12</span> * time.Hour,</span><br><span class="line">	&#125;))</span><br><span class="line">	<span class="comment">//步骤一</span></span><br><span class="line">	<span class="comment">//store := cookie.NewStore([]byte(&quot;your-secret-key&quot;))</span></span><br><span class="line">	store, err := redis.NewStore(<span class="number">16</span>, <span class="string">&quot;tcp&quot;</span>,</span><br><span class="line">		<span class="string">&quot;localhost:6379&quot;</span>, <span class="string">&quot;root&quot;</span>, <span class="string">&quot;&quot;</span>,</span><br><span class="line">		[]<span class="type">byte</span>(<span class="string">&quot;qOYZLAuWmwkxAKG6bijwru9ghNNS9rHc&quot;</span>),</span><br><span class="line">		[]<span class="type">byte</span>(<span class="string">&quot;8Mv11Olt6x3DX97rUE1exp9XISEMSZJl&quot;</span>))</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	server.Use(sessions.Sessions(<span class="string">&quot;mysession&quot;</span>, store))</span><br><span class="line">	server.Use(middleware.NewLoginJWTMiddlewareBuilder().</span><br><span class="line">		IgnorePaths(<span class="string">&quot;/users/signup&quot;</span>).</span><br><span class="line">		IgnorePaths(<span class="string">&quot;/users/login&quot;</span>).Build())</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">		//步骤三 链式调用</span></span><br><span class="line"><span class="comment">		server.Use(middleware.NewLoginMiddlewareBuilder().</span></span><br><span class="line"><span class="comment">			IgnorePaths(&quot;/users/signup&quot;).</span></span><br><span class="line"><span class="comment">			IgnorePaths(&quot;/users/login&quot;).Build())</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	<span class="keyword">return</span> server</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-这个限流限制的是什么？"><a href="#1-这个限流限制的是什么？" class="headerlink" title="1. 这个限流限制的是什么？"></a>1. 这个限流限制的是什么？</h4><p>限制的是<strong>用户对网站接口发起的 HTTP 请求</strong>，不是限制对 Redis 的访问。</p>
+<p>看代码：  </p>
+<ul>
+<li><code>func (b *Builder) Build() gin.HandlerFunc</code> 返回的是 Gin 的<strong>中间件</strong>，它会拦截每个进入服务器的 HTTP 请求。  </li>
+<li>在 <code>Build()</code> 里，先执行 <code>b.limit(ctx)</code>，如果返回 <code>limited == true</code>，就直接 <code>ctx.AbortWithStatus(http.StatusTooManyRequests)</code>，返回 429 状态码，根本不会让请求到达后面的业务逻辑。  </li>
+<li>所以限制的对象是<strong>你的 Web 接口</strong>（比如 <code>/users/login</code>、<code>/users/signup</code> 等）。</li>
+</ul>
+<h4 id="2-Redis-到底干了个啥？就是计数吗？"><a href="#2-Redis-到底干了个啥？就是计数吗？" class="headerlink" title="2. Redis 到底干了个啥？就是计数吗？"></a>2. Redis 到底干了个啥？就是计数吗？</h4><p>对，Redis 在这里就是<strong>跨服务器的统一计数器</strong>，负责记录每个 IP 的请求时间窗口内的调用次数，并判断是否超限。</p>
+<p>具体来看 Lua 脚本做的事情：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 用客户端 IP 拼成 key（如 &quot;ip-limiter:192.168.1.10&quot;）</span></span><br><span class="line"><span class="keyword">local</span> key = KEYS[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 清理窗口外的旧记录（删除 &lt; min 的时间戳）</span></span><br><span class="line">redis.call(<span class="string">&#x27;ZREMRANGEBYSCORE&#x27;</span>, key, <span class="string">&#x27;-inf&#x27;</span>, <span class="built_in">min</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 统计窗口内还剩多少个时间戳（即有效请求数）</span></span><br><span class="line"><span class="keyword">local</span> cnt = redis.call(<span class="string">&#x27;ZCOUNT&#x27;</span>, key, <span class="string">&#x27;-inf&#x27;</span>, <span class="string">&#x27;+inf&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 4. 比较计数和阈值</span></span><br><span class="line"><span class="keyword">if</span> cnt &gt;= threshold <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;true&quot;</span>   <span class="comment">-- 超限，拒绝</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    redis.call(<span class="string">&#x27;ZADD&#x27;</span>, key, now, now)   <span class="comment">-- 将当前时间戳写入 ZSET</span></span><br><span class="line">    redis.call(<span class="string">&#x27;PEXPIRE&#x27;</span>, key, window)  <span class="comment">-- 设个过期时间，自动清理不用一直占内存</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;false&quot;</span>  <span class="comment">-- 通过</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>Redis 里存的是一个<strong>有序集合</strong>（ZSET），：</p>
+<ul>
+<li>key：<code>ip-limiter:客户端IP</code></li>
+<li>member 和 score 都是请求发生的毫秒时间戳</li>
+</ul>
+<p>每次请求来，这个 Lua 脚本会<strong>原子性地</strong>完成“删旧数据 → 统计 → 判断 → 写入”这一套动作，所以不会出现你前面笔记里提到的“检查完再加导致超限”的并发问题。</p>
+<h4 id="3-为什么要用-Redis，而不是在-Gin-内部用-Go-的变量计数？"><a href="#3-为什么要用-Redis，而不是在-Gin-内部用-Go-的变量计数？" class="headerlink" title="3. 为什么要用 Redis，而不是在 Gin 内部用 Go 的变量计数？"></a>3. 为什么要用 Redis，而不是在 Gin 内部用 Go 的变量计数？</h4><p>你的 <code>limit</code> 方法里用 <code>ctx.ClientIP()</code> 作为限流对象，如果你的服务部署了多个实例，同一个 IP 的请求可能落到不同机器上。用 Redis 做集中存储，才能保证所有实例看到的是<strong>同一份计数</strong>。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">实例A ──┐</span><br><span class="line">实例B ──┤→ Redis（统一计数）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>一句话总结：</strong><br>这段代码用 Redis 的 ZSET + Lua 脚本，实现了基于<strong>客户端 IP 的滑动窗口限流</strong>，保护你的 Web 接口不被高频请求打垮，而不是限制 Redis 本身。</p>
+<hr>
+<h2 id="三、登录安全增强：利用辅助信息"><a href="#三、登录安全增强：利用辅助信息" class="headerlink" title="三、登录安全增强：利用辅助信息"></a>三、登录安全增强：利用辅助信息</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260628140550281.png" alt="image-20260628140550281"></p>
+<h3 id="3-1-问题：Token-泄露怎么办？"><a href="#3-1-问题：Token-泄露怎么办？" class="headerlink" title="3.1 问题：Token 泄露怎么办？"></a>3.1 问题：Token 泄露怎么办？</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260628165433523.png" alt="image-20260628165433523"></p>
+<p><strong>解决方案</strong>：在登录校验时，进一步判断<strong>用这个 token 的人是不是原本登录的那个人</strong>。</p>
+<ul>
+<li><p>高级做法：二次验证（短信、邮件、MFA 验证码）</p>
+</li>
+<li><p>简单做法：<strong>登录辅助信息</strong></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260628165605981.png" alt="image-20260628165605981"></p>
+</li>
+</ul>
+<h3 id="3-2-登录辅助信息"><a href="#3-2-登录辅助信息" class="headerlink" title="3.2 登录辅助信息"></a>3.2 登录辅助信息</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260628165816879.png" alt="image-20260628165816879"></p>
+<p><strong>登录时记录额外信息，校验时比较是否匹配。</strong></p>
+<p>可用的辅助信息：</p>
+<ul>
+<li><strong>User-Agent</strong>（浏览器类型，对应 HTTP 的 <code>User-Agent</code> 头）</li>
+<li>浏览器指纹（时区、语言、屏幕分辨率等，前端采集编码后传给后端）</li>
+<li>硬件信息（APP 端常用）</li>
+<li>IP 归属地（需查询服务商）</li>
+</ul>
+<blockquote>
+<p><strong>为什么不能用 IP？</strong>——IP 经常变，尤其是移动网络。一小时前在 A 商场，一小时后在 B 商场，IP 肯定不同。</p>
+</blockquote>
+<h3 id="3-3-实现：登录时记录-User-Agent"><a href="#3-3-实现：登录时记录-User-Agent" class="headerlink" title="3.3 实现：登录时记录 User-Agent"></a>3.3 实现：登录时记录 User-Agent</h3><p><strong>User-Agent</strong>（浏览器类型，对应 HTTP 的 <code>User-Agent</code> 头）</p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260628170115158.png" alt="image-20260628170115158"></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u *UserHandler)</span></span> LoginJWT(ctx *gin.Context) &#123;</span><br><span class="line">    <span class="comment">// ... 校验邮箱密码 ...</span></span><br><span class="line"></span><br><span class="line">    claims := UserClaims&#123;</span><br><span class="line">        RegisteredClaims: jwt.RegisteredClaims&#123;</span><br><span class="line">            ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute)),</span><br><span class="line">        &#125;,</span><br><span class="line">        Uid:       user.Id,</span><br><span class="line">        UserAgent: ctx.Request.UserAgent(),  <span class="comment">// ← 记录登录时的 UA</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)</span><br><span class="line">    tokenStr, _ := token.SignedString([]<span class="type">byte</span>(<span class="string">&quot;密钥&quot;</span>))</span><br><span class="line"></span><br><span class="line">    ctx.Header(<span class="string">&quot;x-jwt-token&quot;</span>, tokenStr)</span><br><span class="line">    ctx.String(http.StatusOK, <span class="string">&quot;登录成功&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-中间件中比较-User-Agent"><a href="#3-4-中间件中比较-User-Agent" class="headerlink" title="3.4 中间件中比较 User-Agent"></a>3.4 中间件中比较 User-Agent</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *LoginJWTMiddlewareBuilder)</span></span> Build() gin.HandlerFunc &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(ctx *gin.Context)</span></span> &#123;</span><br><span class="line">        <span class="comment">// ... 验签，拿到 claims ...</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 比较 User-Agent</span></span><br><span class="line">        <span class="keyword">if</span> claims.UserAgent != ctx.Request.UserAgent() &#123;</span><br><span class="line">            <span class="comment">// 严重安全问题！应该加监控告警</span></span><br><span class="line">            ctx.AbortWithStatus(http.StatusUnauthorized)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        ctx.Next()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>补充</strong>：</p>
+<ul>
+<li>浏览器升级会导致 UA 变化，可以只匹配 UA 的一部分（不完全匹配）</li>
+<li>正常用户换设备会重新登录，不会出现 UA 不一致</li>
+<li>UA 不匹配 ≠ 一定是攻击，但应该加监控</li>
+</ul>
+<blockquote>
+<p>真正要做得完善，需要前端尽可能多地采集设备&#x2F;浏览器信息，打包传后端。</p>
+</blockquote>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260628171709063.png" alt="image-20260628171709063"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260628172226006.png" alt="image-20260628172226006"></p>
+<hr>
+<h2 id="四、Builder-模式"><a href="#四、Builder-模式" class="headerlink" title="四、Builder 模式"></a>四、Builder 模式</h2><p>Builder 模式用于<strong>复杂对象的构建</strong>。核心结构：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Builder <span class="keyword">struct</span> &#123; <span class="comment">/* 配置字段 */</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewBuilder</span><span class="params">()</span></span> *Builder &#123; <span class="keyword">return</span> &amp;Builder&#123;&#125; &#125;              <span class="comment">// 构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Builder)</span></span> SetXxx(v) *Builder &#123; b.xxx = v; <span class="keyword">return</span> b &#125;    <span class="comment">// 中间方法（返回*b，保证链式调用）</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Builder)</span></span> Build() Target &#123; <span class="comment">/* 产出最终对象 */</span> &#125;         <span class="comment">// 终结方法</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用示例</span></span><br><span class="line">b := NewBuilder().</span><br><span class="line">    SetKey(<span class="string">&quot;xxx&quot;</span>).</span><br><span class="line">    SetWindow(time.Minute, <span class="number">100</span>).</span><br><span class="line">    Build()</span><br></pre></td></tr></table></figure>
+
+<p>三个角色：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>构造函数</strong></td>
+<td>创建 Builder 实例</td>
+</tr>
+<tr>
+<td><strong>中间方法</strong></td>
+<td><code>return b</code> 保持链式调用，逐步配置</td>
+</tr>
+<tr>
+<td><strong>终结方法（Build）</strong></td>
+<td>结束链，返回最终产物</td>
+</tr>
+</tbody></table>
+<h2 id="五、核心概念速查"><a href="#五、核心概念速查" class="headerlink" title="五、核心概念速查"></a>五、核心概念速查</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>一句话</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>限流</td>
+<td>限制请求数量&#x2F;速率，超出直接拒绝</td>
+</tr>
+<tr>
+<td>限流对象</td>
+<td>用 IP，APP 端可用设备序列号</td>
+</tr>
+<tr>
+<td>限流阈值</td>
+<td>压测得出（面试答案），经验值：每秒 100</td>
+</tr>
+<tr>
+<td>Redis 限流</td>
+<td>多实例部署必须用 Redis 统一计数</td>
+</tr>
+<tr>
+<td>滑动窗口并发问题</td>
+<td>「检查再做某事」模式，需原子操作 &#x2F; 分布式锁</td>
+</tr>
+<tr>
+<td>登录辅助信息</td>
+<td>登录时记录 User-Agent 等，校验时比对，防 token 泄露</td>
+</tr>
+<tr>
+<td>User-Agent</td>
+<td>HTTP 请求头，标识浏览器类型</td>
+</tr>
+<tr>
+<td>Builder 模式</td>
+<td>链式调用配置复杂对象，<code>Build()</code> 终结</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/">Darling</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://darling-123456.github.io/2026/06/27/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AB%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/">https://darling-123456.github.io/2026/06/27/Go/邓明Go教程-第八节课笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://darling-123456.github.io" target="_blank">Darlingの妙妙屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/tags/Go/">Go</a><a class="post-meta__tags" href="/tags/JWT/">JWT</a><a class="post-meta__tags" href="/tags/Docker/">Docker</a><a class="post-meta__tags" href="/tags/Kubernetes/">Kubernetes</a></div><div class="post-share"><div class="social-share" data-image="/img/400.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/25/Go/2026-6-25-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--git%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/" title="GO学习笔记 | git使用记录（持续更新）"><img class="cover" src="/img/409.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">GO学习笔记 | git使用记录（持续更新）</div></div><div class="info-2"><div class="info-item-1">git使用记录（持续更新）代码仓库地址：Darling-123456&#x2F;go_learning: go学习过程记录 记录一下使用git的过程 起初是学习的go课程是21周的，我想把每周学的东西单独做个提交，顺带练练git，就尝试建立分支什么的 week212345git add .git commit -m &quot;week2: 登录注册 + session中间件&quot;git branch week2          # 从当前 commit 创建分支，但你还留在 master 上git push origin mastergit push origin week2  这是master分支，而week2分支和这个一样的  但是我的week2里面本意是只想放项目相关的代码的，所以执行了以下命令 1234git checkout week2                     # 切到 week2 分支git rm -r gin/ gorm/ go_exercise/ homework/ leetcode/ # 删掉这些目录git commit -m...</div></div></div></a><a class="pagination-related" href="/2026/06/28/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B9%9D%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、 MySQL、Redis 与 Ingress"><img class="cover" src="/img/411.jpg" onerror="onerror=null;src='/img/404_default.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、 MySQL、Redis 与 Ingress</div></div><div class="info-2"><div class="info-item-1">GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、MySQL、Redis 与 Ingress代码仓库地址：Darling-123456&#x2F;go_learning: go学习过程记录 核心内容：kubectl 日志调试、K8s部署web服务、K8s 部署 MySQL、K8s 部署 Redis、Ingress 七层路由、环境变量配置、K8s 面试要点前置知识：K8s Deployment&#x2F;Service 基本概念、Docker 镜像  一、kubectl 常用调试命令1.1 查看 Pod 日志123456789# 查看指定 Pod 的日志kubectl logs &lt;pod-name&gt;# 实时跟踪（follow 模式，有一条输出一条）kubectl logs -f &lt;pod-name&gt;# 先列出所有 Podkubectl get podskubectl logs -f webook-deployment-xxx-yyy   -f 相当于 tail...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/28/Go/2026-6-28-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--window%E5%AE%89%E8%A3%85kubectl%E5%B9%B6%E9%85%8D%E7%BD%AE%E5%88%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/" title="GO学习笔记 | window安装kubectl并配置到环境变量"><img class="cover" src="/img/410.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-28</div><div class="info-item-2">GO学习笔记 | window安装kubectl并配置到环境变量</div></div><div class="info-2"><div class="info-item-1">window安装kubectl并配置到环境变量找了半天发现没啥好教程，感觉这样弄还行，遂发出来  在windows下用管理员运行 1winget install Kubernetes.kubectl  这是目前 Windows 下最快、最省心的方法，它会自动帮你下载文件并配置到系统环境变量（PATH）里，装完就能直接用。 安装完成后输入下面的命令 1kubectl version --client  1234#成功之后的C:\Users\xxx&gt;kubectl version --clientClient Version: v1.34.1Kustomize Version: v5.7.1  如果输出系统无法执行制定程序的话，输入这个命令 1where kubectl  它会给你打印出 Windows 到底是从哪个文件夹里找的 kubectl.exe。  如果是类似 C:\Users\你的用户名\kubectl.exe，那绝对就是那个 2KB 的坏文件。找到它之后，去那个文件夹里，把这个 kubectl.exe 删掉！  然后重新输入，看看是不是输出版本号就行了 </div></div></div></a><a class="pagination-related" href="/2026/06/25/Go/2026-6-25-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--git%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/" title="GO学习笔记 | git使用记录（持续更新）"><img class="cover" src="/img/409.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-25</div><div class="info-item-2">GO学习笔记 | git使用记录（持续更新）</div></div><div class="info-2"><div class="info-item-1">git使用记录（持续更新）代码仓库地址：Darling-123456&#x2F;go_learning: go学习过程记录 记录一下使用git的过程 起初是学习的go课程是21周的，我想把每周学的东西单独做个提交，顺带练练git，就尝试建立分支什么的 week212345git add .git commit -m &quot;week2: 登录注册 + session中间件&quot;git branch week2          # 从当前 commit 创建分支，但你还留在 master 上git push origin mastergit push origin week2  这是master分支，而week2分支和这个一样的  但是我的week2里面本意是只想放项目相关的代码的，所以执行了以下命令 1234git checkout week2                     # 切到 week2 分支git rm -r gin/ gorm/ go_exercise/ homework/ leetcode/ # 删掉这些目录git commit -m...</div></div></div></a><a class="pagination-related" href="/2026/06/25/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B8%83%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第七章节 JWT、Redis 入门与 K8s 部署实战| Session 深入与 JWT 入门"><img class="cover" src="/img/408.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-25</div><div class="info-item-2">GO学习笔记 | 第七章节 JWT、Redis 入门与 K8s 部署实战| Session 深入与 JWT 入门</div></div><div class="info-2"><div class="info-item-1">GO学习笔记 | 第七章节 JWT、Redis 入门与 K8s 部署实战| Session 深入与 JWT 入门代码仓库地址：Darling-123456&#x2F;go_learning: go学习过程记录 核心内容：多实例 Session 共享、面向接口编程实践、Session 刷新机制、JWT 结构原理与登录校验前置知识：Gin Session 中间件、Cookie&#x2F;Session 机制、分层架构  一、Debug 技巧：分层断点定位1.1 请求经过的完整链路123456浏览器请求 → 日志确认到达  → Middleware 1 → Middleware 2 → Middleware 3  → handler（业务入口）    → service（业务逻辑）      → repository（存储抽象）        → dao（数据库操作）  1.2 定位问题的策略 先看 Gin 日志：确认后端是否收到请求（有请求一定有日志） 在 handler 入口打断点：看是否到达业务逻辑（没到就是中间件拦截了） 逐层打断点：web → service →...</div></div></div></a><a class="pagination-related" href="/2026/06/28/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B9%9D%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、 MySQL、Redis 与 Ingress"><img class="cover" src="/img/411.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-28</div><div class="info-item-2">GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、 MySQL、Redis 与 Ingress</div></div><div class="info-2"><div class="info-item-1">GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、MySQL、Redis 与 Ingress代码仓库地址：Darling-123456&#x2F;go_learning: go学习过程记录 核心内容：kubectl 日志调试、K8s部署web服务、K8s 部署 MySQL、K8s 部署 Redis、Ingress 七层路由、环境变量配置、K8s 面试要点前置知识：K8s Deployment&#x2F;Service 基本概念、Docker 镜像  一、kubectl 常用调试命令1.1 查看 Pod 日志123456789# 查看指定 Pod 的日志kubectl logs &lt;pod-name&gt;# 实时跟踪（follow 模式，有一条输出一条）kubectl logs -f &lt;pod-name&gt;# 先列出所有 Podkubectl get podskubectl logs -f webook-deployment-xxx-yyy   -f 相当于 tail...</div></div></div></a><a class="pagination-related" href="/2026/05/27/Go/2026-5-27-Go%E8%AF%AD%E8%A8%80&Goland-%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/" title="Go语言&amp;Goland 安装 配置教程以及常用命令"><img class="cover" src="/img/390.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-27</div><div class="info-item-2">Go语言&amp;Goland 安装 配置教程以及常用命令</div></div><div class="info-2"><div class="info-item-1">Go语言&amp;Goland 安装及配置教程一、安装Go语言 (Golang)1. 下载安装 在Golang官网下载（Windows版） 一直NEXT 修改安装路径 Finish  2. 配置环境变量 计算机（右键）→属性→高级系统设置→（点击）环境变量 GOROOT：Go的安装路径新建一个系统变量 GOPATH：自定义一个工作区目录（存放代码、依赖库等）新建一个系统变量检查GOPATH用户变量（要与上面的系统变量一致） PATH：go的bin目录，通常安装golang后，系统会自动配置检查一下  3. 安装验证打开终端，运行： 1go version  # 显示版本号   1go env     # 查看Go环境配置    二、安装Goland IDE1. 下载安装 在GoLand官网下载 修改安装路径 勾选快捷方式 安装 不要勾选运行，直接点击完成  2. 首次配置配置之前需要激活，这个大家可以自行上拼夕夕进行搜索，或者扭头用vscode也可以 基本配置： 打开Goland → File → Settings → Go → GOROOT，点击...</div></div></div></a><a class="pagination-related" href="/2026/05/31/Go/GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20%20%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%8A%82%20GO%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%201.%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%20hello_word%20%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%20%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F%20%E8%BF%90%E7%AE%97%E7%AC%A6%20/" title="GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符"><img class="cover" src="/img/393.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-31</div><div class="info-item-2">GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符</div></div><div class="info-2"><div class="info-item-1">GO学习笔记 | 第一章节 GO语言基础| 1.环境安装 hello_word 基础数据类型 变量与常量 运算符代码仓库地址：Darling-123456&#x2F;go_learning: go学习过程记录 常用快捷键 1.ctrl+鼠标左键，可以直接进入这个函数，也就是 跳转到函数&#x2F;变量定义处 2.Alt + ←  &#x3D; 后退（回到上一个光标位置） 3.Alt + →  &#x3D; 前进（去到下一个光标位置） 使用场景： 1234561. 你在 main.go 的第 10 行2. 按住 Ctrl 点击 Func1，跳转到了 utils.go 的第 50 行3. 按住 Ctrl 点击 Func2，跳转到了 helper.go 的第 30 行4. 按 Alt + ← 就回到了utils.go 的第 50 行5. 再按 Alt + ← 回到 main.go 的第 10 行6. 按 Alt + → 前进到 utils.go 的第 50 行    一、Go开发环境搭建具体内容可以看上篇博客，这里并没有配置图片 1.1...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Darling</div><div class="author-info-description">种一棵树最好的时间是十年前,其次是现在.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">414</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">58</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">26</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Darling-123456"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Darling-123456" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://blog.csdn.net/m0_74795952?type=blog" target="_blank" title="CSDN"><i class="fa fa-book-open"></i></a><a class="social-icon" href="mailto:2214050255@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">上学的第一天就在为高考做准备，谈恋爱的第一天就在为结婚做准备，工作的第一天就在为买房做准备。如果任何一个环节出了问题，结论就是“这么多年书白读了”“白白在一个人身上浪费青春”“工作了这么多年有什么用”。               ————功利主义导向的思考方式往往使我们忘却了生命的本质是一场历程。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%AC%AC%E5%85%AB%E7%AB%A0%E8%8A%82-JWT%E3%80%81Redis-%E5%85%A5%E9%97%A8%E4%B8%8E-K8s-%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%88%98-JWT-%E6%B7%B1%E5%8C%96"><span class="toc-text">GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BF%9D%E6%8A%A4%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="toc-text">一、保护登录系统概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%99%90%E6%B5%81%EF%BC%9A%E9%99%90%E5%88%B6%E8%AF%B7%E6%B1%82%E6%95%B0%E9%87%8F"><span class="toc-text">二、限流：限制请求数量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%BB%80%E4%B9%88%E6%98%AF%E9%99%90%E6%B5%81%EF%BC%9F"><span class="toc-text">2.1 什么是限流？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E9%99%90%E6%B5%81%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="toc-text">2.2 限流的基本问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8-Redis-%E5%81%9A%E9%99%90%E6%B5%81%EF%BC%9F"><span class="toc-text">2.3 为什么用 Redis 做限流？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84%E5%B9%B6%E5%8F%91%E9%99%B7%E9%98%B1"><span class="toc-text">2.4 滑动窗口的并发陷阱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-Redis-%E9%99%90%E6%B5%81%E5%AE%9E%E7%8E%B0%EF%BC%88%E4%BA%86%E8%A7%A3%E5%8D%B3%E5%8F%AF%EF%BC%89"><span class="toc-text">2.5 Redis 限流实现（了解即可）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-Gin-%E4%B8%AD%E6%8E%A5%E5%85%A5%E9%99%90%E6%B5%81"><span class="toc-text">2.6 Gin 中接入限流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E9%99%90%E6%B5%81"><span class="toc-text">2.7 项目中使用的限流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%BF%99%E4%B8%AA%E9%99%90%E6%B5%81%E9%99%90%E5%88%B6%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">1. 这个限流限制的是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Redis-%E5%88%B0%E5%BA%95%E5%B9%B2%E4%BA%86%E4%B8%AA%E5%95%A5%EF%BC%9F%E5%B0%B1%E6%98%AF%E8%AE%A1%E6%95%B0%E5%90%97%EF%BC%9F"><span class="toc-text">2. Redis 到底干了个啥？就是计数吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8-Redis%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E5%9C%A8-Gin-%E5%86%85%E9%83%A8%E7%94%A8-Go-%E7%9A%84%E5%8F%98%E9%87%8F%E8%AE%A1%E6%95%B0%EF%BC%9F"><span class="toc-text">3. 为什么要用 Redis，而不是在 Gin 内部用 Go 的变量计数？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%99%BB%E5%BD%95%E5%AE%89%E5%85%A8%E5%A2%9E%E5%BC%BA%EF%BC%9A%E5%88%A9%E7%94%A8%E8%BE%85%E5%8A%A9%E4%BF%A1%E6%81%AF"><span class="toc-text">三、登录安全增强：利用辅助信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%97%AE%E9%A2%98%EF%BC%9AToken-%E6%B3%84%E9%9C%B2%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-text">3.1 问题：Token 泄露怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E7%99%BB%E5%BD%95%E8%BE%85%E5%8A%A9%E4%BF%A1%E6%81%AF"><span class="toc-text">3.2 登录辅助信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%AE%9E%E7%8E%B0%EF%BC%9A%E7%99%BB%E5%BD%95%E6%97%B6%E8%AE%B0%E5%BD%95-User-Agent"><span class="toc-text">3.3 实现：登录时记录 User-Agent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%B8%AD%E6%AF%94%E8%BE%83-User-Agent"><span class="toc-text">3.4 中间件中比较 User-Agent</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Builder-%E6%A8%A1%E5%BC%8F"><span class="toc-text">四、Builder 模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E9%80%9F%E6%9F%A5"><span class="toc-text">五、核心概念速查</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/06/28/Go/2026-6-28-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--window%E5%AE%89%E8%A3%85kubectl%E5%B9%B6%E9%85%8D%E7%BD%AE%E5%88%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/" title="GO学习笔记 | window安装kubectl并配置到环境变量"><img src="/img/410.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="GO学习笔记 | window安装kubectl并配置到环境变量"/></a><div class="content"><a class="title" href="/2026/06/28/Go/2026-6-28-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--window%E5%AE%89%E8%A3%85kubectl%E5%B9%B6%E9%85%8D%E7%BD%AE%E5%88%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/" title="GO学习笔记 | window安装kubectl并配置到环境变量">GO学习笔记 | window安装kubectl并配置到环境变量</a><time datetime="2026-06-28T01:00:00.000Z" title="发表于 2026-06-28 09:00:00">2026-06-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/28/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B9%9D%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、 MySQL、Redis 与 Ingress"><img src="/img/411.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、 MySQL、Redis 与 Ingress"/></a><div class="content"><a class="title" href="/2026/06/28/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B9%9D%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、 MySQL、Redis 与 Ingress">GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、 MySQL、Redis 与 Ingress</a><time datetime="2026-06-27T16:00:00.000Z" title="发表于 2026-06-28 00:00:00">2026-06-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/27/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AB%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化"><img src="/img/400.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化"/></a><div class="content"><a class="title" href="/2026/06/27/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E5%85%AB%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化">GO学习笔记 | 第八章节 JWT、Redis 入门与 K8s 部署实战| JWT 深化</a><time datetime="2026-06-26T16:00:00.000Z" title="发表于 2026-06-27 00:00:00">2026-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/25/Go/2026-6-25-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--git%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/" title="GO学习笔记 | git使用记录（持续更新）"><img src="/img/409.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="GO学习笔记 | git使用记录（持续更新）"/></a><div class="content"><a class="title" href="/2026/06/25/Go/2026-6-25-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--git%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89/" title="GO学习笔记 | git使用记录（持续更新）">GO学习笔记 | git使用记录（持续更新）</a><time datetime="2026-06-25T01:00:00.000Z" title="发表于 2026-06-25 09:00:00">2026-06-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/06/25/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B8%83%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第七章节 JWT、Redis 入门与 K8s 部署实战| Session 深入与 JWT 入门"><img src="/img/408.jpg" onerror="this.onerror=null;this.src='/img/404_default.jpg'" alt="GO学习笔记 | 第七章节 JWT、Redis 入门与 K8s 部署实战| Session 深入与 JWT 入门"/></a><div class="content"><a class="title" href="/2026/06/25/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B8%83%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="GO学习笔记 | 第七章节 JWT、Redis 入门与 K8s 部署实战| Session 深入与 JWT 入门">GO学习笔记 | 第七章节 JWT、Redis 入门与 K8s 部署实战| Session 深入与 JWT 入门</a><time datetime="2026-06-24T16:00:00.000Z" title="发表于 2026-06-25 00:00:00">2026-06-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By Darling</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div><div class="footer_custom_text"><div class="footer-info">
+  © 2024-<script>document.write(new Date().getFullYear())</script> 
+  <a href="https://darling-123456.github.io/" style="color:#2d96bd">Darling's CodeLab</a> 
+  | 已运行 <span id="days">0</span> 天
+  <script>
+    const start = new Date('2024-12-12');
+    const now = new Date();
+    document.getElementById('days').innerHTML = 
+      Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  </script>
+</div>
+</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Darling-123456/giscus-component',
+      'data-repo-id': 'R_kgDOOMRtzQ',
+      'data-category-id': 'DIC_kwDOOMRtzc4CoTsn',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async src="https://npm.elemecdn.com/tzy-blog/lib/js/other/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="Never,ever,ever,give,up" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":20,"vOffset":-20},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
