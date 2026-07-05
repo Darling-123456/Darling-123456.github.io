@@ -63377,6 +63377,10 @@ $&#123;&#125;
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch week3     <span class="comment"># 先创建分支</span></span><br><span class="line">git checkout week3   <span class="comment"># 再切过去</span></span><br><span class="line"><span class="comment">#git checkout -b week3上面两条等于这条</span></span><br><span class="line">git add webook_project/</span><br><span class="line">git commit -m <span class="string">&quot;week3: 保护系统+k8s部署web服务&quot;</span></span><br><span class="line">git push origin week3</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260701134320340.png" alt="image-20260701134320340"></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch week3     <span class="comment"># 先创建分支</span></span><br><span class="line">git checkout week3   <span class="comment"># 再切过去</span></span><br><span class="line"><span class="comment">#git checkout -b week3上面两条等于这条</span></span><br><span class="line">git add webook_project/</span><br><span class="line">git commit -m <span class="string">&quot;week3: 保护系统+k8s部署web服务&quot;</span></span><br><span class="line">git push origin week3</span><br></pre></td></tr></table></figure>
+
+<h2 id="week4"><a href="#week4" class="headerlink" title="week4"></a>week4</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git branch week3     # 先创建分支</span><br><span class="line">git checkout week3   # 再切过去</span><br><span class="line">git add webook_project/</span><br><span class="line">git commit -m &quot;week3: 保护系统+k8s部署web服务&quot;</span><br><span class="line">git push origin week3</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>Go</category>
@@ -64395,7 +64399,7 @@ $&#123;&#125;
   </entry>
   <entry>
     <title>GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、 MySQL、Redis 与 Ingress</title>
-    <url>/2026/06/28/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B9%9D%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
+    <url>/2026/06/30/Go/%E9%82%93%E6%98%8EGo%E6%95%99%E7%A8%8B-%E7%AC%AC%E4%B9%9D%E8%8A%82%E8%AF%BE%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="GO学习笔记-第九章节-JWT、Redis-入门与-K8s-部署实战-K8s-部署-web服务、MySQL、Redis-与-Ingress"><a href="#GO学习笔记-第九章节-JWT、Redis-入门与-K8s-部署实战-K8s-部署-web服务、MySQL、Redis-与-Ingress" class="headerlink" title="GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、MySQL、Redis 与 Ingress"></a>GO学习笔记 | 第九章节 JWT、Redis 入门与 K8s 部署实战| K8s 部署 web服务、MySQL、Redis 与 Ingress</h1><p><code>代码仓库地址：</code><a href="https://github.com/Darling-123456/go_learning">Darling-123456&#x2F;go_learning: go学习过程记录</a></p>
 <p><strong>核心内容</strong>：kubectl 日志调试、K8s部署web服务、K8s 部署 MySQL、K8s 部署 Redis、Ingress 七层路由、环境变量配置、K8s 面试要点<br><strong>前置知识</strong>：K8s Deployment&#x2F;Service 基本概念、Docker 镜像</p>
 <hr>
@@ -65278,8 +65282,8 @@ $&#123;&#125;
 <p>之后还是执行这三条命令，然后去postman访问那两个页面看看是不是成功了</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make docker</span><br><span class="line">kubectl delete deployment webook</span><br><span class="line">kubectl apply -f k8s-webook-deployment.yaml</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-在浏览器中访问"><a href="#4-在浏览器中访问" class="headerlink" title="4.在浏览器中访问"></a>4.在浏览器中访问</h3><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260702132919523.png" alt="image-20260702132919523"></p>
-<figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> instance = axios.<span class="title function_">create</span>(&#123;</span><br><span class="line">    <span class="comment">// 这边记得修改你对应的配置文件</span></span><br><span class="line">    <span class="attr">baseURL</span>:  <span class="string">&quot;http://localhost:80&quot;</span>,</span><br><span class="line">    <span class="comment">//baseURL:  &quot;http://localhost:9090&quot;,</span></span><br><span class="line">    <span class="attr">withCredentials</span>: <span class="literal">true</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="七、在浏览器中访问"><a href="#七、在浏览器中访问" class="headerlink" title="七、在浏览器中访问"></a>七、在浏览器中访问</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260702132919523.png" alt="image-20260702132919523"></p>
+<h3 id="访问方式1-k8s"><a href="#访问方式1-k8s" class="headerlink" title="访问方式1-k8s"></a>访问方式1-k8s</h3><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> instance = axios.<span class="title function_">create</span>(&#123;</span><br><span class="line">    <span class="comment">// 这边记得修改你对应的配置文件</span></span><br><span class="line">    <span class="attr">baseURL</span>:  <span class="string">&quot;http://localhost:80&quot;</span>,</span><br><span class="line">    <span class="comment">//baseURL:  &quot;http://localhost:9090&quot;,</span></span><br><span class="line">    <span class="attr">withCredentials</span>: <span class="literal">true</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>把9090换成80后，去webook-fe目录下输入npm run dev然后就可以正常访问登录注册页面和功能了</p>
 <p>最后去mysql-k8s数据库中查一下是不是已经有了具体的数据，有了就代表全都通顺了</p>
@@ -65320,8 +65324,180 @@ $&#123;&#125;
 </tr>
 </tbody></table>
 <p>**<code>live.webook.com</code> 是后端 API，不是给人”看”的。要使用它只能用 Postman（发 POST）或者让 axios 的 <code>baseURL</code> 指向它。**浏览器直接访问它没有意义——就好比你用浏览器访问 <code>https://api.github.com/users</code> 能看到 JSON，但你访问 <code>live.webook.com</code> 没有根路由就什么都没有。</p>
-<h2 id="七、作业"><a href="#七、作业" class="headerlink" title="七、作业"></a>七、作业</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260702133726017.png" alt="image-20260702133726017"></p>
+<h3 id="访问方式2-本地"><a href="#访问方式2-本地" class="headerlink" title="访问方式2-本地"></a>访问方式2-本地</h3><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> instance = axios.<span class="title function_">create</span>(&#123;</span><br><span class="line">    <span class="comment">// 这边记得修改你对应的配置文件</span></span><br><span class="line">    <span class="comment">//baseURL:  &quot;http://localhost:80&quot;,</span></span><br><span class="line">    <span class="attr">baseURL</span>:  <span class="string">&quot;http://localhost:9090&quot;</span>,</span><br><span class="line">    <span class="attr">withCredentials</span>: <span class="literal">true</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>改回9090就可以按照原来的方式进行本地访问了。即</p>
+<p>1.执行docker compose up</p>
+<p>2.ide里面启动后端</p>
+<p>3.在webook-fe目录下执行npm run dev启动前端</p>
+<p>这样写入的还是一开始docker里面的数据库，去前端页面进行登录注册也可以发现数据到底写在了那个数据库</p>
+<p>和上面k8s的区别是步骤1和2ks8负责了，咱们只需要打开docker desktop，然后去命令行执行npm run dev就行了</p>
+<h2 id="八、作业"><a href="#八、作业" class="headerlink" title="八、作业"></a>八、作业</h2><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20260702133726017.png" alt="image-20260702133726017"></p>
 ]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+        <tag>学习笔记</tag>
+        <tag>MySQL</tag>
+        <tag>Go</tag>
+        <tag>Kubernetes</tag>
+        <tag>K8s</tag>
+        <tag>Ingress</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GO学习笔记 | 在windows下安装wrk并压测</title>
+    <url>/2026/07/05/Go/2026-7-5-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--%E5%9C%A8windows%E4%B8%8B%E4%BD%BF%E7%94%A8wrk%E5%B7%A5%E5%85%B7%E5%8E%8B%E6%B5%8B/</url>
+    <content><![CDATA[<h1 id="在windows下安装wrk并压测"><a href="#在windows下安装wrk并压测" class="headerlink" title="在windows下安装wrk并压测"></a>在windows下安装wrk并压测</h1><h2 id="一、环境与背景"><a href="#一、环境与背景" class="headerlink" title="一、环境与背景"></a>一、环境与背景</h2><ul>
+<li><strong>宿主机</strong>：Windows 11（版本 10.0.26200）</li>
+<li><strong>子系统</strong>：WSL 2 + Ubuntu（通过 <code>wsl --install -d Ubuntu</code> 安装）</li>
+<li><strong>工具</strong>：wrk（HTTP 压测工具）</li>
+</ul>
+<hr>
+<h2 id="二、安装-WSL-2-与-Ubuntu"><a href="#二、安装-WSL-2-与-Ubuntu" class="headerlink" title="二、安装 WSL 2 与 Ubuntu"></a>二、安装 WSL 2 与 Ubuntu</h2><h3 id="1-检查-WSL-是否已安装"><a href="#1-检查-WSL-是否已安装" class="headerlink" title="1. 检查 WSL 是否已安装"></a>1. 检查 WSL 是否已安装</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在 Windows CMD / PowerShell 中执行</span></span><br><span class="line">wsl <span class="literal">-l</span> <span class="literal">-v</span></span><br></pre></td></tr></table></figure>
+<p>若提示<code>wsl</code>不是命令，需先启用功能；若显示<code>docker-desktop</code>等，说明已装好。</p>
+<h3 id="2-安装-Ubuntu-发行版"><a href="#2-安装-Ubuntu-发行版" class="headerlink" title="2. 安装 Ubuntu 发行版"></a>2. 安装 Ubuntu 发行版</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">--install</span> <span class="literal">-d</span> Ubuntu</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>耗时</strong>：约 3~10 分钟（视网速而定，约 1GB 镜像）。</li>
+<li><strong>初始化</strong>：安装完成后自动启动，按要求创建<strong>普通用户</strong>（<strong>不要填 root</strong>，如 <code>darling</code>）并设置密码。</li>
+</ul>
+<h3 id="3-进入-Ubuntu-子系统"><a href="#3-进入-Ubuntu-子系统" class="headerlink" title="3. 进入 Ubuntu 子系统"></a>3. 进入 Ubuntu 子系统</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">wsl <span class="literal">-d</span> Ubuntu</span><br></pre></td></tr></table></figure>
+<p>可能让你输入用户名密码啥的，你就输吧，一直往下走就行</p>
+<p>此时提示符变为 <code>用户名@计算机名:~$</code>，即已进入 Linux 环境。</p>
+<hr>
+<h2 id="三、在-Ubuntu-中安装-wrk"><a href="#三、在-Ubuntu-中安装-wrk" class="headerlink" title="三、在 Ubuntu 中安装 wrk"></a>三、在 Ubuntu 中安装 wrk</h2><h3 id="1-更新软件源并安装"><a href="#1-更新软件源并安装" class="headerlink" title="1. 更新软件源并安装"></a>1. 更新软件源并安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install wrk -y</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-验证安装"><a href="#2-验证安装" class="headerlink" title="2. 验证安装"></a>2. 验证安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wrk -v</span><br><span class="line"><span class="comment"># 正常输出版本信息，如 wrk 4.2.0</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、执行压测命令"><a href="#四、执行压测命令" class="headerlink" title="四、执行压测命令"></a>四、执行压测命令</h2><h3 id="在-WSL-内部执行"><a href="#在-WSL-内部执行" class="headerlink" title="在 WSL 内部执行"></a>在 WSL 内部执行</h3><p><strong>基础用法</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wrk -t 线程数 -c 连接数 -d 压测时间 测试URL</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wrk -t1 -d1s -c2 -s /mnt/e/go_learning/webook_project/scripts/wrk/signup.lua http://localhost:9090</span><br><span class="line"></span><br><span class="line">wrk -t1 -d1s -c2 -s /mnt/e/go_learning/webook_project/scripts/wrk/signup.lua http://localhost:80/users/signup</span><br></pre></td></tr></table></figure>
+
+<p><code>e/go_learning/webook_project/scripts/wrk/signup.lua</code>这一部分是在windows中测试注册功能的脚本的文件地址，这个脚本文件需要根据自己测试内容来写，笔者就不给出了</p>
+<p><strong>参数释义</strong>：</p>
+<table>
+<thead>
+<tr>
+<th align="left">参数</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>-t1</code></td>
+<td align="left">启动 1 个线程</td>
+</tr>
+<tr>
+<td align="left"><code>-d1s</code></td>
+<td align="left">压测持续 1 秒</td>
+</tr>
+<tr>
+<td align="left"><code>-c2</code></td>
+<td align="left">保持 2 个并发连接</td>
+</tr>
+<tr>
+<td align="left"><code>-s</code></td>
+<td align="left">指定 Lua 脚本路径</td>
+</tr>
+<tr>
+<td align="left"><code>http://localhost:80/users/signup</code></td>
+<td align="left">目标地址</td>
+</tr>
+</tbody></table>
+<p><code>注意：</code>脚本路径找不到</p>
+<ul>
+<li><strong>场景</strong>：<code>No such file or directory</code>。</li>
+<li><strong>原因</strong>：Windows 路径与 WSL 路径映射错误。</li>
+<li><strong>解决</strong>：Windows <code>E:\dir\file.lua</code> 对应 WSL 的 <code>/mnt/e/dir/file.lua</code>（注意盘符小写）。</li>
+</ul>
+<h3 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">darling@darling123456:/mnt/c/Windows/System32$ wrk -t1 -d1s -c2 -s /mnt/e/go_learning/webook_project/scripts/wrk/signup.lua http://localhost:80/users/signupnup</span><br><span class="line">Running 1s <span class="built_in">test</span> @ http://localhost:80/users/signup</span><br><span class="line">  1 threads and 2 connections</span><br><span class="line">  Thread Stats   Avg      Stdev     Max   +/- Stdev</span><br><span class="line">    Latency   419.90ms  134.68ms 538.57ms  100.00%</span><br><span class="line">    Req/Sec     4.50      2.12     6.00    100.00%</span><br><span class="line">  4 requests <span class="keyword">in</span> 1.00s, 516.00B <span class="built_in">read</span></span><br><span class="line">Requests/sec:      3.99</span><br><span class="line">Transfer/sec:     514.77B</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 命令：-t1 表示1个线程，-d1s 表示压测1秒，-c2 表示2个并发连接，-s 指定Lua脚本路径，最后是目标URL</span></span><br><span class="line">wrk -t1 -d1s -c2 -s /mnt/e/go_learning/webook_project/scripts/wrk/signup.lua http://localhost:80/users/signupnup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试信息：1秒压测，目标地址</span></span><br><span class="line">Running 1s <span class="built_in">test</span> @ http://localhost:80/users/signup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试配置：1个线程，2个并发连接</span></span><br><span class="line">  1 threads and 2 connections</span><br><span class="line"></span><br><span class="line"><span class="comment"># 线程统计表头：平均值、标准差、最大值、标准差覆盖率</span></span><br><span class="line">  Thread Stats   Avg      Stdev     Max   +/- Stdev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 延迟统计：平均420ms，标准差134ms，最大538ms，100%的请求落在这个范围</span></span><br><span class="line">    Latency   419.90ms  134.68ms 538.57ms  100.00%</span><br><span class="line"></span><br><span class="line"><span class="comment"># 单线程QPS：平均每秒4.5个请求，最大峰值6个</span></span><br><span class="line">    Req/Sec     4.50      2.12     6.00    100.00%</span><br><span class="line"></span><br><span class="line"><span class="comment"># 汇总：1秒内完成4个请求，读取516字节数据</span></span><br><span class="line">  4 requests <span class="keyword">in</span> 1.00s, 516.00B <span class="built_in">read</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 整体QPS：每秒约4个请求（核心性能指标，正常值应为数百以上）</span></span><br><span class="line">Requests/sec:      3.99</span><br><span class="line"></span><br><span class="line"><span class="comment"># 网络吞吐量：每秒传输约515字节</span></span><br><span class="line">Transfer/sec:     514.77B</span><br></pre></td></tr></table></figure>
+
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>网络已连通，但接口性能较差（QPS≈4，平均延迟420ms）</p>
+<hr>
+<h2 id="五、快速命令速查表（备忘）"><a href="#五、快速命令速查表（备忘）" class="headerlink" title="五、快速命令速查表（备忘）"></a>五、快速命令速查表（备忘）</h2><table>
+<thead>
+<tr>
+<th align="left">操作</th>
+<th align="left">命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">进入 Ubuntu</td>
+<td align="left"><code>wsl -d Ubuntu</code></td>
+</tr>
+<tr>
+<td align="left">安装 wrk</td>
+<td align="left"><code>sudo apt install wrk -y</code></td>
+</tr>
+<tr>
+<td align="left">端口转发（K8s）</td>
+<td align="left"><code>kubectl port-forward service/webook 9090:80</code></td>
+</tr>
+<tr>
+<td align="left">简单 GET 压测</td>
+<td align="left"><code>wrk -t2 -c10 -d5s http://localhost:9090/ping</code></td>
+</tr>
+<tr>
+<td align="left">POST 脚本压测</td>
+<td align="left"><code>wrk -t1 -c2 -d1s -s /path/to/script.lua http://localhost:9090</code></td>
+</tr>
+<tr>
+<td align="left">查看 K8s Pods</td>
+<td align="left"><code>kubectl get pods</code></td>
+</tr>
+<tr>
+<td align="left">查看 K8s Services</td>
+<td align="left"><code>kubectl get svc</code></td>
+</tr>
+<tr>
+<td align="left">查看 80 端口占用 (Windows)</td>
+<td align="left"><code>netstat -ano | findstr :80</code></td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>Go</tag>
+        <tag>wrk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GO学习笔记 | golang数据源访问k8s内部数据库连接时产生的问题</title>
+    <url>/2026/07/05/Go/2026-7-05-GO%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0--golang%E6%95%B0%E6%8D%AE%E6%BA%90%E8%AE%BF%E9%97%AEk8s%E5%86%85%E9%83%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%97%B6%E4%BA%A7%E7%94%9F%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="golang数据源访问k8s内部数据库连接时产生的问题"><a href="#golang数据源访问k8s内部数据库连接时产生的问题" class="headerlink" title="golang数据源访问k8s内部数据库连接时产生的问题"></a>golang数据源访问k8s内部数据库连接时产生的问题</h1><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><ul>
+<li>集群：Docker Desktop 内置 K8s（新版内部使用 kind），配置的是LoadBalancer，并不是NodePort</li>
+<li>MySQL Service 在 K8s 内正常 Running，后端写数据正常</li>
+<li>问题：GoLand ide数据源连不上 <code>localhost:11309</code></li>
+</ul>
+<h3 id="根因"><a href="#根因" class="headerlink" title="根因"></a>根因</h3><p>新版 Docker Desktop K8s 改用 kind，LoadBalancer 类型无法分配 External-IP（一直 <code>&lt;pending&gt;</code>），所以 <code>localhost:11309</code> 不可达。旧版可以直连，新版必须走其他方式。</p>
+<h3 id="可行方案"><a href="#可行方案" class="headerlink" title="可行方案"></a>可行方案</h3><p><strong>解决方法：port-forward（推荐）</strong></p>
+<p>笔者亲测可行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kubectl port-forward service/webook-mysql 13309:11309</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>GoLand 配 <code>localhost:13309</code></li>
+<li>终端保持开启，关闭后连接即断</li>
+<li>可用脚本放到后台或开机自启，减少手动操作</li>
+</ul>
+<p><strong>NodePort 直连</strong></p>
+<p>这是笔者了解到的另外一种方法，但是没有成功，也觉得这个每次电脑重启啥的都得去专门查一下ip，有点麻烦，大家也可以自行尝试一下</p>
+<ul>
+<li>将 Service 类型改为 NodePort（端口范围 30000~32767）</li>
+<li>查看 NodePort：<code>kubectl get svc webook-mysql</code></li>
+<li>查看 kind 节点 IP：<code>docker inspect -f &#39;&#123;&#123;range .NetworkSettings.Networks&#125;&#125;&#123;&#123;.IPAddress&#125;&#125;&#123;&#123;end&#125;&#125;&#39; desktop-control-plane</code></li>
+<li>GoLand 配 <code>IP:NodePort</code></li>
+<li>注意：kind 节点 IP 重启后会变化</li>
+</ul>
+<h2 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h2><p>这个问题不会影响k8s里面webook的正常使用，golang ide数据源连接mysql还是为了查看一些数据方便一些，也可以用sqlyog等工具</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">webook Pod（后端代码）→ MySQL Service（集群内部）→ MySQL Pod</span><br><span class="line">       ↑ 正常工作，不受影响</span><br><span class="line">       </span><br><span class="line">GoLand 数据源（你本机 IDE）→ 需要额外打通才能连上</span><br><span class="line">       ↑ 只是查数据方便，不是必须</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Go</category>
       </categories>
