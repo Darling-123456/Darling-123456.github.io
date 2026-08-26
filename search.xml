@@ -74187,7 +74187,7 @@ $&#123;&#125;
 </ul>
 <p>**功能实现：**菜品管理</p>
 <p><strong>菜品管理效果图：</strong></p>
-<img src="assets/image-20221121142133307.png" alt="image-20221121142133307" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121142133307.png" alt="image-20221121142133307" style="zoom:50%;" /> 
 
 
 
@@ -74322,39 +74322,39 @@ $&#123;&#125;
 <p>2). 将菜品分类管理的新增和修改方法中的公共字段赋值的代码注释。</p>
 <h3 id="1-4-功能测试"><a href="#1-4-功能测试" class="headerlink" title="1.4 功能测试"></a>1.4 功能测试</h3><p>以<strong>新增菜品分类</strong>为例，进行测试</p>
 <p><strong>启动项目和Nginx</strong></p>
-<img src="assets/image-20221121154642757.png" alt="image-20221121154642757" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121154642757.png" alt="image-20221121154642757" style="zoom:50%;" /> 
 
 <p><strong>查看控制台</strong></p>
 <p>通过观察控制台输出的SQL来确定公共字段填充是否完成</p>
-<p><img src="/assets/image-20221121154841887.png" alt="image-20221121154841887"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121154841887.png" alt="image-20221121154841887"></p>
 <p><strong>查看表</strong></p>
 <p>category表中数据</p>
-<p><img src="/assets/image-20221121155104152.png" alt="image-20221121155104152"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121155104152.png" alt="image-20221121155104152"></p>
 <p>其中create_time,update_time,create_user,update_user字段都已完成自动填充。</p>
 <p>由于使用admin(id&#x3D;1)用户登录进行菜品添加操作,故create_user,update_user都为1.</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">aliyun:</span><br><span class="line">  oss:</span><br><span class="line">    endpoint: https://oss-cn-beijing.aliyuncs.com</span><br><span class="line">    bucketName: java-ai</span><br><span class="line">    region: cn-beijing</span><br></pre></td></tr></table></figure>
 
 <h3 id="1-5-代码提交"><a href="#1-5-代码提交" class="headerlink" title="1.5 代码提交"></a>1.5 代码提交</h3><p><strong>点击提交：</strong></p>
-<img src="assets/image-20221121155718603.png" alt="image-20221121155718603" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121155718603.png" alt="image-20221121155718603" style="zoom:50%;" /> 
 
 
 
 <p><strong>提交过程中</strong>，出现提示：</p>
-<img src="assets/image-20221121155824695.png" alt="image-20221121155824695" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121155824695.png" alt="image-20221121155824695" style="zoom:50%;" /> 
 
 
 
 <p><strong>继续push:</strong></p>
-<img src="assets/image-20221121160002324.png" alt="image-20221121160002324" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121160002324.png" alt="image-20221121160002324" style="zoom:50%;" /> 
 
 <p><strong>推送成功：</strong></p>
-<img src="assets/image-20221121160037460.png" alt="image-20221121160037460" style="zoom: 67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121160037460.png" alt="image-20221121160037460" style="zoom: 67%;" /> 
 
 
 
 <h2 id="2-新增菜品"><a href="#2-新增菜品" class="headerlink" title="2. 新增菜品"></a>2. 新增菜品</h2><h3 id="2-1-需求分析与设计"><a href="#2-1-需求分析与设计" class="headerlink" title="2.1 需求分析与设计"></a>2.1 需求分析与设计</h3><h4 id="2-1-1-产品原型"><a href="#2-1-1-产品原型" class="headerlink" title="2.1.1 产品原型"></a>2.1.1 产品原型</h4><p>后台系统中可以管理菜品信息，通过 <strong>新增功能</strong>来添加一个新的菜品，在添加菜品时需要选择当前菜品所属的菜品分类，并且需要上传菜品图片。</p>
 <p><strong>新增菜品原型：</strong></p>
-<img src="assets/image-20221121164131337.png" alt="image-20221121164131337" style="zoom: 50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121164131337.png" alt="image-20221121164131337" style="zoom: 50%;" /> 
 
 <p>当填写完表单信息, 点击”保存”按钮后, 会提交该表单的数据到服务端, 在服务端中需要接受数据, 然后将数据保存至数据库中。</p>
 <p><strong>业务规则：</strong></p>
@@ -74373,13 +74373,13 @@ $&#123;&#125;
 </ul>
 <p>接下来<strong>细粒度</strong>分析每个接口，明确每个接口的请求方式、请求路径、传入参数和返回值。</p>
 <p><strong>1. 根据类型查询分类</strong></p>
-<p><img src="assets/image-20221121165033612.png" alt="image-20221121165033612" style="zoom:50%;" /> <img src="assets/image-20221121165043619.png" alt="image-20221121165043619" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121165033612.png" alt="image-20221121165033612" style="zoom:50%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121165043619.png" alt="image-20221121165043619" style="zoom:50%;" /></p>
 <p><strong>2. 文件上传</strong></p>
-<p><img src="assets/image-20221121165201319.png" alt="image-20221121165201319" style="zoom:50%;" /><img src="assets/image-20221121165215634.png" alt="image-20221121165215634" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121165201319.png" alt="image-20221121165201319" style="zoom:50%;" /><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121165215634.png" alt="image-20221121165215634" style="zoom:50%;" /></p>
 <p><strong>3. 新增菜品</strong></p>
-<p><img src="assets/image-20221121165254961.png" alt="image-20221121165254961" style="zoom: 50%;" /><img src="assets/image-20221121165308394.png" alt="image-20221121165308394" style="zoom: 50%;" /><img src="assets/image-20221121165322687.png" alt="image-20221121165322687" style="zoom: 50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121165254961.png" alt="image-20221121165254961" style="zoom: 50%;" /><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121165308394.png" alt="image-20221121165308394" style="zoom: 50%;" /><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121165322687.png" alt="image-20221121165322687" style="zoom: 50%;" /></p>
 <h4 id="2-1-3-表设计"><a href="#2-1-3-表设计" class="headerlink" title="2.1.3 表设计"></a>2.1.3 表设计</h4><p>通过原型图进行分析：</p>
-<img src="assets/image-20221121165917874.png" alt="image-20221121165917874" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121165917874.png" alt="image-20221121165917874" style="zoom:50%;" /> 
 
 <p>新增菜品，其实就是将新增页面录入的菜品信息插入到dish表，如果添加了口味做法，还需要向dish_flavor表插入数据。所以在新增菜品时，涉及到两个表：</p>
 <table>
@@ -74531,7 +74531,7 @@ $&#123;&#125;
 </li>
 </ol>
 <p>在本项目选用阿里云的OSS服务进行文件存储。（前面课程已学习过阿里云OSS,不再赘述）</p>
-<img src="assets/image-20221121174942235.png" alt="image-20221121174942235" style="zoom:67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121174942235.png" alt="image-20221121174942235" style="zoom:67%;" /> 
 
 <p><strong>实现步骤：</strong></p>
 <p><strong>1). 定义OSS相关配置</strong></p>
@@ -74604,22 +74604,22 @@ $&#123;&#125;
 
 
 <h3 id="2-3-功能测试"><a href="#2-3-功能测试" class="headerlink" title="2.3 功能测试"></a>2.3 功能测试</h3><p>进入到菜品管理—&gt;新建菜品</p>
-<img src="assets/image-20221121195440804.png" alt="image-20221121195440804" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121195440804.png" alt="image-20221121195440804" style="zoom:50%;" /> 
 
 <p>由于没有实现菜品查询功能，所以保存后，暂且在表中查看添加的数据。</p>
 <p>dish表：</p>
-<img src="assets/image-20221121195737692.png" alt="image-20221121195737692" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121195737692.png" alt="image-20221121195737692" style="zoom:50%;" /> 
 
 <p>dish_flavor表：</p>
-<img src="assets/image-20221121195902555.png" alt="image-20221121195902555" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121195902555.png" alt="image-20221121195902555" style="zoom:50%;" /> 
 
 <p>测试成功。</p>
-<h3 id="2-4代码提交"><a href="#2-4代码提交" class="headerlink" title="2.4代码提交"></a>2.4代码提交</h3><img src="assets/image-20221121200332933.png" alt="image-20221121200332933" style="zoom:50%;" />  
+<h3 id="2-4代码提交"><a href="#2-4代码提交" class="headerlink" title="2.4代码提交"></a>2.4代码提交</h3><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121200332933.png" alt="image-20221121200332933" style="zoom:50%;" />  
 
 <p>后续步骤和上述功能代码提交一致，不再赘述。</p>
 <h2 id="3-菜品分页查询"><a href="#3-菜品分页查询" class="headerlink" title="3. 菜品分页查询"></a>3. 菜品分页查询</h2><h3 id="3-1-需求分析和设计"><a href="#3-1-需求分析和设计" class="headerlink" title="3.1 需求分析和设计"></a>3.1 需求分析和设计</h3><h4 id="3-1-1-产品原型"><a href="#3-1-1-产品原型" class="headerlink" title="3.1.1 产品原型"></a>3.1.1 产品原型</h4><p>系统中的菜品数据很多的时候，如果在一个页面中全部展示出来会显得比较乱，不便于查看，所以一般的系统中都会以分页的方式来展示列表数据。</p>
 <p><strong>菜品分页原型：</strong></p>
-<img src="assets/image-20221121201552489.png" alt="image-20221121201552489" style="zoom: 67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121201552489.png" alt="image-20221121201552489" style="zoom: 67%;" /> 
 
 <p>在菜品列表展示时，除了菜品的基本信息(名称、售价、售卖状态、最后操作时间)外，还有两个字段略微特殊，第一个是图片字段 ，我们从数据库查询出来的仅仅是图片的名字，图片要想在表格中回显展示出来，就需要下载这个图片。第二个是菜品分类，这里展示的是分类名称，而不是分类ID，此时我们就需要根据菜品的分类ID，去分类表中查询分类信息，然后在页面展示。</p>
 <p><strong>业务规则：</strong></p>
@@ -74629,7 +74629,7 @@ $&#123;&#125;
 <li>分页查询时可以根据需要输入菜品名称、菜品分类、菜品状态进行查询</li>
 </ul>
 <h4 id="3-1-2-接口设计"><a href="#3-1-2-接口设计" class="headerlink" title="3.1.2 接口设计"></a>3.1.2 接口设计</h4><p>根据上述原型图，设计出相应的接口。</p>
-<p><img src="assets/image-20221121202019258.png" alt="image-20221121202019258" style="zoom:50%;" /> <img src="assets/image-20221121202033284.png" alt="image-20221121202033284" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121202019258.png" alt="image-20221121202019258" style="zoom:50%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121202033284.png" alt="image-20221121202033284" style="zoom:50%;" /></p>
 <h3 id="3-2-代码开发"><a href="#3-2-代码开发" class="headerlink" title="3.2 代码开发"></a>3.2 代码开发</h3><h4 id="3-2-1-设计DTO类"><a href="#3-2-1-设计DTO类" class="headerlink" title="3.2.1 设计DTO类"></a>3.2.1 设计DTO类</h4><p><strong>根据菜品分页查询接口定义设计对应的DTO：</strong></p>
 <p>在sky-pojo模块中，已定义</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sky.dto;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DishPageQueryDTO</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> page;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageSize;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Integer categoryId; <span class="comment">//分类id</span></span><br><span class="line">    <span class="keyword">private</span> Integer status; <span class="comment">//状态 0表示禁用 1表示启用</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -74667,21 +74667,21 @@ $&#123;&#125;
 
 <h3 id="3-3-功能测试"><a href="#3-3-功能测试" class="headerlink" title="3.3 功能测试"></a>3.3 功能测试</h3><h4 id="3-3-1-接口文档测试"><a href="#3-3-1-接口文档测试" class="headerlink" title="3.3.1 接口文档测试"></a>3.3.1 接口文档测试</h4><p>**启动服务：**访问<a href="http://localhost:8080/doc.html%EF%BC%8C%E8%BF%9B%E5%85%A5%E8%8F%9C%E5%93%81%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E6%8E%A5%E5%8F%A3">http://localhost:8080/doc.html，进入菜品分页查询接口</a></p>
 <p>**注意：**使用admin用户登录重新获取token，防止token失效。</p>
-<img src="assets/image-20221121210252403.png" alt="image-20221121210252403" style="zoom:50%;" />  
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121210252403.png" alt="image-20221121210252403" style="zoom:50%;" />  
 
 <p><strong>点击发送：</strong></p>
-<img src="assets/image-20221121210333489.png" alt="image-20221121210333489" style="zoom: 67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121210333489.png" alt="image-20221121210333489" style="zoom: 67%;" /> 
 
 
 
 <h4 id="3-3-2-前后端联调测试"><a href="#3-3-2-前后端联调测试" class="headerlink" title="3.3.2 前后端联调测试"></a>3.3.2 前后端联调测试</h4><p>启动nginx,访问 <a href="http://localhost/">http://localhost</a></p>
 <p><strong>点击菜品管理</strong></p>
-<img src="assets/image-20221121210500188.png" alt="image-20221121210500188" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121210500188.png" alt="image-20221121210500188" style="zoom:50%;" /> 
 
 <p>数据成功查出。</p>
 <h2 id="4-删除菜品"><a href="#4-删除菜品" class="headerlink" title="4. 删除菜品"></a>4. 删除菜品</h2><h3 id="4-1-需求分析和设计"><a href="#4-1-需求分析和设计" class="headerlink" title="4.1 需求分析和设计"></a>4.1 需求分析和设计</h3><h4 id="4-1-1-产品原型"><a href="#4-1-1-产品原型" class="headerlink" title="4.1.1 产品原型"></a>4.1.1 产品原型</h4><p>在菜品列表页面，每个菜品后面对应的操作分别为<strong>修改</strong>、<strong>删除</strong>、<strong>停售</strong>，可通过删除功能完成对菜品及相关的数据进行删除。</p>
 <p><strong>删除菜品原型：</strong></p>
-<img src="assets/image-20221121211236356.png" alt="image-20221121211236356" style="zoom:67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121211236356.png" alt="image-20221121211236356" style="zoom:67%;" /> 
 
 
 
@@ -74693,10 +74693,10 @@ $&#123;&#125;
 <li>删除菜品后，关联的口味数据也需要删除掉</li>
 </ul>
 <h4 id="4-1-2-接口设计"><a href="#4-1-2-接口设计" class="headerlink" title="4.1.2 接口设计"></a>4.1.2 接口设计</h4><p>根据上述原型图，设计出相应的接口。</p>
-<p><img src="assets/image-20221121211801121.png" alt="image-20221121211801121" style="zoom:50%;" /> <img src="assets/image-20221121211814429.png" alt="image-20221121211814429" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121211801121.png" alt="image-20221121211801121" style="zoom:50%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121211814429.png" alt="image-20221121211814429" style="zoom:50%;" /></p>
 <p>**注意：**删除一个菜品和批量删除菜品共用一个接口，故ids可包含多个菜品id,之间用逗号分隔。</p>
 <h4 id="4-1-3-表设计"><a href="#4-1-3-表设计" class="headerlink" title="4.1.3 表设计"></a>4.1.3 表设计</h4><p>在进行删除菜品操作时，会涉及到以下三张表。</p>
-<img src="assets/image-20221121212436851.png" alt="image-20221121212436851" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221121212436851.png" alt="image-20221121212436851" style="zoom:50%;" /> 
 
 <p><strong>注意事项：</strong></p>
 <ul>
@@ -74739,25 +74739,25 @@ $&#123;&#125;
 
 <h3 id="4-3-功能测试"><a href="#4-3-功能测试" class="headerlink" title="4.3 功能测试"></a>4.3 功能测试</h3><p>既可以通过Swagger接口文档进行测试，也可以通过前后端联调测试，接下来，我们直接使用<strong>前后端联调测试</strong>。</p>
 <p>进入到菜品列表查询页面</p>
-<img src="assets/image-20221122125332084.png" alt="image-20221122125332084" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122125332084.png" alt="image-20221122125332084" style="zoom:50%;" /> 
 
 <p>对测试菜品进行删除操作</p>
-<img src="assets/image-20221122125625014.png" alt="image-20221122125625014" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122125625014.png" alt="image-20221122125625014" style="zoom:50%;" /> 
 
 <p>同时，进到dish表和dish_flavor两个表查看<strong>测试菜品</strong>的相关数据都已被成功删除。</p>
 <p>再次，删除状态为启售的菜品</p>
-<img src="assets/image-20221122125841464.png" alt="image-20221122125841464" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122125841464.png" alt="image-20221122125841464" style="zoom:50%;" /> 
 
 <p>点击批量删除</p>
-<img src="assets/image-20221122130016566.png" alt="image-20221122130016566" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122130016566.png" alt="image-20221122130016566" style="zoom:50%;" /> 
 
 <p>删除失败，因为起售中的菜品不能删除。</p>
-<h3 id="4-4-代码提交"><a href="#4-4-代码提交" class="headerlink" title="4.4 代码提交"></a>4.4 代码提交</h3><img src="assets/image-20221122130426605.png" alt="image-20221122130426605" style="zoom:50%;" /> 
+<h3 id="4-4-代码提交"><a href="#4-4-代码提交" class="headerlink" title="4.4 代码提交"></a>4.4 代码提交</h3><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122130426605.png" alt="image-20221122130426605" style="zoom:50%;" /> 
 
 <p>后续步骤和上述功能代码提交一致，不再赘述。</p>
 <h2 id="5-修改菜品"><a href="#5-修改菜品" class="headerlink" title="5. 修改菜品"></a>5. 修改菜品</h2><h3 id="5-1-需求分析和设计"><a href="#5-1-需求分析和设计" class="headerlink" title="5.1 需求分析和设计"></a>5.1 需求分析和设计</h3><h4 id="5-1-1-产品原型"><a href="#5-1-1-产品原型" class="headerlink" title="5.1.1 产品原型"></a>5.1.1 产品原型</h4><p>在菜品管理列表页面点击修改按钮，跳转到修改菜品页面，在修改页面回显菜品相关信息并进行修改，最后点击保存按钮完成修改操作。</p>
 <p><strong>修改菜品原型：</strong></p>
-<img src="assets/image-20221122130837173.png" alt="image-20221122130837173" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122130837173.png" alt="image-20221122130837173" style="zoom:50%;" /> 
 
 
 
@@ -74771,10 +74771,10 @@ $&#123;&#125;
 </ul>
 <p>我们只需要实现<strong>根据id查询菜品</strong>和<strong>修改菜品</strong>两个接口，接下来，我们来重点分析这两个接口。</p>
 <p><strong>1). 根据id查询菜品</strong></p>
-<p><img src="assets/image-20221122131733147.png" alt="image-20221122131733147" style="zoom:50%;" /><img src="assets/image-20221122131743509.png" alt="image-20221122131743509" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122131733147.png" alt="image-20221122131733147" style="zoom:50%;" /><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122131743509.png" alt="image-20221122131743509" style="zoom:50%;" /></p>
 <p><strong>2). 修改菜品</strong></p>
-<p><img src="assets/image-20221122131837393.png" alt="image-20221122131837393" style="zoom:50%;" /> <img src="assets/image-20221122131847583.png" alt="image-20221122131847583" style="zoom:50%;" /></p>
-<img src="assets/image-20221122131914533.png" alt="image-20221122131914533" style="zoom:50%;" /> 
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122131837393.png" alt="image-20221122131837393" style="zoom:50%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122131847583.png" alt="image-20221122131847583" style="zoom:50%;" /></p>
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122131914533.png" alt="image-20221122131914533" style="zoom:50%;" /> 
 
 <p><strong>注:因为是修改功能，请求方式可设置为PUT。</strong></p>
 <h3 id="5-2-代码开发"><a href="#5-2-代码开发" class="headerlink" title="5.2 代码开发"></a>5.2 代码开发</h3><h4 id="5-2-1-根据id查询菜品实现"><a href="#5-2-1-根据id查询菜品实现" class="headerlink" title="5.2.1 根据id查询菜品实现"></a>5.2.1 根据id查询菜品实现</h4><p><strong>1). Controller层</strong></p>
@@ -74822,16 +74822,16 @@ $&#123;&#125;
 
 <h3 id="5-3-功能测试"><a href="#5-3-功能测试" class="headerlink" title="5.3 功能测试"></a>5.3 功能测试</h3><p>本次测试直接通过<strong>前后端联调测试</strong> ，可使用Debug方式启动项目，观察运行中步骤。</p>
 <p>进入菜品列表查询页面，对第一个菜品的价格进行修改</p>
-<img src="assets/image-20221122141233080.png" alt="image-20221122141233080" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122141233080.png" alt="image-20221122141233080" style="zoom:50%;" /> 
 
 <p>点击修改，回显成功</p>
-<img src="assets/image-20221122141348677.png" alt="image-20221122141348677" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122141348677.png" alt="image-20221122141348677" style="zoom:50%;" /> 
 
 <p>菜品价格修改后，点击保存</p>
-<img src="assets/image-20221122141456498.png" alt="image-20221122141456498" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122141456498.png" alt="image-20221122141456498" style="zoom:50%;" /> 
 
 <p>修改成功</p>
-<h3 id="5-4-代码提交"><a href="#5-4-代码提交" class="headerlink" title="5.4 代码提交"></a>5.4 代码提交</h3><img src="assets/image-20221122141554380.png" alt="image-20221122141554380" style="zoom:50%;" /> 
+<h3 id="5-4-代码提交"><a href="#5-4-代码提交" class="headerlink" title="5.4 代码提交"></a>5.4 代码提交</h3><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221122141554380.png" alt="image-20221122141554380" style="zoom:50%;" /> 
 
 <p>后续步骤和上述功能代码提交一致，不再赘述。</p>
 <h2 id="6-菜品起售、停售"><a href="#6-菜品起售、停售" class="headerlink" title="6.菜品起售、停售"></a>6.菜品起售、停售</h2><h3 id="接口文档"><a href="#接口文档" class="headerlink" title="接口文档"></a>接口文档</h3><p><code>基本信息</code></p>
@@ -74958,17 +74958,17 @@ $&#123;&#125;
 </ul>
 <p>**功能实现：**员工管理、菜品分类管理。</p>
 <p><strong>员工管理效果：</strong></p>
-<img src="assets/image-20221112172846316.png" alt="image-20221112172846316" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112172846316.png" alt="image-20221112172846316" style="zoom:50%;" /> 
 
 <p><strong>菜品分类管理效果：</strong></p>
-<img src="assets/image-20221112172925354.png" alt="image-20221112172925354" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112172925354.png" alt="image-20221112172925354" style="zoom:50%;" /> 
 
 
 
 <h2 id="1-新增员工"><a href="#1-新增员工" class="headerlink" title="1. 新增员工"></a>1. 新增员工</h2><h3 id="1-1-需求分析和设计"><a href="#1-1-需求分析和设计" class="headerlink" title="1.1 需求分析和设计"></a>1.1 需求分析和设计</h3><h4 id="1-1-1-产品原型"><a href="#1-1-1-产品原型" class="headerlink" title="1.1.1 产品原型"></a>1.1.1 产品原型</h4><p>一般在做需求分析时，往往都是对照着产品原型进行分析，因为产品原型比较直观，便于我们理解业务。</p>
 <p>后台系统中可以管理员工信息，通过新增员工来添加后台系统用户。</p>
 <p><strong>新增员工原型：</strong></p>
-<img src="assets/image-20221111161120975.png" alt="image-20221111161120975" style="zoom: 50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111161120975.png" alt="image-20221111161120975" style="zoom: 50%;" /> 
 
 <p>当填写完表单信息, 点击”保存”按钮后, 会提交该表单的数据到服务端, 在服务端中需要接受数据, 然后将数据保存至数据库中。</p>
 <p><strong>注意事项：</strong></p>
@@ -74979,7 +74979,7 @@ $&#123;&#125;
 <li>密码默认为123456</li>
 </ol>
 <h4 id="1-1-2-接口设计"><a href="#1-1-2-接口设计" class="headerlink" title="1.1.2 接口设计"></a>1.1.2 接口设计</h4><p>找到资料–&gt;项目接口文档–&gt;苍穹外卖-管理端接口.html</p>
-<p><img src="assets/image-20221111162912753.png" alt="image-20221111162912753" style="zoom:50%;" /> <img src="assets/image-20221111162930483.png" alt="image-20221111162930483" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111162912753.png" alt="image-20221111162912753" style="zoom:50%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111162930483.png" alt="image-20221111162930483" style="zoom:50%;" /></p>
 <p>明确新增员工接口的<strong>请求路径、请求方式、请求参数、返回数据</strong>。</p>
 <p>本项目约定：</p>
 <ul>
@@ -75071,13 +75071,13 @@ $&#123;&#125;
 </tr>
 </tbody></table>
 <p>其中，employee表中的status字段已经设置了默认值1，表示状态正常。</p>
-<p><img src="/assets/image-20221111180159188.png" alt="image-20221111180159188">  </p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111180159188.png" alt="image-20221111180159188">  </p>
 <h3 id="1-2-代码开发"><a href="#1-2-代码开发" class="headerlink" title="1.2 代码开发"></a>1.2 代码开发</h3><h4 id="1-2-1-设计DTO类"><a href="#1-2-1-设计DTO类" class="headerlink" title="1.2.1 设计DTO类"></a>1.2.1 设计DTO类</h4><p><strong>根据新增员工接口设计对应的DTO</strong></p>
 <p>前端传递参数列表：</p>
-<img src="assets/image-20221111164002448.png" alt="image-20221111164002448" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111164002448.png" alt="image-20221111164002448" style="zoom:50%;" /> 
 
 <p>**思考：**是否可以使用对应的实体类来接收呢？</p>
-<img src="assets/image-20221111164453341.png" alt="image-20221111164453341" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111164453341.png" alt="image-20221111164453341" style="zoom:50%;" /> 
 
 <p>**注意：**当前端提交的数据和实体类中对应的属性差别比较大时，建议使用DTO来封装数据</p>
 <p>由于上述传入参数和实体类有较大差别，所以自定义DTO类。</p>
@@ -75119,7 +75119,7 @@ $&#123;&#125;
 </ul>
 <p>接下来我们使用上述两种方式分别测试。</p>
 <h4 id="1-3-1-接口文档测试"><a href="#1-3-1-接口文档测试" class="headerlink" title="1.3.1 接口文档测试"></a>1.3.1 接口文档测试</h4><p>**启动服务：**访问<a href="http://localhost:8080/doc.html%EF%BC%8C%E8%BF%9B%E5%85%A5%E6%96%B0%E5%A2%9E%E5%91%98%E5%B7%A5%E6%8E%A5%E5%8F%A3">http://localhost:8080/doc.html，进入新增员工接口</a></p>
-<img src="assets/image-20221111184934153.png" alt="image-20221111184934153" style="zoom:50%;" />   
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111184934153.png" alt="image-20221111184934153" style="zoom:50%;" />   
 
 <p>json数据：</p>
 <figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;idNumber&quot;</span><span class="punctuation">:</span> <span class="string">&quot;111222333444555666&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xiaozhi&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;phone&quot;</span><span class="punctuation">:</span> <span class="string">&quot;13812344321&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;sex&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;小智&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
@@ -75131,28 +75131,28 @@ $&#123;&#125;
 <p>**报错原因：**由于JWT令牌校验失败，导致EmployeeController的save方法没有被调用</p>
 <p>**解决方法：**调用员工登录接口获得一个合法的JWT令牌</p>
 <p>使用admin用户登录获取令牌</p>
-<img src="assets/image-20221111185649636.png" alt="image-20221111185649636" style="zoom: 50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111185649636.png" alt="image-20221111185649636" style="zoom: 50%;" /> 
 
 <p><strong>添加令牌：</strong></p>
 <p>将合法的JWT令牌添加到全局参数中</p>
 <p>文档管理–&gt;全局参数设置–&gt;添加参数</p>
-<img src="assets/image-20221111185901726.png" alt="image-20221111185901726" style="zoom: 50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111185901726.png" alt="image-20221111185901726" style="zoom: 50%;" /> 
 
 <p><strong>接口测试：</strong></p>
-<img src="assets/image-20221111190132481.png" alt="image-20221111190132481" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111190132481.png" alt="image-20221111190132481" style="zoom:50%;" /> 
 
 <p>其中，请求头部含有JWT令牌</p>
-<img src="assets/image-20221111190248268.png" alt="image-20221111190248268" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111190248268.png" alt="image-20221111190248268" style="zoom:50%;" /> 
 
 <p><strong>查看employee表：</strong></p>
-<p><img src="/assets/image-20221111191624908.png" alt="image-20221111191624908"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111191624908.png" alt="image-20221111191624908"></p>
 <p>测试成功。</p>
 <h4 id="1-3-2-前后端联调测试"><a href="#1-3-2-前后端联调测试" class="headerlink" title="1.3.2 前后端联调测试"></a>1.3.2 前后端联调测试</h4><p>启动nginx,访问 <a href="http://localhost/">http://localhost</a></p>
 <p>登录–&gt;员工管理–&gt;添加员工</p>
-<img src="assets/image-20221111192339271.png" alt="image-20221111192339271" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111192339271.png" alt="image-20221111192339271" style="zoom:50%;" /> 
 
 <p>保存后，查看employee表</p>
-<img src="assets/image-20221111192446950.png" alt="image-20221111192446950"  /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111192446950.png" alt="image-20221111192446950"  /> 
 
 <p>测试成功。</p>
 <p>**注意：**由于开发阶段前端和后端是并行开发的，后端完成某个功能后，此时前端对应的功能可能还没有开发完成，<br>导致无法进行前后端联调测试。所以在开发阶段，后端测试主要以接口文档测试为主。</p>
@@ -75165,13 +75165,13 @@ $&#123;&#125;
 <h4 id="1-4-1-问题一"><a href="#1-4-1-问题一" class="headerlink" title="1.4.1 问题一"></a>1.4.1 问题一</h4><p>**描述：**录入的用户名已存，抛出的异常后没有处理</p>
 <p><strong>分析：</strong></p>
 <p>新增username&#x3D;zhangsan的用户，若employee表中之前已存在。</p>
-<img src="assets/image-20221111193700895.png" alt="image-20221111193700895" style="zoom: 50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111193700895.png" alt="image-20221111193700895" style="zoom: 50%;" /> 
 
 <p>后台报错信息：</p>
-<img src="assets/image-20221111194049620.png" alt="image-20221111194049620" style="zoom:80%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111194049620.png" alt="image-20221111194049620" style="zoom:80%;" /> 
 
 <p>查看employee表结构：</p>
-<img src="assets/image-20221111194131787.png" alt="image-20221111194131787" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111194131787.png" alt="image-20221111194131787" style="zoom:50%;" /> 
 
 <p>发现，username已经添加了唯一约束，不能重复。</p>
 <p><strong>解决：</strong></p>
@@ -75183,7 +75183,7 @@ $&#123;&#125;
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ALREADY_EXISTS</span> <span class="operator">=</span> <span class="string">&quot;已存在&quot;</span>;</span><br></pre></td></tr></table></figure>
 
 <p>再次，接口测试：</p>
-<img src="assets/image-20221111195521095.png" alt="image-20221111195521095" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111195521095.png" alt="image-20221111195521095" style="zoom:50%;" /> 
 
 
 
@@ -75193,7 +75193,7 @@ $&#123;&#125;
 
 <p><strong>解决：</strong></p>
 <p>通过某种方式动态获取当前登录员工的id。</p>
-<img src="assets/image-20221111201922482.png" alt="image-20221111201922482" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111201922482.png" alt="image-20221111201922482" style="zoom:50%;" /> 
 
 <p>员工登录成功后会生成JWT令牌并响应给前端：</p>
 <p>在sky-server模块</p>
@@ -75215,7 +75215,7 @@ $&#123;&#125;
 <li>public void remove()        移除当前线程的线程局部变量</li>
 </ul>
 <p>对ThreadLocal有了一定认识后，接下来继续解决<strong>问题二</strong></p>
-<img src="assets/image-20221111212349365.png" alt="image-20221111212349365" style="zoom:67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111212349365.png" alt="image-20221111212349365" style="zoom:67%;" /> 
 
 <p>初始工程中已经封装了 ThreadLocal 操作的工具类：</p>
 <p>在sky-common模块</p>
@@ -75229,26 +75229,26 @@ $&#123;&#125;
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 新增员工</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> employeeDTO</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">(EmployeeDTO employeeDTO)</span> &#123;</span><br><span class="line">       <span class="comment">//.............................</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">//设置当前记录创建人id和修改人id</span></span><br><span class="line">       employee.setCreateUser(BaseContext.getCurrentId());<span class="comment">//目前写个假数据，后期修改</span></span><br><span class="line">       employee.setUpdateUser(BaseContext.getCurrentId());</span><br><span class="line"></span><br><span class="line">       employeeMapper.insert(employee);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
 <p>测试：使用admin(id&#x3D;1)用户登录后添加一条记录</p>
-<img src="assets/image-20221111214044510.png" alt="image-20221111214044510" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111214044510.png" alt="image-20221111214044510" style="zoom:50%;" /> 
 
 <p>查看employee表记录</p>
-<img src="assets/image-20221111214354053.png" alt="image-20221111214354053" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111214354053.png" alt="image-20221111214354053" style="zoom:50%;" /> 
 
 <h3 id="1-5-代码提交"><a href="#1-5-代码提交" class="headerlink" title="1.5 代码提交"></a>1.5 代码提交</h3><p>点击提交：</p>
-<img src="assets/image-20221112092139583.png" alt="image-20221112092139583" style="zoom: 50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112092139583.png" alt="image-20221112092139583" style="zoom: 50%;" /> 
 
 <p>提交过程中，出现提示：</p>
-<img src="assets/image-20221112092239578.png" alt="image-20221112092239578" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112092239578.png" alt="image-20221112092239578" style="zoom:50%;" /> 
 
 <p>继续push:</p>
-<img src="assets/image-20221112092332837.png" alt="image-20221112092332837" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112092332837.png" alt="image-20221112092332837" style="zoom:50%;" /> 
 
 <p>推送成功：</p>
-<img src="assets/image-20221112092427252.png" alt="image-20221112092427252" style="zoom: 80%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112092427252.png" alt="image-20221112092427252" style="zoom: 80%;" /> 
 
 <h2 id="2-员工分页查询"><a href="#2-员工分页查询" class="headerlink" title="2. 员工分页查询"></a>2. 员工分页查询</h2><h3 id="2-1-需求分析和设计"><a href="#2-1-需求分析和设计" class="headerlink" title="2.1 需求分析和设计"></a>2.1 需求分析和设计</h3><h4 id="2-1-1-产品原型"><a href="#2-1-1-产品原型" class="headerlink" title="2.1.1 产品原型"></a>2.1.1 产品原型</h4><p>系统中的员工很多的时候，如果在一个页面中全部展示出来会显得比较乱，不便于查看，所以一般的系统中都会以分页的方式来展示列表数据。而在我们的分页查询页面中, 除了分页条件以外，还有一个查询条件 “员工姓名”。</p>
 <p><strong>查询员工原型：</strong></p>
-<img src="assets/image-20221111215309289.png" alt="image-20221111215309289" style="zoom:67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111215309289.png" alt="image-20221111215309289" style="zoom:67%;" /> 
 
 <p><strong>业务规则</strong>：</p>
 <ul>
@@ -75257,7 +75257,7 @@ $&#123;&#125;
 <li>分页查询时可以根据需要，输入员工姓名进行查询</li>
 </ul>
 <h4 id="2-1-2-接口设计"><a href="#2-1-2-接口设计" class="headerlink" title="2.1.2 接口设计"></a>2.1.2 接口设计</h4><p>找到资料–&gt;项目接口文档–&gt;苍穹外卖-管理端接口.html</p>
-<p><img src="assets/image-20221111220031113.png" alt="image-20221111220031113" style="zoom:50%;" /><img src="assets/image-20221111220041965.png" alt="image-20221111220041965" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111220031113.png" alt="image-20221111220031113" style="zoom:50%;" /><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221111220041965.png" alt="image-20221111220041965" style="zoom:50%;" /></p>
 <p><strong>注意事项：</strong></p>
 <ul>
 <li>请求参数类型为Query，不是json格式提交，在路径后直接拼接。&#x2F;admin&#x2F;employee&#x2F;page?name&#x3D;zhangsan</li>
@@ -75307,35 +75307,35 @@ $&#123;&#125;
 <h3 id="2-3-功能测试"><a href="#2-3-功能测试" class="headerlink" title="2.3 功能测试"></a>2.3 功能测试</h3><p>可以通过接口文档进行测试，也可以进行前后端联调测试。</p>
 <p>接下来使用两种方式分别测试：</p>
 <h4 id="2-3-1-接口文档测试"><a href="#2-3-1-接口文档测试" class="headerlink" title="2.3.1 接口文档测试"></a>2.3.1 接口文档测试</h4><p>**重启服务：**访问<a href="http://localhost:8080/doc.html%EF%BC%8C%E8%BF%9B%E5%85%A5%E5%91%98%E5%B7%A5%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2">http://localhost:8080/doc.html，进入员工分页查询</a></p>
-<img src="assets/image-20221112101848657.png" alt="image-20221112101848657" style="zoom:67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112101848657.png" alt="image-20221112101848657" style="zoom:67%;" /> 
 
 <p><strong>响应结果：</strong></p>
-<img src="assets/image-20221112101946022.png" alt="image-20221112101946022" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112101946022.png" alt="image-20221112101946022" style="zoom:50%;" /> 
 
 
 
 <h4 id="2-3-2-前后端联调测试"><a href="#2-3-2-前后端联调测试" class="headerlink" title="2.3.2 前后端联调测试"></a>2.3.2 前后端联调测试</h4><p><strong>点击员工管理</strong></p>
-<img src="assets/image-20221112102441810.png" alt="image-20221112102441810" style="zoom:50%;" />  
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112102441810.png" alt="image-20221112102441810" style="zoom:50%;" />  
 
 
 
 <p><strong>输入员工姓名为zhangsan</strong></p>
-<img src="assets/image-20221112102540938.png" alt="image-20221112102540938" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112102540938.png" alt="image-20221112102540938" style="zoom:50%;" /> 
 
 <p>不难发现，<strong>最后操作时间格式</strong>不清晰，在<strong>代码完善</strong>中解决。</p>
-<img src="assets/image-20221112102745437.png" alt="image-20221112102745437" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112102745437.png" alt="image-20221112102745437" style="zoom:50%;" /> 
 
 
 
 <h3 id="2-4-代码完善"><a href="#2-4-代码完善" class="headerlink" title="2.4 代码完善"></a>2.4 代码完善</h3><p>**问题描述：**操作时间字段显示有问题。</p>
-<img src="assets/image-20221112103235539.png" alt="image-20221112103235539" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112103235539.png" alt="image-20221112103235539" style="zoom:50%;" /> 
 
 
 
 <p><strong>解决方式：</strong></p>
 <p><strong>1).  方式一</strong></p>
 <p>在属性上加上注解，对日期进行格式化</p>
-<img src="assets/image-20221112103501581.png" alt="image-20221112103501581" style="zoom:67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112103501581.png" alt="image-20221112103501581" style="zoom:67%;" /> 
 
 <p>但这种方式，需要在每个时间属性上都要加上该注解，使用较麻烦，不能全局处理。</p>
 <p><strong>2).  方式二（推荐 )</strong></p>
@@ -75343,17 +75343,17 @@ $&#123;&#125;
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 扩展Spring MVC框架的消息转化器</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> converters</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">extendMessageConverters</span><span class="params">(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters)</span> &#123;</span><br><span class="line">       log.info(<span class="string">&quot;扩展消息转换器...&quot;</span>);</span><br><span class="line">       <span class="comment">//创建一个消息转换器对象</span></span><br><span class="line">       <span class="type">MappingJackson2HttpMessageConverter</span> <span class="variable">converter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MappingJackson2HttpMessageConverter</span>();</span><br><span class="line">       <span class="comment">//需要为消息转换器设置一个对象转换器，对象转换器可以将Java对象序列化为json数据</span></span><br><span class="line">       converter.setObjectMapper(<span class="keyword">new</span> <span class="title class_">JacksonObjectMapper</span>());</span><br><span class="line">       <span class="comment">//将自己的消息转化器加入容器中</span></span><br><span class="line">       converters.add(<span class="number">0</span>,converter);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
 <p>添加后，再次测试</p>
-<img src="assets/image-20221112104305608.png" alt="image-20221112104305608" style="zoom:67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112104305608.png" alt="image-20221112104305608" style="zoom:67%;" /> 
 
 <p>时间格式定义，sky-common模块中</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sky.json;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JacksonObjectMapper</span> <span class="keyword">extends</span> <span class="title class_">ObjectMapper</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//.......</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">DEFAULT_DATE_TIME_FORMAT</span> <span class="operator">=</span> <span class="string">&quot;yyyy-MM-dd HH:mm&quot;</span>;</span><br><span class="line">    <span class="comment">//.......</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-5-代码提交"><a href="#2-5-代码提交" class="headerlink" title="2.5 代码提交"></a>2.5 代码提交</h3><img src="assets/image-20221112105011214.png" alt="image-20221112105011214" style="zoom:50%;" /> 
+<h3 id="2-5-代码提交"><a href="#2-5-代码提交" class="headerlink" title="2.5 代码提交"></a>2.5 代码提交</h3><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112105011214.png" alt="image-20221112105011214" style="zoom:50%;" /> 
 
 <p>后续步骤和新增员工代码提交一致，不再赘述。</p>
 <h2 id="3-启用禁用员工账号"><a href="#3-启用禁用员工账号" class="headerlink" title="3. 启用禁用员工账号"></a>3. 启用禁用员工账号</h2><h3 id="3-1-需求分析与设计"><a href="#3-1-需求分析与设计" class="headerlink" title="3.1 需求分析与设计"></a>3.1 需求分析与设计</h3><h4 id="3-1-1-产品原型"><a href="#3-1-1-产品原型" class="headerlink" title="3.1.1 产品原型"></a>3.1.1 产品原型</h4><p>在员工管理列表页面，可以对某个员工账号进行启用或者禁用操作。账号禁用的员工不能登录系统，启用后的员工可以正常登录。如果某个员工账号状态为正常，则按钮显示为 “禁用”，如果员工账号状态为已禁用，则按钮显示为”启用”。</p>
 <p><strong>启禁用员工原型：</strong></p>
-<img src="assets/image-20221112112359233.png" alt="image-20221112112359233" style="zoom:67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112112359233.png" alt="image-20221112112359233" style="zoom:67%;" /> 
 
 <p><strong>业务规则：</strong></p>
 <ul>
@@ -75361,7 +75361,7 @@ $&#123;&#125;
 <li>可以对状态为“禁用”的员工账号进行“启用”操作</li>
 <li>状态为“禁用”的员工账号不能登录系统</li>
 </ul>
-<h4 id="3-1-2-接口设计"><a href="#3-1-2-接口设计" class="headerlink" title="3.1.2 接口设计"></a>3.1.2 接口设计</h4><p><img src="assets/image-20221112112728333.png" alt="image-20221112112728333" style="zoom:50%;" /><img src="assets/image-20221112112739680.png" alt="image-20221112112739680" style="zoom:50%;" /></p>
+<h4 id="3-1-2-接口设计"><a href="#3-1-2-接口设计" class="headerlink" title="3.1.2 接口设计"></a>3.1.2 接口设计</h4><p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112112728333.png" alt="image-20221112112728333" style="zoom:50%;" /><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112112739680.png" alt="image-20221112112739680" style="zoom:50%;" /></p>
 <p>1). 路径参数携带状态值。</p>
 <p>2). 同时，把id传递过去，明确对哪个用户进行操作。</p>
 <p>3). 返回数据code状态是必须，其它是非必须。</p>
@@ -75389,34 +75389,34 @@ $&#123;&#125;
 
 
 <h3 id="3-3-功能测试"><a href="#3-3-功能测试" class="headerlink" title="3.3 功能测试"></a>3.3 功能测试</h3><h4 id="3-3-1-接口文档测试"><a href="#3-3-1-接口文档测试" class="headerlink" title="3.3.1 接口文档测试"></a>3.3.1 接口文档测试</h4><p>**测试前，**查询employee表中员工账号状态</p>
-<img src="assets/image-20221112143142457.png" alt="image-20221112143142457" style="zoom:67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112143142457.png" alt="image-20221112143142457" style="zoom:67%;" /> 
 
 <p><strong>开始测试</strong></p>
-<img src="assets/image-20221112143316357.png" alt="image-20221112143316357" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112143316357.png" alt="image-20221112143316357" style="zoom:50%;" /> 
 
 <p><strong>测试完毕后</strong>，再次查询员工账号状态</p>
-<img src="assets/image-20221112143428676.png" alt="image-20221112143428676" style="zoom: 67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112143428676.png" alt="image-20221112143428676" style="zoom: 67%;" /> 
 
 
 
 <h4 id="3-3-2-前后端联调测试"><a href="#3-3-2-前后端联调测试" class="headerlink" title="3.3.2 前后端联调测试"></a>3.3.2 前后端联调测试</h4><p><strong>测试前：</strong></p>
-<img src="assets/image-20221112143552246.png" alt="image-20221112143552246" style="zoom: 33%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112143552246.png" alt="image-20221112143552246" style="zoom: 33%;" /> 
 
 <p><strong>点击启用:</strong></p>
-<img src="assets/image-20221112143655318.png" alt="image-20221112143655318" style="zoom:33%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112143655318.png" alt="image-20221112143655318" style="zoom:33%;" /> 
 
 
 
-<h3 id="3-4-代码提交"><a href="#3-4-代码提交" class="headerlink" title="3.4 代码提交"></a>3.4 代码提交</h3><img src="assets/image-20221112143827631.png" alt="image-20221112143827631" style="zoom:50%;" /> 
+<h3 id="3-4-代码提交"><a href="#3-4-代码提交" class="headerlink" title="3.4 代码提交"></a>3.4 代码提交</h3><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112143827631.png" alt="image-20221112143827631" style="zoom:50%;" /> 
 
 <p>后续步骤和上述功能代码提交一致，不再赘述。</p>
 <h2 id="4-编辑员工"><a href="#4-编辑员工" class="headerlink" title="4. 编辑员工"></a>4. 编辑员工</h2><h3 id="4-1-需求分析与设计"><a href="#4-1-需求分析与设计" class="headerlink" title="4.1 需求分析与设计"></a>4.1 需求分析与设计</h3><h4 id="4-1-1-产品原型"><a href="#4-1-1-产品原型" class="headerlink" title="4.1.1 产品原型"></a>4.1.1 产品原型</h4><p>在员工管理列表页面点击 “编辑” 按钮，跳转到编辑页面，在编辑页面回显员工信息并进行修改，最后点击 “保存” 按钮完成编辑操作。</p>
 <p><strong>员工列表原型：</strong></p>
-<img src="assets/image-20221112144731759.png" alt="image-20221112144731759" style="zoom: 67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112144731759.png" alt="image-20221112144731759" style="zoom: 67%;" /> 
 
 <p><strong>修改页面原型</strong>：</p>
 <p>注：点击修改时，数据应该正常回显到修改页面。</p>
-<img src="assets/image-20221112144842825.png" alt="image-20221112144842825" style="zoom: 67%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112144842825.png" alt="image-20221112144842825" style="zoom: 67%;" /> 
 
 
 
@@ -75426,9 +75426,9 @@ $&#123;&#125;
 <li>编辑员工信息</li>
 </ul>
 <p><strong>1). 根据id查询员工信息</strong></p>
-<p><img src="assets/image-20221112145607939.png" alt="image-20221112145607939" style="zoom:50%;" /> <img src="assets/image-20221112145619775.png" alt="image-20221112145619775" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112145607939.png" alt="image-20221112145607939" style="zoom:50%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112145619775.png" alt="image-20221112145619775" style="zoom:50%;" /></p>
 <p><strong>2). 编辑员工信息</strong></p>
-<p><img src="assets/image-20221112145643769.png" alt="image-20221112145643769" style="zoom:50%;" /> <img src="assets/image-20221112145659035.png" alt="image-20221112145659035" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112145643769.png" alt="image-20221112145643769" style="zoom:50%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112145659035.png" alt="image-20221112145659035" style="zoom:50%;" /></p>
 <p><strong>注:因为是修改功能，请求方式可设置为PUT。</strong></p>
 <h3 id="4-2-代码开发"><a href="#4-2-代码开发" class="headerlink" title="4.2 代码开发"></a>4.2 代码开发</h3><h4 id="4-2-1-回显员工信息功能"><a href="#4-2-1-回显员工信息功能" class="headerlink" title="4.2.1 回显员工信息功能"></a>4.2.1 回显员工信息功能</h4><p><strong>1). Controller层</strong></p>
 <p>在 EmployeeController 中创建 getById 方法：</p>
@@ -75474,27 +75474,27 @@ $&#123;&#125;
 <h3 id="4-3-功能测试"><a href="#4-3-功能测试" class="headerlink" title="4.3 功能测试"></a>4.3 功能测试</h3><h4 id="4-3-1-接口文档测试"><a href="#4-3-1-接口文档测试" class="headerlink" title="4.3.1 接口文档测试"></a>4.3.1 接口文档测试</h4><p>分别测试<strong>根据id查询员工信息</strong>和<strong>编辑员工信息</strong>两个接口</p>
 <p><strong>1). 根据id查询员工信息</strong></p>
 <p>查询employee表中的数据，以id&#x3D;4的记录为例</p>
-<p><img src="/assets/image-20221112154253995.png" alt="image-20221112154253995"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112154253995.png" alt="image-20221112154253995"></p>
 <p>开始测试</p>
-<img src="assets/image-20221112154411245.png" alt="image-20221112154411245" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112154411245.png" alt="image-20221112154411245" style="zoom:50%;" /> 
 
 <p>获取到了id&#x3D;4的相关员工信息</p>
 <p><strong>2). 编辑员工信息</strong></p>
 <p>修改id&#x3D;4的员工信息，<strong>name</strong>由<strong>zhangsan</strong>改为<strong>张三丰</strong>，<strong>username</strong>由<strong>张三</strong>改为<strong>zhangsanfeng</strong>。</p>
- <img src="assets/image-20221112155001414.png" alt="image-20221112155001414" style="zoom:50%;" /> 
+ <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112155001414.png" alt="image-20221112155001414" style="zoom:50%;" /> 
 
 <p>查看employee表数据</p>
-<p><img src="/assets/image-20221112155029547.png" alt="image-20221112155029547"></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112155029547.png" alt="image-20221112155029547"></p>
 <h4 id="4-3-2-前后端联调测试"><a href="#4-3-2-前后端联调测试" class="headerlink" title="4.3.2 前后端联调测试"></a>4.3.2 前后端联调测试</h4><p>进入到员工列表查询</p>
-<img src="assets/image-20221112155206712.png" alt="image-20221112155206712" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112155206712.png" alt="image-20221112155206712" style="zoom:50%;" /> 
 
 <p>对员工姓名为杰克的员工数据修改，点击修改，数据已回显</p>
-<img src="assets/image-20221112155430652.png" alt="image-20221112155430652" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112155430652.png" alt="image-20221112155430652" style="zoom:50%;" /> 
 
 <p>修改后，点击保存</p>
-<img src="assets/image-20221112155559298.png" alt="image-20221112155559298" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112155559298.png" alt="image-20221112155559298" style="zoom:50%;" /> 
 
-<h3 id="4-4-代码提交"><a href="#4-4-代码提交" class="headerlink" title="4.4 代码提交"></a>4.4 代码提交</h3><img src="assets/image-20221112155735984.png" alt="image-20221112155735984" style="zoom:50%;" /> 
+<h3 id="4-4-代码提交"><a href="#4-4-代码提交" class="headerlink" title="4.4 代码提交"></a>4.4 代码提交</h3><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112155735984.png" alt="image-20221112155735984" style="zoom:50%;" /> 
 
 <p>后续步骤和上述功能代码提交一致，不再赘述。</p>
 <h2 id="5-导入分类模块功能代码"><a href="#5-导入分类模块功能代码" class="headerlink" title="5. 导入分类模块功能代码"></a>5. 导入分类模块功能代码</h2><h3 id="5-1-需求分析与设计"><a href="#5-1-需求分析与设计" class="headerlink" title="5.1 需求分析与设计"></a>5.1 需求分析与设计</h3><h4 id="5-1-1-产品原型"><a href="#5-1-1-产品原型" class="headerlink" title="5.1.1 产品原型"></a>5.1.1 产品原型</h4><p>后台系统中可以管理分类信息，分类包括两种类型，分别是 <strong>菜品分类</strong> 和 <strong>套餐分类</strong> 。</p>
@@ -75506,7 +75506,7 @@ $&#123;&#125;
 <p>**启用禁用菜品分类：**在分类管理列表页面，可以对某个分类进行启用或者禁用操作。</p>
 <p>**分类类型查询：**当点击分类类型下拉框时，从数据库中查询所有的菜品分类数据进行展示。</p>
 <p><strong>分类管理原型：</strong></p>
-<img src="assets/image-20221112160907419.png" alt="image-20221112160907419" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112160907419.png" alt="image-20221112160907419" style="zoom:50%;" /> 
 
 <p><strong>业务规则：</strong></p>
 <ul>
@@ -75526,18 +75526,18 @@ $&#123;&#125;
 <p>接下来，详细地分析每个接口。</p>
 <p>找到资料–&gt;项目接口文档–&gt;苍穹外卖-管理端接口.html</p>
 <p><strong>1). 新增分类</strong></p>
-<p><img src="assets/image-20221112163011291.png" alt="image-20221112163011291" style="zoom: 67%;" /> <img src="assets/image-20221112163044547.png" alt="image-20221112163044547" style="zoom:67%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163011291.png" alt="image-20221112163011291" style="zoom: 67%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163044547.png" alt="image-20221112163044547" style="zoom:67%;" /></p>
 <p><strong>2). 分类分页查询</strong></p>
-<p><img src="assets/image-20221112163209383.png" alt="image-20221112163209383" style="zoom:50%;" /><img src="assets/image-20221112163233212.png" alt="image-20221112163233212" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163209383.png" alt="image-20221112163209383" style="zoom:50%;" /><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163233212.png" alt="image-20221112163233212" style="zoom:50%;" /></p>
 <p><strong>3). 根据id删除分类</strong></p>
-<img src="assets/image-20221112163323554.png" alt="image-20221112163323554" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163323554.png" alt="image-20221112163323554" style="zoom:50%;" /> 
 
 <p><strong>4). 修改分类</strong></p>
-<p><img src="assets/image-20221112163424457.png" alt="image-20221112163424457" style="zoom:50%;" /> <img src="assets/image-20221112163445296.png" alt="image-20221112163445296" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163424457.png" alt="image-20221112163424457" style="zoom:50%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163445296.png" alt="image-20221112163445296" style="zoom:50%;" /></p>
 <p><strong>5). 启用禁用分类</strong></p>
-<p><img src="assets/image-20221112163557247.png" alt="image-20221112163557247" style="zoom:50%;" /> <img src="assets/image-20221112163622896.png" alt="image-20221112163622896" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163557247.png" alt="image-20221112163557247" style="zoom:50%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163622896.png" alt="image-20221112163622896" style="zoom:50%;" /></p>
 <p><strong>6). 根据类型查询分类</strong></p>
-<p><img src="assets/image-20221112163806318.png" alt="image-20221112163806318" style="zoom:50%;" /> <img src="assets/image-20221112163839168.png" alt="image-20221112163839168" style="zoom:50%;" /></p>
+<p><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163806318.png" alt="image-20221112163806318" style="zoom:50%;" /> <img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112163839168.png" alt="image-20221112163839168" style="zoom:50%;" /></p>
 <h4 id="5-1-3-表设计"><a href="#5-1-3-表设计" class="headerlink" title="5.1.3 表设计"></a>5.1.3 表设计</h4><p><strong>category表结构：</strong></p>
 <table>
 <thead>
@@ -75604,7 +75604,7 @@ $&#123;&#125;
 </tr>
 </tbody></table>
 <h3 id="5-2-代码导入"><a href="#5-2-代码导入" class="headerlink" title="5.2 代码导入"></a>5.2 代码导入</h3><p>导入资料中的分类管理模块功能代码即可</p>
-<img src="assets/image-20221112164259732.png" alt="image-20221112164259732" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112164259732.png" alt="image-20221112164259732" style="zoom:50%;" /> 
 
 <p>可按照mapper–&gt;service–&gt;controller依次导入，这样代码不会显示相应的报错。</p>
 <p>进入到sky-server模块中</p>
@@ -75634,42 +75634,42 @@ $&#123;&#125;
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sky.controller.admin;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.sky.dto.CategoryDTO;</span><br><span class="line"><span class="keyword">import</span> com.sky.dto.CategoryPageQueryDTO;</span><br><span class="line"><span class="keyword">import</span> com.sky.entity.Category;</span><br><span class="line"><span class="keyword">import</span> com.sky.result.PageResult;</span><br><span class="line"><span class="keyword">import</span> com.sky.result.Result;</span><br><span class="line"><span class="keyword">import</span> com.sky.service.CategoryService;</span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.Api;</span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.ApiOperation;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 分类管理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/admin/category&quot;)</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;分类相关接口&quot;)</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CategoryController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CategoryService categoryService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新增分类</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> categoryDTO</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;新增分类&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result&lt;String&gt; <span class="title function_">save</span><span class="params">(<span class="meta">@RequestBody</span> CategoryDTO categoryDTO)</span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;新增分类：&#123;&#125;&quot;</span>, categoryDTO);</span><br><span class="line">        categoryService.save(categoryDTO);</span><br><span class="line">        <span class="keyword">return</span> Result.success();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 分类分页查询</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> categoryPageQueryDTO</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/page&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;分类分页查询&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result&lt;PageResult&gt; <span class="title function_">page</span><span class="params">(CategoryPageQueryDTO categoryPageQueryDTO)</span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;分页查询：&#123;&#125;&quot;</span>, categoryPageQueryDTO);</span><br><span class="line">        <span class="type">PageResult</span> <span class="variable">pageResult</span> <span class="operator">=</span> categoryService.pageQuery(categoryPageQueryDTO);</span><br><span class="line">        <span class="keyword">return</span> Result.success(pageResult);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除分类</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@DeleteMapping</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;删除分类&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result&lt;String&gt; <span class="title function_">deleteById</span><span class="params">(Long id)</span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;删除分类：&#123;&#125;&quot;</span>, id);</span><br><span class="line">        categoryService.deleteById(id);</span><br><span class="line">        <span class="keyword">return</span> Result.success();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 修改分类</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> categoryDTO</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PutMapping</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;修改分类&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result&lt;String&gt; <span class="title function_">update</span><span class="params">(<span class="meta">@RequestBody</span> CategoryDTO categoryDTO)</span>&#123;</span><br><span class="line">        categoryService.update(categoryDTO);</span><br><span class="line">        <span class="keyword">return</span> Result.success();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 启用、禁用分类</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> status</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/status/&#123;status&#125;&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;启用禁用分类&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result&lt;String&gt; <span class="title function_">startOrStop</span><span class="params">(<span class="meta">@PathVariable(&quot;status&quot;)</span> Integer status, Long id)</span>&#123;</span><br><span class="line">        categoryService.startOrStop(status,id);</span><br><span class="line">        <span class="keyword">return</span> Result.success();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据类型查询分类</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> type</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/list&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;根据类型查询分类&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result&lt;List&lt;Category&gt;&gt; <span class="title function_">list</span><span class="params">(Integer type)</span>&#123;</span><br><span class="line">        List&lt;Category&gt; list = categoryService.list(type);</span><br><span class="line">        <span class="keyword">return</span> Result.success(list);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>全部导入完毕后，进行编译</p>
-<img src="assets/image-20221112170742400.png" alt="image-20221112170742400" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112170742400.png" alt="image-20221112170742400" style="zoom:50%;" /> 
 
 <h3 id="5-3-功能测试"><a href="#5-3-功能测试" class="headerlink" title="5.3 功能测试"></a>5.3 功能测试</h3><p>重启服务，访问<a href="http://localhost:80,进入分类管理">http://localhost:80,进入分类管理</a></p>
 <p><strong>分页查询：</strong></p>
-<img src="assets/image-20221112171252992.png" alt="image-20221112171252992" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112171252992.png" alt="image-20221112171252992" style="zoom:50%;" /> 
 
 <p><strong>分类类型：</strong></p>
-<img src="assets/image-20221112171402210.png" alt="image-20221112171402210" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112171402210.png" alt="image-20221112171402210" style="zoom:50%;" /> 
 
 <p><strong>启用禁用：</strong></p>
-<img src="assets/image-20221112171604991.png" alt="image-20221112171604991" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112171604991.png" alt="image-20221112171604991" style="zoom:50%;" /> 
 
 <p>点击禁用</p>
-<img src="assets/image-20221112171700774.png" alt="image-20221112171700774" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112171700774.png" alt="image-20221112171700774" style="zoom:50%;" /> 
 
 <p><strong>修改：</strong></p>
 <p>回显</p>
-<img src="assets/image-20221112172117834.png" alt="image-20221112172117834" style="zoom:50%;" />  
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112172117834.png" alt="image-20221112172117834" style="zoom:50%;" />  
 
 <p>修改后</p>
-<img src="assets/image-20221112172150709.png" alt="image-20221112172150709" style="zoom:50%;" />
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112172150709.png" alt="image-20221112172150709" style="zoom:50%;" />
 
 <p><strong>新增：</strong></p>
-<img src="assets/image-20221112172356093.png" alt="image-20221112172356093" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112172356093.png" alt="image-20221112172356093" style="zoom:50%;" /> 
 
 <p>点击确定，查询列表</p>
-<img src="assets/image-20221112172439370.png" alt="image-20221112172439370" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112172439370.png" alt="image-20221112172439370" style="zoom:50%;" /> 
 
 <p><strong>删除：</strong></p>
-<img src="assets/image-20221112172525216.png" alt="image-20221112172525216" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112172525216.png" alt="image-20221112172525216" style="zoom:50%;" /> 
 
 <p>删除后，查询分类列表</p>
-<img src="assets/image-20221112172611754.png" alt="image-20221112172611754" style="zoom:50%;" /> 
+<img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112172611754.png" alt="image-20221112172611754" style="zoom:50%;" /> 
 
 <p>删除成功</p>
-<h3 id="5-4-代码提交"><a href="#5-4-代码提交" class="headerlink" title="5.4 代码提交"></a>5.4 代码提交</h3><img src="assets/image-20221112173205048.png" alt="image-20221112173205048" style="zoom:50%;" /> 
+<h3 id="5-4-代码提交"><a href="#5-4-代码提交" class="headerlink" title="5.4 代码提交"></a>5.4 代码提交</h3><img src="https://darling-darling.oss-cn-beijing.aliyuncs.com/image-20221112173205048.png" alt="image-20221112173205048" style="zoom:50%;" /> 
 
 <p>后续步骤和上述功能代码提交一致，不再赘述。</p>
 ]]></content>
